@@ -1,6 +1,6 @@
 {
 	"name": "@w0s/input-switch",
-	"version": "5.1.1",
+	"version": "5.2.0",
 	"description": "Implement something like `<input type=checkbox switch>`",
 	"keywords": [
 		"web-components",
