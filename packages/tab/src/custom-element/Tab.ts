@@ -44,16 +44,16 @@ export default class Tab extends HTMLElement {
 				display: block flow;
 			}
 
-			[part="tablist"] {
+			:host::part(tablist) {
 				display: block flex;
 				align-items: flex-end;
-
-				& ::slotted(*) {
-					cursor: default;
-				}
 			}
 
-			[part="tabpanels"] ::slotted(.is-hidden) {
+			::slotted([role=tab]) {
+				cursor: default;
+			}
+
+			::slotted([role=tabpanel].is-hidden) {
 				display: none;
 			}
 		`;

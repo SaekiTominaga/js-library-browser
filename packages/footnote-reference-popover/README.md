@@ -94,6 +94,10 @@ The popover markup looks like this.
     <slot>...</slot>
 
     <button type="button" popovertarget="" popovertargetaction="hide" part="hide-button">Close</button>
+    or
+    <button type="button" popovertarget="" popovertargetaction="hide" part="hide-button">
+      <img src="close.svg" alt="Close" part="hide-button-image" />
+    </button>
   </div>
 
   <span id="last-focusable" tabindex="0"></span>
@@ -109,6 +113,10 @@ Therefore, you can customize the style using [`::part`](https://developer.mozill
   }
 
   &::part(hide-button) {
+    ...
+  }
+
+  &::part(hide-button-image) {
     ...
   }
 }
