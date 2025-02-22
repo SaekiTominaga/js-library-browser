@@ -71,15 +71,15 @@ export default class InputSwitch extends HTMLElement {
 				inline-size: 100%;
 			}
 
-			:host([checked]) [part="track"] {
+			:host(:state(checked)) [part="track"] {
 				--_color: var(--track-color-on);
 			}
 
-			:host([disabled]) [part="track"] {
+			:host(:state(disabled)) [part="track"] {
 				--_color: var(--track-color-disabled-off);
 			}
 
-			:host([disabled][checked]) [part="track"] {
+			:host(:state(disabled):state(checked)) [part="track"] {
 				--_color: var(--track-color-disabled-on);
 			}
 
@@ -96,7 +96,7 @@ export default class InputSwitch extends HTMLElement {
 				inline-size: calc(var(--thumb-radius) * 2);
 			}
 
-			:host([checked]) [part="thumb"] {
+			:host(:state(checked)) [part="thumb"] {
 				--_translate-x: calc(var(--inline-size) - var(--block-size));
 			}
 		`;
@@ -156,6 +156,12 @@ export default class InputSwitch extends HTMLElement {
 
 				this.setAttribute('aria-checked', String(checked));
 
+				if (checked) {
+					this.#internals?.states.add('checked');
+				} else {
+					this.#internals?.states.delete('checked');
+				}
+
 				break;
 			}
 			case 'disabled': {
@@ -166,6 +172,8 @@ export default class InputSwitch extends HTMLElement {
 				if (disabled) {
 					this.tabIndex = -1;
 
+					this.#internals?.states.add('disabled');
+
 					this.removeEventListener('change', this.#changeEvent);
 					this.removeEventListener('click', this.#clickEvent);
 					this.removeEventListener('keydown', this.#keydownEvent);
@@ -173,6 +181,8 @@ export default class InputSwitch extends HTMLElement {
 					this.blur();
 				} else {
 					this.tabIndex = 0;
+
+					this.#internals?.states.delete('disabled');
 
 					this.addEventListener('change', this.#changeEvent, { passive: true });
 					this.addEventListener('click', this.#clickEvent);
