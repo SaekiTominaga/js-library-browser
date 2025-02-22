@@ -48,12 +48,12 @@ export default class CustomElementPopover extends HTMLElement {
 				overflow: visible;
 			}
 
-			[part="content"] {
+			:host::part(content) {
 				border: solid;
 				padding: 0.25em;
 			}
 
-			[part="hide-button"] > img {
+			:host::part(hide-button-image) {
 				display: block flow;
 			}
 		`;
@@ -65,6 +65,7 @@ export default class CustomElementPopover extends HTMLElement {
 		this.#lastFocusableElement = shadow.getElementById('last-focusable')!;
 
 		this.#hideButtonImageElement = document.createElement('img');
+		this.#hideButtonImageElement.setAttribute('part', 'hide-button-image');
 		this.#hideButtonElement.textContent = this.#hideText;
 	}
 

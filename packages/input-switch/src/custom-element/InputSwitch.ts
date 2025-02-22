@@ -61,7 +61,7 @@ export default class InputSwitch extends HTMLElement {
 				contain: layout;
 			}
 
-			[part="track"] {
+			:host::part(track) {
 				--_color: var(--track-color-off);
 
 				transition: background-color var(--animation-duration);
@@ -71,19 +71,19 @@ export default class InputSwitch extends HTMLElement {
 				inline-size: 100%;
 			}
 
-			:host(:state(checked)) [part="track"] {
+			:host(:state(checked))::part(track) {
 				--_color: var(--track-color-on);
 			}
 
-			:host(:state(disabled)) [part="track"] {
+			:host(:state(disabled))::part(track) {
 				--_color: var(--track-color-disabled-off);
 			}
 
-			:host(:state(disabled):state(checked)) [part="track"] {
+			:host(:state(disabled):state(checked))::part(track) {
 				--_color: var(--track-color-disabled-on);
 			}
 
-			[part="thumb"] {
+			:host::part(thumb) {
 				--_translate-x: 0px;
 
 				position: absolute;
@@ -96,7 +96,7 @@ export default class InputSwitch extends HTMLElement {
 				inline-size: calc(var(--thumb-radius) * 2);
 			}
 
-			:host(:state(checked)) [part="thumb"] {
+			:host(:state(checked))::part(thumb) {
 				--_translate-x: calc(var(--inline-size) - var(--block-size));
 			}
 		`;
