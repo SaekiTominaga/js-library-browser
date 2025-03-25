@@ -1,6 +1,6 @@
 {
 	"name": "@w0s/shadow-append-css",
-	"version": "1.1.1",
+	"version": "1.1.2",
 	"description": "Appending CSS into the shadow DOM",
 	"homepage": "https://github.com/SaekiTominaga/js-library-browser#readme",
 	"bugs": {
