@@ -30,8 +30,7 @@ export default class CustomElementDetailsContent extends HTMLElement {
 	constructor() {
 		super();
 
-		const shadow = this.attachShadow({ mode: 'open' });
-		shadow.innerHTML = `
+		const htmlString = `
 			<slot></slot>
 		`;
 
@@ -41,6 +40,10 @@ export default class CustomElementDetailsContent extends HTMLElement {
 				overflow: hidden;
 			}
 		`;
+
+		const shadow = this.attachShadow({ mode: 'open' });
+		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+		'setHTMLUnsafe' in shadow ? shadow.setHTMLUnsafe(htmlString) : ((shadow as ShadowRoot).innerHTML = htmlString);
 		shadowAppendCss(shadow, cssString);
 	}
 

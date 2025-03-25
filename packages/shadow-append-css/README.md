@@ -25,7 +25,7 @@
       super();
 
       const shadow = this.attachShadow({ mode: 'open' });
-      shadow.innerHTML = '<slot></slot>';
+      shadow.setHTMLUnsafe('<slot></slot>');
 
       const cssString = `
         :host {

@@ -123,6 +123,8 @@ export default class {
 	 * ポップオーバーを生成する
 	 */
 	#create(): void {
+		const footnoteElement = this.#footnoteElement.element;
+
 		const popoverElement = this.#popoverElement;
 		if (this.#popoverClass.name !== undefined) {
 			popoverElement.className = this.#popoverClass.name;
@@ -132,7 +134,7 @@ export default class {
 		popoverElement.hideImageSrc = this.#popoverHide.imageSrc ?? null;
 		popoverElement.hideImageWidth = this.#popoverHide.imageWidth ?? null;
 		popoverElement.hideImageHeight = this.#popoverHide.imageHeight ?? null;
-		popoverElement.insertAdjacentHTML('afterbegin', this.#footnoteElement.element.innerHTML);
+		popoverElement.insertAdjacentHTML('afterbegin', 'getHTML' in footnoteElement ? footnoteElement.getHTML() : (footnoteElement as HTMLElement).innerHTML);
 		document.body.appendChild(popoverElement);
 
 		popoverElement.addEventListener(

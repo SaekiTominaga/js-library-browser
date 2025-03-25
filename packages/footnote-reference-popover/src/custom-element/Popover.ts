@@ -28,8 +28,7 @@ export default class CustomElementPopover extends HTMLElement {
 	constructor() {
 		super();
 
-		const shadow = this.attachShadow({ mode: 'open' });
-		shadow.innerHTML = `
+		const htmlString = `
 			<span id="first-focusable" tabindex="0"></span>
 			<div tabindex="-1" part="content">
 				<slot></slot>
@@ -57,6 +56,10 @@ export default class CustomElementPopover extends HTMLElement {
 				display: block flow;
 			}
 		`;
+
+		const shadow = this.attachShadow({ mode: 'open' });
+		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+		'setHTMLUnsafe' in shadow ? shadow.setHTMLUnsafe(htmlString) : ((shadow as ShadowRoot).innerHTML = htmlString);
 		shadowAppendCss(shadow, cssString);
 
 		this.#contentElement = shadow.querySelector('[part="content"]')!;
