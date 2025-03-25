@@ -29,8 +29,7 @@ export default class Tab extends HTMLElement {
 			console.info('Storage access blocked.');
 		}
 
-		const shadow = this.attachShadow({ mode: 'open' });
-		shadow.innerHTML = `
+		const htmlString = `
 			<div part="tablist" role="tablist">
 				<slot name="tab"></slot>
 			</div>
@@ -57,6 +56,11 @@ export default class Tab extends HTMLElement {
 				display: none;
 			}
 		`;
+
+		const shadow = this.attachShadow({ mode: 'open' });
+		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+		'setHTMLUnsafe' in shadow ? shadow.setHTMLUnsafe(htmlString) : ((shadow as ShadowRoot).innerHTML = htmlString);
+
 		shadowAppendCss(shadow, cssString);
 
 		this.#tablistElement = shadow.querySelector('[part="tablist"]')!;

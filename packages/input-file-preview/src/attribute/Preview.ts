@@ -35,6 +35,6 @@ export default class {
 	}
 
 	get outputHtml(): string {
-		return this.#output.innerHTML;
+		return 'getHTML' in this.#output ? this.#output.getHTML() : (this.#output as HTMLOutputElement).innerHTML;
 	}
 }

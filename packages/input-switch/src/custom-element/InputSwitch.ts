@@ -29,8 +29,7 @@ export default class InputSwitch extends HTMLElement {
 			console.info('Storage access blocked.');
 		}
 
-		const shadow = this.attachShadow({ mode: 'open' });
-		shadow.innerHTML = `
+		const htmlString = `
 			<div part="track"></div>
 			<div part="thumb"></div>
 		`;
@@ -100,6 +99,10 @@ export default class InputSwitch extends HTMLElement {
 				--_translate-x: calc(var(--inline-size) - var(--block-size));
 			}
 		`;
+
+		const shadow = this.attachShadow({ mode: 'open' });
+		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+		'setHTMLUnsafe' in shadow ? shadow.setHTMLUnsafe(htmlString) : ((shadow as ShadowRoot).innerHTML = htmlString);
 		shadowAppendCss(shadow, cssString);
 	}
 
