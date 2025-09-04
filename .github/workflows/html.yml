@@ -1,12 +1,13 @@
-name: Linting JavaScript files
+name: HTML, CSS files
 
 on:
   pull_request:
     branches:
       - main
     paths:
-      - 'packages/*/src/**/*.ts'
-      - 'eslint.config.js'
+      - 'packages/*/demo/*.html'
+      - 'markuplint.config.js'
+      - 'stylelint.config.js'
   workflow_dispatch:
 
 concurrency:
@@ -23,6 +24,5 @@ jobs:
         with:
           node-version: '24'
       - run: npm ci
-      - run: npm run build -w @w0s/shadow-append-css
-      - run: npm run build -w @w0s/writing-mode
-      - run: npm run js-lint
+      - run: npm run html-lint
+      - run: npm run css-lint
