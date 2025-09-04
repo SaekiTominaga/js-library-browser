@@ -8,6 +8,10 @@ on:
       - 'packages/button-share/src/**/*.ts'
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     runs-on: ubuntu-latest
