@@ -5,8 +5,7 @@
 		"format": "prettier -w .",
 		"js-lint": "eslint packages/*/src/**/*.ts",
 		"html-lint": "markuplint packages/*/demo/*.html",
-		"css-lint": "stylelint packages/*/demo/*.html",
-		"yaml-lint": "yamllint .github/workflows/*.yml"
+		"css-lint": "stylelint packages/*/demo/*.html"
 	},
 	"devDependencies": {
 		"@w0s/eslint-config": "^8.4.0",
@@ -27,8 +26,7 @@
 		"prettier": "^3.5.2",
 		"rimraf": "^6.0.1",
 		"stylelint": "^16.14.0",
-		"typescript": "^5.7.3",
-		"yaml-lint": "^1.7.0"
+		"typescript": "^5.7.3"
 	},
 	"private": true,
 	"workspaces": [
