@@ -1,3 +1,3 @@
-import shadowAppendCss from './shadowAppendCss.js';
+import shadowAppendCss from './shadowAppendCss.ts';
 
 export default shadowAppendCss;

@@ -1,5 +1,5 @@
 import { describe, afterEach, test, expect } from '@jest/globals';
-import ErrorMessage from './ErrorMessage.js';
+import ErrorMessage from './ErrorMessage.ts';
 
 describe('constructor', () => {
 	afterEach(() => {

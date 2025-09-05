@@ -1,4 +1,4 @@
-import ButtonMediaSamePlay from './ButtonMediaSamePlay.js';
+import ButtonMediaSamePlay from './ButtonMediaSamePlay.ts';
 
 const validate = (element: Element): HTMLButtonElement => {
 	if (!(element instanceof HTMLButtonElement)) {

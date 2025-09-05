@@ -1,5 +1,5 @@
 import { describe, test, expect } from '@jest/globals';
-import PopoverClass from './PopoverClass.js';
+import PopoverClass from './PopoverClass.ts';
 
 describe('constructor', () => {
 	test('no attribute', () => {

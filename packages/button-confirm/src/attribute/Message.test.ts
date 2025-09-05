@@ -1,5 +1,5 @@
 import { describe, afterEach, test, expect } from '@jest/globals';
-import Message from './Message.js';
+import Message from './Message.ts';
 
 describe('constructor', () => {
 	afterEach(() => {

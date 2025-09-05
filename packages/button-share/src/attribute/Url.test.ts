@@ -1,5 +1,5 @@
 import { describe, test, expect } from '@jest/globals';
-import Url from './Url.js';
+import Url from './Url.ts';
 
 describe('constructor', () => {
 	test('no attribute', () => {

@@ -1,4 +1,4 @@
-import Overlay from './attribute/Overlay.js';
+import Overlay from './attribute/Overlay.ts';
 
 /**
  * Cover the entire screen with an overlay when form submitting

@@ -1,5 +1,5 @@
 import { test, expect } from '@jest/globals';
-import shadowAppendCss from './shadowAppendCss.js';
+import shadowAppendCss from './shadowAppendCss.ts';
 
 test('not support `adoptedStyleSheets`', () => {
 	const cssString = ':host { color: red }';

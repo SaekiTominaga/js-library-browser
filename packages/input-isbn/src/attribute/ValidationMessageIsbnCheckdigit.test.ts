@@ -1,5 +1,5 @@
 import { describe, test, expect } from '@jest/globals';
-import ValidationMessageIsbnCheckdigit from './ValidationMessageIsbnCheckdigit.js';
+import ValidationMessageIsbnCheckdigit from './ValidationMessageIsbnCheckdigit.ts';
 
 describe('constructor', () => {
 	test('no attribute', () => {

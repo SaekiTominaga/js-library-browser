@@ -1,10 +1,10 @@
-import FootnoteElement from './attribute/FootnoteElement.js';
-import Mouseenter from './attribute/Mouseenter.js';
-import Mouseleave from './attribute/Mouseleave.js';
-import PopoverClass from './attribute/PopoverClass.js';
-import PopoverHide from './attribute/PopoverHide.js';
-import PopoverLabel from './attribute/PopoverLabel.js';
-import CustomElementPopover, { type ToggleEventDetail } from './custom-element/Popover.js';
+import FootnoteElement from './attribute/FootnoteElement.ts';
+import Mouseenter from './attribute/Mouseenter.ts';
+import Mouseleave from './attribute/Mouseleave.ts';
+import PopoverClass from './attribute/PopoverClass.ts';
+import PopoverHide from './attribute/PopoverHide.ts';
+import PopoverLabel from './attribute/PopoverLabel.ts';
+import CustomElementPopover, { type ToggleEventDetail } from './custom-element/Popover.ts';
 
 customElements.define('x-popover', CustomElementPopover);
 

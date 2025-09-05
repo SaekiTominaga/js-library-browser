@@ -1,4 +1,4 @@
-import FormBeforeUnloadConfirm from './FormBeforeUnloadConfirm.js';
+import FormBeforeUnloadConfirm from './FormBeforeUnloadConfirm.ts';
 
 const validate = (element: Element): HTMLFormElement => {
 	if (!(element instanceof HTMLFormElement)) {

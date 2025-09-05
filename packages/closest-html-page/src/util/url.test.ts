@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
-import { getParentPage } from './url.js';
+import { getParentPage } from './url.ts';
 
 describe('getParentPage()', () => {
 	test('slash end', () => {

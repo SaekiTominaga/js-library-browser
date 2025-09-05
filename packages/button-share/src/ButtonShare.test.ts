@@ -1,5 +1,5 @@
 import { describe, afterEach, test, expect } from '@jest/globals';
-import ButtonShare from './ButtonShare.js';
+import ButtonShare from './ButtonShare.ts';
 
 describe('attribute', () => {
 	afterEach(() => {

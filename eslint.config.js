@@ -10,6 +10,14 @@ export default [
 		ignores: ['@types', 'packages/*/dist'],
 	},
 	{
+		files: ['**/*.ts'],
+		languageOptions: {
+			parserOptions: {
+				tsconfigRootDir: import.meta.dirname,
+			},
+		},
+	},
+	{
 		languageOptions: {
 			globals: {
 				...globals.browser,

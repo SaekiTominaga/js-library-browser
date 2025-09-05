@@ -1,7 +1,7 @@
 import MIMEType from 'whatwg-mimetype';
-import { convert } from './util/errorMessage.js';
-import Preview from './attribute/Preview.js';
-import MaxSize from './attribute/MaxSize.js';
+import { convert } from './util/errorMessage.ts';
+import Preview from './attribute/Preview.ts';
+import MaxSize from './attribute/MaxSize.ts';
 
 /**
  * Show preview with `<input type=file>`

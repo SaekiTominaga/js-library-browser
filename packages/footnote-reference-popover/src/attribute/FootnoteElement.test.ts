@@ -1,5 +1,5 @@
 import { describe, test, expect } from '@jest/globals';
-import FootnoteElement from './FootnoteElement.js';
+import FootnoteElement from './FootnoteElement.ts';
 
 describe('constructor', () => {
 	test('no attribute', () => {

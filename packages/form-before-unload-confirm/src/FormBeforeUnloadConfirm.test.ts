@@ -1,5 +1,5 @@
 import { describe, beforeAll, afterAll, test, expect, jest } from '@jest/globals';
-import FormBeforeUnloadConfirm from './FormBeforeUnloadConfirm.js';
+import FormBeforeUnloadConfirm from './FormBeforeUnloadConfirm.ts';
 
 describe('event', () => {
 	beforeAll(() => {

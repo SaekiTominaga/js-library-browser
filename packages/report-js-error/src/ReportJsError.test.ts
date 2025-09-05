@@ -1,5 +1,5 @@
 import { test, expect, jest } from '@jest/globals';
-import ReportJsError from './ReportJsError.js';
+import ReportJsError from './ReportJsError.ts';
 
 test('正常ケース', () => {
 	new ReportJsError('/endpoint', {

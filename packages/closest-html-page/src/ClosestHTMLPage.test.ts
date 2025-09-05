@@ -1,6 +1,6 @@
 import { describe, expect, test } from '@jest/globals';
 import 'cross-fetch/polyfill';
-import ClosestHTMLPage from './ClosestHTMLPage.js';
+import ClosestHTMLPage from './ClosestHTMLPage.ts';
 
 describe('fetch', () => {
 	test('<title>', async () => {

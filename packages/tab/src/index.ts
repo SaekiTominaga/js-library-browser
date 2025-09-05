@@ -1,3 +1,3 @@
-import Tab from './custom-element/Tab.js';
+import Tab from './custom-element/Tab.ts';
 
 export default Tab;

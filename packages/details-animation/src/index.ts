@@ -1,4 +1,4 @@
-import DetailsAnimation from './DetailsAnimation.js';
+import DetailsAnimation from './DetailsAnimation.ts';
 
 const validate = (element: Element): HTMLDetailsElement => {
 	if (!(element instanceof HTMLDetailsElement)) {

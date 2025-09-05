@@ -1,5 +1,5 @@
 import { describe, test, expect } from '@jest/globals';
-import Mouseenter from './Mouseenter.js';
+import Mouseenter from './Mouseenter.ts';
 
 describe('constructor - delay', () => {
 	test('no attribute', () => {

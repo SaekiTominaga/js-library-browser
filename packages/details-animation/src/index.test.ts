@@ -1,5 +1,5 @@
 import { describe, beforeEach, test, expect } from '@jest/globals';
-import index from './index.js';
+import index from './index.ts';
 
 describe('argument type', () => {
 	beforeEach(() => {

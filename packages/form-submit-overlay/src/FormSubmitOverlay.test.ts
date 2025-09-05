@@ -1,5 +1,5 @@
 import { describe, beforeEach, afterEach, test, expect, jest } from '@jest/globals';
-import FormSubmitOverlay from './FormSubmitOverlay.js';
+import FormSubmitOverlay from './FormSubmitOverlay.ts';
 
 /* jsdom が `<dialog>` 要素をサポートするまでの暫定処理 https://github.com/jsdom/jsdom/issues/3294 */
 HTMLDialogElement.prototype.close = jest.fn();

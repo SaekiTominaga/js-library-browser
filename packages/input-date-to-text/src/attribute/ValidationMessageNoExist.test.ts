@@ -1,5 +1,5 @@
 import { describe, beforeEach, test, expect } from '@jest/globals';
-import ValidationMessageNoExist from './ValidationMessageNoExist.js';
+import ValidationMessageNoExist from './ValidationMessageNoExist.ts';
 
 describe('constructor', () => {
 	beforeEach(() => {

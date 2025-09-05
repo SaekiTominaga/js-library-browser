@@ -1,5 +1,5 @@
 import { beforeEach, test, expect } from '@jest/globals';
-import { getContent } from './html.js';
+import { getContent } from './html.ts';
 
 beforeEach(() => {
 	document.body.innerHTML = '';

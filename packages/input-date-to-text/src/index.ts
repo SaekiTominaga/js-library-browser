@@ -1,4 +1,4 @@
-import InputDateToText from './InputDateToText.js';
+import InputDateToText from './InputDateToText.ts';
 
 const validate = (element: Element): HTMLInputElement => {
 	if (!(element instanceof HTMLInputElement)) {

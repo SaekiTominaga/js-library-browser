@@ -1,4 +1,4 @@
-import ButtonConfirm from './ButtonConfirm.js';
+import ButtonConfirm from './ButtonConfirm.ts';
 
 const validate = (element: Element): HTMLButtonElement => {
 	if (!(element instanceof HTMLButtonElement)) {

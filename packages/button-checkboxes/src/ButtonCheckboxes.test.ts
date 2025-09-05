@@ -1,6 +1,6 @@
 import { webcrypto } from 'node:crypto';
 import { describe, afterEach, test, expect } from '@jest/globals';
-import ButtonCheckboxes from './ButtonCheckboxes.js';
+import ButtonCheckboxes from './ButtonCheckboxes.ts';
 
 Object.defineProperty(globalThis, 'crypto', {
 	value: webcrypto,

@@ -1,4 +1,4 @@
-import InputIsbn from './InputIsbn.js';
+import InputIsbn from './InputIsbn.ts';
 
 const validate = (element: Element): HTMLInputElement => {
 	if (!(element instanceof HTMLInputElement)) {

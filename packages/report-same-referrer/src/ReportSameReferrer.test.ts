@@ -1,5 +1,5 @@
 import { describe, beforeAll, test, expect, jest } from '@jest/globals';
-import ReportSameReferrer from './ReportSameReferrer.js';
+import ReportSameReferrer from './ReportSameReferrer.ts';
 
 describe('no referrer', () => {
 	test('何もせず終了', async () => {

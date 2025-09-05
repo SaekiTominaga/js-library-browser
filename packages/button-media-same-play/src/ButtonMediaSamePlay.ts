@@ -1,4 +1,4 @@
-import Media from './attribute/Media.js';
+import Media from './attribute/Media.ts';
 
 /**
  * Simultaneous playback button for multiple audio / video

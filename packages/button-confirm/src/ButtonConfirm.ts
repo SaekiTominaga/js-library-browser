@@ -1,4 +1,4 @@
-import Message from './attribute/Message.js';
+import Message from './attribute/Message.ts';
 
 /**
  * Display a `confirm()` modal dialog when button is pressed

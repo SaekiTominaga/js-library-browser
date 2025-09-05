@@ -1,5 +1,5 @@
 import { describe, test, expect } from '@jest/globals';
-import Title from './Title.js';
+import Title from './Title.ts';
 
 describe('constructor', () => {
 	test('no attribute', () => {

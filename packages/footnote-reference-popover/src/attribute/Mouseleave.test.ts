@@ -1,5 +1,5 @@
 import { describe, test, expect } from '@jest/globals';
-import Mouseleave from './Mouseleave.js';
+import Mouseleave from './Mouseleave.ts';
 
 describe('constructor', () => {
 	test('no attribute', () => {

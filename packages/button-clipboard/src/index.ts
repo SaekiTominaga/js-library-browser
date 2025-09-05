@@ -1,4 +1,4 @@
-import ButtonClipboard from './ButtonClipboard.js';
+import ButtonClipboard from './ButtonClipboard.ts';
 
 const validate = (element: Element): HTMLButtonElement => {
 	if (!(element instanceof HTMLButtonElement)) {

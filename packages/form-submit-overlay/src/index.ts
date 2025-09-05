@@ -1,4 +1,4 @@
-import FormSubmitOverlay from './FormSubmitOverlay.js';
+import FormSubmitOverlay from './FormSubmitOverlay.ts';
 
 const validate = (element: Element): HTMLFormElement => {
 	if (!(element instanceof HTMLFormElement)) {

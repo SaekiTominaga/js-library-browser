@@ -1,9 +1,9 @@
-import Max from './attribute/Max.js';
-import Min from './attribute/Min.js';
-import Title from './attribute/Title.js';
-import ValidationMessageMax from './attribute/ValidationMessageMax.js';
-import ValidationMessageMin from './attribute/ValidationMessageMin.js';
-import ValidationMessageNoExist from './attribute/ValidationMessageNoExist.js';
+import Max from './attribute/Max.ts';
+import Min from './attribute/Min.ts';
+import Title from './attribute/Title.ts';
+import ValidationMessageMax from './attribute/ValidationMessageMax.ts';
+import ValidationMessageMin from './attribute/ValidationMessageMin.ts';
+import ValidationMessageNoExist from './attribute/ValidationMessageNoExist.ts';
 
 /**
  * Convert date control to `<input type=text>`

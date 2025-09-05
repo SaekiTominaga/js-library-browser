@@ -1,5 +1,5 @@
 import { describe, test, expect } from '@jest/globals';
-import PopoverHide from './PopoverHide.js';
+import PopoverHide from './PopoverHide.ts';
 
 describe('constructor - text', () => {
 	test('no attribute', () => {

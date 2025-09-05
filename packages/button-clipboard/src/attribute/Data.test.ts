@@ -1,5 +1,5 @@
 import { describe, afterEach, test, expect } from '@jest/globals';
-import Data from './Data.js';
+import Data from './Data.ts';
 
 describe('constructor', () => {
 	test('no attribute', () => {

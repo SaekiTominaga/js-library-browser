@@ -1,5 +1,5 @@
 import { describe, test, expect } from '@jest/globals';
-import { convert } from './errorMessage.js';
+import { convert } from './errorMessage.ts';
 
 describe('convert', () => {
 	test('text', () => {

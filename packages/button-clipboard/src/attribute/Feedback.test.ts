@@ -1,5 +1,5 @@
 import { describe, afterEach, test, expect } from '@jest/globals';
-import Feedback from './Feedback.js';
+import Feedback from './Feedback.ts';
 
 describe('constructor', () => {
 	afterEach(() => {
