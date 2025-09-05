@@ -1,7 +1,7 @@
 # Convert date control to `<input type=text>`
 
 [![npm version](https://badge.fury.io/js/%40w0s%2Finput-date-to-text.svg)](https://www.npmjs.com/package/@w0s/input-date-to-text)
-[![Workflow status](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/input-date-to-text.yml/badge.svg)](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/input-date-to-text.yml)
+[![Workflow status](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/package-input-date-to-text.yml/badge.svg)](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/package-input-date-to-text.yml)
 
 Converts `<input type=date>` in the HTML source code to `<input type=text>`. In some cases, it is troublesome to select a date decades ago in the calendar picker of the browser, so use it when you dare to set `<input type=text>` such as date of birth.
 
