@@ -2,8 +2,6 @@ name: form-control-validation
 
 on:
   pull_request:
-    branches:
-      - main
     paths:
       - 'packages/form-control-validation/src/**/*.ts'
   workflow_dispatch:

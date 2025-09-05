@@ -2,8 +2,6 @@ name: report-same-referrer
 
 on:
   pull_request:
-    branches:
-      - main
     paths:
       - 'packages/report-same-referrer/src/**/*.ts'
   workflow_dispatch:

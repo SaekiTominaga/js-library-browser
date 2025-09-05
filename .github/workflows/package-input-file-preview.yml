@@ -2,8 +2,6 @@ name: input-file-preview
 
 on:
   pull_request:
-    branches:
-      - main
     paths:
       - 'packages/input-file-preview/src/**/*.ts'
   workflow_dispatch:

@@ -2,8 +2,6 @@ name: footnote-reference-popover
 
 on:
   pull_request:
-    branches:
-      - main
     paths:
       - 'packages/footnote-reference-popover/src/**/*.ts'
   workflow_dispatch:

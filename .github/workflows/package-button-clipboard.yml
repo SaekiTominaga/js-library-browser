@@ -2,8 +2,6 @@ name: button-clipboard
 
 on:
   pull_request:
-    branches:
-      - main
     paths:
       - 'packages/button-clipboard/src/**/*.ts'
   workflow_dispatch:

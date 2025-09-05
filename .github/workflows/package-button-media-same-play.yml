@@ -2,8 +2,6 @@ name: button-media-same-play
 
 on:
   pull_request:
-    branches:
-      - main
     paths:
       - 'packages/button-media-same-play/src/**/*.ts'
   workflow_dispatch:

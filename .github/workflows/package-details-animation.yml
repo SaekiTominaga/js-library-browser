@@ -2,8 +2,6 @@ name: details-animation
 
 on:
   pull_request:
-    branches:
-      - main
     paths:
       - 'packages/details-animation/src/**/*.ts'
   workflow_dispatch:

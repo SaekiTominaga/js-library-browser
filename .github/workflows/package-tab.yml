@@ -2,8 +2,6 @@ name: tab
 
 on:
   pull_request:
-    branches:
-      - main
     paths:
       - 'packages/tab/src/**/*.ts'
   workflow_dispatch:

@@ -2,8 +2,6 @@ name: button-checkboxes
 
 on:
   pull_request:
-    branches:
-      - main
     paths:
       - 'packages/button-checkboxes/src/**/*.ts'
   workflow_dispatch:

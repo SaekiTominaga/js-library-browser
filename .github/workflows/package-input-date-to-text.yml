@@ -2,8 +2,6 @@ name: input-date-to-text
 
 on:
   pull_request:
-    branches:
-      - main
     paths:
       - 'packages/input-date-to-text/src/**/*.ts'
   workflow_dispatch:

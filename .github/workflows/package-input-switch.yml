@@ -2,8 +2,6 @@ name: input-switch
 
 on:
   pull_request:
-    branches:
-      - main
     paths:
       - 'packages/input-switch/src/**/*.ts'
   workflow_dispatch:

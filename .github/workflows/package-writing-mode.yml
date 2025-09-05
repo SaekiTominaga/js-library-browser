@@ -2,8 +2,6 @@ name: writing-mode
 
 on:
   pull_request:
-    branches:
-      - main
     paths:
       - 'packages/writing-mode/src/**/*.ts'
   workflow_dispatch:

@@ -2,8 +2,6 @@ name: closest-html-page
 
 on:
   pull_request:
-    branches:
-      - main
     paths:
       - 'packages/closest-html-page/src/**/*.ts'
   workflow_dispatch:

@@ -2,8 +2,6 @@ name: button-share
 
 on:
   pull_request:
-    branches:
-      - main
     paths:
       - 'packages/button-share/src/**/*.ts'
   workflow_dispatch:

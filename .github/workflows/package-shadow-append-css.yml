@@ -2,8 +2,6 @@ name: shadow-append-css
 
 on:
   pull_request:
-    branches:
-      - main
     paths:
       - 'packages/shadow-append-css/src/**/*.ts'
   workflow_dispatch:

@@ -2,8 +2,6 @@ name: report-js-error
 
 on:
   pull_request:
-    branches:
-      - main
     paths:
       - 'packages/report-js-error/src/**/*.ts'
   workflow_dispatch:

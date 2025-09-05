@@ -2,8 +2,6 @@ name: form-submit-overlay
 
 on:
   pull_request:
-    branches:
-      - main
     paths:
       - 'packages/form-submit-overlay/src/**/*.ts'
   workflow_dispatch:

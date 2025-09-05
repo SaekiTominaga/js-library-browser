@@ -2,8 +2,6 @@ name: input-isbn
 
 on:
   pull_request:
-    branches:
-      - main
     paths:
       - 'packages/input-isbn/src/**/*.ts'
   workflow_dispatch:

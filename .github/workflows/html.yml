@@ -2,8 +2,6 @@ name: HTML, CSS files
 
 on:
   pull_request:
-    branches:
-      - main
     paths:
       - 'packages/*/demo/*.html'
       - 'markuplint.config.js'

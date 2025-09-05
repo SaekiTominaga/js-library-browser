@@ -2,8 +2,6 @@ name: table-cell-ditto
 
 on:
   pull_request:
-    branches:
-      - main
     paths:
       - 'packages/table-cell-ditto/src/**/*.ts'
   workflow_dispatch:

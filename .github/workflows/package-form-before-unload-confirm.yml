@@ -2,8 +2,6 @@ name: form-before-unload-confirm
 
 on:
   pull_request:
-    branches:
-      - main
     paths:
       - 'packages/form-before-unload-confirm/src/**/*.ts'
   workflow_dispatch:
