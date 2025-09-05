@@ -1,7 +1,7 @@
 # Implement something like `<input type=checkbox switch>`
 
 [![npm version](https://badge.fury.io/js/%40w0s%2Finput-switch.svg)](https://www.npmjs.com/package/@w0s/input-switch)
-[![Workflow status](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/input-switch.yml/badge.svg)](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/input-switch.yml)
+[![Workflow status](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/package-input-switch.yml/badge.svg)](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/package-input-switch.yml)
 
 ## Demo
 

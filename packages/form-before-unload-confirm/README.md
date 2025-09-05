@@ -1,7 +1,7 @@
 # Prevent page unloaded while filling out a form
 
 [![npm version](https://badge.fury.io/js/%40w0s%2Fform-before-unload-confirm.svg)](https://www.npmjs.com/package/@w0s/form-before-unload-confirm)
-[![Workflow status](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/form-before-unload-confirm.yml/badge.svg)](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/form-before-unload-confirm.yml)
+[![Workflow status](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/package-form-before-unload-confirm.yml/badge.svg)](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/package-form-before-unload-confirm.yml)
 
 ## Demo
 

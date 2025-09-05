@@ -1,7 +1,7 @@
 # Tabs UI component
 
 [![npm version](https://badge.fury.io/js/%40w0s%2Ftab.svg)](https://www.npmjs.com/package/@w0s/tab)
-[![Workflow status](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/tab.yml/badge.svg)](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/tab.yml)
+[![Workflow status](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/package-tab.yml/badge.svg)](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/package-tab.yml)
 
 ## Demo
 
