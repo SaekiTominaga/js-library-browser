@@ -1,5 +1,5 @@
 import { describe, afterEach, test } from '@jest/globals';
-import ButtonMediaSamePlay from './ButtonMediaSamePlay.js';
+import ButtonMediaSamePlay from './ButtonMediaSamePlay.ts';
 
 describe('attribute', () => {
 	afterEach(() => {

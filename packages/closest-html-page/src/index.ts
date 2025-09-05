@@ -1,3 +1,3 @@
-import ClosestHTMLPage from './ClosestHTMLPage.js';
+import ClosestHTMLPage from './ClosestHTMLPage.ts';
 
 export default ClosestHTMLPage;

@@ -1,5 +1,5 @@
-import Checkbox from './attribute/Checkbox.js';
-import Course from './attribute/Course.js';
+import Checkbox from './attribute/Checkbox.ts';
+import Course from './attribute/Course.ts';
 
 /**
  * Button to check / uncheck checkboxes group

@@ -1,5 +1,5 @@
 import { describe, test, expect } from '@jest/globals';
-import Course from './Course.js';
+import Course from './Course.ts';
 
 describe('constructor', () => {
 	test('no course attribute', () => {

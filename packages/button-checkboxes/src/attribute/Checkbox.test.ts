@@ -1,5 +1,5 @@
 import { describe, afterEach, test, expect } from '@jest/globals';
-import Checkbox from './Checkbox.js';
+import Checkbox from './Checkbox.ts';
 
 describe('constructor', () => {
 	afterEach(() => {

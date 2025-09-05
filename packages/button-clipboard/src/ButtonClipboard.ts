@@ -1,6 +1,6 @@
-import Data from './attribute/Data.js';
-import Feedback from './attribute/Feedback.js';
-import { getContent } from './util/html.js';
+import Data from './attribute/Data.ts';
+import Feedback from './attribute/Feedback.ts';
+import { getContent } from './util/html.ts';
 
 /**
  * Clipboard write text button

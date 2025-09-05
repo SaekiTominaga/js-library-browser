@@ -1,5 +1,5 @@
 import { describe, beforeEach, afterEach, test, expect } from '@jest/globals';
-import InputDateToText from './InputDateToText.js';
+import InputDateToText from './InputDateToText.ts';
 
 describe('attribute', () => {
 	afterEach(() => {

@@ -1,5 +1,5 @@
 import { describe, test, expect } from '@jest/globals';
-import Easing from './Easing.js';
+import Easing from './Easing.ts';
 
 describe('constructor', () => {
 	test('undefined', () => {

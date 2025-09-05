@@ -1,4 +1,4 @@
-import FormControlValidation from './FormControlValidation.js';
+import FormControlValidation from './FormControlValidation.ts';
 
 const validate = (element: Element): HTMLElement => {
 	if (!(element instanceof HTMLElement)) {

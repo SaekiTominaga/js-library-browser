@@ -1,5 +1,5 @@
 import { describe, beforeEach, test, expect } from '@jest/globals';
-import ValidationMessageMax from './ValidationMessageMax.js';
+import ValidationMessageMax from './ValidationMessageMax.ts';
 
 describe('constructor', () => {
 	beforeEach(() => {

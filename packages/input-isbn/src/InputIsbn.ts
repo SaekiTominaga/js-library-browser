@@ -1,5 +1,5 @@
 import IsbnVerify from '@w0s/isbn-verify';
-import ValidationMessageIsbnCheckdigit from './attribute/ValidationMessageIsbnCheckdigit.js';
+import ValidationMessageIsbnCheckdigit from './attribute/ValidationMessageIsbnCheckdigit.ts';
 
 /**
  * ISBN input field

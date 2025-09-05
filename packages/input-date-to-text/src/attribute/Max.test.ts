@@ -1,5 +1,5 @@
 import { describe, test, expect } from '@jest/globals';
-import Max from './Max.js';
+import Max from './Max.ts';
 
 describe('constructor', () => {
 	test('no attribute', () => {

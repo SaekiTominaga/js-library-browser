@@ -1,5 +1,5 @@
 import { describe, afterEach, test, expect } from '@jest/globals';
-import Overlay from './Overlay.js';
+import Overlay from './Overlay.ts';
 
 describe('constructor', () => {
 	afterEach(() => {

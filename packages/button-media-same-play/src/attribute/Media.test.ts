@@ -1,5 +1,5 @@
 import { describe, afterEach, test, expect } from '@jest/globals';
-import Media from './Media.js';
+import Media from './Media.ts';
 
 describe('constructor', () => {
 	afterEach(() => {

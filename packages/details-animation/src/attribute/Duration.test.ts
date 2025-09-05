@@ -1,5 +1,5 @@
 import { describe, test, expect } from '@jest/globals';
-import Duration from './Duration.js';
+import Duration from './Duration.ts';
 
 describe('constructor', () => {
 	test('undefined', () => {

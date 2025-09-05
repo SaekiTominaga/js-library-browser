@@ -1,4 +1,4 @@
-import TextareaAutoSize from './TextareaAutoSize.js';
+import TextareaAutoSize from './TextareaAutoSize.ts';
 
 const validate = (element: Element): HTMLTextAreaElement => {
 	if (!(element instanceof HTMLTextAreaElement)) {

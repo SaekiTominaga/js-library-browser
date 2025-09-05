@@ -1,5 +1,5 @@
 import MIMEType from 'whatwg-mimetype';
-import { getParentPage } from './util/url.js';
+import { getParentPage } from './util/url.ts';
 
 interface Option {
 	maxFetchCount?: number; // If no HTML page matching the condition can be retrieved after this number of attempts to access the ancestor hierarchy, the process is rounded up (0 = ∞)

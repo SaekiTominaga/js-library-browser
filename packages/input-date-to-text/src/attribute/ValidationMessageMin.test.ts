@@ -1,5 +1,5 @@
 import { describe, beforeEach, test, expect } from '@jest/globals';
-import ValidationMessageMin from './ValidationMessageMin.js';
+import ValidationMessageMin from './ValidationMessageMin.ts';
 
 describe('constructor', () => {
 	beforeEach(() => {

@@ -1,5 +1,5 @@
 import { describe, beforeEach, afterEach, test, expect, jest } from '@jest/globals';
-import InputIsbn from './InputIsbn.js';
+import InputIsbn from './InputIsbn.ts';
 
 describe('HTML', () => {
 	afterEach(() => {

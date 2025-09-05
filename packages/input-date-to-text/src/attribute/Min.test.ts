@@ -1,5 +1,5 @@
 import { describe, test, expect } from '@jest/globals';
-import Min from './Min.js';
+import Min from './Min.ts';
 
 describe('constructor', () => {
 	test('no attribute', () => {

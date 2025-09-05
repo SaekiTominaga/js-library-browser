@@ -1,5 +1,5 @@
 import { describe, beforeAll, afterAll, afterEach, test, expect, jest } from '@jest/globals';
-import CustomElementPopover from './Popover.js';
+import CustomElementPopover from './Popover.ts';
 
 customElements.define('x-popover', CustomElementPopover);
 

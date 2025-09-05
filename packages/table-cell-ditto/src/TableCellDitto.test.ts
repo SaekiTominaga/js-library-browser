@@ -1,5 +1,5 @@
 import { describe, expect, test, beforeEach, afterEach } from '@jest/globals';
-import TableCellDitto from './TableCellDitto.js';
+import TableCellDitto from './TableCellDitto.ts';
 
 describe('正常系', () => {
 	beforeEach(() => {

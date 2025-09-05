@@ -1,5 +1,5 @@
 import { describe, beforeAll, afterAll, afterEach, test, expect } from '@jest/globals';
-import TextareaAutoSize from './TextareaAutoSize.js';
+import TextareaAutoSize from './TextareaAutoSize.ts';
 
 describe('HTML', () => {
 	afterEach(() => {

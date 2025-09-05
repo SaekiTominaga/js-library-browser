@@ -1,5 +1,5 @@
 import { describe, afterEach, test, expect, jest } from '@jest/globals';
-import ButtonClipboard from './ButtonClipboard.js';
+import ButtonClipboard from './ButtonClipboard.ts';
 
 Object.assign(navigator, {
 	clipboard: {

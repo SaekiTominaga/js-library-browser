@@ -1,4 +1,4 @@
-import ButtonCheckboxes from './ButtonCheckboxes.js';
+import ButtonCheckboxes from './ButtonCheckboxes.ts';
 
 const validate = (element: Element): HTMLButtonElement => {
 	if (!(element instanceof HTMLButtonElement)) {

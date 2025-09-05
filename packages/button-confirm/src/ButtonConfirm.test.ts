@@ -1,5 +1,5 @@
 import { describe, afterEach, test, expect, jest } from '@jest/globals';
-import ButtonConfirm from './ButtonConfirm.js';
+import ButtonConfirm from './ButtonConfirm.ts';
 
 window.confirm = () => true;
 

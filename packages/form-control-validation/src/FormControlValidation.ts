@@ -1,5 +1,5 @@
-import ErrorMessage from './attribute/ErrorMessage.js';
-import Title from './attribute/Title.js';
+import ErrorMessage from './attribute/ErrorMessage.ts';
+import Title from './attribute/Title.ts';
 
 /**
  * Input validation of form control

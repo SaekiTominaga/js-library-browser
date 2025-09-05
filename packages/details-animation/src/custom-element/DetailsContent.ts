@@ -1,7 +1,7 @@
 import shadowAppendCss from '@w0s/shadow-append-css';
 import WritingMode from '@w0s/writing-mode';
-import Duration from '../attribute/Duration.js';
-import Easing from '../attribute/Easing.js';
+import Duration from '../attribute/Duration.ts';
+import Easing from '../attribute/Easing.ts';
 
 type StateOrientation = 'open' | 'close';
 

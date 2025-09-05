@@ -1,4 +1,4 @@
-import InputFilePreview from './InputFilePreview.js';
+import InputFilePreview from './InputFilePreview.ts';
 
 const validate = (element: Element): HTMLInputElement => {
 	if (!(element instanceof HTMLInputElement)) {

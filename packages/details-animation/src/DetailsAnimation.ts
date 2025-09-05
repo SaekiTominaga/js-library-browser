@@ -1,7 +1,7 @@
-import Duration from './attribute/Duration.js';
-import Easing from './attribute/Easing.js';
-import PreOpen from './attribute/PreOpen.js';
-import CustomElementDetailsContent, { type AnimationFinishEventDetail } from './custom-element/DetailsContent.js';
+import Duration from './attribute/Duration.ts';
+import Easing from './attribute/Easing.ts';
+import PreOpen from './attribute/PreOpen.ts';
+import CustomElementDetailsContent, { type AnimationFinishEventDetail } from './custom-element/DetailsContent.ts';
 
 customElements.define('x-details-content', CustomElementDetailsContent);
 

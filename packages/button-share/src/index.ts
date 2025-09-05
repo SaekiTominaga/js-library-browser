@@ -1,4 +1,4 @@
-import ButtonShare from './ButtonShare.js';
+import ButtonShare from './ButtonShare.ts';
 
 const validate = (element: Element): HTMLButtonElement => {
 	if (!(element instanceof HTMLButtonElement)) {

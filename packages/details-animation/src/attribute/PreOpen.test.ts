@@ -1,5 +1,5 @@
 import { describe, beforeAll, test, expect } from '@jest/globals';
-import PreOpen from './PreOpen.js';
+import PreOpen from './PreOpen.ts';
 
 describe('getter / setter', () => {
 	beforeAll(() => {

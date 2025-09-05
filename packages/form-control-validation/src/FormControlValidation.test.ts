@@ -1,5 +1,5 @@
 import { describe, beforeEach, afterEach, test, expect } from '@jest/globals';
-import FormControlValidation from './FormControlValidation.js';
+import FormControlValidation from './FormControlValidation.ts';
 
 describe('element', () => {
 	beforeEach(() => {

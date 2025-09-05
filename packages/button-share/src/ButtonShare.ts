@@ -1,6 +1,6 @@
-import Text from './attribute/Text.js';
-import Title from './attribute/Title.js';
-import Url from './attribute/Url.js';
+import Text from './attribute/Text.ts';
+import Title from './attribute/Title.ts';
+import Url from './attribute/Url.ts';
 
 /**
  * Share button

@@ -1,3 +1,3 @@
-import WritingMode from './WritingMode.js';
+import WritingMode from './WritingMode.ts';
 
 export default WritingMode;

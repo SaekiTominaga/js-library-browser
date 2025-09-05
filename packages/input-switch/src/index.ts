@@ -1,3 +1,3 @@
-import InputSwitch from './custom-element/InputSwitch.js';
+import InputSwitch from './custom-element/InputSwitch.ts';
 
 export default InputSwitch;

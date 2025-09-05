@@ -1,6 +1,6 @@
 import { describe, beforeAll, afterAll, afterEach, test, expect, jest } from '@jest/globals';
 import { mockAnimationsApi } from 'jsdom-testing-mocks';
-import DetailsAnimation from './DetailsAnimation.js';
+import DetailsAnimation from './DetailsAnimation.ts';
 
 mockAnimationsApi();
 

@@ -1,5 +1,5 @@
 import { describe, afterEach, test, expect } from '@jest/globals';
-import InputFilePreview from './InputFilePreview.js';
+import InputFilePreview from './InputFilePreview.ts';
 
 describe('HTML', () => {
 	afterEach(() => {

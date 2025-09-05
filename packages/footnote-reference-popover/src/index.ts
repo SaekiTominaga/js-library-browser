@@ -1,4 +1,4 @@
-import FootnoteReferencePopover from './FootnoteReferencePopover.js';
+import FootnoteReferencePopover from './FootnoteReferencePopover.ts';
 
 const validate = (element: Element): HTMLAnchorElement => {
 	if (!(element instanceof HTMLAnchorElement)) {
