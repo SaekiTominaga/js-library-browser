@@ -59,3 +59,20 @@
 <dt><code>title</code> [optional]</dt>
 <dd>Message displayed when the value does not match the <code>pattern</code> attribute value. <a href="https://html.spec.whatwg.org/multipage/input.html#the-pattern-attribute">HTML spec</a> says, <q cite="https://html.spec.whatwg.org/multipage/input.html#the-pattern-attribute">When an <code>input</code> element has a <code>pattern</code> attribute specified, authors should include a <code>title</code> attribute to give a description of the pattern.</q></dd>
 </dl>
+
+## Invalid style example
+
+```css
+:where(input, select, textarea):user-invalid,
+[role='radiogroup']:has(input[type='radio']:user-invalid) {
+  /* any styles */
+}
+```
+
+or
+
+```css
+:where(input, [role='radiogroup'], select, textarea)[aria-invalid='true'] {
+  /* any styles */
+}
+```
