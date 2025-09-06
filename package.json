@@ -1,5 +1,5 @@
 {
-	"name": "frontend",
+	"name": "js-library-browser",
 	"type": "module",
 	"scripts": {
 		"format": "prettier -w .",
