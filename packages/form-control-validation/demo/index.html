@@ -17,10 +17,8 @@
 				padding-block: 0.5em;
 			}
 
-			input[aria-invalid='true'],
-			select[aria-invalid='true'],
-			textarea[aria-invalid='true'],
-			[role='radiogroup'][aria-invalid='true'] {
+			:where(input, select, textarea):user-invalid,
+			[role='radiogroup']:has(input[type='radio']:user-invalid) {
 				border-color: #e00;
 			}
 
@@ -28,28 +26,30 @@
 				padding: 0.5em;
 			}
 
-			.form td {
-				padding-block: 0.5em;
-			}
+			.form {
+				& td {
+					padding-block: 0.5em;
 
-			.form td:first-child {
-				padding-block-start: calc(0.5em + 0.5em);
-				vertical-align: top;
-			}
+					&:first-child {
+						padding-block-start: calc(0.5em + 0.5em);
+						vertical-align: top;
+					}
 
-			.form td + td {
-				padding: 0.5em 0 0.5em 1em;
+					& + td {
+						padding: 0.5em 0 0.5em 1em;
+					}
+				}
 			}
 
 			.validation {
 				margin: 0.25em 0 0;
 				background: #fff;
 				color: #e00;
-			}
 
-			.validation::before {
-				margin-inline-end: 0.25em;
-				content: '⚠';
+				&::before {
+					margin-inline-end: 0.25em;
+					content: '⚠';
+				}
 			}
 		</style>
 		<script type="importmap">
