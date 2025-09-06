@@ -3,7 +3,7 @@ name: YAML files
 on:
   pull_request:
     paths:
-      - '.github/workflows/*.yml'
+      - '.github/**/*.yml'
   workflow_dispatch:
 
 defaults:
