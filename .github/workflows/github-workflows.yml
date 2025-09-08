@@ -1,9 +1,9 @@
-name: YAML files
+name: GitHub workflow files
 
 on:
   pull_request:
     paths:
-      - '.github/**/*.yml'
+      - '.github/workflows/*.yml'
   workflow_dispatch:
 
 defaults:
