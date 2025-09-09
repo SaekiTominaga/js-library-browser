@@ -47,11 +47,9 @@ export default [
 		},
 	},
 	{
-		files: ['packages/*/src/**/*.test.js'],
+		files: ['packages/*/src/**/*.test.ts'],
 		rules: {
-			'require-await': 'off',
 			'import/no-unassigned-import': 'off',
-			'import/no-unresolved': 'off', // Github Actions 環境では /dist/ ファイルが存在しないためテスト不可
 		},
 	},
 	{
@@ -77,12 +75,6 @@ export default [
 		rules: {
 			'no-await-in-loop': 'off',
 			'no-continue': 'off',
-		},
-	},
-	{
-		files: ['packages/closest-html-page/src/ClosestHTMLPage.test.ts'],
-		rules: {
-			'import/no-unassigned-import': 'off',
 		},
 	},
 	{
