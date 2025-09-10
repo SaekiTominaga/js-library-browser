@@ -10,6 +10,8 @@ updates:
     directory: '/'
     schedule:
       interval: 'daily'
+    cooldown:
+      default-days: 7
     allow:
       - dependency-name: '*'
         update-types: ['version-update:semver-patch']
