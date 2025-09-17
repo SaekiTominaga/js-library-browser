@@ -37,6 +37,12 @@ export default [
 					allow: ['info', 'error'],
 				},
 			],
+			'@typescript-eslint/no-misused-promises': [
+				'error',
+				{
+					checksVoidReturn: false,
+				},
+			],
 			'@typescript-eslint/no-non-null-assertion': 'off',
 		},
 	},

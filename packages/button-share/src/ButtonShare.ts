@@ -28,7 +28,6 @@ export default class {
 		this.#title = new Title(titleAttribute);
 		this.#url = new Url(urlAttribute);
 
-		// eslint-disable-next-line @typescript-eslint/no-misused-promises
 		thisElement.addEventListener('click', this.#clickEvent, { passive: true });
 	}
 

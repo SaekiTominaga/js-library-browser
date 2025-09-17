@@ -19,7 +19,6 @@ export default class {
 		this.#data = new Data({ text: textAttribute, target: targetAttribute });
 		this.#feedback = new Feedback(feedbackAttribute);
 
-		// eslint-disable-next-line @typescript-eslint/no-misused-promises
 		thisElement.addEventListener('click', this.#clickEvent, { passive: true });
 	}
 
