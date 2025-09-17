@@ -8,7 +8,7 @@
 		"css-lint": "stylelint packages/*/demo/*.html"
 	},
 	"devDependencies": {
-		"@w0s/eslint-config": "^8.6.0",
+		"@w0s/eslint-config": "^9.1.0",
 		"@w0s/markuplint-config": "^3.11.0",
 		"@w0s/stylelint-config": "^4.11.0",
 		"@w0s/tsconfig": "^1.6.1",

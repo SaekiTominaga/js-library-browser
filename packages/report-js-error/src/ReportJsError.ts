@@ -37,7 +37,6 @@ export default class {
 			return;
 		}
 
-		// eslint-disable-next-line @typescript-eslint/no-misused-promises
 		window.addEventListener('error', this.#errorEvent.bind(this), { passive: true });
 	}
 

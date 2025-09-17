@@ -12,7 +12,7 @@ export default class {
 			return;
 		}
 
-		if (!/[0-9]{4}-[0-9]{2}-[0-9]{2}/.test(value)) {
+		if (!/[0-9]{4}-[0-9]{2}-[0-9]{2}/u.test(value)) {
 			throw new TypeError('The format of the `min` attribute must be `YYYY-MM-DD`.');
 		}
 

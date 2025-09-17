@@ -13,5 +13,5 @@ import { escape } from '@w0s/html-escape';
 export const convert = (message: string, file: File): string => {
 	const { name, size } = file;
 
-	return message.replaceAll(/\$\{name\}/g, escape(name)).replaceAll(/\$\{size\}/g, String(size));
+	return message.replaceAll(/\$\{name\}/gu, escape(name)).replaceAll(/\$\{size\}/gu, String(size));
 };

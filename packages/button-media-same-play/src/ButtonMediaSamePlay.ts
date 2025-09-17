@@ -16,7 +16,6 @@ export default class {
 
 		this.#media = new Media(ariaControlsAttribute);
 
-		// eslint-disable-next-line @typescript-eslint/no-misused-promises
 		thisElement.addEventListener('click', this.#clickEvent, { passive: true });
 	}
 

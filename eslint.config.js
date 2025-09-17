@@ -37,13 +37,13 @@ export default [
 					allow: ['info', 'error'],
 				},
 			],
+			'@typescript-eslint/no-misused-promises': [
+				'error',
+				{
+					checksVoidReturn: false,
+				},
+			],
 			'@typescript-eslint/no-non-null-assertion': 'off',
-		},
-	},
-	{
-		files: ['packages/*/src/util/**/*.ts'],
-		rules: {
-			'import/prefer-default-export': 'off',
 		},
 	},
 	{
@@ -75,6 +75,12 @@ export default [
 		rules: {
 			'no-await-in-loop': 'off',
 			'no-continue': 'off',
+		},
+	},
+	{
+		files: ['packages/input-file-preview/src/util/errorMessage.test.ts'],
+		rules: {
+			'no-template-curly-in-string': 'off',
 		},
 	},
 	{

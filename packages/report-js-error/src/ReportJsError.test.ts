@@ -24,7 +24,7 @@ test('denyUAs に引っかかる', () => {
 			lineno: 'xxx',
 			colno: 'xxx',
 		},
-		denyUAs: [/ jsdom\//],
+		denyUAs: [/ jsdom\//u],
 	});
 
 	expect(spyConsole).toHaveBeenCalled();
@@ -43,7 +43,7 @@ test('allowUAs に引っかからない', () => {
 			lineno: 'xxx',
 			colno: 'xxx',
 		},
-		allowUAs: [/foo/],
+		allowUAs: [/foo/u],
 	});
 
 	expect(spyConsole).toHaveBeenCalled();
