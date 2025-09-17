@@ -105,9 +105,9 @@ export default class {
 		}
 
 		/* 数字を半角化 */
-		const valueHankaku = valueTrim.replace(/[０-９－／]/g, (str) => String.fromCharCode(str.charCodeAt(0) - 0xfee0));
+		const valueHankaku = valueTrim.replace(/[０-９－／]/gu, (str) => String.fromCharCode(str.charCodeAt(0) - 0xfee0));
 
-		if (/^[0-9]{8}$/.test(valueHankaku)) {
+		if (/^[0-9]{8}$/u.test(valueHankaku)) {
 			/* e.g. 20000101 → 2000-01-01 */
 			this.#inputElement.value = `${valueHankaku.substring(0, 4)}-${valueHankaku.substring(4, 6)}-${valueHankaku.substring(6)}`;
 			return;

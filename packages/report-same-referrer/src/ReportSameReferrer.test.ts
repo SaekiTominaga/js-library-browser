@@ -109,7 +109,7 @@ describe('user agent', () => {
 
 		await new ReportSameReferrer('/endpoint', {
 			fetchParam: { documentURL: 'xxx', referrer: 'xxx' },
-			denyUAs: [/ jsdom\//],
+			denyUAs: [/ jsdom\//u],
 		}).report();
 
 		expect(spyConsole).toHaveBeenCalled();
@@ -122,7 +122,7 @@ describe('user agent', () => {
 
 		await new ReportSameReferrer('/endpoint', {
 			fetchParam: { documentURL: 'xxx', referrer: 'xxx' },
-			allowUAs: [/foo/],
+			allowUAs: [/foo/u],
 		}).report();
 
 		expect(spyConsole).toHaveBeenCalled();
