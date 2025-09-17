@@ -78,6 +78,12 @@ export default [
 		},
 	},
 	{
+		files: ['packages/input-file-preview/src/util/errorMessage.test.ts'],
+		rules: {
+			'no-template-curly-in-string': 'off',
+		},
+	},
+	{
 		files: ['packages/input-isbn/src/InputIsbn.test.ts'],
 		rules: {
 			'@typescript-eslint/unbound-method': 'off',
