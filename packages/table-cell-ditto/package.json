@@ -31,7 +31,7 @@
 		"prebuild": "rimraf dist/* -g",
 		"build": "tsc",
 		"watch": "tsc -w",
-		"lint": "eslint src/**/*.ts __tests__/**/*.js",
+		"lint": "eslint src/**/*.ts",
 		"pretest": "npm run build",
 		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest dist/.+\\.test\\.js  -c ../../jest.config.mjs --roots packages/table-cell-ditto"
 	},
