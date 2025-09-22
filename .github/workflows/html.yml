@@ -3,7 +3,7 @@ name: HTML, CSS files
 on:
   pull_request:
     paths:
-      - 'packages/*/demo/*.html'
+      - 'packages/*/demo/**/*.html'
       - 'markuplint.config.js'
       - 'stylelint.config.js'
   workflow_dispatch:
