@@ -11,14 +11,14 @@
 				padding: 0.5em;
 			}
 
-			[role='radiogroup'] {
+			[role='radiogroup' i] {
 				display: inline flow-root;
 				border: 1px solid transparent;
 				padding-block: 0.5em;
 			}
 
 			:where(input, select, textarea):user-invalid,
-			[role='radiogroup']:has(input[type='radio']:user-invalid) {
+			[role='radiogroup' i]:has(input[type='radio' i]:user-invalid) {
 				border-color: #e00;
 			}
 

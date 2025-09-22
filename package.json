@@ -4,13 +4,13 @@
 	"scripts": {
 		"format": "prettier -w .",
 		"js-lint": "eslint packages/*/src/**/*.ts",
-		"html-lint": "markuplint packages/*/demo/*.html",
-		"css-lint": "stylelint packages/*/demo/*.html"
+		"html-lint": "markuplint packages/*/demo/**/*.html",
+		"css-lint": "stylelint packages/*/demo/**/*.html"
 	},
 	"devDependencies": {
 		"@w0s/eslint-config": "^9.1.0",
 		"@w0s/markuplint-config": "^3.11.0",
-		"@w0s/stylelint-config": "^4.11.0",
+		"@w0s/stylelint-config": "^4.12.0",
 		"@w0s/tsconfig": "^1.6.1",
 		"coveralls": "^3.1.1",
 		"cross-env": "^10.0.0",
@@ -25,7 +25,7 @@
 		"postcss-html": "^1.8.0",
 		"prettier": "^3.6.2",
 		"rimraf": "^6.0.1",
-		"stylelint": "^16.23.1",
+		"stylelint": "^16.24.0",
 		"typescript": "^5.8.3"
 	},
 	"private": true,
