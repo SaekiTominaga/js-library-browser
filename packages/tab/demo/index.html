@@ -14,7 +14,7 @@
 				--tabpanel-bgcolor: #fff;
 				--tabpanel-color: #000;
 
-				& > [role='tab'] {
+				& > [role='tab' i] {
 					border: solid var(--tab-border-color);
 					border-width: var(--tab-border-width) var(--tab-border-width) 0 0;
 					background-color: var(--tab-bgcolor);
@@ -26,13 +26,13 @@
 						border-inline-start-width: var(--tab-border-width);
 					}
 
-					&[aria-selected='true'] {
+					&[aria-selected='true' i] {
 						--tab-bgcolor: var(--tab-bgcolor-selected);
 
 						z-index: 0;
 					}
 
-					&[aria-selected='false'] {
+					&[aria-selected='false' i] {
 						&:hover {
 							--tab-bgcolor: var(--tab-bgcolor-hover);
 						}

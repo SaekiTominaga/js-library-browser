@@ -8,7 +8,7 @@ export default {
 	},
 	overrides: [
 		{
-			files: ['packages/*/demo/*.html'],
+			files: ['packages/*/demo/**/*.html'],
 			customSyntax: 'postcss-html',
 		},
 	],
