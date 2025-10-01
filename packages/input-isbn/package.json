@@ -39,7 +39,7 @@
 		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest dist/.+\\.test\\.js  -c ../../jest.config.mjs --roots packages/input-isbn"
 	},
 	"dependencies": {
-		"@w0s/isbn-verify": "^3.1.0"
+		"@w0s/isbn-verify": "^3.1.2"
 	},
 	"publishConfig": {
 		"access": "public"
