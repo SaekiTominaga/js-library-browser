@@ -11,7 +11,7 @@
 		"@w0s/eslint-config": "^9.1.0",
 		"@w0s/markuplint-config": "^3.11.0",
 		"@w0s/stylelint-config": "^4.13.1",
-		"@w0s/tsconfig": "^1.6.1",
+		"@w0s/tsconfig": "^1.7.0",
 		"coveralls": "^3.1.1",
 		"cross-env": "^10.0.0",
 		"cross-fetch": "^4.1.0",
