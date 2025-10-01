@@ -65,6 +65,12 @@ export default [
 		},
 	},
 	{
+		files: ['packages/button-clipboard/src/util/html.ts'],
+		rules: {
+			'@typescript-eslint/no-unnecessary-type-assertion': 'off', // TypeScript 5.9
+		},
+	},
+	{
 		files: ['packages/button-confirm/src/ButtonConfirm.ts'],
 		rules: {
 			'no-alert': 'off',
@@ -87,6 +93,12 @@ export default [
 		files: ['packages/input-isbn/src/InputIsbn.test.ts'],
 		rules: {
 			'@typescript-eslint/unbound-method': 'off',
+		},
+	},
+	{
+		files: ['packages/table-cell-ditto/src/TableCellDitto.ts'],
+		rules: {
+			'@typescript-eslint/no-unnecessary-condition': 'off', // TypeScript 5.9
 		},
 	},
 ];
