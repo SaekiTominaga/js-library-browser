@@ -12,6 +12,6 @@ updates:
       interval: 'daily'
     cooldown:
       default-days: 7
-    allow:
+    ignore:
       - dependency-name: '*'
-        update-types: ['version-update:semver-patch']
+        update-types: ['version-update:semver-major']
