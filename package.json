@@ -13,7 +13,7 @@
 		"@w0s/stylelint-config": "^4.13.1",
 		"@w0s/tsconfig": "^1.7.0",
 		"coveralls": "^3.1.1",
-		"cross-env": "^10.0.0",
+		"cross-env": "^10.1.0",
 		"cross-fetch": "^4.1.0",
 		"eslint": "^9.36.0",
 		"globals": "^16.3.0",
