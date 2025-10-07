@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'packages/input-file-preview/src/**/*.ts'
+      - 'packages/input-file-preview/package.json'
+      - 'package.json'
   workflow_dispatch:
 
 permissions: {}

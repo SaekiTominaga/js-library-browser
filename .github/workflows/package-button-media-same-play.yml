@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'packages/button-media-same-play/src/**/*.ts'
+      - 'packages/button-media-same-play/package.json'
+      - 'package.json'
   workflow_dispatch:
 
 permissions: {}

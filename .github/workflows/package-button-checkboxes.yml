@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'packages/button-checkboxes/src/**/*.ts'
+      - 'packages/button-checkboxes/package.json'
+      - 'package.json'
   workflow_dispatch:
 
 permissions: {}

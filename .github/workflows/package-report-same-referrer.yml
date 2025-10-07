@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'packages/report-same-referrer/src/**/*.ts'
+      - 'packages/report-same-referrer/package.json'
+      - 'package.json'
   workflow_dispatch:
 
 permissions: {}

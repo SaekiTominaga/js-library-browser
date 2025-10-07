@@ -5,6 +5,7 @@ on:
     paths:
       - 'packages/*/demo/**/*.html'
       - 'markuplint.config.js'
+      - 'package.json'
       - 'stylelint.config.js'
   workflow_dispatch:
 

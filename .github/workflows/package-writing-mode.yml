@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'packages/writing-mode/src/**/*.ts'
+      - 'packages/writing-mode/package.json'
+      - 'package.json'
   workflow_dispatch:
 
 permissions: {}

@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'packages/tab/src/**/*.ts'
+      - 'packages/tab/package.json'
+      - 'package.json'
   workflow_dispatch:
 
 permissions: {}

@@ -5,6 +5,7 @@ on:
     paths:
       - 'packages/*/src/**/*.ts'
       - 'eslint.config.js'
+      - 'package.json'
   workflow_dispatch:
 
 permissions: {}

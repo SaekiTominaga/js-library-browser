@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'packages/table-cell-ditto/src/**/*.ts'
+      - 'packages/table-cell-ditto/package.json'
+      - 'package.json'
   workflow_dispatch:
 
 permissions: {}

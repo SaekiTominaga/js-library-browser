@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'packages/report-js-error/src/**/*.ts'
+      - 'packages/report-js-error/package.json'
+      - 'package.json'
   workflow_dispatch:
 
 permissions: {}

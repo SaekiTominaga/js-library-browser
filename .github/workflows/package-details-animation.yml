@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'packages/details-animation/src/**/*.ts'
+      - 'packages/details-animation/package.json'
+      - 'package.json'
   workflow_dispatch:
 
 permissions: {}

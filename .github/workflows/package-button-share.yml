@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'packages/button-share/src/**/*.ts'
+      - 'packages/button-share/package.json'
+      - 'package.json'
   workflow_dispatch:
 
 permissions: {}

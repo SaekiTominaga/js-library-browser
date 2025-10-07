@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'packages/button-clipboard/src/**/*.ts'
+      - 'packages/button-clipboard/package.json'
+      - 'package.json'
   workflow_dispatch:
 
 permissions: {}
