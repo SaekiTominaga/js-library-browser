@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'packages/shadow-append-css/src/**/*.ts'
+      - 'packages/shadow-append-css/package.json'
+      - 'package.json'
   workflow_dispatch:
 
 permissions: {}

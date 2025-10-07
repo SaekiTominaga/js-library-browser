@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'packages/form-submit-overlay/src/**/*.ts'
+      - 'packages/form-submit-overlay/package.json'
+      - 'package.json'
   workflow_dispatch:
 
 permissions: {}

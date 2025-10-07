@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'packages/input-switch/src/**/*.ts'
+      - 'packages/input-switch/package.json'
+      - 'package.json'
   workflow_dispatch:
 
 permissions: {}

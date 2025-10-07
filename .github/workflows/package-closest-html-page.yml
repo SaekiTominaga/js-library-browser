@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'packages/closest-html-page/src/**/*.ts'
+      - 'packages/closest-html-page/package.json'
+      - 'package.json'
   workflow_dispatch:
 
 permissions: {}

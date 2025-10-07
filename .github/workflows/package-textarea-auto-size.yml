@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'packages/textarea-auto-size/src/**/*.ts'
+      - 'packages/textarea-auto-size/package.json'
+      - 'package.json'
   workflow_dispatch:
 
 permissions: {}

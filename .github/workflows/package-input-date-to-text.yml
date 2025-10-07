@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'packages/input-date-to-text/src/**/*.ts'
+      - 'packages/input-date-to-text/package.json'
+      - 'package.json'
   workflow_dispatch:
 
 permissions: {}

@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'packages/input-isbn/src/**/*.ts'
+      - 'packages/input-isbn/package.json'
+      - 'package.json'
   workflow_dispatch:
 
 permissions: {}

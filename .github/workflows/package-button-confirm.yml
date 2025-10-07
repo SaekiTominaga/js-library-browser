@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'packages/button-confirm/src/**/*.ts'
+      - 'packages/button-confirm/package.json'
+      - 'package.json'
   workflow_dispatch:
 
 permissions: {}
