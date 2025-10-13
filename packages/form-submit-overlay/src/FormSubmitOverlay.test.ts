@@ -35,14 +35,14 @@ describe('event', () => {
 		spy.mockRestore();
 	});
 
-	test('unload', () => {
+	test('beforeunload', () => {
 		const element = document.querySelector('form')!;
 		const dialogElement = document.querySelector('dialog')!;
 		const spy = jest.spyOn(dialogElement, 'close');
 
 		new FormSubmitOverlay(element);
 
-		window.dispatchEvent(new Event('unload'));
+		window.dispatchEvent(new Event('beforeunload'));
 
 		expect(spy).toHaveBeenCalled();
 
