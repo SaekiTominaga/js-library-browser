@@ -15,7 +15,7 @@ export default class {
 		this.#overlayElement = new Overlay(overlayedByAttribute);
 
 		thisElement.addEventListener('submit', this.#submitEvent.bind(this), { passive: true });
-		window.addEventListener('unload', this.#windowUnloadEvent.bind(this), { passive: true });
+		window.addEventListener('beforeunload', this.#windowBeforeUnloadEvent.bind(this), { passive: true });
 	}
 
 	/**
@@ -26,9 +26,9 @@ export default class {
 	}
 
 	/**
-	 * window - unload の処理
+	 * window - beforeunload の処理
 	 */
-	#windowUnloadEvent(): void {
+	#windowBeforeUnloadEvent(): void {
 		this.#overlayElement.element.close();
 	}
 }
