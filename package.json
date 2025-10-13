@@ -25,7 +25,7 @@
 		"postcss-html": "^1.8.0",
 		"prettier": "^3.6.2",
 		"rimraf": "^6.0.1",
-		"stylelint": "^16.24.0",
+		"stylelint": "^16.25.0",
 		"typescript": "^5.9.3"
 	},
 	"private": true,
