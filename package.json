@@ -3,12 +3,12 @@
 	"type": "module",
 	"scripts": {
 		"format": "prettier -w .",
-		"js-lint": "eslint packages/*/src/**/*.ts",
+		"js-lint": "eslint packages/*/src/**/*.ts eslint.config.js jest.setup.js",
 		"html-lint": "markuplint packages/*/demo/**/*.html",
 		"css-lint": "stylelint packages/*/demo/**/*.html"
 	},
 	"devDependencies": {
-		"@w0s/eslint-config": "^9.1.0",
+		"@w0s/eslint-config": "^9.2.0",
 		"@w0s/markuplint-config": "^3.11.0",
 		"@w0s/stylelint-config": "^4.13.1",
 		"@w0s/tsconfig": "^1.7.0",
