@@ -12,12 +12,12 @@ export default class {
 			throw new TypeError('The `href` attribute is not set.');
 		}
 
-		let url: URL;
-		try {
-			url = new URL(value);
-		} catch (e) {
+		if (!URL.canParse(value)) {
 			throw new TypeError('The value of the `href` attribute must be a URL.');
 		}
+
+		const url = new URL(value);
+
 		if (url.origin !== location.origin || url.pathname !== location.pathname) {
 			throw new TypeError('The `href` attribute must be in the same content.');
 		}

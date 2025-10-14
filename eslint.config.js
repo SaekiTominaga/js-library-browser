@@ -101,4 +101,10 @@ export default [
 			'@typescript-eslint/no-unnecessary-condition': 'off', // TypeScript 5.9
 		},
 	},
+	{
+		files: ['jest.setup.js'],
+		rules: {
+			'no-new': 'off',
+		},
+	},
 ];
