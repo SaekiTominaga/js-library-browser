@@ -3,7 +3,7 @@
 import globals from 'globals';
 import w0sConfig from '@w0s/eslint-config';
 
-/** @type {import("@typescript-eslint/utils/ts-eslint").FlatConfig.ConfigArray} */
+/** @type {import("eslint").Linter.Config[]} */
 export default [
 	...w0sConfig,
 	{

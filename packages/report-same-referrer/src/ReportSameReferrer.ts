@@ -4,13 +4,13 @@ interface FetchParam {
 }
 
 export interface Option {
-	fetchParam: FetchParam;
+	fetchParam: Readonly<FetchParam>;
 	fetchContentType?: 'application/x-www-form-urlencoded' | 'application/json'; // `Content-Type` header to be set in `fetch()` request.
 	fetchHeaders?: HeadersInit; // Header to add to the `fetch()` request. <https://fetch.spec.whatwg.org/#typedefdef-headersinit>
 	condition?: 'origin' | 'host' | 'hostname'; // Which parts of the referrer to check.
-	same?: string[]; // Domain information treated as the same site.
-	denyUAs?: RegExp[]; // If a user agent matches this regular expression, do not send report.
-	allowUAs?: RegExp[]; // If a user agent matches this regular expression, send report.
+	same?: readonly string[]; // Domain information treated as the same site.
+	denyUAs?: readonly RegExp[]; // If a user agent matches this regular expression, do not send report.
+	allowUAs?: readonly RegExp[]; // If a user agent matches this regular expression, send report.
 }
 
 /**

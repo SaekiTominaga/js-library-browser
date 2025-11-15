@@ -7,13 +7,13 @@ interface FetchParam {
 }
 
 export interface Option {
-	fetchParam: FetchParam;
+	fetchParam: Readonly<FetchParam>;
 	fetchContentType?: 'application/x-www-form-urlencoded' | 'application/json';
 	fetchHeaders?: HeadersInit; // Header to add to the `fetch()` request. <https://fetch.spec.whatwg.org/#typedefdef-headersinit>
-	denyFilenames?: RegExp[]; // If the script filename (`ErrorEvent.filename`) matches this regular expression, do not send report
-	allowFilenames?: RegExp[]; // If the script filename (`ErrorEvent.filename`) matches this regular expression, send report
-	denyUAs?: RegExp[]; // If a user agent matches this regular expression, do not send report
-	allowUAs?: RegExp[]; // If a user agent matches this regular expression, send report
+	denyFilenames?: readonly RegExp[]; // If the script filename (`ErrorEvent.filename`) matches this regular expression, do not send report
+	allowFilenames?: readonly RegExp[]; // If the script filename (`ErrorEvent.filename`) matches this regular expression, send report
+	denyUAs?: readonly RegExp[]; // If a user agent matches this regular expression, do not send report
+	allowUAs?: readonly RegExp[]; // If a user agent matches this regular expression, send report
 }
 
 /**

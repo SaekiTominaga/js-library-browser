@@ -25,7 +25,7 @@ export default class {
 	 * @param options.mark - Ditto mark (default: '"')
 	 * @param options.th - Whether <th> elements are to be converted or not (default: false)
 	 */
-	constructor(thisElement: HTMLTableElement, options?: Option) {
+	constructor(thisElement: HTMLTableElement, options?: Readonly<Option>) {
 		this.#thisElement = thisElement;
 		this.#dittoMark = options?.mark ?? '"';
 		this.#cellSelector = (options?.th ?? false) ? ':is(th, td)' : 'td';

@@ -8,7 +8,7 @@ export default class {
 	 * @param value - Attribute value
 	 * @param value.delay - `data-mouseenter-delay`
 	 */
-	constructor(value: { delay: string | null | undefined }) {
+	constructor(value: Readonly<{ delay: string | null | undefined }>) {
 		if (value.delay !== null && value.delay !== undefined) {
 			const delay = Number(value.delay);
 
