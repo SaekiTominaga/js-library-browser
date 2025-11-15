@@ -11,7 +11,7 @@ export default class {
 	 * @param value.text - `data-text`
 	 * @param value.target - `data-target`
 	 */
-	constructor(value: { text: string | null | undefined; target: string | null | undefined }) {
+	constructor(value: Readonly<{ text: string | null | undefined; target: string | null | undefined }>) {
 		if ((value.text === null || value.text === undefined) && (value.target === null || value.target === undefined)) {
 			throw new TypeError('The `data-text` or `data-target` attribute is not set.');
 		}

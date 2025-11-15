@@ -144,10 +144,10 @@ export default class CustomElementDetailsContent extends HTMLElement {
 	 */
 	#animate(
 		orientation: StateOrientation,
-		animation: {
+		animation: Readonly<{
 			startSize: number | undefined;
 			endSize: number | undefined;
-		},
+		}>,
 	): void {
 		if (window.matchMedia('(prefers-reduced-motion:reduce)').matches || animation.startSize === undefined || animation.endSize === undefined) {
 			this.#duration = undefined;

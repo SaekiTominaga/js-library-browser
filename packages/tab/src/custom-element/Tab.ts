@@ -8,9 +8,9 @@ export default class Tab extends HTMLElement {
 
 	readonly #tablistElement: HTMLElement;
 
-	readonly #tabElements: HTMLAnchorElement[];
+	readonly #tabElements: readonly HTMLAnchorElement[];
 
-	readonly #tabpanelElements: HTMLElement[];
+	readonly #tabpanelElements: readonly HTMLElement[];
 
 	#selectedTabNo = 0; // 何番目のタブが選択されているか
 

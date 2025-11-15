@@ -17,12 +17,14 @@ export default class {
 	 * @param value.imageWidth - `data-popover-hide-image-width`
 	 * @param value.imageHeight - `data-popover-hide-image-height`
 	 */
-	constructor(value: {
-		text?: string | null | undefined;
-		imageSrc?: string | null | undefined;
-		imageWidth?: string | null | undefined;
-		imageHeight?: string | null | undefined;
-	}) {
+	constructor(
+		value: Readonly<{
+			text?: string | null | undefined;
+			imageSrc?: string | null | undefined;
+			imageWidth?: string | null | undefined;
+			imageHeight?: string | null | undefined;
+		}>,
+	) {
 		if (value.text !== null && value.text !== undefined) {
 			this.#text = value.text;
 		}
