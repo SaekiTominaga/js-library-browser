@@ -1,6 +1,6 @@
 {
 	"name": "@w0s/form-submit-overlay",
-	"version": "4.0.2",
+	"version": "4.0.3",
 	"description": "Cover the entire screen with an overlay when form submitting",
 	"homepage": "https://github.com/SaekiTominaga/js-library-browser#readme",
 	"bugs": {

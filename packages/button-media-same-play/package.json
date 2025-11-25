@@ -1,6 +1,6 @@
 {
 	"name": "@w0s/button-media-same-play",
-	"version": "3.0.1",
+	"version": "3.0.2",
 	"description": "Simultaneous playback button for multiple audio / video",
 	"keywords": [],
 	"homepage": "https://github.com/SaekiTominaga/js-library-browser#readme",

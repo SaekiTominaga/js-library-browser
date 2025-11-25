@@ -1,6 +1,6 @@
 {
 	"name": "@w0s/form-before-unload-confirm",
-	"version": "3.0.1",
+	"version": "3.0.2",
 	"description": "Prevent page unloaded while filling out a form",
 	"homepage": "https://github.com/SaekiTominaga/js-library-browser#readme",
 	"bugs": {
