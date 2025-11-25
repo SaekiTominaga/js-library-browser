@@ -30,7 +30,7 @@ export default class {
 	/**
 	 * フォームコントロールの内容が変更されたときの処理
 	 */
-	#changeEvent = (): void => {
+	readonly #changeEvent = (): void => {
 		this.#clearMessage();
 
 		if (this.#inputElement.validity.patternMismatch) {
@@ -46,7 +46,7 @@ export default class {
 	 *
 	 * @param ev - Event
 	 */
-	#formSubmitEvent = (ev: Event): void => {
+	readonly #formSubmitEvent = (ev: Event): void => {
 		if (!this.#validate()) {
 			ev.preventDefault();
 		}

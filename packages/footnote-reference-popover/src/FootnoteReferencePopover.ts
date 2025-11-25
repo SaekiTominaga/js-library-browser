@@ -83,7 +83,7 @@ export default class {
 	 *
 	 * @param ev - MouseEvent
 	 */
-	#clickEvent = (ev: MouseEvent): void => {
+	readonly #clickEvent = (ev: MouseEvent): void => {
 		ev.preventDefault();
 
 		clearTimeout(this.#mouseleaveTimeoutId);
@@ -96,7 +96,7 @@ export default class {
 	 *
 	 * @param ev - MouseEvent
 	 */
-	#mouseEnterEvent = (ev: MouseEvent): void => {
+	readonly #mouseEnterEvent = (ev: MouseEvent): void => {
 		clearTimeout(this.#mouseleaveTimeoutId);
 
 		this.#imagePreloadElementCreate();
@@ -111,7 +111,7 @@ export default class {
 	 *
 	 * @param ev - MouseEvent
 	 */
-	#mouseLeaveEvent = (ev: MouseEvent): void => {
+	readonly #mouseLeaveEvent = (ev: MouseEvent): void => {
 		clearTimeout(this.#mouseenterTimeoutId);
 
 		this.#mouseleaveTimeoutId = setTimeout((): void => {

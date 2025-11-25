@@ -79,9 +79,9 @@ export default class CustomElementPopover extends HTMLElement {
 		/* コピー元の HTML 中に id 属性が設定されていた場合、ページ中に ID が重複してしまうのを防ぐ */
 		const hostElement = this.shadowRoot?.host;
 		if (hostElement !== undefined) {
-			for (const element of hostElement.querySelectorAll('[id]')) {
+			hostElement.querySelectorAll('[id]').forEach((element) => {
 				element.removeAttribute('id');
-			}
+			});
 		}
 
 		/* ポップオーバー状態変化 */
@@ -208,7 +208,7 @@ export default class CustomElementPopover extends HTMLElement {
 	 *
 	 * @param ev - Event
 	 */
-	#customToggleEvent = (ev: CustomEvent<ToggleEventDetail>): void => {
+	readonly #customToggleEvent = (ev: CustomEvent<ToggleEventDetail>): void => {
 		const { detail } = ev;
 
 		switch (detail.newState) {
@@ -233,14 +233,14 @@ export default class CustomElementPopover extends HTMLElement {
 	/**
 	 * 最初の循環フォーカス要素にフォーカスされたときの処理
 	 */
-	#firstFocusableFocusEvent = (): void => {
+	readonly #firstFocusableFocusEvent = (): void => {
 		this.#hideButtonElement.focus();
 	};
 
 	/**
 	 * 最後の循環フォーカス要素にフォーカスされたときの処理
 	 */
-	#lastFocusableFocusEvent = (): void => {
+	readonly #lastFocusableFocusEvent = (): void => {
 		this.#contentElement.focus();
 	};
 }

@@ -10,9 +10,9 @@ export default class {
 	 * @param thisElement - Target element
 	 */
 	constructor(thisElement: HTMLFormElement) {
-		for (const formControlElement of thisElement.elements) {
+		Array.from(thisElement.elements).forEach((formControlElement) => {
 			formControlElement.addEventListener('change', this.#formControlChangeEvent.bind(this), { once: true, passive: true });
-		}
+		});
 
 		thisElement.addEventListener('submit', this.#submitEvent.bind(this), { once: true, passive: true });
 		window.addEventListener('beforeunload', this.#windowBeforeUnloadEvent.bind(this));

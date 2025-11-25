@@ -16,8 +16,8 @@ export default (elementOrElements: NodeListOf<Element> | HTMLCollectionOf<Elemen
 	if (elementOrElements instanceof Element) {
 		new ButtonShare(validate(elementOrElements));
 	} else {
-		for (const element of elementOrElements) {
+		Array.from(elementOrElements).forEach((element) => {
 			new ButtonShare(validate(element));
-		}
+		});
 	}
 };

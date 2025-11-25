@@ -20,7 +20,7 @@ export default class {
 	/**
 	 * 入力時の処理
 	 */
-	#inputEvent = (): void => {
+	readonly #inputEvent = (): void => {
 		this.#setBlockSize();
 	};
 

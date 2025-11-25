@@ -16,8 +16,8 @@ export default (elementOrElements: NodeListOf<Element> | HTMLCollectionOf<Elemen
 	if (elementOrElements instanceof Element) {
 		new InputFilePreview(validate(elementOrElements));
 	} else {
-		for (const element of elementOrElements) {
+		Array.from(elementOrElements).forEach((element) => {
 			new InputFilePreview(validate(element));
-		}
+		});
 	}
 };

@@ -25,7 +25,7 @@ export default class {
 	/**
 	 * ボタン押下時の処理
 	 */
-	#clickEvent = async (): Promise<void> => {
+	readonly #clickEvent = async (): Promise<void> => {
 		const data = this.#data.text ?? getContent(this.#data.element!); // `data-text` と `data-target` が両方指定されている場合は前者を優先する
 
 		await navigator.clipboard.writeText(data);

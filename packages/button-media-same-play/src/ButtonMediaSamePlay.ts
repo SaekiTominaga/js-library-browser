@@ -22,7 +22,7 @@ export default class {
 	/**
 	 * ボタン押下時の処理
 	 */
-	#clickEvent = async (): Promise<void> => {
+	readonly #clickEvent = async (): Promise<void> => {
 		if (this.#media.elements.every((element) => element.ended)) {
 			/* すべての動画が再生終了していたら最初から再生を始める */
 			await Promise.all(

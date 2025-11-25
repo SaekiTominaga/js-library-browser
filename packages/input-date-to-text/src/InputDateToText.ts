@@ -70,7 +70,7 @@ export default class {
 	/**
 	 * フォームコントロールの内容が変更されたときの処理
 	 */
-	#changeEvent = (): void => {
+	readonly #changeEvent = (): void => {
 		if (this.#inputElement.validity.patternMismatch) {
 			/* ブラウザ標準機能によるチェックを優先する */
 			return;
@@ -86,7 +86,7 @@ export default class {
 	 *
 	 * @param ev - Event
 	 */
-	#formSubmitEvent = (ev: Event): void => {
+	readonly #formSubmitEvent = (ev: Event): void => {
 		this.#convertValue();
 
 		if (!this.#validate()) {

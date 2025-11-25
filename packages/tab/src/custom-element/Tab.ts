@@ -125,14 +125,14 @@ export default class Tab extends HTMLElement {
 	}
 
 	disconnectedCallback(): void {
-		for (const tabElement of this.#tabElements) {
+		this.#tabElements.forEach((tabElement) => {
 			tabElement.removeEventListener('click', this.#tabClickEvent);
 			tabElement.removeEventListener('keydown', this.#tabKeydownEvent);
-		}
+		});
 
-		for (const tabpanelElement of this.#tabpanelElements) {
+		this.#tabpanelElements.forEach((tabpanelElement) => {
 			tabpanelElement.removeEventListener('keydown', this.#tabpanelKeydownEvent);
-		}
+		});
 	}
 
 	attributeChangedCallback(name: string, _oldValue: string, newValue: string): void {
@@ -180,7 +180,7 @@ export default class Tab extends HTMLElement {
 	 *
 	 * @param ev - Event
 	 */
-	#tabClickEvent = (ev: MouseEvent): void => {
+	readonly #tabClickEvent = (ev: MouseEvent): void => {
 		this.#changeTab(this.#tabElements.indexOf(ev.currentTarget as HTMLAnchorElement));
 	};
 
@@ -189,7 +189,7 @@ export default class Tab extends HTMLElement {
 	 *
 	 * @param ev - Event
 	 */
-	#tabKeydownEvent = (ev: KeyboardEvent): void => {
+	readonly #tabKeydownEvent = (ev: KeyboardEvent): void => {
 		switch (ev.key) {
 			case 'ArrowLeft':
 			case 'ArrowUp': {
@@ -230,7 +230,7 @@ export default class Tab extends HTMLElement {
 	 *
 	 * @param ev - Event
 	 */
-	#tabpanelKeydownEvent = (ev: KeyboardEvent): void => {
+	readonly #tabpanelKeydownEvent = (ev: KeyboardEvent): void => {
 		switch (ev.key) {
 			case 'ArrowLeft':
 			case 'ArrowUp': {

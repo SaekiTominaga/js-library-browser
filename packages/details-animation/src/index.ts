@@ -16,8 +16,8 @@ export default (elementOrElements: NodeListOf<Element> | HTMLCollectionOf<Elemen
 	if (elementOrElements instanceof Element) {
 		new DetailsAnimation(validate(elementOrElements));
 	} else {
-		for (const element of elementOrElements) {
+		Array.from(elementOrElements).forEach((element) => {
 			new DetailsAnimation(validate(element));
-		}
+		});
 	}
 };
