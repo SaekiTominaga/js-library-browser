@@ -62,6 +62,7 @@ export default class {
 					let colIndex = tdIndex + skip;
 
 					let aboveRowspan = aboveRowspans[colIndex];
+					// eslint-disable-next-line functional/no-loop-statements
 					while (aboveRowspan !== undefined && aboveRowspan > 1) {
 						// @ts-expect-error: ts(2532)
 						aboveRowspans[colIndex] -= 1;

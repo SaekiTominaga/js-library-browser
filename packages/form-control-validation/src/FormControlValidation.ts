@@ -30,17 +30,17 @@ export default class {
 		if (['input', 'select', 'textarea'].includes(thisElement.tagName.toLowerCase())) {
 			this.#formControlElements.add(thisElement as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement);
 		} else if (thisElement.getAttribute('role') === 'radiogroup') {
-			for (const inputRadioElement of thisElement.querySelectorAll<HTMLInputElement>('input[type="radio"]')) {
+			thisElement.querySelectorAll<HTMLInputElement>('input[type="radio"]').forEach((inputRadioElement) => {
 				this.#formControlElements.add(inputRadioElement);
-			}
+			});
 		} else {
 			throw new Error('The `FormControlValidation` feature can only be specified for `<input>`, `<select>`, `<textarea>` or `<XXX role=radiogroup>`.');
 		}
 
-		for (const formControlElement of this.#formControlElements) {
+		this.#formControlElements.forEach((formControlElement) => {
 			formControlElement.addEventListener('change', this.#changeEvent.bind(this), { passive: true });
 			formControlElement.addEventListener('invalid', this.#invalidEvent.bind(this));
-		}
+		});
 	}
 
 	/**
@@ -50,12 +50,12 @@ export default class {
 		/* バリデーション文言をいったんクリア */
 		this.#clearMessage();
 
-		for (const formControlElement of this.#formControlElements) {
+		this.#formControlElements.forEach((formControlElement) => {
 			if (!formControlElement.validity.valid) {
 				/* バリデーション文言を設定 */
 				formControlElement.dispatchEvent(new UIEvent('invalid'));
 			}
-		}
+		});
 	}
 
 	/**
@@ -90,9 +90,9 @@ export default class {
 	#setMessage(message: string): void {
 		this.#thisElement.setAttribute('aria-invalid', 'true');
 
-		for (const formControlElement of this.#formControlElements) {
+		this.#formControlElements.forEach((formControlElement) => {
 			formControlElement.setCustomValidity(message);
-		}
+		});
 
 		this.#errorMessage.element.hidden = false;
 		this.#errorMessage.element.textContent = message;
@@ -104,9 +104,9 @@ export default class {
 	#clearMessage(): void {
 		this.#thisElement.setAttribute('aria-invalid', 'false');
 
-		for (const formControlElement of this.#formControlElements) {
+		this.#formControlElements.forEach((formControlElement) => {
 			formControlElement.setCustomValidity('');
-		}
+		});
 
 		this.#errorMessage.element.hidden = true;
 		this.#errorMessage.element.textContent = '';

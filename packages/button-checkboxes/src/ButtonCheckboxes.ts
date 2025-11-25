@@ -53,7 +53,7 @@ export default class {
 	/**
 	 * 全選択ボタン押下時の処理
 	 */
-	#clickCheckEvent = (): void => {
+	readonly #clickCheckEvent = (): void => {
 		this.#checkbox.elements
 			.filter((element) => !element.checked)
 			.forEach((element) => {
@@ -64,7 +64,7 @@ export default class {
 	/**
 	 * 全解除ボタン押下時の処理
 	 */
-	#clickUncheckEvent = (): void => {
+	readonly #clickUncheckEvent = (): void => {
 		this.#checkbox.elements
 			.filter((element) => element.checked)
 			.forEach((element) => {

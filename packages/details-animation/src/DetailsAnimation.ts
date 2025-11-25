@@ -38,6 +38,7 @@ export default class {
 		/* <summary> を除くノードをラップする */
 		const fragment = document.createDocumentFragment();
 		let nextNode = summaryElement.nextSibling;
+		// eslint-disable-next-line functional/no-loop-statements
 		while (nextNode !== null) {
 			fragment.appendChild(nextNode);
 			nextNode = summaryElement.nextSibling;
@@ -60,7 +61,7 @@ export default class {
 	/**
 	 * `<details>` 要素の開閉状態が変化した時の処理
 	 */
-	#detailsToggleEvent = (): void => {
+	readonly #detailsToggleEvent = (): void => {
 		const { open } = this.#detailsElement;
 
 		if (this.#preOpenAttribute.state !== open) {
@@ -74,7 +75,7 @@ export default class {
 	 *
 	 * @param ev - Event
 	 */
-	#summaryClickEvent = (ev: Event): void => {
+	readonly #summaryClickEvent = (ev: Event): void => {
 		ev.preventDefault();
 
 		this.#preOpenAttribute.toggle();
@@ -93,7 +94,7 @@ export default class {
 	 *
 	 * @param ev - Event
 	 */
-	#detailsContentAnimationFinishEvent = (ev: CustomEvent<AnimationFinishEventDetail>): void => {
+	readonly #detailsContentAnimationFinishEvent = (ev: CustomEvent<AnimationFinishEventDetail>): void => {
 		const { detail } = ev;
 
 		switch (detail.orientation) {

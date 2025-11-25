@@ -38,7 +38,7 @@ export default class {
 	/**
 	 * ファイル選択時の処理
 	 */
-	#changeEvent = (): void => {
+	readonly #changeEvent = (): void => {
 		const { files } = this.#inputFileElement;
 
 		/* 既存のプレビューをリセット */
@@ -108,6 +108,7 @@ export default class {
 
 		let previousElement = this.#preview.template.previousElementSibling!;
 
+		// eslint-disable-next-line functional/no-loop-statements
 		while (count > 0) {
 			this.#previewElements.add(previousElement);
 

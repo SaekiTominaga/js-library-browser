@@ -34,7 +34,7 @@ export default class {
 	/**
 	 * ボタン押下時の処理
 	 */
-	#clickEvent = async (): Promise<void> => {
+	readonly #clickEvent = async (): Promise<void> => {
 		await navigator.share({
 			/* files: TODO: */
 			text: this.#text?.text ?? '',

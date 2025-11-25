@@ -51,6 +51,7 @@ export default class ClosestHTMLPage {
 	async fetch(baseUrl: string = location.toString()): Promise<void> {
 		let url = new URL(baseUrl);
 
+		// eslint-disable-next-line functional/no-loop-statements
 		while (url.pathname !== '/' && (this.#maxFetchCount === 0 || this.#maxFetchCount > this.#fetchedResponses.size)) {
 			url = getParentPage(url);
 

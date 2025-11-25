@@ -260,7 +260,7 @@ export default class InputSwitch extends HTMLElement {
 	/**
 	 * スイッチの状態を変更する
 	 */
-	#changeEvent = (): void => {
+	readonly #changeEvent = (): void => {
 		const { checked, storageKey } = this;
 
 		this.checked = !checked;
@@ -278,7 +278,7 @@ export default class InputSwitch extends HTMLElement {
 	 *
 	 * @param ev - Event
 	 */
-	#clickEvent = (ev: MouseEvent): void => {
+	readonly #clickEvent = (ev: MouseEvent): void => {
 		this.dispatchEvent(new Event('change'));
 		ev.preventDefault();
 	};
@@ -288,7 +288,7 @@ export default class InputSwitch extends HTMLElement {
 	 *
 	 * @param ev - Event
 	 */
-	#keydownEvent = (ev: KeyboardEvent): void => {
+	readonly #keydownEvent = (ev: KeyboardEvent): void => {
 		switch (ev.key) {
 			case ' ': {
 				this.dispatchEvent(new Event('change'));

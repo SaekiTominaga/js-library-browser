@@ -22,7 +22,7 @@ export default class {
 	 *
 	 * @param ev - MouseEvent
 	 */
-	#clickEvent = (ev: MouseEvent) => {
+	readonly #clickEvent = (ev: MouseEvent) => {
 		if (!confirm(this.#message.text)) {
 			ev.preventDefault();
 		}
