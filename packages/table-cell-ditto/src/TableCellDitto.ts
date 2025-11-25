@@ -106,6 +106,7 @@ export default class {
 					aboveCellText[colIndex] = text ?? '';
 				});
 
+				// eslint-disable-next-line functional/no-loop-statements
 				for (let colIndex = tdElements.length + skip; colIndex < this.#col; colIndex += 1) {
 					// @ts-expect-error: ts(2532)
 					aboveRowspans[colIndex] -= 1;
