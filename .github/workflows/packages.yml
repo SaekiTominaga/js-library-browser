@@ -1,9 +1,12 @@
-name: HTML, CSS files
+name: Package files
 
 on:
   pull_request:
     paths:
       - 'packages/*/demo/**/*.html'
+      - 'packages/*/src/**/*.ts'
+      - 'eslint.config.js'
+      - 'jest.setup.js'
       - 'markuplint.config.js'
       - 'package.json'
       - 'stylelint.config.js'
@@ -27,5 +30,6 @@ jobs:
         with:
           node-version: '24'
       - run: npm ci
-      - run: npm run html-lint
-      - run: npm run css-lint
+      - run: npm run build -w @w0s/shadow-append-css
+      - run: npm run build -w @w0s/writing-mode
+      - run: npm run lint
