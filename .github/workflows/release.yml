@@ -41,7 +41,12 @@ jobs:
           version="${tag##*@}"
           echo "package=$package" >> "$GITHUB_OUTPUT"
           echo "version=$version" >> "$GITHUB_OUTPUT"
-          npm version "$version" -w "$package" --no-git-tag-version
+
+      - name: Build
+        run: npm run build -w ${{ steps.extract.outputs.package }}
+
+      - name: Version
+        run: npm version ${{ steps.extract.outputs.version }} -w ${{ steps.extract.outputs.package }} --no-git-tag-version
 
       - name: Push
         run: |
