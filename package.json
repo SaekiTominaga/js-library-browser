@@ -3,9 +3,10 @@
 	"type": "module",
 	"scripts": {
 		"format": "prettier -w .",
-		"js-lint": "eslint packages/*/src/**/*.ts eslint.config.js jest.setup.js",
-		"html-lint": "markuplint packages/*/demo/**/*.html",
-		"css-lint": "stylelint packages/*/demo/**/*.html"
+		"lint": "npm run lint:js && npm run lint:html && npm run lint:css",
+		"lint:js": "eslint packages/*/src/**/*.ts *.{js,mjs}",
+		"lint:html": "markuplint packages/*/demo/**/*.html",
+		"lint:css": "stylelint packages/*/demo/**/*.html"
 	},
 	"devDependencies": {
 		"@w0s/eslint-config": "^9.3.0",
