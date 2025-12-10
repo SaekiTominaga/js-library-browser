@@ -10,7 +10,7 @@ changelog:
 
     - title: Other Changes
       labels:
-        - "*"
+        - '*'
       exclude:
         labels:
           - dependencies
