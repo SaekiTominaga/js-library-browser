@@ -3,8 +3,8 @@ name: closest-html-page
 on:
   pull_request:
     paths:
-      - 'packages/closest-html-page/src/**/*.ts'
-      - 'packages/closest-html-page/package.json'
+      - 'packages/closest-html-page/**'
+      - '!packages/closest-html-page/**/*.md'
       - 'package.json'
   workflow_dispatch:
 

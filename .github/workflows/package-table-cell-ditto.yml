@@ -3,8 +3,8 @@ name: table-cell-ditto
 on:
   pull_request:
     paths:
-      - 'packages/table-cell-ditto/src/**/*.ts'
-      - 'packages/table-cell-ditto/package.json'
+      - 'packages/table-cell-ditto/**'
+      - '!packages/table-cell-ditto/**/*.md'
       - 'package.json'
   workflow_dispatch:
 

@@ -3,8 +3,8 @@ name: form-control-validation
 on:
   pull_request:
     paths:
-      - 'packages/form-control-validation/src/**/*.ts'
-      - 'packages/form-control-validation/package.json'
+      - 'packages/form-control-validation/**'
+      - '!packages/form-control-validation/**/*.md'
       - 'package.json'
   workflow_dispatch:
 

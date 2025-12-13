@@ -3,8 +3,8 @@ name: input-isbn
 on:
   pull_request:
     paths:
-      - 'packages/input-isbn/src/**/*.ts'
-      - 'packages/input-isbn/package.json'
+      - 'packages/input-isbn/**'
+      - '!packages/input-isbn/**/*.md'
       - 'package.json'
   workflow_dispatch:
 

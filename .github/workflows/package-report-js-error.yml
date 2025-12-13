@@ -3,8 +3,8 @@ name: report-js-error
 on:
   pull_request:
     paths:
-      - 'packages/report-js-error/src/**/*.ts'
-      - 'packages/report-js-error/package.json'
+      - 'packages/report-js-error/**'
+      - '!packages/report-js-error/**/*.md'
       - 'package.json'
   workflow_dispatch:
 

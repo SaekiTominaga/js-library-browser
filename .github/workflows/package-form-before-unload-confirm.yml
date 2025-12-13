@@ -3,8 +3,8 @@ name: form-before-unload-confirm
 on:
   pull_request:
     paths:
-      - 'packages/form-before-unload-confirm/src/**/*.ts'
-      - 'packages/form-before-unload-confirm/package.json'
+      - 'packages/form-before-unload-confirm/**'
+      - '!packages/form-before-unload-confirm/**/*.md'
       - 'package.json'
   workflow_dispatch:
 

@@ -3,8 +3,8 @@ name: report-same-referrer
 on:
   pull_request:
     paths:
-      - 'packages/report-same-referrer/src/**/*.ts'
-      - 'packages/report-same-referrer/package.json'
+      - 'packages/report-same-referrer/**'
+      - '!packages/report-same-referrer/**/*.md'
       - 'package.json'
   workflow_dispatch:
 

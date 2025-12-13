@@ -3,8 +3,8 @@ name: shadow-append-css
 on:
   pull_request:
     paths:
-      - 'packages/shadow-append-css/src/**/*.ts'
-      - 'packages/shadow-append-css/package.json'
+      - 'packages/shadow-append-css/**'
+      - '!packages/shadow-append-css/**/*.md'
       - 'package.json'
   workflow_dispatch:
 
