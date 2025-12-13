@@ -27,10 +27,9 @@
 		"url": "git+https://github.com/SaekiTominaga/js-library-browser.git"
 	},
 	"scripts": {
-		"server": "http-server -o demo -c-1",
+		"dev": "conc \"http-server -o demo -c-1\" \"tsc -w\"",
 		"prebuild": "rimraf dist/* -g",
 		"build": "tsc",
-		"watch": "tsc -w",
 		"lint": "eslint src/**/*.ts",
 		"pretest": "npm run build",
 		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest dist/.+\\.test\\.js  -c ../../jest.config.mjs --roots packages/closest-html-page"
