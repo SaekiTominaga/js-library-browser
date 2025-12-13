@@ -3,8 +3,8 @@ name: form-submit-overlay
 on:
   pull_request:
     paths:
-      - 'packages/form-submit-overlay/src/**/*.ts'
-      - 'packages/form-submit-overlay/package.json'
+      - 'packages/form-submit-overlay/**'
+      - '!packages/form-submit-overlay/**/*.md'
       - 'package.json'
   workflow_dispatch:
 

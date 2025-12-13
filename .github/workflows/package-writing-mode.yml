@@ -3,8 +3,8 @@ name: writing-mode
 on:
   pull_request:
     paths:
-      - 'packages/writing-mode/src/**/*.ts'
-      - 'packages/writing-mode/package.json'
+      - 'packages/writing-mode/**'
+      - '!packages/writing-mode/**/*.md'
       - 'package.json'
   workflow_dispatch:
 

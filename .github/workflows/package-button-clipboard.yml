@@ -3,8 +3,8 @@ name: button-clipboard
 on:
   pull_request:
     paths:
-      - 'packages/button-clipboard/src/**/*.ts'
-      - 'packages/button-clipboard/package.json'
+      - 'packages/button-clipboard/**'
+      - '!packages/button-clipboard/**/*.md'
       - 'package.json'
   workflow_dispatch:
 

@@ -3,8 +3,8 @@ name: button-checkboxes
 on:
   pull_request:
     paths:
-      - 'packages/button-checkboxes/src/**/*.ts'
-      - 'packages/button-checkboxes/package.json'
+      - 'packages/button-checkboxes/**'
+      - '!packages/button-checkboxes/**/*.md'
       - 'package.json'
   workflow_dispatch:
 

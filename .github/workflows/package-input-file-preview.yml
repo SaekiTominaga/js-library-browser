@@ -3,8 +3,8 @@ name: input-file-preview
 on:
   pull_request:
     paths:
-      - 'packages/input-file-preview/src/**/*.ts'
-      - 'packages/input-file-preview/package.json'
+      - 'packages/input-file-preview/**'
+      - '!packages/input-file-preview/**/*.md'
       - 'package.json'
   workflow_dispatch:
 

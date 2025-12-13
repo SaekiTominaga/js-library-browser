@@ -3,8 +3,8 @@ name: button-confirm
 on:
   pull_request:
     paths:
-      - 'packages/button-confirm/src/**/*.ts'
-      - 'packages/button-confirm/package.json'
+      - 'packages/button-confirm/**'
+      - '!packages/button-confirm/**/*.md'
       - 'package.json'
   workflow_dispatch:
 

@@ -3,8 +3,8 @@ name: input-date-to-text
 on:
   pull_request:
     paths:
-      - 'packages/input-date-to-text/src/**/*.ts'
-      - 'packages/input-date-to-text/package.json'
+      - 'packages/input-date-to-text/**'
+      - '!packages/input-date-to-text/**/*.md'
       - 'package.json'
   workflow_dispatch:
 

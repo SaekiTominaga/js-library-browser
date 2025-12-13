@@ -3,8 +3,8 @@ name: details-animation
 on:
   pull_request:
     paths:
-      - 'packages/details-animation/src/**/*.ts'
-      - 'packages/details-animation/package.json'
+      - 'packages/details-animation/**'
+      - '!packages/details-animation/**/*.md'
       - 'package.json'
   workflow_dispatch:
 

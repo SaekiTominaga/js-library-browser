@@ -3,8 +3,8 @@ name: footnote-reference-popover
 on:
   pull_request:
     paths:
-      - 'packages/footnote-reference-popover/src/**/*.ts'
-      - 'packages/footnote-reference-popover/package.json'
+      - 'packages/footnote-reference-popover/**'
+      - '!packages/footnote-reference-popover/**/*.md'
       - 'package.json'
   workflow_dispatch:
 

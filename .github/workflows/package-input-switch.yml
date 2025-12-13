@@ -3,8 +3,8 @@ name: input-switch
 on:
   pull_request:
     paths:
-      - 'packages/input-switch/src/**/*.ts'
-      - 'packages/input-switch/package.json'
+      - 'packages/input-switch/**'
+      - '!packages/input-switch/**/*.md'
       - 'package.json'
   workflow_dispatch:
 

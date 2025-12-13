@@ -3,8 +3,8 @@ name: button-media-same-play
 on:
   pull_request:
     paths:
-      - 'packages/button-media-same-play/src/**/*.ts'
-      - 'packages/button-media-same-play/package.json'
+      - 'packages/button-media-same-play/**'
+      - '!packages/button-media-same-play/**/*.md'
       - 'package.json'
   workflow_dispatch:
 
