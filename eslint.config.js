@@ -43,13 +43,17 @@ export default [
 					checksVoidReturn: false,
 				},
 			],
-			'@typescript-eslint/no-non-null-assertion': 'off',
 		},
 	},
 	{
-		files: ['packages/*/src/**/*.test.ts'],
+		/* Custom elements */
+		files: [
+			'packages/footnote-reference-popover/src/custom-element/Popover.ts',
+			'packages/input-file-preview/src/custom-element/InputFilePreview.ts',
+			'packages/tab/src/custom-element/Tab.ts',
+		],
 		rules: {
-			'import/no-unassigned-import': 'off',
+			'@typescript-eslint/no-non-null-assertion': 'off',
 		},
 	},
 	{
@@ -81,6 +85,12 @@ export default [
 		rules: {
 			'no-await-in-loop': 'off',
 			'no-continue': 'off',
+		},
+	},
+	{
+		files: ['packages/input-file-preview/src/InputFilePreview.ts'],
+		rules: {
+			'@typescript-eslint/no-non-null-assertion': 'off',
 		},
 	},
 	{

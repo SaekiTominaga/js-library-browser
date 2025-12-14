@@ -1,4 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
+// eslint-disable-next-line import/no-unassigned-import
 import 'cross-fetch/polyfill';
 import ClosestHTMLPage from './ClosestHTMLPage.ts';
 
