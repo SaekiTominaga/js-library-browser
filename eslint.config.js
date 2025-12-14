@@ -63,12 +63,6 @@ export default [
 		},
 	},
 	{
-		files: ['packages/*/src/index.test.ts'],
-		rules: {
-			'@typescript-eslint/no-confusing-void-expression': 'off',
-		},
-	},
-	{
 		files: ['packages/button-clipboard/src/util/html.ts'],
 		rules: {
 			'@typescript-eslint/no-unnecessary-type-assertion': 'off', // TypeScript 5.9

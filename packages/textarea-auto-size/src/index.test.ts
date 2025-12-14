@@ -13,27 +13,39 @@ describe('argument type', () => {
 	});
 
 	test('getElementById', () => {
-		expect(index(document.getElementById('textarea'))).toBe(undefined);
+		expect(() => {
+			index(document.getElementById('textarea'));
+		}).not.toThrow();
 	});
 
 	test('getElementsByClassName', () => {
-		expect(index(document.getElementsByClassName('textarea'))).toBe(undefined);
+		expect(() => {
+			index(document.getElementsByClassName('textarea'));
+		}).not.toThrow();
 	});
 
 	test('getElementsByTagName', () => {
-		expect(index(document.getElementsByTagName('textarea'))).toBe(undefined);
+		expect(() => {
+			index(document.getElementsByTagName('textarea'));
+		}).not.toThrow();
 	});
 
 	test('querySelector', () => {
-		expect(index(document.querySelector('#textarea'))).toBe(undefined);
+		expect(() => {
+			index(document.querySelector('#textarea'));
+		}).not.toThrow();
 	});
 
 	test('querySelectorAll', () => {
-		expect(index(document.querySelectorAll('.textarea'))).toBe(undefined);
+		expect(() => {
+			index(document.querySelectorAll('.textarea'));
+		}).not.toThrow();
 	});
 
 	test('null', () => {
-		expect(index(document.querySelector('.foo'))).toBe(undefined);
+		expect(() => {
+			index(document.querySelector('.foo'));
+		}).not.toThrow();
 	});
 
 	test('type mismatch', () => {
