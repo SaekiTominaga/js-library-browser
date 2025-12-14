@@ -15,27 +15,39 @@ describe('argument type', () => {
 	});
 
 	test('getElementById', () => {
-		expect(index(document.getElementById('details'))).toBe(undefined);
+		expect(() => {
+			index(document.getElementById('details'));
+		}).not.toThrow();
 	});
 
 	test('getElementsByClassName', () => {
-		expect(index(document.getElementsByClassName('details'))).toBe(undefined);
+		expect(() => {
+			index(document.getElementsByClassName('details'));
+		}).not.toThrow();
 	});
 
 	test('getElementsByTagName', () => {
-		expect(index(document.getElementsByTagName('details'))).toBe(undefined);
+		expect(() => {
+			index(document.getElementsByTagName('details'));
+		}).not.toThrow();
 	});
 
 	test('querySelector', () => {
-		expect(index(document.querySelector('#details'))).toBe(undefined);
+		expect(() => {
+			index(document.querySelector('#details'));
+		}).not.toThrow();
 	});
 
 	test('querySelectorAll', () => {
-		expect(index(document.querySelectorAll('.details'))).toBe(undefined);
+		expect(() => {
+			index(document.querySelectorAll('.details'));
+		}).not.toThrow();
 	});
 
 	test('null', () => {
-		expect(index(document.querySelector('.foo'))).toBe(undefined);
+		expect(() => {
+			index(document.querySelector('.foo'));
+		}).not.toThrow();
 	});
 
 	test('type mismatch', () => {

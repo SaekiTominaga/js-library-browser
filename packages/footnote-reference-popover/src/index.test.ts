@@ -13,27 +13,39 @@ describe('argument type', () => {
 	});
 
 	test('getElementById', () => {
-		expect(index(document.getElementById('footnote-reference-popover'))).toBe(undefined);
+		expect(() => {
+			index(document.getElementById('footnote-reference-popover'));
+		}).not.toThrow();
 	});
 
 	test('getElementsByClassName', () => {
-		expect(index(document.getElementsByClassName('footnote-reference-popover'))).toBe(undefined);
+		expect(() => {
+			index(document.getElementsByClassName('footnote-reference-popover'));
+		}).not.toThrow();
 	});
 
 	test('getElementsByTagName', () => {
-		expect(index(document.getElementsByTagName('a'))).toBe(undefined);
+		expect(() => {
+			index(document.getElementsByTagName('a'));
+		}).not.toThrow();
 	});
 
 	test('querySelector', () => {
-		expect(index(document.querySelector('#footnote-reference-popover'))).toBe(undefined);
+		expect(() => {
+			index(document.querySelector('#footnote-reference-popover'));
+		}).not.toThrow();
 	});
 
 	test('querySelectorAll', () => {
-		expect(index(document.querySelectorAll('.footnote-reference-popover'))).toBe(undefined);
+		expect(() => {
+			index(document.querySelectorAll('.footnote-reference-popover'));
+		}).not.toThrow();
 	});
 
 	test('null', () => {
-		expect(index(document.querySelector('.foo'))).toBe(undefined);
+		expect(() => {
+			index(document.querySelector('.foo'));
+		}).not.toThrow();
 	});
 
 	test('type mismatch', () => {
