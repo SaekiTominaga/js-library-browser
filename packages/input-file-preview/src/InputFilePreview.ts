@@ -14,7 +14,7 @@ export default class {
 
 	readonly #maxSize: MaxSize; // プレビューを行う最大サイズ
 
-	readonly #previewElements = new Set<Element>(); // プレビューを表示する要素
+	readonly #previewElements: HTMLElement[] = []; // プレビューを表示する要素
 
 	/**
 	 * @param thisElement - Target element
@@ -101,15 +101,15 @@ export default class {
 			});
 		});
 
-		this.#preview.template.parentNode?.insertBefore(fragment, this.#preview.template);
+		const { parentNode } = this.#preview.template;
+		if (parentNode !== null) {
+			parentNode.insertBefore(fragment, this.#preview.template);
 
-		let previousElement = this.#preview.template.previousElementSibling;
-
-		// eslint-disable-next-line functional/no-loop-statements
-		while (previousElement !== null) {
-			this.#previewElements.add(previousElement);
-
-			previousElement = previousElement.previousElementSibling;
+			this.#previewElements.splice(
+				0,
+				this.#previewElements.length,
+				...Array.from(parentNode.querySelectorAll<HTMLElement>(':scope > *')).filter((element) => element !== this.#preview.template),
+			);
 		}
 	};
 }
