@@ -1,4 +1,4 @@
-import type { HTMLInputFileElement } from '../@types/dom.d.ts';
+import type { HTMLInputFileElement } from '../@types/lib.dom.d.ts';
 import InputFilePreview from './InputFilePreview.ts';
 
 const validate = (element: Element): HTMLInputFileElement => {

@@ -1,5 +1,5 @@
 import MIMEType from 'whatwg-mimetype';
-import type { HTMLInputFileElement } from '../@types/dom.d.ts';
+import type { HTMLInputFileElement } from '../@types/lib.dom.d.ts';
 import { convert } from './util/errorMessage.ts';
 import Preview from './attribute/Preview.ts';
 import MaxSize from './attribute/MaxSize.ts';
