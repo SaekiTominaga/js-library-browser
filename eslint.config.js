@@ -82,12 +82,6 @@ export default [
 		},
 	},
 	{
-		files: ['packages/input-file-preview/src/InputFilePreview.ts'],
-		rules: {
-			'@typescript-eslint/no-non-null-assertion': 'off',
-		},
-	},
-	{
 		files: ['packages/input-file-preview/src/util/errorMessage.test.ts'],
 		rules: {
 			'no-template-curly-in-string': 'off',

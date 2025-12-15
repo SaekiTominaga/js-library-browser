@@ -47,7 +47,8 @@ export default class {
 		[...files].forEach((file): void => {
 			const templateElementClone = this.#preview.template.content.cloneNode(true) as DocumentFragment;
 
-			const outputElement = templateElementClone.querySelector('output')!;
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			const outputElement = templateElementClone.querySelector('output')!; // Preview.ts にて存在チェック済み
 			outputElement.replaceChildren();
 
 			fragment.appendChild(templateElementClone);
@@ -69,7 +70,7 @@ export default class {
 					throw new Error('File load failed.');
 				}
 
-				let mediaElement: HTMLImageElement | HTMLAudioElement | HTMLVideoElement | undefined;
+				let mediaElement: HTMLImageElement | HTMLAudioElement | HTMLVideoElement;
 				switch (type) {
 					case 'image': {
 						mediaElement = document.createElement('img');
@@ -92,24 +93,23 @@ export default class {
 						break;
 					}
 					default:
+						/* 文字列チェックを行っているのでここには来ない */
+						throw new Error();
 				}
 
-				outputElement.appendChild(mediaElement!);
+				outputElement.appendChild(mediaElement);
 			});
 		});
 
-		let count = fragment.childElementCount;
-
 		this.#preview.template.parentNode?.insertBefore(fragment, this.#preview.template);
 
-		let previousElement = this.#preview.template.previousElementSibling!;
+		let previousElement = this.#preview.template.previousElementSibling;
 
 		// eslint-disable-next-line functional/no-loop-statements
-		while (count > 0) {
+		while (previousElement !== null) {
 			this.#previewElements.add(previousElement);
 
-			count -= 1;
-			previousElement = previousElement.previousElementSibling!;
+			previousElement = previousElement.previousElementSibling;
 		}
 	};
 }
