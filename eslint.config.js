@@ -79,6 +79,7 @@ export default [
 		rules: {
 			'no-await-in-loop': 'off',
 			'no-continue': 'off',
+			'functional/no-loop-statements': 'off',
 		},
 	},
 	{

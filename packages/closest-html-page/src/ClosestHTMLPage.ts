@@ -49,12 +49,14 @@ export default class ClosestHTMLPage {
 	 * @param baseUrl - Base URL
 	 */
 	async fetch(baseUrl: string = location.toString()): Promise<void> {
-		let url = new URL(baseUrl);
+		const ancestorUrls: URL[] = [];
+		while (ancestorUrls.at(-1)?.pathname !== '/') {
+			ancestorUrls.push(getParentPage(ancestorUrls.at(-1) ?? new URL(baseUrl)));
+		}
 
-		// eslint-disable-next-line functional/no-loop-statements
-		while (url.pathname !== '/' && (this.#maxFetchCount === 0 || this.#maxFetchCount > this.#fetchedResponses.size)) {
-			url = getParentPage(url);
+		const fetchUrls = this.#maxFetchCount > 0 ? ancestorUrls.slice(0, this.#maxFetchCount) : ancestorUrls;
 
+		for (const url of fetchUrls) {
 			const response = await fetch(`${url.origin}${url.pathname}`, this.#fetchOptions);
 
 			this.#fetchedResponses.add(response);
