@@ -3,15 +3,12 @@ import index from './index.ts';
 
 describe('argument type', () => {
 	beforeEach(() => {
-		document.body.insertAdjacentHTML(
-			'beforeend',
-			`
+		document.body.innerHTML = `
 <input type="file" id="input" class="input" data-preview="preview" />
 <template id="preview">
 <output>foo</output>
 </template>
-`,
-		);
+`;
 	});
 
 	test('getElementById', () => {
@@ -54,5 +51,17 @@ describe('argument type', () => {
 		expect(() => {
 			index(document.querySelector('template'));
 		}).toThrow('Element must be a `HTMLInputElement`');
+	});
+});
+
+describe('type attribute', () => {
+	beforeEach(() => {
+		document.body.innerHTML = '<input type="foo" />';
+	});
+
+	test('type mismatch', () => {
+		expect(() => {
+			index(document.querySelector('input'));
+		}).toThrow('Element must be a `<input type=file>`');
 	});
 });
