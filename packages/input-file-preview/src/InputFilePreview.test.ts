@@ -1,19 +1,6 @@
 import { describe, afterEach, test, expect } from '@jest/globals';
+import type { HTMLInputFileElement } from '../@types/lib.dom.d.ts';
 import InputFilePreview from './InputFilePreview.ts';
-
-describe('HTML', () => {
-	afterEach(() => {
-		document.body.innerHTML = '';
-	});
-
-	test('not file', () => {
-		document.body.insertAdjacentHTML('beforeend', '<input />');
-
-		expect(() => {
-			new InputFilePreview(document.querySelector('input')!);
-		}).toThrow('Not a `<input type=file>`.');
-	});
-});
 
 describe('change', () => {
 	afterEach(() => {
@@ -31,7 +18,7 @@ describe('change', () => {
 `,
 		);
 
-		const element = document.querySelector('input')!;
+		const element = document.querySelector<HTMLInputFileElement>('input[type="file"]')!;
 
 		new InputFilePreview(element);
 

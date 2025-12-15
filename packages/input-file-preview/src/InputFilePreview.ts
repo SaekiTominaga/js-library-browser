@@ -1,4 +1,5 @@
 import MIMEType from 'whatwg-mimetype';
+import type { HTMLInputFileElement } from '../@types/lib.dom.d.ts';
 import { convert } from './util/errorMessage.ts';
 import Preview from './attribute/Preview.ts';
 import MaxSize from './attribute/MaxSize.ts';
@@ -7,7 +8,7 @@ import MaxSize from './attribute/MaxSize.ts';
  * Show preview with `<input type=file>`
  */
 export default class {
-	readonly #inputFileElement: HTMLInputElement;
+	readonly #inputFileElement: HTMLInputFileElement;
 
 	readonly #preview: Preview; // プレビューを表示するテンプレート
 
@@ -18,13 +19,8 @@ export default class {
 	/**
 	 * @param thisElement - Target element
 	 */
-	constructor(thisElement: HTMLInputElement) {
+	constructor(thisElement: HTMLInputFileElement) {
 		this.#inputFileElement = thisElement;
-
-		const { files } = thisElement;
-		if (files === null) {
-			throw new Error('Not a `<input type=file>`.');
-		}
 
 		const { preview: previewAttribute, maxSize: maxSizeAttribute } = thisElement.dataset;
 
@@ -48,10 +44,11 @@ export default class {
 
 		const fragment = document.createDocumentFragment();
 
-		[...files!].forEach((file): void => {
+		[...files].forEach((file): void => {
 			const templateElementClone = this.#preview.template.content.cloneNode(true) as DocumentFragment;
 
-			const outputElement = templateElementClone.querySelector('output')!;
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			const outputElement = templateElementClone.querySelector('output')!; // Preview.ts にて存在チェック済み
 			outputElement.replaceChildren();
 
 			fragment.appendChild(templateElementClone);
@@ -73,7 +70,7 @@ export default class {
 					throw new Error('File load failed.');
 				}
 
-				let mediaElement: HTMLImageElement | HTMLAudioElement | HTMLVideoElement | undefined;
+				let mediaElement: HTMLImageElement | HTMLAudioElement | HTMLVideoElement;
 				switch (type) {
 					case 'image': {
 						mediaElement = document.createElement('img');
@@ -96,9 +93,11 @@ export default class {
 						break;
 					}
 					default:
+						/* 文字列チェックを行っているのでここには来ない */
+						throw new Error();
 				}
 
-				outputElement.appendChild(mediaElement!);
+				outputElement.appendChild(mediaElement);
 			});
 		});
 
