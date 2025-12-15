@@ -1,6 +1,6 @@
 {
 	"name": "@w0s/closest-html-page",
-	"version": "4.0.1",
+	"version": "5.0.0",
 	"description": "Get the data of the HTML page of the nearest ancestor hierarchy",
 	"homepage": "https://github.com/SaekiTominaga/js-library-browser#readme",
 	"bugs": {
