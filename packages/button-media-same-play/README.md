@@ -22,7 +22,7 @@
   }
 </script>
 <script type="module">
-  import ButtonMediaSamePlay from '@w0s/button-media-same-play';
+  import buttonMediaSamePlay from '@w0s/button-media-same-play';
 
   buttonMediaSamePlay(document.querySelectorAll('.js-button-media-same-play')); // `getElementById()` or `getElementsByClassName()` or `getElementsByTagName()` or `querySelector()` or `querySelectorAll()`
 </script>
