@@ -1,72 +1,73 @@
 import { describe, expect, test } from '@jest/globals';
 // eslint-disable-next-line import/no-unassigned-import
 import 'cross-fetch/polyfill';
-import ClosestHTMLPage from './ClosestHTMLPage.ts';
+import closestHTMLPage from './closestHTMLPage.ts';
 
 describe('fetch', () => {
 	test('<title>', async () => {
-		const closestHTMLPage = new ClosestHTMLPage();
+		const { fetchedResponses, closestHTMLPageData } = await closestHTMLPage(
+			'https://saekitominaga.github.io/js-library-browser/packages/closest-html-page/demo/dir1/dir2/file',
+		);
 
-		await closestHTMLPage.fetch('https://saekitominaga.github.io/js-library-browser/packages/closest-html-page/demo/dir1/dir2/file');
-
-		expect(closestHTMLPage.fetchedResponses.size).toBe(2);
-		expect(closestHTMLPage.url).toBe('https://saekitominaga.github.io/js-library-browser/packages/closest-html-page/demo/dir1/');
-		expect(closestHTMLPage.title).toBe('dummy');
+		expect(fetchedResponses.length).toBe(2);
+		expect(closestHTMLPageData?.url).toBe('https://saekitominaga.github.io/js-library-browser/packages/closest-html-page/demo/dir1/');
+		expect(closestHTMLPageData?.title).toBe('dummy');
 	});
 
 	test('OGP', async () => {
-		const closestHTMLPage = new ClosestHTMLPage();
+		const { fetchedResponses, closestHTMLPageData } = await closestHTMLPage(
+			'https://saekitominaga.github.io/js-library-browser/packages/closest-html-page/demo/dir1/',
+		);
 
-		await closestHTMLPage.fetch('https://saekitominaga.github.io/js-library-browser/packages/closest-html-page/demo/dir1/');
-
-		expect(closestHTMLPage.fetchedResponses.size).toBe(1);
-		expect(closestHTMLPage.url).toBe('https://saekitominaga.github.io/js-library-browser/packages/closest-html-page/demo/');
-		expect(closestHTMLPage.title).toBe('Get the data of the HTML page of the nearest ancestor hierarchy');
+		expect(fetchedResponses.length).toBe(1);
+		expect(closestHTMLPageData?.url).toBe('https://saekitominaga.github.io/js-library-browser/packages/closest-html-page/demo/');
+		expect(closestHTMLPageData?.title).toBe('Get the data of the HTML page of the nearest ancestor hierarchy');
 	});
 });
 
 describe('maxFetchCount', () => {
 	test('over', async () => {
-		const closestHTMLPage = new ClosestHTMLPage({ maxFetchCount: 1 });
+		const { fetchedResponses, closestHTMLPageData } = await closestHTMLPage(
+			'https://saekitominaga.github.io/js-library-browser/packages/closest-html-page/demo/dir1/dir2/file',
+			{ maxFetchCount: 1 },
+		);
 
-		await closestHTMLPage.fetch('https://saekitominaga.github.io/js-library-browser/packages/closest-html-page/demo/dir1/dir2/file');
-
-		expect(closestHTMLPage.fetchedResponses.size).toBe(1);
-		expect(closestHTMLPage.url).toBeNull();
-		expect(closestHTMLPage.title).toBeNull();
+		expect(fetchedResponses.length).toBe(1);
+		expect(closestHTMLPageData?.url).toBeUndefined();
+		expect(closestHTMLPageData?.title).toBeUndefined();
 	});
 
-	test('not integer', () => {
-		expect(() => {
-			new ClosestHTMLPage({ maxFetchCount: 1.5 });
-		}).toThrow('Argument `maxFetchCount` must be an integer.');
+	test('not integer', async () => {
+		await expect(closestHTMLPage('http://example.com', { maxFetchCount: 1.5 })).rejects.toThrow('Argument `maxFetchCount` must be an integer.');
 	});
 
-	test('minus', () => {
-		expect(() => {
-			new ClosestHTMLPage({ maxFetchCount: -1 });
-		}).toThrow('Argument `maxFetchCount` must be greater than or equal to 0.');
+	test('minus', async () => {
+		await expect(closestHTMLPage('http://example.com', { maxFetchCount: -1 })).rejects.toThrow('Argument `maxFetchCount` must be greater than or equal to 0.');
 	});
 });
 
 describe('fetchOptions', () => {
 	test('method: head', async () => {
-		const closestHTMLPage = new ClosestHTMLPage({ fetchOptions: { method: 'head' } });
-		await closestHTMLPage.fetch('https://saekitominaga.github.io/js-library-browser/packages/closest-html-page/demo/dir1/dir2/file');
+		const { fetchedResponses, closestHTMLPageData } = await closestHTMLPage(
+			'https://saekitominaga.github.io/js-library-browser/packages/closest-html-page/demo/dir1/dir2/file',
+			{ fetchOptions: { method: 'head' } },
+		);
 
-		expect(closestHTMLPage.fetchedResponses.size).toBe(2);
-		expect(closestHTMLPage.url).toBe('https://saekitominaga.github.io/js-library-browser/packages/closest-html-page/demo/dir1/');
-		expect(closestHTMLPage.title).toBeNull();
+		expect(fetchedResponses.length).toBe(2);
+		expect(closestHTMLPageData?.url).toBe('https://saekitominaga.github.io/js-library-browser/packages/closest-html-page/demo/dir1/');
+		expect(closestHTMLPageData?.title).toBeUndefined();
 	});
 });
 
 describe('mimeTypes', () => {
 	test('no applicable mime type', async () => {
-		const closestHTMLPage = new ClosestHTMLPage({ mimeTypes: ['image/svg+xml'] });
-		await closestHTMLPage.fetch('https://saekitominaga.github.io/js-library-browser/packages/closest-html-page/demo/dir1/');
+		const { fetchedResponses, closestHTMLPageData } = await closestHTMLPage(
+			'https://saekitominaga.github.io/js-library-browser/packages/closest-html-page/demo/dir1/',
+			{ mimeTypes: ['image/svg+xml'] },
+		);
 
-		expect(closestHTMLPage.fetchedResponses.size).toBe(5);
-		expect(closestHTMLPage.url).toBeNull();
-		expect(closestHTMLPage.title).toBeNull();
+		expect(fetchedResponses.length).toBe(5);
+		expect(closestHTMLPageData?.url).toBeUndefined();
+		expect(closestHTMLPageData?.title).toBeUndefined();
 	});
 });

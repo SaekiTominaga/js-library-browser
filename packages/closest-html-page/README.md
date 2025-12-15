@@ -19,9 +19,9 @@
   }
 </script>
 <script type="module">
-  import ClosestHTMLPage from '@w0s/closest-html-page';
+  import closestHTMLPage from '@w0s/closest-html-page';
 
-  const closestHTMLPage = new ClosestHTMLPage({
+  const { fetchedResponses, closestHTMLPageData } = await closestHTMLPage('https://example.com/path/to/file', {
     maxFetchCount: 3,
     fetchOptions: {
       redirect: 'error',
@@ -29,23 +29,29 @@
     mimeTypes: ['text/html'],
   });
 
-  await closestHTMLPage.fetch('https://example.com/path/to/file');
-
-  const url = closestHTMLPage.url;
-  const title = closestHTMLPage.title;
+  const url = closestHTMLPageData?.url;
+  const title = closestHTMLPageData?.title;
 </script>
 ```
 
-## Constructor
+## Functions
 
 ```TypeScript
-new ClosestHTMLPage(options?: Readonly<Option>)
+closestHTMLPage(baseUrl: string = location.toString(), options?: Readonly<Option>): Promise<{
+  fetchedResponses: Response[]; // `Response` data resulting from the execution of `fetch()`
+  closestHTMLPageData: {
+    url: string; // URL of the HTML page
+    title: string | undefined; // Title of the HTML page
+  } | undefined;
+}>
 ```
 
 ### Parameters
 
 <dl>
-<dt><code>options</code> [Optional]</dt>
+<dt><code>baseUrl: string = location.toString()</code></dt>
+<dd>Base URL</dd>
+<dt><code>options?: Readonly&lt;Option&gt;</code></dt>
 <dd>Options for accessing web content.</dd>
 </dl>
 
@@ -66,17 +72,4 @@ interface Option {
 <dd>An object containing any custom settings that you want to apply to the reques. Same as <a href="https://developer.mozilla.org/en-US/docs/Web/API/fetch#options">the second argument of the `fetch()` method</a>.</dd>
 <dt><code>mimeTypes</code></dt>
 <dd>MIME types of the HTML resource to retrieve. The values that can be specified are limited to <a href="https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#domparsersupportedtype"><code>DOMParserSupportedType</code> types</a>, namely '<code>text/html</code>', '<code>text/xml</code>', '<code>application/xml</code>', '<code>application/xhtml+xml</code>', and '<code>image/svg+xml</code>'. The default value is <code>['text/html', 'application/xhtml+xml']</code>.</dd>
-</dl>
-
-## Methods
-
-<dl>
-<dt><code>async fetch(baseUrl: string = location.toString()): Promise&lt;void&gt;</code></dt>
-<dd>Traverse the ancestor hierarchy in order from the base URL and retrieve the data of resources that match the specified condition (MIME types). <strong>This method must be called before executing the following <code>getXXX()</code>.</strong></dd>
-<dt><code>get fetchedResponses(): Set&lt;Response&gt;</code></dt>
-<dd>Get the <code>Response</code> data resulting from the execution of <code>fetch()</code>.</dd>
-<dt><code>get url(): string | null</code></dt>
-<dd>Get the URL of the HTML page of the nearest ancestor hierarchy.</dd>
-<dt><code>get title(): string | null</code></dt>
-<dd>Get the title of the HTML page of the nearest ancestor hierarchy.</dd>
 </dl>

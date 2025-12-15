@@ -38,7 +38,8 @@
 				padding: 1em;
 			}
 
-			strong {
+			strong,
+			output.undefined {
 				background: #fff;
 				color: #e00;
 			}
@@ -66,65 +67,83 @@
 			}
 		</script>
 		<script type="module">
-			import ClosestHTMLPage from '@w0s/closest-html-page';
+			import closestHTMLPage from '@w0s/closest-html-page';
 
-			const baseUrlElement = document.getElementById('closesthtmlpage-baseurl');
-			const mimeTextHtmlElement = document.getElementById('closesthtmlpage-mime-text/html');
-			const mimeTextXmlElement = document.getElementById('closesthtmlpage-mime-text/xml');
-			const mimeApplicationXmlElement = document.getElementById('closesthtmlpage-mime-application/xml');
-			const mimeApplicationXhtmlElement = document.getElementById('closesthtmlpage-mime-application/xhtml+xml');
-			const mimeImageSvgElement = document.getElementById('closesthtmlpage-mime-image/svg+xml');
-			const maxFetchElement = document.getElementById('closesthtmlpage-maxfetch');
-			const fetchButtonElement = document.getElementById('closesthtmlpage-fetch');
+			const inputBaseUrlElement = document.getElementById('input-baseurl');
+			const inputMimeTextHtmlElement = document.getElementById('input-mime-text/html');
+			const inputMimeTextXmlElement = document.getElementById('input-mime-text/xml');
+			const inputMimeApplicationXmlElement = document.getElementById('input-mime-application/xml');
+			const inputMimeApplicationXhtmlElement = document.getElementById('input-mime-application/xhtml+xml');
+			const inputMimeImageSvgElement = document.getElementById('input-mime-image/svg+xml');
+			const inputMaxFetchElement = document.getElementById('input-maxfetch');
+			const inputFetchButtonElement = document.getElementById('input-fetch');
 
-			const fetchedResponseElement = document.getElementById('closesthtmlpage-fetched-response');
-			const urlElement = document.getElementById('closesthtmlpage-url');
-			const titleElement = document.getElementById('closesthtmlpage-title');
+			const resultSuccessElement = document.getElementById('result-success');
+			const resultErrorElement = document.getElementById('result-error');
 
-			fetchButtonElement.addEventListener('click', async () => {
-				const mimeType = [];
-				if (mimeTextHtmlElement.checked) {
-					mimeType.push(mimeTextHtmlElement.value);
-				}
-				if (mimeTextXmlElement.checked) {
-					mimeType.push(mimeTextXmlElement.value);
-				}
-				if (mimeApplicationXmlElement.checked) {
-					mimeType.push(mimeApplicationXmlElement.value);
-				}
-				if (mimeApplicationXhtmlElement.checked) {
-					mimeType.push(mimeApplicationXhtmlElement.value);
-				}
-				if (mimeImageSvgElement.checked) {
-					mimeType.push(mimeImageSvgElement.value);
-				}
+			const outputFetchedResponseElement = document.getElementById('output-fetched-response');
+			const outputUrlElement = document.getElementById('output-url');
+			const outputTitleElement = document.getElementById('output-title');
+			const outputErrorMessageElement = document.getElementById('output-error-message');
 
-				const closestHTMLPage = new ClosestHTMLPage({
-					maxFetchCount: Number(maxFetchElement.value),
-					mimeTypes: mimeType,
-				});
+			inputFetchButtonElement.addEventListener('click', async () => {
+				/* 表示リセット */
+				resultSuccessElement.hidden = false;
+				resultErrorElement.hidden = true;
 
-				await closestHTMLPage.fetch(baseUrlElement.value);
-				const fechedResponses = closestHTMLPage.fetchedResponses;
-				const url = closestHTMLPage.url;
-				const title = closestHTMLPage.title;
-
-				for (const liElement of fetchedResponseElement.parentNode?.querySelectorAll('li')) {
+				for (const liElement of outputFetchedResponseElement.parentNode?.querySelectorAll('li')) {
 					liElement.remove();
 				}
-				const fragment = document.createDocumentFragment();
-				for (const fechedResponse of fechedResponses) {
-					const templateElementClone = fetchedResponseElement.content.cloneNode(true);
+				outputUrlElement.value = '';
+				outputUrlElement.className = '';
+				outputTitleElement.value = '';
+				outputTitleElement.className = '';
+				outputErrorMessageElement.value = '';
 
-					const liElement = templateElementClone.querySelector('li');
-					liElement.textContent = (fechedResponse.status === 200 ? '✔' : '✘') + ` [${fechedResponse.status}] ${fechedResponse.url}`;
-
-					fragment.appendChild(templateElementClone);
+				const mimeType = [];
+				if (inputMimeTextHtmlElement.checked) {
+					mimeType.push(inputMimeTextHtmlElement.value);
 				}
-				fetchedResponseElement.parentNode?.appendChild(fragment);
+				if (inputMimeTextXmlElement.checked) {
+					mimeType.push(inputMimeTextXmlElement.value);
+				}
+				if (inputMimeApplicationXmlElement.checked) {
+					mimeType.push(inputMimeApplicationXmlElement.value);
+				}
+				if (inputMimeApplicationXhtmlElement.checked) {
+					mimeType.push(inputMimeApplicationXhtmlElement.value);
+				}
+				if (inputMimeImageSvgElement.checked) {
+					mimeType.push(inputMimeImageSvgElement.value);
+				}
 
-				urlElement.value = url;
-				titleElement.value = title;
+				try {
+					const { fetchedResponses, closestHTMLPageData } = await closestHTMLPage(inputBaseUrlElement.value, {
+						maxFetchCount: Number(inputMaxFetchElement.value),
+						mimeTypes: mimeType,
+					});
+
+					const fragment = document.createDocumentFragment();
+					for (const fetchedResponse of fetchedResponses) {
+						const templateElementClone = outputFetchedResponseElement.content.cloneNode(true);
+
+						const liElement = templateElementClone.querySelector('li');
+						liElement.textContent = (fetchedResponse.status === 200 ? '✔' : '✘') + ` [${fetchedResponse.status}] ${fetchedResponse.url}`;
+
+						fragment.appendChild(templateElementClone);
+					}
+					outputFetchedResponseElement.parentNode?.appendChild(fragment);
+
+					outputUrlElement.value = closestHTMLPageData?.url;
+					outputUrlElement.className = closestHTMLPageData?.url === undefined ? 'undefined' : '';
+					outputTitleElement.value = closestHTMLPageData?.title;
+					outputTitleElement.className = closestHTMLPageData?.url === undefined ? 'undefined' : '';
+				} catch (e) {
+					resultSuccessElement.hidden = true;
+					resultErrorElement.hidden = false;
+
+					outputErrorMessageElement.value = e.message;
+				}
 			});
 		</script>
 		<meta property="og:title" content="Get the data of the HTML page of the nearest ancestor hierarchy" />
@@ -133,26 +152,22 @@
 		<h1><code>closest-html-page</code> Demo</h1>
 
 		<fieldset>
-			<legend><label for="closesthtmlpage-baseurl">Base URL</label></legend>
+			<legend><label for="input-baseurl">Base URL</label></legend>
 			<p>
-				<input
-					type="url"
-					id="closesthtmlpage-baseurl"
-					value="https://saekitominaga.github.io/js-library-browser/packages/closest-html-page/demo/dir1/dir2/file"
-				/>
+				<input type="url" id="input-baseurl" value="https://saekitominaga.github.io/js-library-browser/packages/closest-html-page/demo/dir1/dir2/file" />
 			</p>
 		</fieldset>
 
 		<fieldset>
 			<legend>
-				<label for="closesthtmlpage-maxfetch">Max <code>fetch()</code> count</label>
+				<label for="input-maxfetch">Max <code>fetch()</code> count</label>
 			</legend>
 
 			<p>
 				* If no HTML page matching the condition can be retrieved after this number of attempts to access the ancestor hierarchy, the process is rounded up
 				(<code>0</code> = ∞).
 			</p>
-			<p><input type="number" min="0" id="closesthtmlpage-maxfetch" value="3" /></p>
+			<p><input type="number" min="0" id="input-maxfetch" value="3" /></p>
 		</fieldset>
 
 		<fieldset>
@@ -160,24 +175,24 @@
 
 			<ul>
 				<li>
-					<label><input type="checkbox" value="text/html" checked="" id="closesthtmlpage-mime-text/html" />text/html</label>
+					<label><input type="checkbox" value="text/html" checked="" id="input-mime-text/html" />text/html</label>
 				</li>
 				<li>
-					<label><input type="checkbox" value="text/xml" id="closesthtmlpage-mime-text/xml" />text/xml</label>
+					<label><input type="checkbox" value="text/xml" id="input-mime-text/xml" />text/xml</label>
 				</li>
 				<li>
-					<label><input type="checkbox" value="application/xml" id="closesthtmlpage-mime-application/xml" />application/xml</label>
+					<label><input type="checkbox" value="application/xml" id="input-mime-application/xml" />application/xml</label>
 				</li>
 				<li>
-					<label><input type="checkbox" value="application/xhtml+xml" checked="" id="closesthtmlpage-mime-application/xhtml+xml" />application/xhtml+xml</label>
+					<label><input type="checkbox" value="application/xhtml+xml" checked="" id="input-mime-application/xhtml+xml" />application/xhtml+xml</label>
 				</li>
 				<li>
-					<label><input type="checkbox" value="image/svg+xml" id="closesthtmlpage-mime-image/svg+xml" />image/svg+xml</label>
+					<label><input type="checkbox" value="image/svg+xml" id="input-mime-image/svg+xml" />image/svg+xml</label>
 				</li>
 			</ul>
 		</fieldset>
 
-		<p><button type="button" id="closesthtmlpage-fetch">Fetch</button></p>
+		<p><button type="button" id="input-fetch">Fetch</button></p>
 		<p>
 			<strong>
 				⚠ If the reference URL has a deep hierarchy and the maximum number of attempts is large (or 0 is specified), hitting the button repeatedly will result
@@ -188,30 +203,34 @@
 		<section>
 			<h2>Acquisition result</h2>
 
-			<section>
-				<h3>The URL where the <code>fetch()</code> operation was performed</h3>
-
-				<ul>
-					<template id="closesthtmlpage-fetched-response">
-						<li></li>
-					</template>
-				</ul>
-			</section>
-
-			<section>
-				<h3>HTML page of the nearest ancestor hierarchy</h3>
-
-				<dl>
-					<div>
-						<dt>URL</dt>
-						<dd><output id="closesthtmlpage-url"></output></dd>
-					</div>
-					<div>
-						<dt>Title</dt>
-						<dd><output id="closesthtmlpage-title"></output></dd>
-					</div>
-				</dl>
-			</section>
+			<div id="result-success">
+				<section>
+					<h3>The URL where the <code>fetch()</code> operation was performed</h3>
+					<ul>
+						<template id="output-fetched-response">
+							<li></li>
+						</template>
+					</ul>
+				</section>
+				<section>
+					<h3>HTML page of the nearest ancestor hierarchy</h3>
+					<dl>
+						<div>
+							<dt>URL</dt>
+							<dd><output id="output-url"></output></dd>
+						</div>
+						<div>
+							<dt>Title</dt>
+							<dd><output id="output-title"></output></dd>
+						</div>
+					</dl>
+				</section>
+			</div>
+			<div id="result-error">
+				<strong>
+					<output id="output-error-message"></output>
+				</strong>
+			</div>
 		</section>
 	</body>
 </html>

@@ -75,7 +75,7 @@ export default [
 		},
 	},
 	{
-		files: ['packages/closest-html-page/src/ClosestHTMLPage.ts'],
+		files: ['packages/closest-html-page/src/closestHTMLPage.ts'],
 		rules: {
 			'no-await-in-loop': 'off',
 			'no-continue': 'off',
