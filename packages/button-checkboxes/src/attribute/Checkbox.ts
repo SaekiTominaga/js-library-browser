@@ -10,7 +10,7 @@ export default class {
 	 * @param value.class - `data-controls-class`
 	 * @param value.name - `data-controls-name`
 	 */
-	constructor(value: Readonly<{ id: string | null | undefined; class: string | null | undefined; name: string | null | undefined }>) {
+	constructor(value: Readonly<{ id?: string | null | undefined; class?: string | null | undefined; name?: string | null | undefined }>) {
 		if (
 			(value.id === null || value.id === undefined) &&
 			(value.class === null || value.class === undefined) &&
