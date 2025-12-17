@@ -13,19 +13,23 @@
 		<script type="module">
 			import reportJsError from '@w0s/report-js-error';
 
-			reportJsError('https://report.w0s.jp/report/js-sample', {
-				fetchParam: {
-					documentURL: 'documentURL',
-					message: 'message',
-					filename: 'jsURL',
-					lineno: 'lineNumber',
-					colno: 'columnNumber',
+			reportJsError({
+				fetch: {
+					endpoint: new URL('https://report.w0s.jp/report/js-sample'),
+					param: {
+						documentURL: 'documentURL',
+						message: 'message',
+						filename: 'jsURL',
+						lineno: 'lineNumber',
+						colno: 'columnNumber',
+					},
+					contentType: 'application/json',
 				},
-				fetchContentType: 'application/json',
-				fetchHeaders: {
-					'X-Requested-With': 'fetch',
+				validate: {
+					ua: {
+						denys: [/Googlebot\/2.1;/v],
+					},
 				},
-				denyUAs: [/Googlebot\/2.1;/],
 			});
 
 			document.getElementById('button').addEventListener('click', () => {
