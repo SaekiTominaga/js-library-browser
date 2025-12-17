@@ -8,14 +8,14 @@ export interface Option {
 export interface FetchOption {
 	endpoint: string | URL; // URL of the endpoint
 	param: Readonly<{
-		documentURL: string; // Field name when sending the URL of the document to an endpoint.
-		message: string; // Field name when sending `ErrorEvent.message` to an endpoint.
-		filename: string; // Field name when sending `ErrorEvent.filename` to an endpoint.
-		lineno: string; // Field name when sending `ErrorEvent.lineno` to an endpoint.
-		colno: string; // Field name when sending `ErrorEvent.colno` to an endpoint.
+		documentURL: string; // Field name when sending the URL of the document to an endpoint
+		message: string; // Field name when sending `ErrorEvent.message` to an endpoint
+		filename: string; // Field name when sending `ErrorEvent.filename` to an endpoint
+		lineno: string; // Field name when sending `ErrorEvent.lineno` to an endpoint
+		colno: string; // Field name when sending `ErrorEvent.colno` to an endpoint
 	}>;
 	contentType?: 'application/x-www-form-urlencoded' | 'application/json';
-	headers?: HeadersInit; // Header to add to the `fetch()` request. <https://fetch.spec.whatwg.org/#typedefdef-headersinit>
+	headers?: HeadersInit; // Header to add to the `fetch()` request <https://fetch.spec.whatwg.org/#typedefdef-headersinit>
 }
 
 export interface ValidateOption {
@@ -34,7 +34,7 @@ export interface ValidateOption {
 /**
  * Validation
  *
- * @param options - Information such as transmission conditions
+ * @param options - Options
  *
  * @returns If validation passes, it returns true
  */

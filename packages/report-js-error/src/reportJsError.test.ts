@@ -1,12 +1,6 @@
 import { describe, expect, jest, test } from '@jest/globals';
 import reportJsError, { type FetchOption, type Option } from './reportJsError.ts';
 
-export const errorEventInit: Readonly<ErrorEventInit> = {
-	message: 'test',
-	filename: 'http://example.com/foo.js',
-	lineno: 1,
-	colno: 2,
-};
 export const fetchOptions: Readonly<FetchOption> = {
 	endpoint: new URL('https://report.w0s.jp/report/js-sample'),
 	param: {
