@@ -1,6 +1,6 @@
 {
 	"name": "@w0s/report-same-referrer",
-	"version": "4.0.1",
+	"version": "5.0.0",
 	"description": "Send referrer error information to endpoints",
 	"keywords": [
 		"Report"
