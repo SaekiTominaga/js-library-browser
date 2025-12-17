@@ -58,7 +58,6 @@ export default [
 	},
 	{
 		files: [
-			'packages/button-checkboxes/src/index.ts',
 			'packages/button-clipboard/src/index.ts',
 			'packages/button-confirm/src/index.ts',
 			'packages/button-media-same-play/src/index.ts',

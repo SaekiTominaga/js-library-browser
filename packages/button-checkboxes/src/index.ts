@@ -1,4 +1,4 @@
-import ButtonCheckboxes from './ButtonCheckboxes.ts';
+import buttonCheckboxes from './buttonCheckboxes.ts';
 
 const validate = (element: Element): HTMLButtonElement => {
 	if (!(element instanceof HTMLButtonElement)) {
@@ -14,10 +14,10 @@ export default (elementOrElements: NodeListOf<Element> | HTMLCollectionOf<Elemen
 	}
 
 	if (elementOrElements instanceof Element) {
-		new ButtonCheckboxes(validate(elementOrElements));
+		buttonCheckboxes(validate(elementOrElements));
 	} else {
 		Array.from(elementOrElements).forEach((element) => {
-			new ButtonCheckboxes(validate(element));
+			buttonCheckboxes(validate(element));
 		});
 	}
 };

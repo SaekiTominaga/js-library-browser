@@ -1,74 +1,40 @@
 import Checkbox from './attribute/Checkbox.ts';
 import Course from './attribute/Course.ts';
+import clickEvent from './event/click.ts';
 
 /**
  * Button to check / uncheck checkboxes group
+ *
+ * @param thisElement - Target element
  */
-export default class {
-	readonly #checkbox: Checkbox; // 制御対象のチェックボックス
+export default (thisElement: HTMLButtonElement): void => {
+	const {
+		course: courseAttribute,
+		control: controlAttribute,
+		controlsClass: controlsClassAttribute,
+		controlsName: controlsNameAttribute,
+	} = thisElement.dataset;
 
-	/**
-	 * @param thisElement - Target element
-	 */
-	constructor(thisElement: HTMLButtonElement) {
-		const {
-			course: courseAttribute,
-			control: controlAttribute,
-			controlsClass: controlsClassAttribute,
-			controlsName: controlsNameAttribute,
-		} = thisElement.dataset;
+	const course = new Course(courseAttribute);
+	const checkbox = new Checkbox({ id: controlAttribute, class: controlsClassAttribute, name: controlsNameAttribute });
 
-		const course = new Course(courseAttribute);
-		this.#checkbox = new Checkbox({ id: controlAttribute, class: controlsClassAttribute, name: controlsNameAttribute });
-
-		/* `aria-controls` の設定 */
-		if (thisElement.getAttribute('aria-controls') === null) {
-			const checkboxIds: string[] = [];
-
-			this.#checkbox.elements.forEach((checkbox): void => {
-				if (checkbox.id === '') {
-					checkbox.id = crypto.randomUUID(); // チェックボックスの ID が指定されていない場合はランダム生成
-				}
-				checkboxIds.push(checkbox.id);
-			});
-
-			thisElement.setAttribute('aria-controls', checkboxIds.join(' '));
-		}
-
-		switch (course.value) {
-			case 'check': {
-				/* 全選択ボタン */
-				thisElement.addEventListener('click', this.#clickCheckEvent, { passive: true });
-				break;
+	/* `aria-controls` の設定 */
+	if (thisElement.getAttribute('aria-controls') === null) {
+		const checkboxIds = checkbox.elements.map((checkboxElement): string => {
+			if (checkboxElement.id === '') {
+				checkboxElement.id = crypto.randomUUID(); // チェックボックスの ID が指定されていない場合はランダム生成
 			}
-			case 'uncheck': {
-				/* 全解除ボタン */
-				thisElement.addEventListener('click', this.#clickUncheckEvent, { passive: true });
-				break;
-			}
-			default:
-		}
+			return checkboxElement.id;
+		});
+
+		thisElement.setAttribute('aria-controls', checkboxIds.join(' '));
 	}
 
-	/**
-	 * 全選択ボタン押下時の処理
-	 */
-	readonly #clickCheckEvent = (): void => {
-		this.#checkbox.elements
-			.filter((element) => !element.checked)
-			.forEach((element) => {
-				element.checked = true;
-			});
-	};
-
-	/**
-	 * 全解除ボタン押下時の処理
-	 */
-	readonly #clickUncheckEvent = (): void => {
-		this.#checkbox.elements
-			.filter((element) => element.checked)
-			.forEach((element) => {
-				element.checked = false;
-			});
-	};
-}
+	thisElement.addEventListener(
+		'click',
+		(ev: MouseEvent) => {
+			clickEvent(ev, course, checkbox);
+		},
+		{ passive: true },
+	);
+};
