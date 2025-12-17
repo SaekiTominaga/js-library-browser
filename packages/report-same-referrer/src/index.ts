@@ -1,6 +1,3 @@
-import ReportSameReferrer, { type Option } from './ReportSameReferrer.ts';
+import reportSameReferrer from './reportSameReferrer.ts';
 
-export default async (endpoint: string, options: Readonly<Option>): Promise<void> => {
-	const reportSameReferrer = new ReportSameReferrer(endpoint, options);
-	await reportSameReferrer.report();
-};
+export default reportSameReferrer;

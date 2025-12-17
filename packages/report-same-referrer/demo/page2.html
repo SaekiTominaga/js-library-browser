@@ -14,16 +14,21 @@
 		<script type="module">
 			import reportSameReferrer from '@w0s/report-same-referrer';
 
-			await reportSameReferrer('https://report.w0s.jp/report/referrer-sample', {
-				fetchParam: {
-					documentURL: 'documentURL',
-					referrer: 'referrer',
+			await reportSameReferrer({
+				fetch: {
+					endpoint: 'https://report.w0s.jp/report/referrer-sample',
+					param: {
+						documentURL: 'documentURL',
+						referrer: 'referrer',
+					},
+					contentType: 'application/json',
+					headers: {
+						'X-Requested-With': 'fetch',
+					},
 				},
-				fetchContentType: 'application/json',
-				fetchHeaders: {
-					'X-Requested-With': 'fetch',
+				validate: {
+					ua: { denys: [/Googlebot\/2.1;/v] },
 				},
-				denyUAs: [/Googlebot\/2.1;/],
 			});
 		</script>
 	</head>
