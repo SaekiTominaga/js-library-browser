@@ -57,7 +57,22 @@ export default [
 		},
 	},
 	{
-		files: ['packages/*/src/index.ts'],
+		files: [
+			'packages/button-checkboxes/src/index.ts',
+			'packages/button-clipboard/src/index.ts',
+			'packages/button-confirm/src/index.ts',
+			'packages/button-media-same-play/src/index.ts',
+			'packages/button-share/src/index.ts',
+			'packages/details-animation/src/index.ts',
+			'packages/footnote-reference-popover/src/index.ts',
+			'packages/form-before-unload-confirm/src/index.ts',
+			'packages/form-control-validation/src/index.ts',
+			'packages/form-submit-overlay/src/index.ts',
+			'packages/input-date-to-text/src/index.ts',
+			'packages/input-file-preview/src/index.ts',
+			'packages/input-isbn/src/index.ts',
+			'packages/textarea-auto-size/src/index.ts',
+		],
 		rules: {
 			'no-new': 'off',
 		},

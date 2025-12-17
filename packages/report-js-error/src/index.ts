@@ -1,5 +1,3 @@
-import ReportJsError, { type Option } from './ReportJsError.ts';
+import reportJsError from './reportJsError.ts';
 
-export default (endpoint: string, options: Readonly<Option>): void => {
-	new ReportJsError(endpoint, options);
-};
+export default reportJsError;
