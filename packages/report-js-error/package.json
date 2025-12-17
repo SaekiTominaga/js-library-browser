@@ -1,6 +1,6 @@
 {
 	"name": "@w0s/report-js-error",
-	"version": "4.0.0",
+	"version": "4.0.1",
 	"description": "Send script error information to endpoints",
 	"keywords": [
 		"Report"
