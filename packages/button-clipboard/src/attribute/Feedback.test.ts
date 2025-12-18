@@ -1,29 +1,18 @@
-import { describe, afterEach, test, expect } from '@jest/globals';
+import { expect, test } from '@jest/globals';
 import Feedback from './Feedback.ts';
 
-describe('constructor', () => {
-	afterEach(() => {
-		document.body.innerHTML = '';
-	});
+test('no attribute', () => {
+	expect(new Feedback(undefined).element).toBeUndefined();
+});
 
-	test('no attribute', () => {
-		expect(new Feedback(undefined).element).toBeUndefined();
-	});
+test('no element', () => {
+	expect(() => {
+		new Feedback('xxx');
+	}).toThrow('Element `#xxx` not found.');
+});
 
-	test('no element', () => {
-		expect(() => {
-			new Feedback('xxx');
-		}).toThrow('Element `#xxx` not found.');
-	});
+test('exist element', () => {
+	document.body.innerHTML = `<p id="feedback">Text</p>`;
 
-	test('exist element', () => {
-		document.body.insertAdjacentHTML(
-			'beforeend',
-			`
-<p id="feedback">Text</p>
-`,
-		);
-
-		expect(new Feedback('feedback').element?.textContent).toBe('Text');
-	});
+	expect(new Feedback('feedback').element?.textContent).toBe('Text');
 });
