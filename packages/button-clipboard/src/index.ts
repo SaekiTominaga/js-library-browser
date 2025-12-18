@@ -1,4 +1,4 @@
-import ButtonClipboard from './ButtonClipboard.ts';
+import buttonClipboard from './buttonClipboard.ts';
 
 const validate = (element: Element): HTMLButtonElement => {
 	if (!(element instanceof HTMLButtonElement)) {
@@ -14,10 +14,10 @@ export default (elementOrElements: NodeListOf<Element> | HTMLCollectionOf<Elemen
 	}
 
 	if (elementOrElements instanceof Element) {
-		new ButtonClipboard(validate(elementOrElements));
+		buttonClipboard(validate(elementOrElements));
 	} else {
 		Array.from(elementOrElements).forEach((element) => {
-			new ButtonClipboard(validate(element));
+			buttonClipboard(validate(element));
 		});
 	}
 };

@@ -58,7 +58,6 @@ export default [
 	},
 	{
 		files: [
-			'packages/button-clipboard/src/index.ts',
 			'packages/button-confirm/src/index.ts',
 			'packages/button-media-same-play/src/index.ts',
 			'packages/button-share/src/index.ts',
