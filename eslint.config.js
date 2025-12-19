@@ -115,7 +115,9 @@ export default [
 	{
 		files: ['jest.setup.js'],
 		rules: {
+			'no-empty-function': 'off',
 			'no-new': 'off',
+			'no-underscore-dangle': 'off',
 		},
 	},
 ];

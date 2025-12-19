@@ -1,4 +1,4 @@
-import { beforeAll, expect, jest, test } from '@jest/globals';
+import { expect, test } from '@jest/globals';
 import PopoverElement from '../../custom-element/Popover.ts';
 import mouseleaveEvent from './mouseleave.ts';
 
@@ -10,10 +10,6 @@ const sleep = (ms: number) =>
 	new Promise((callback) => {
 		setTimeout(callback, ms);
 	});
-
-beforeAll(() => {
-	HTMLElement.prototype.hidePopover = jest.fn();
-}); // jsdom が Popover をサポートするまでの暫定処理 https://github.com/jsdom/jsdom/issues/3721
 
 test('popover status', async () => {
 	const event = new MouseEvent('mouseleave');

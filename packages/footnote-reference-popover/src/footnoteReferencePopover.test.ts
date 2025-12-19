@@ -1,4 +1,4 @@
-import { beforeAll, describe, expect, jest, test } from '@jest/globals';
+import { beforeAll, describe, expect, test } from '@jest/globals';
 import type PopoverElement from './custom-element/Popover.ts';
 import footnoteReferencePopover from './footnoteReferencePopover.ts';
 
@@ -8,11 +8,6 @@ const sleep = (ms: number) =>
 	new Promise((callback) => {
 		setTimeout(callback, ms);
 	});
-
-beforeAll(() => {
-	HTMLElement.prototype.showPopover = jest.fn();
-	HTMLElement.prototype.hidePopover = jest.fn();
-}); // jsdom が Popover をサポートするまでの暫定処理 https://github.com/jsdom/jsdom/issues/3721
 
 describe('trigger click event', () => {
 	beforeAll(() => {
