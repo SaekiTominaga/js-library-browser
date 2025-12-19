@@ -1,4 +1,4 @@
-import { beforeAll, expect, jest, test } from '@jest/globals';
+import { expect, test } from '@jest/globals';
 import PopoverElement from '../../custom-element/Popover.ts';
 import mouseleaveEvent from './mouseleave.ts';
 
@@ -10,14 +10,6 @@ const sleep = (ms: number) =>
 	new Promise((callback) => {
 		setTimeout(callback, ms);
 	});
-
-beforeAll(() => {
-	/* Popover https://github.com/jsdom/jsdom/issues/3721 */
-	HTMLElement.prototype.hidePopover = jest.fn();
-
-	/* CSSStyleSheet https://github.com/jsdom/jsdom/issues/3766 */
-	CSSStyleSheet.prototype.replaceSync = jest.fn();
-});
 
 test('popover status', async () => {
 	const event = new MouseEvent('mouseleave');

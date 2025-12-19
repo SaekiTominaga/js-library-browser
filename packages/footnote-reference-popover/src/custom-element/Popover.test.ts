@@ -1,18 +1,9 @@
-import { beforeAll, describe, expect, jest, test } from '@jest/globals';
+import { beforeAll, describe, expect, test } from '@jest/globals';
 import PopoverElement from './Popover.ts';
 
 const POPOVER_ELEMENT_NAME = 'x-popover';
 
 customElements.define(POPOVER_ELEMENT_NAME, PopoverElement);
-
-beforeAll(() => {
-	/* Popover https://github.com/jsdom/jsdom/issues/3721 */
-	HTMLElement.prototype.showPopover = jest.fn();
-	HTMLElement.prototype.hidePopover = jest.fn();
-
-	/* CSSStyleSheet https://github.com/jsdom/jsdom/issues/3766 */
-	CSSStyleSheet.prototype.replaceSync = jest.fn();
-});
 
 describe('slot', () => {
 	test('ID remove', () => {

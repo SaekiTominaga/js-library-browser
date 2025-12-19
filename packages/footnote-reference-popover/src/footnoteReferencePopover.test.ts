@@ -1,4 +1,4 @@
-import { beforeAll, describe, expect, jest, test } from '@jest/globals';
+import { beforeAll, describe, expect, test } from '@jest/globals';
 import type PopoverElement from './custom-element/Popover.ts';
 import footnoteReferencePopover from './footnoteReferencePopover.ts';
 
@@ -8,15 +8,6 @@ const sleep = (ms: number) =>
 	new Promise((callback) => {
 		setTimeout(callback, ms);
 	});
-
-beforeAll(() => {
-	/* Popover https://github.com/jsdom/jsdom/issues/3721 */
-	HTMLElement.prototype.showPopover = jest.fn();
-	HTMLElement.prototype.hidePopover = jest.fn();
-
-	/* CSSStyleSheet https://github.com/jsdom/jsdom/issues/3766 */
-	CSSStyleSheet.prototype.replaceSync = jest.fn();
-});
 
 describe('trigger click event', () => {
 	beforeAll(() => {
