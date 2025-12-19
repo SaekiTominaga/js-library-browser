@@ -62,7 +62,6 @@ export default [
 			'packages/button-media-same-play/src/index.ts',
 			'packages/button-share/src/index.ts',
 			'packages/details-animation/src/index.ts',
-			'packages/footnote-reference-popover/src/index.ts',
 			'packages/form-before-unload-confirm/src/index.ts',
 			'packages/form-control-validation/src/index.ts',
 			'packages/form-submit-overlay/src/index.ts',

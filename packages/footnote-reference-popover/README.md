@@ -19,7 +19,7 @@
 
 ## Examples
 
-```HTML
+```html
 <script type="importmap">
   {
     "imports": {
@@ -34,25 +34,25 @@
   footnoteReferencePopover(document.querySelectorAll('.js-footnote-reference-popover')); // `getElementById()` or `getElementsByClassName()` or `getElementsByTagName()` or `querySelector()` or `querySelectorAll()`
 </script>
 
-<a class="js-footnote-reference-popover"
-  href="#footnote-1"
->[1]</a>
+<a class="js-footnote-reference-popover" href="#footnote-1">[1]</a>
 
-<a class="js-footnote-reference-popover"
+<a
+  class="js-footnote-reference-popover"
   href="#footnote-2"
   data-popover-label="Note"
   data-popover-class="my-popover"
-  data-popover-hide-text="Close"
-  data-popover-hide-image-src="/assets/popover-close.svg"
-  data-popover-hide-image-width="16"
-  data-popover-hide-image-height="16"
-  data-mouseenter-delay="250"
-  data-mouseleave-delay="250"
->[1]</a>
+  data-popover-hide-text="Popover Close"
+  data-popover-hide-image-src="./popover-close.svg"
+  data-popover-hide-image-width="18"
+  data-popover-hide-image-height="18"
+  data-mouseenter-delay="1000"
+  data-mouseleave-delay="1000"
+  >[2]</a
+>
 
-<ul class="footnotes">
-<li id="footnote-1">Footnote text. <a href="#">link</a> <code>code</code> <em>emphasis</em></li>
-<li id="footnote-2">Footnote text.</li>
+<ul>
+  <li id="footnote-1">Footnote text.</li>
+  <li id="footnote-2">Footnote text. <a href="#">link</a> <code>code</code> <em>emphasis</em></li>
 </ul>
 ```
 
@@ -84,19 +84,30 @@
 The popover markup looks like this.
 
 ```html
-<a class="js-footnote-reference-popover" href="#footnote" data-popover-class="my-popover">[1]</a>
+<a
+  class="js-footnote-reference-popover"
+  href="#footnote"
+  data-popover-label="Note"
+  data-popover-class="my-popover"
+  data-popover-hide-text="Popover Close"
+  data-popover-hide-image-src="./popover-close.svg"
+  data-popover-hide-image-width="18"
+  data-popover-hide-image-height="18"
+  data-mouseenter-delay="1000"
+  data-mouseleave-delay="1000"
+  >[1]</a
+>
 
-<x-popover popover="" class="my-popover">
+<x-popover popover="" aria-label="Note" class="my-popover">
   #shadow-root (open)
   <span id="first-focusable" tabindex="0"></span>
 
   <div tabindex="-1" part="content">
     <slot>...</slot>
 
-    <button type="button" popovertarget="" popovertargetaction="hide" part="hide-button">Close</button>
-    or
     <button type="button" popovertarget="" popovertargetaction="hide" part="hide-button">
-      <img src="close.svg" alt="Close" part="hide-button-image" />
+      <span part="hide-button-text" hidden="">Popover Close</span>
+      <img part="hide-button-image" src="./popover-close.svg" alt="Popover Close" width="18" height="18" />
     </button>
   </div>
 
@@ -107,16 +118,12 @@ The popover markup looks like this.
 Therefore, you can customize the style using [`::part`](https://developer.mozilla.org/en-US/docs/Web/CSS/::part) CSS pseudo-element.
 
 ```css
-.my-popover::part(content) {
+.my-popover {
   &::part(content) {
     ...
   }
 
   &::part(hide-button) {
-    ...
-  }
-
-  &::part(hide-button-image) {
     ...
   }
 }

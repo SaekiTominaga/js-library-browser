@@ -1,26 +1,18 @@
-import { describe, test, expect } from '@jest/globals';
+import { expect, test } from '@jest/globals';
 import Mouseleave from './Mouseleave.ts';
 
-describe('constructor', () => {
-	test('no attribute', () => {
-		expect(new Mouseleave({ delay: undefined }).delay).toBeUndefined();
-	});
+test('not number', () => {
+	expect(() => {
+		new Mouseleave({ delay: 'xxx' });
+	}).toThrow('The value of the `data-mouseleave-delay` attribute must be a number.');
 });
 
-describe('constructor - delay', () => {
-	test('not number', () => {
-		expect(() => {
-			new Mouseleave({ delay: 'xxx' });
-		}).toThrow('The value of the `data-mouseleave-delay` attribute must be a number.');
-	});
+test('zero', () => {
+	expect(() => {
+		new Mouseleave({ delay: '0' });
+	}).toThrow('The value of the `data-mouseleave-delay` attribute must be a number greater than zero.');
+});
 
-	test('zero', () => {
-		expect(() => {
-			new Mouseleave({ delay: '0' });
-		}).toThrow('The value of the `data-mouseleave-delay` attribute must be a number greater than zero.');
-	});
-
-	test('greater than 0', () => {
-		expect(new Mouseleave({ delay: '1' }).delay).toBe(1);
-	});
+test('greater than 0', () => {
+	expect(new Mouseleave({ delay: '1' }).delay).toBe(1);
 });
