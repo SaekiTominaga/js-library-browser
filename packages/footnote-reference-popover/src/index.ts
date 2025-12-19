@@ -1,4 +1,4 @@
-import FootnoteReferencePopover from './FootnoteReferencePopover.ts';
+import footnoteReferencePopover from './footnoteReferencePopover.ts';
 
 const validate = (element: Element): HTMLAnchorElement => {
 	if (!(element instanceof HTMLAnchorElement)) {
@@ -14,10 +14,10 @@ export default (elementOrElements: NodeListOf<Element> | HTMLCollectionOf<Elemen
 	}
 
 	if (elementOrElements instanceof Element) {
-		new FootnoteReferencePopover(validate(elementOrElements));
+		footnoteReferencePopover(validate(elementOrElements));
 	} else {
 		Array.from(elementOrElements).forEach((element) => {
-			new FootnoteReferencePopover(validate(element));
+			footnoteReferencePopover(validate(element));
 		});
 	}
 };

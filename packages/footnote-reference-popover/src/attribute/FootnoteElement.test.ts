@@ -1,13 +1,20 @@
-import { describe, test, expect } from '@jest/globals';
+import { beforeAll, describe, expect, test } from '@jest/globals';
 import FootnoteElement from './FootnoteElement.ts';
 
-describe('constructor', () => {
+test('正常ケース', () => {
+	document.body.innerHTML = `<p id="xxx">text</p>`;
+
+	expect(new FootnoteElement('http://localhost/#xxx').element.textContent).toBe('text');
+});
+
+describe('validate', () => {
+	beforeAll(() => {
+		document.body.innerHTML = ``;
+	});
+
 	test('no attribute', () => {
 		expect(() => {
 			new FootnoteElement(undefined);
-		}).toThrow('The `href` attribute is not set.');
-		expect(() => {
-			new FootnoteElement('');
 		}).toThrow('The `href` attribute is not set.');
 	});
 

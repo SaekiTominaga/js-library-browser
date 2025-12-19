@@ -1,14 +1,16 @@
 import shadowAppendCss from '@w0s/shadow-append-css';
 
+type State = 'open' | 'closed';
+
 export interface ToggleEventDetail {
-	newState: 'open' | 'closed';
+	newState: State;
 	eventType: string;
 }
 
 /**
  * Popover
  */
-export default class CustomElementPopover extends HTMLElement {
+export default class extends HTMLElement {
 	readonly #contentElement: HTMLElement;
 
 	readonly #firstFocusableElement: HTMLElement;
@@ -17,12 +19,24 @@ export default class CustomElementPopover extends HTMLElement {
 
 	readonly #hideButtonElement: HTMLButtonElement;
 
+	readonly #hideButtonTextElement: HTMLSpanElement;
+
 	readonly #hideButtonImageElement: HTMLImageElement;
 
-	#hideText = 'Close';
+	readonly #HIDE_TEXT_INITIAL_VALUE = 'Close';
+
+	#hideText = this.#HIDE_TEXT_INITIAL_VALUE;
+
+	#mouseenterTimeoutId?: NodeJS.Timeout; // ポップオーバーを表示する際のタイマーの識別 ID（`clearTimeout()` で使用）
+
+	#mouseleaveTimeoutId?: NodeJS.Timeout; // ポップオーバーを非表示にする際のタイマーの識別 ID（`clearTimeout()` で使用）
+
+	#triggerElement: HTMLElement | undefined;
+
+	#state: State | undefined; // test で使用（JSDOM が `:popover-open` 疑似クラスに対応したら不要になる https://github.com/jsdom/jsdom/issues/3721 ）
 
 	static get observedAttributes(): string[] {
-		return ['label', 'hide-text', 'hide-image-src', 'hide-image-width', 'hide-image-height'];
+		return ['hide-text', 'hide-image-src', 'hide-image-width', 'hide-image-height'];
 	}
 
 	constructor() {
@@ -32,7 +46,10 @@ export default class CustomElementPopover extends HTMLElement {
 			<span id="first-focusable" tabindex="0"></span>
 			<div tabindex="-1" part="content">
 				<slot></slot>
-				<button type="button" popovertargetaction="hide" part="hide-button"></button>
+				<button type="button" popovertargetaction="hide" part="hide-button">
+					<span part="hide-button-text"></span>
+					<img part="hide-button-image" hidden="" /></span>
+				</button>
 			</div>
 			<span id="last-focusable" tabindex="0"></span>
 		`;
@@ -52,8 +69,8 @@ export default class CustomElementPopover extends HTMLElement {
 				padding: 0.25em;
 			}
 
-			:host::part(hide-button-image) {
-				display: block flow;
+			:host::part(hide-button) {
+				display: inline flex;
 			}
 		`;
 
@@ -64,19 +81,17 @@ export default class CustomElementPopover extends HTMLElement {
 
 		this.#contentElement = shadow.querySelector('[part="content"]')!;
 		this.#hideButtonElement = shadow.querySelector('[part="hide-button"]')!;
+		this.#hideButtonTextElement = shadow.querySelector('[part="hide-button-text"]')!;
+		this.#hideButtonImageElement = shadow.querySelector('[part="hide-button-image"]')!;
 		this.#firstFocusableElement = shadow.getElementById('first-focusable')!;
 		this.#lastFocusableElement = shadow.getElementById('last-focusable')!;
-
-		this.#hideButtonImageElement = document.createElement('img');
-		this.#hideButtonImageElement.setAttribute('part', 'hide-button-image');
-		this.#hideButtonElement.textContent = this.#hideText;
 	}
 
 	connectedCallback(): void {
 		this.popover = '';
 		this.#hideButtonElement.popoverTargetElement = this;
 
-		/* コピー元の HTML 中に id 属性が設定されていた場合、ページ中に ID が重複してしまうのを防ぐ */
+		/* コピー元の HTML 中に `id` 属性が設定されていた場合、ページ中に ID が重複してしまうのを防ぐ */
 		const hostElement = this.shadowRoot?.host;
 		if (hostElement !== undefined) {
 			hostElement.querySelectorAll('[id]').forEach((element) => {
@@ -103,10 +118,6 @@ export default class CustomElementPopover extends HTMLElement {
 
 	attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null): void {
 		switch (name) {
-			case 'label': {
-				this.label = newValue;
-				break;
-			}
 			case 'hide-text': {
 				this.hideText = newValue;
 				break;
@@ -127,46 +138,31 @@ export default class CustomElementPopover extends HTMLElement {
 		}
 	}
 
-	get label(): string | null {
-		return this.ariaLabel;
-	}
-
-	set label(value: string | null) {
-		this.ariaLabel = value;
-	}
-
-	get hideText(): string | null {
+	get hideText(): string {
 		return this.#hideText;
 	}
 
 	set hideText(value: string | null) {
-		if (value === null) {
-			return;
-		}
+		this.#hideText = value ?? this.#HIDE_TEXT_INITIAL_VALUE;
 
-		this.#hideText = value;
-
-		this.#hideButtonElement.textContent = value;
-
+		this.#hideButtonTextElement.textContent = this.#hideText;
 		this.#hideButtonImageElement.alt = this.#hideText;
 	}
 
-	get hideImageSrc(): string | null {
+	get hideImageSrc(): string {
 		return this.#hideButtonImageElement.src;
 	}
 
 	set hideImageSrc(value: string | null) {
 		if (value === null) {
-			this.#hideButtonImageElement.removeAttribute('src');
-
-			this.#hideButtonElement.textContent = this.#hideText;
+			this.#hideButtonTextElement.hidden = false;
+			this.#hideButtonImageElement.hidden = true;
 			return;
 		}
 
+		this.#hideButtonTextElement.hidden = true;
 		this.#hideButtonImageElement.src = value;
-
-		this.#hideButtonElement.textContent = '';
-		this.#hideButtonElement.appendChild(this.#hideButtonImageElement);
+		this.#hideButtonImageElement.hidden = false;
 	}
 
 	get hideImageWidth(): number | null {
@@ -176,10 +172,9 @@ export default class CustomElementPopover extends HTMLElement {
 	set hideImageWidth(value: number | null) {
 		if (value === null) {
 			this.#hideButtonImageElement.removeAttribute('width');
-			return;
 		}
 
-		this.#hideButtonImageElement.width = value;
+		this.#hideButtonImageElement.width = value ?? 0;
 	}
 
 	get hideImageHeight(): number | null {
@@ -189,10 +184,9 @@ export default class CustomElementPopover extends HTMLElement {
 	set hideImageHeight(value: number | null) {
 		if (value === null) {
 			this.#hideButtonImageElement.removeAttribute('height');
-			return;
 		}
 
-		this.#hideButtonImageElement.height = value;
+		this.#hideButtonImageElement.height = value ?? 0;
 	}
 
 	get width(): number {
@@ -201,6 +195,38 @@ export default class CustomElementPopover extends HTMLElement {
 
 	get hideButtonElement(): HTMLButtonElement {
 		return this.#hideButtonElement;
+	}
+
+	get triggerElement(): HTMLElement | undefined {
+		return this.#triggerElement;
+	}
+
+	set triggerElement(triggerElement: HTMLElement | undefined) {
+		this.#triggerElement = triggerElement;
+	}
+
+	get mouseenterTimeoutId(): NodeJS.Timeout | undefined {
+		return this.#mouseenterTimeoutId;
+	}
+
+	set mouseenterTimeoutId(value: NodeJS.Timeout | undefined) {
+		if (value !== undefined) {
+			this.#mouseenterTimeoutId = value;
+		}
+	}
+
+	get mouseleaveTimeoutId(): NodeJS.Timeout | undefined {
+		return this.#mouseleaveTimeoutId;
+	}
+
+	set mouseleaveTimeoutId(value: NodeJS.Timeout | undefined) {
+		if (value !== undefined) {
+			this.#mouseleaveTimeoutId = value;
+		}
+	}
+
+	get state(): State | undefined {
+		return this.#state;
 	}
 
 	/**
@@ -228,6 +254,8 @@ export default class CustomElementPopover extends HTMLElement {
 			}
 			default:
 		}
+
+		this.#state = detail.newState;
 	};
 
 	/**

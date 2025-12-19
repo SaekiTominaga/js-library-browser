@@ -1,7 +1,7 @@
-import { describe, test, expect } from '@jest/globals';
+import { describe, expect, test } from '@jest/globals';
 import PopoverHide from './PopoverHide.ts';
 
-describe('constructor - text', () => {
+describe('text', () => {
 	test('no attribute', () => {
 		expect(new PopoverHide({}).text).toBeUndefined();
 	});
@@ -11,7 +11,7 @@ describe('constructor - text', () => {
 	});
 });
 
-describe('constructor - imageSrc', () => {
+describe('imageSrc', () => {
 	test('no attribute', () => {
 		expect(new PopoverHide({}).imageSrc).toBeUndefined();
 	});
@@ -21,7 +21,7 @@ describe('constructor - imageSrc', () => {
 	});
 });
 
-describe('constructor - imageWidth', () => {
+describe('imageWidth', () => {
 	test('no attribute', () => {
 		expect(new PopoverHide({}).imageWidth).toBeUndefined();
 	});
@@ -43,7 +43,7 @@ describe('constructor - imageWidth', () => {
 	});
 });
 
-describe('constructor - imageHeight', () => {
+describe('imageHeight', () => {
 	test('no attribute', () => {
 		expect(new PopoverHide({}).imageHeight).toBeUndefined();
 	});

@@ -1,266 +1,188 @@
-import FootnoteElement from './attribute/FootnoteElement.ts';
-import Mouseenter from './attribute/Mouseenter.ts';
-import Mouseleave from './attribute/Mouseleave.ts';
-import PopoverClass from './attribute/PopoverClass.ts';
-import PopoverHide from './attribute/PopoverHide.ts';
-import PopoverLabel from './attribute/PopoverLabel.ts';
-import CustomElementPopover, { type ToggleEventDetail } from './custom-element/Popover.ts';
+import FootnoteElementAttribute from './attribute/FootnoteElement.ts';
+import MouseenterAttribute from './attribute/Mouseenter.ts';
+import MouseleaveAttribute from './attribute/Mouseleave.ts';
+import PopoverClassAttribute from './attribute/PopoverClass.ts';
+import PopoverHideAttribute from './attribute/PopoverHide.ts';
+import PopoverLabelAttribute from './attribute/PopoverLabel.ts';
+import PopoverElement, { type ToggleEventDetail } from './custom-element/Popover.ts';
+import popoverMouseenterEvent from './event/popover/mouseenter.ts';
+import popoverMouseleaveEvent from './event/popover/mouseleave.ts';
+import popoverHiddenButtonClickEvent from './event/popover-hidden-button/click.ts';
+import popoverTriggerClickEvent from './event/popover-trigger/click.ts';
+import popoverTriggerMouseenterEvent from './event/popover-trigger/mouseenter.ts';
+import popoverTriggerMouseleaveEvent from './event/popover-trigger/mouseleave.ts';
 
-customElements.define('x-popover', CustomElementPopover);
+const POPOVER_ELEMENT_NAME = 'x-popover';
+
+/**
+ * ポップオーバーを表示する
+ *
+ * @param eventType - イベントの識別名
+ * @param popover - PopoverElement
+ */
+export const show = (eventType: string, popover: PopoverElement): void => {
+	if (!popover.isConnected) {
+		/* 初回表示時はポップオーバーの挿入を行う */
+		document.body.appendChild(popover);
+	}
+
+	const triggerRect = popover.triggerElement?.getBoundingClientRect();
+
+	if (triggerRect !== undefined) {
+		/* ポップオーバーの上位置を設定（トリガー要素の下端を基準にする） */
+		popover.style.width = 'auto';
+		popover.style.top = `${String(Math.round(triggerRect.bottom) + window.scrollY)}px`;
+		popover.style.right = 'auto';
+		popover.style.left = 'auto';
+	}
+
+	/* ポップオーバーを表示 */
+	const eventDetail: ToggleEventDetail = {
+		newState: 'open',
+		eventType: eventType,
+	};
+	popover.dispatchEvent(
+		new CustomEvent('my-toggle', {
+			detail: eventDetail,
+		}),
+	);
+
+	if (triggerRect !== undefined) {
+		/* ポップオーバーの左右位置を設定（トリガー要素の左端を基準にする） */
+		const documentWidth = document.documentElement.offsetWidth;
+		const popoverWidth = popover.width;
+		const triggerRectLeft = triggerRect.left;
+
+		popover.style.width = `${String(popoverWidth)}px`;
+		if (documentWidth - triggerRectLeft < popoverWidth) {
+			popover.style.right = '0';
+		} else {
+			popover.style.left = `${String(triggerRectLeft)}px`;
+		}
+	}
+};
+
+/**
+ * ポップオーバーを非表示にする
+ *
+ * @param eventType - イベントの識別名
+ * @param popover - PopoverElement
+ */
+export const hide = (eventType: string, popover: PopoverElement): void => {
+	const eventDetail: ToggleEventDetail = {
+		newState: 'closed',
+		eventType: eventType,
+	};
+	popover.dispatchEvent(
+		new CustomEvent('my-toggle', {
+			detail: eventDetail,
+		}),
+	);
+};
 
 /**
  * Footnote reference popover
+ *
+ * @param thisElement - Target element
  */
-export default class {
-	readonly #popoverTriggerElement: HTMLAnchorElement;
-
-	readonly #popoverElement: CustomElementPopover;
-
-	readonly #footnoteElement: FootnoteElement; // 脚注要素（ポップオーバーの内容をここからコピーする）
-
-	readonly #popoverLabel: PopoverLabel; // ポップオーバーに設定するラベル
-
-	readonly #popoverClass: PopoverClass; // ポップオーバーに設定するクラス名
-
-	readonly #popoverHide: PopoverHide; // ポップオーバーの閉じるボタン
-
-	readonly #mouseenter: Mouseenter; // mouseenter 時のデータ
-
-	readonly #mouseleave: Mouseleave; // mouseleave 時のデータ
-
-	#mouseenterTimeoutId?: NodeJS.Timeout; // ポップオーバーを表示する際のタイマーの識別 ID（`clearTimeout()` で使用）
-
-	#mouseleaveTimeoutId?: NodeJS.Timeout; // ポップオーバーを非表示にする際のタイマーの識別 ID（`clearTimeout()` で使用）
-
-	#preloadProcessed = false; // `<link rel="preload" as="image" />` の生成処理を実行したかどうか
-
-	/**
-	 * @param thisElement - Target element
-	 */
-	constructor(thisElement: HTMLAnchorElement) {
-		this.#popoverTriggerElement = thisElement;
-
-		const { href: hrefAttribute } = thisElement;
-		const {
-			popoverLabel: popoverLabelAttribute,
-			popoverClass: popoverClassAttribute,
-			popoverHideText: popoverHideTextAttribute,
-			popoverHideImageSrc: popoverHideImageSrcAttribute,
-			popoverHideImageWidth: popoverHideImageWidthAttribute,
-			popoverHideImageHeight: popoverHideImageHeightAttribute,
-			mouseenterDelay: mouseenterDelayAttribute,
-			mouseleaveDelay: mouseleaveDelayAttribute,
-		} = thisElement.dataset;
-
-		this.#footnoteElement = new FootnoteElement(hrefAttribute);
-		this.#popoverLabel = new PopoverLabel(popoverLabelAttribute);
-		this.#popoverClass = new PopoverClass(popoverClassAttribute);
-		this.#popoverHide = new PopoverHide({
-			text: popoverHideTextAttribute,
-			imageSrc: popoverHideImageSrcAttribute,
-			imageWidth: popoverHideImageWidthAttribute,
-			imageHeight: popoverHideImageHeightAttribute,
-		});
-		this.#mouseenter = new Mouseenter({ delay: mouseenterDelayAttribute ?? '250' });
-		this.#mouseleave = new Mouseleave({ delay: mouseleaveDelayAttribute ?? '250' });
-
-		this.#popoverElement = document.createElement('x-popover') as CustomElementPopover;
-
-		if (!('showPopover' in this.#popoverElement)) {
-			console.info('This browser does not support popover');
-			return;
-		}
-
-		thisElement.setAttribute('role', 'button');
-
-		thisElement.addEventListener('click', this.#clickEvent);
-		thisElement.addEventListener('mouseenter', this.#mouseEnterEvent, { passive: true });
-		thisElement.addEventListener('mouseleave', this.#mouseLeaveEvent, { passive: true });
+export default (thisElement: HTMLAnchorElement): void => {
+	if (!('showPopover' in thisElement)) {
+		console.info('This browser does not support popover');
+		return;
 	}
 
-	/**
-	 * `click` event
-	 *
-	 * @param ev - MouseEvent
-	 */
-	readonly #clickEvent = (ev: MouseEvent): void => {
-		ev.preventDefault();
+	const { href: hrefAttributeValue } = thisElement;
+	const {
+		popoverLabel: popoverLabelAttributeValue,
+		popoverClass: popoverClassAttributeValue,
+		popoverHideText: popoverHideTextAttributeValue,
+		popoverHideImageSrc: popoverHideImageSrcAttributeValue,
+		popoverHideImageWidth: popoverHideImageWidthAttributeValue,
+		popoverHideImageHeight: popoverHideImageHeightAttributeValue,
+		mouseenterDelay: mouseenterDelayAttributeValue,
+		mouseleaveDelay: mouseleaveDelayAttributeValue,
+	} = thisElement.dataset;
 
-		clearTimeout(this.#mouseleaveTimeoutId);
+	const footnoteElement = new FootnoteElementAttribute(hrefAttributeValue);
+	const popoverLabel = new PopoverLabelAttribute(popoverLabelAttributeValue);
+	const popoverClass = new PopoverClassAttribute(popoverClassAttributeValue);
+	const popoverHide = new PopoverHideAttribute({
+		text: popoverHideTextAttributeValue,
+		imageSrc: popoverHideImageSrcAttributeValue,
+		imageWidth: popoverHideImageWidthAttributeValue,
+		imageHeight: popoverHideImageHeightAttributeValue,
+	});
+	const mouseenter = new MouseenterAttribute({ delay: mouseenterDelayAttributeValue ?? '250' });
+	const mouseleave = new MouseleaveAttribute({ delay: mouseleaveDelayAttributeValue ?? '250' });
 
-		this.#show(ev.type);
-	};
-
-	/**
-	 * `mouseenter` event
-	 *
-	 * @param ev - MouseEvent
-	 */
-	readonly #mouseEnterEvent = (ev: MouseEvent): void => {
-		clearTimeout(this.#mouseleaveTimeoutId);
-
-		this.#imagePreloadElementCreate();
-
-		this.#mouseenterTimeoutId = setTimeout((): void => {
-			this.#show(ev.type);
-		}, this.#mouseenter.delay);
-	};
-
-	/**
-	 * `mouseleave` event
-	 *
-	 * @param ev - MouseEvent
-	 */
-	readonly #mouseLeaveEvent = (ev: MouseEvent): void => {
-		clearTimeout(this.#mouseenterTimeoutId);
-
-		this.#mouseleaveTimeoutId = setTimeout((): void => {
-			this.#hide(ev.type);
-		}, this.#mouseleave.delay);
-	};
-
-	/**
-	 * ポップオーバーを生成する
-	 */
-	#create(): void {
-		const footnoteElement = this.#footnoteElement.element;
-
-		const popoverElement = this.#popoverElement;
-		if (this.#popoverClass.name !== undefined) {
-			popoverElement.className = this.#popoverClass.name;
-		}
-		popoverElement.label = this.#popoverLabel.text ?? null;
-		popoverElement.hideText = this.#popoverHide.text ?? null;
-		popoverElement.hideImageSrc = this.#popoverHide.imageSrc ?? null;
-		popoverElement.hideImageWidth = this.#popoverHide.imageWidth ?? null;
-		popoverElement.hideImageHeight = this.#popoverHide.imageHeight ?? null;
-		popoverElement.insertAdjacentHTML('afterbegin', 'getHTML' in footnoteElement ? footnoteElement.getHTML() : (footnoteElement as HTMLElement).innerHTML);
-		document.body.appendChild(popoverElement);
-
-		popoverElement.addEventListener(
-			'mouseenter',
-			(ev: MouseEvent) => {
-				clearTimeout(this.#mouseleaveTimeoutId);
-
-				this.#mouseenterTimeoutId = setTimeout((): void => {
-					this.#show(ev.type);
-				}, this.#mouseenter.delay);
-			},
-			{ passive: true },
-		);
-		popoverElement.addEventListener(
-			'mouseleave',
-			(ev: MouseEvent) => {
-				clearTimeout(this.#mouseenterTimeoutId);
-
-				this.#mouseleaveTimeoutId = setTimeout((): void => {
-					this.#hide(ev.type);
-				}, this.#mouseleave.delay);
-			},
-			{ passive: true },
-		);
-
-		popoverElement.hideButtonElement.addEventListener(
-			'click',
-			() => {
-				clearTimeout(this.#mouseenterTimeoutId); // タッチデバイスで閉じるボタンをタップした際に `mouseenter` イベントの発火により表示処理が遅延実行されるのを防ぐ
-			},
-			{ passive: true },
-		);
+	if (customElements.get(POPOVER_ELEMENT_NAME) === undefined) {
+		customElements.define(POPOVER_ELEMENT_NAME, PopoverElement);
 	}
 
-	/**
-	 * ポップオーバーを表示する
-	 *
-	 * @param eventType - イベントの識別名
-	 */
-	#show(eventType: string): void {
-		const popoverElement = this.#popoverElement;
-
-		if (!popoverElement.isConnected) {
-			/* 初回表示時はポップオーバーの生成を行う */
-			this.#create();
-		}
-
-		const triggerRect = this.#popoverTriggerElement.getBoundingClientRect();
-
-		/* ポップオーバーの上位置を設定（トリガー要素の下端を基準にする） */
-		popoverElement.style.width = 'auto';
-		popoverElement.style.top = `${String(Math.round(triggerRect.bottom) + window.scrollY)}px`;
-		popoverElement.style.right = 'auto';
-		popoverElement.style.left = 'auto';
-
-		/* ポップオーバーを表示 */
-		const eventDetail: ToggleEventDetail = {
-			newState: 'open',
-			eventType: eventType,
-		};
-		popoverElement.dispatchEvent(
-			new CustomEvent('my-toggle', {
-				detail: eventDetail,
-			}),
-		);
-
-		/* ポップオーバーの左右位置を設定（トリガー要素の左端を基準にする） */
-		const documentWidth = document.documentElement.offsetWidth;
-		const popoverWidth = popoverElement.width;
-		const triggerRectLeft = triggerRect.left;
-
-		popoverElement.style.width = `${String(popoverWidth)}px`;
-		if (documentWidth - triggerRectLeft < popoverWidth) {
-			popoverElement.style.right = '0';
-		} else {
-			popoverElement.style.left = `${String(triggerRectLeft)}px`;
-		}
+	const popoverElement = document.createElement(POPOVER_ELEMENT_NAME) as PopoverElement;
+	if (popoverClass.name !== undefined) {
+		popoverElement.className = popoverClass.name;
 	}
+	popoverElement.ariaLabel = popoverLabel.text ?? null;
+	popoverElement.hideText = popoverHide.text ?? null;
+	popoverElement.hideImageSrc = popoverHide.imageSrc ?? null;
+	popoverElement.hideImageWidth = popoverHide.imageWidth ?? null;
+	popoverElement.hideImageHeight = popoverHide.imageHeight ?? null;
+	popoverElement.triggerElement = thisElement;
+	popoverElement.insertAdjacentHTML(
+		'afterbegin',
+		'getHTML' in footnoteElement.element ? footnoteElement.element.getHTML() : (footnoteElement.element as HTMLElement).innerHTML,
+	);
 
-	/**
-	 * ポップオーバーを非表示にする
-	 *
-	 * @param eventType - イベントの識別名
-	 */
-	#hide(eventType: string): void {
-		const eventDetail: ToggleEventDetail = {
-			newState: 'closed',
-			eventType: eventType,
-		};
-		this.#popoverElement.dispatchEvent(
-			new CustomEvent('my-toggle', {
-				detail: eventDetail,
-			}),
-		);
-	}
+	thisElement.setAttribute('role', 'button');
 
-	/**
-	 * `<link rel="preload" as="image" />` を生成する
-	 */
-	#imagePreloadElementCreate(): void {
-		if (this.#preloadProcessed) {
-			/* 生成処理は1回のみ */
-			return;
-		}
-		this.#preloadProcessed = true;
+	thisElement.addEventListener('click', (ev: MouseEvent) => {
+		popoverTriggerClickEvent(ev, popoverElement);
+	});
+	thisElement.addEventListener(
+		'mouseenter',
+		(ev: MouseEvent) => {
+			popoverTriggerMouseenterEvent(ev, popoverElement, {
+				delay: mouseenter.delay,
+				preloadImageSrc: popoverHide.imageSrc,
+			});
+		},
+		{ passive: true },
+	);
+	thisElement.addEventListener(
+		'mouseleave',
+		(ev: MouseEvent) => {
+			popoverTriggerMouseleaveEvent(ev, popoverElement, {
+				delay: mouseleave.delay,
+			});
+		},
+		{ passive: true },
+	);
 
-		const popoverHideImageSrc = this.#popoverHide.imageSrc;
+	popoverElement.addEventListener(
+		'mouseenter',
+		(ev: MouseEvent) => {
+			popoverMouseenterEvent(ev, popoverElement, {
+				delay: mouseenter.delay,
+			});
+		},
+		{ passive: true },
+	);
+	popoverElement.addEventListener(
+		'mouseleave',
+		(ev: MouseEvent) => {
+			popoverMouseleaveEvent(ev, popoverElement, {
+				delay: mouseenter.delay,
+			});
+		},
+		{ passive: true },
+	);
 
-		if (
-			popoverHideImageSrc !== undefined &&
-			!popoverHideImageSrc.startsWith('data:') &&
-			document.querySelector(`link[rel="preload"][as="image"][href="${popoverHideImageSrc}"]`) === null
-		) {
-			const parentElement = document.head;
-
-			const preloadElement = document.createElement('link');
-			preloadElement.rel = 'preload';
-			preloadElement.as = 'image';
-			preloadElement.href = popoverHideImageSrc;
-
-			const alreadyHeadLinkElements = parentElement.querySelectorAll('link');
-			if (alreadyHeadLinkElements.length === 0) {
-				parentElement.appendChild(preloadElement);
-			} else {
-				[...alreadyHeadLinkElements].at(-1)?.insertAdjacentElement('afterend', preloadElement);
-			}
-		}
-	}
-}
+	popoverElement.hideButtonElement.addEventListener(
+		'click',
+		(ev: MouseEvent) => {
+			popoverHiddenButtonClickEvent(ev, popoverElement);
+		},
+		{ passive: true },
+	);
+};
