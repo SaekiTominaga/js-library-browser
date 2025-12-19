@@ -1,5 +1,3 @@
-import shadowAppendCss from '@w0s/shadow-append-css';
-
 type State = 'open' | 'closed';
 
 export interface ToggleEventDetail {
@@ -75,9 +73,13 @@ export default class extends HTMLElement {
 		`;
 
 		const shadow = this.attachShadow({ mode: 'open' });
+
 		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 		'setHTMLUnsafe' in shadow ? shadow.setHTMLUnsafe(htmlString) : ((shadow as ShadowRoot).innerHTML = htmlString);
-		shadowAppendCss(shadow, cssString);
+
+		const css = new CSSStyleSheet();
+		css.replaceSync(cssString);
+		shadow.adoptedStyleSheets.push(css);
 
 		this.#contentElement = shadow.querySelector('[part="content"]')!;
 		this.#hideButtonElement = shadow.querySelector('[part="hide-button"]')!;

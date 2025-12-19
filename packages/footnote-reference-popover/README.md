@@ -13,6 +13,15 @@
   - The popover is generated the first time a request is made to display the popover, not when the web page loads. This minimizes DOM processing at load time when a large number of popovers are embedded in the page.
 - Customizable delay time for showing and hiding for mouse operations.
 
+## Browser support
+
+Using the Popover feature. ([Can I use...](https://caniuse.com/wf-popover))
+
+- Firefox 125+
+- Safari 17.0+
+- Chrome 116+
+- Edge 116+
+
 ## Demo
 
 - [Demo page](https://saekitominaga.github.io/js-library-browser/packages/footnote-reference-popover/demo/)
@@ -23,8 +32,7 @@
 <script type="importmap">
   {
     "imports": {
-      "@w0s/footnote-reference-popover": "...",
-      "@w0s/shadow-append-css": "..."
+      "@w0s/footnote-reference-popover": "..."
     }
   }
 </script>
@@ -55,6 +63,8 @@
   <li id="footnote-2">Footnote text. <a href="#">link</a> <code>code</code> <em>emphasis</em></li>
 </ul>
 ```
+
+\* **`@w0s/shadow-append-css` is no longer required since version 7.3**
 
 ## HTML attributes
 

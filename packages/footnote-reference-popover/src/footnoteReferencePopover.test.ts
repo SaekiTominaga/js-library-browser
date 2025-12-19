@@ -10,9 +10,13 @@ const sleep = (ms: number) =>
 	});
 
 beforeAll(() => {
+	/* Popover https://github.com/jsdom/jsdom/issues/3721 */
 	HTMLElement.prototype.showPopover = jest.fn();
 	HTMLElement.prototype.hidePopover = jest.fn();
-}); // jsdom が Popover をサポートするまでの暫定処理 https://github.com/jsdom/jsdom/issues/3721
+
+	/* CSSStyleSheet https://github.com/jsdom/jsdom/issues/3766 */
+	CSSStyleSheet.prototype.replaceSync = jest.fn();
+});
 
 describe('trigger click event', () => {
 	beforeAll(() => {
