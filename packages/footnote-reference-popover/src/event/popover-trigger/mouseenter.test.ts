@@ -18,7 +18,8 @@ test('popover status', async () => {
 
 	const delay = 100;
 
-	mouseenterEvent(event, popoverElement, {
+	mouseenterEvent(event, {
+		popoverElement: popoverElement,
 		delay: delay,
 		preloadImageSrc: 'foo.svg',
 	});

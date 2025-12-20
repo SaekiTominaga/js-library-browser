@@ -18,7 +18,8 @@ test('popover status', async () => {
 
 	const delay = 100;
 
-	mouseenterEvent(event, popoverElement, {
+	Object.defineProperty(event, 'currentTarget', { value: popoverElement, writable: false });
+	mouseenterEvent(event, {
 		delay: delay,
 	});
 

@@ -5,19 +5,20 @@ import { hide } from '../../footnoteReferencePopover.ts';
  * `mouseleave` event
  *
  * @param ev - MouseEvent
- * @param popover - PopoverElement
- * @param options -
+ * @param data - Elements, attributes and another data
+ * @param data.delay - Delay time between mouse cursor moved out of the trigger element or popover and closing the popover (milliseconds)
  */
 export default (
 	ev: MouseEvent,
-	popover: PopoverElement,
-	options: Readonly<{
+	data: Readonly<{
 		delay: number;
 	}>,
 ): void => {
-	clearTimeout(popover.mouseenterTimeoutId);
+	const popoverElement = ev.currentTarget as PopoverElement;
 
-	popover.mouseleaveTimeoutId = setTimeout((): void => {
-		hide(ev.type, popover);
-	}, options.delay);
+	clearTimeout(popoverElement.mouseenterTimeoutId);
+
+	popoverElement.mouseleaveTimeoutId = setTimeout((): void => {
+		hide(ev.type, popoverElement);
+	}, data.delay);
 };
