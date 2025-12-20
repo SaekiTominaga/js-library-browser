@@ -1,49 +1,71 @@
-import { describe, beforeAll, afterAll, afterEach, test, expect } from '@jest/globals';
-import CustomElementDetailsContent from './DetailsContent.ts';
+import { beforeEach, describe, expect, test } from '@jest/globals';
+import DetailsContentElement from './DetailsContent.ts';
 
-customElements.define('x-details-content', CustomElementDetailsContent);
+const DETAILS_CONTENT_ELEMENT_NAME = 'x-details-content';
 
-describe('connected', () => {
-	beforeAll(() => {
-		document.body.insertAdjacentHTML('beforeend', '<x-details-content>text</x-details-content>');
+customElements.define(DETAILS_CONTENT_ELEMENT_NAME, DetailsContentElement);
+
+describe('attributes', () => {
+	describe('duration', () => {
+		beforeEach(() => {
+			document.body.innerHTML = `<x-details-content duration="100">text</x-details-content>`;
+		});
+
+		test('init', () => {
+			const detailsContentElement = document.querySelector<DetailsContentElement>(DETAILS_CONTENT_ELEMENT_NAME)!;
+
+			expect(detailsContentElement.duration?.value).toBe(100);
+
+			detailsContentElement.setAttribute('duration', '200');
+			expect(detailsContentElement.duration?.value).toBe(200);
+
+			detailsContentElement.removeAttribute('duration');
+			expect(detailsContentElement.duration?.value).toBeUndefined();
+		});
+
+		test('set', () => {
+			const detailsContentElement = document.querySelector<DetailsContentElement>(DETAILS_CONTENT_ELEMENT_NAME)!;
+
+			detailsContentElement.setAttribute('duration', '200');
+			expect(detailsContentElement.duration?.value).toBe(200);
+		});
+
+		test('seu null', () => {
+			const detailsContentElement = document.querySelector<DetailsContentElement>(DETAILS_CONTENT_ELEMENT_NAME)!;
+
+			detailsContentElement.removeAttribute('duration');
+			expect(detailsContentElement.duration?.value).toBeUndefined();
+		});
 	});
-	afterAll(() => {
-		document.body.innerHTML = '';
-	});
 
-	test('connected', () => {
-		expect(document.body.innerHTML).toBe('<x-details-content>text</x-details-content>');
-	});
-});
+	describe('easing', () => {
+		beforeEach(() => {
+			document.body.innerHTML = `<x-details-content easing="ease">text</x-details-content>`;
+		});
 
-describe('attributeChanged', () => {
-	afterEach(() => {
-		document.body.innerHTML = '';
-	});
+		test('init', () => {
+			const detailsContentElement = document.querySelector<DetailsContentElement>(DETAILS_CONTENT_ELEMENT_NAME)!;
 
-	test('duration', () => {
-		document.body.insertAdjacentHTML('beforeend', '<x-details-content duration="100">text</x-details-content>');
-		const element = document.querySelector<CustomElementDetailsContent>('x-details-content');
+			expect(detailsContentElement.easing?.value).toBe('ease');
 
-		expect(element?.duration?.value).toBe(100);
+			detailsContentElement.setAttribute('easing', 'ease-in');
+			expect(detailsContentElement.easing?.value).toBe('ease-in');
+		});
 
-		element?.setAttribute('duration', '200');
-		expect(element?.duration?.value).toBe(200);
+		test('set', () => {
+			const detailsContentElement = document.querySelector<DetailsContentElement>(DETAILS_CONTENT_ELEMENT_NAME)!;
 
-		element?.removeAttribute('duration');
-		expect(element?.duration?.value).toBeUndefined();
-	});
+			detailsContentElement.setAttribute('easing', 'ease-in');
+			expect(detailsContentElement.easing?.value).toBe('ease-in');
+		});
 
-	test('easing', () => {
-		document.body.insertAdjacentHTML('beforeend', '<x-details-content easing="ease">text</x-details-content>');
-		const element = document.querySelector<CustomElementDetailsContent>('x-details-content');
+		test('set null', () => {
+			const detailsContentElement = document.querySelector<DetailsContentElement>(DETAILS_CONTENT_ELEMENT_NAME)!;
 
-		expect(element?.easing?.value).toBe('ease');
+			expect(detailsContentElement.easing?.value).toBe('ease');
 
-		element?.setAttribute('easing', 'ease-in');
-		expect(element?.easing?.value).toBe('ease-in');
-
-		element?.removeAttribute('easing');
-		expect(element?.easing?.value).toBeUndefined();
+			detailsContentElement.removeAttribute('easing');
+			expect(detailsContentElement.easing?.value).toBeUndefined();
+		});
 	});
 });

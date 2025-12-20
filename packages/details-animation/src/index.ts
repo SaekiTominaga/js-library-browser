@@ -1,4 +1,4 @@
-import DetailsAnimation from './DetailsAnimation.ts';
+import detailsAnimation from './detailsAnimation.ts';
 
 const validate = (element: Element): HTMLDetailsElement => {
 	if (!(element instanceof HTMLDetailsElement)) {
@@ -14,10 +14,10 @@ export default (elementOrElements: NodeListOf<Element> | HTMLCollectionOf<Elemen
 	}
 
 	if (elementOrElements instanceof Element) {
-		new DetailsAnimation(validate(elementOrElements));
+		detailsAnimation(validate(elementOrElements));
 	} else {
 		Array.from(elementOrElements).forEach((element) => {
-			new DetailsAnimation(validate(element));
+			detailsAnimation(validate(element));
 		});
 	}
 };

@@ -1,36 +1,21 @@
-import { describe, beforeAll, test, expect } from '@jest/globals';
+import { expect, test } from '@jest/globals';
 import PreOpen from './PreOpen.ts';
 
-describe('getter / setter', () => {
-	beforeAll(() => {
-		document.body.innerHTML = '<details></details>';
-	});
+test('state property', () => {
+	const preOpen = new PreOpen(document.createElement('details'));
 
-	test('state', () => {
-		const preOpen = new PreOpen(document.querySelector('details')!);
+	expect(preOpen.state).toBeFalsy();
 
-		expect(preOpen.state).toBeFalsy();
+	preOpen.state = true;
+	expect(preOpen.state).toBeTruthy();
 
-		preOpen.state = true;
-		expect(preOpen.state).toBeTruthy();
-
-		preOpen.state = false;
-		expect(preOpen.state).toBeFalsy();
-	});
+	preOpen.state = false;
+	expect(preOpen.state).toBeFalsy();
 });
 
-describe('method', () => {
-	beforeAll(() => {
-		document.body.innerHTML = '<details></details>';
-	});
+test('toggle() method', () => {
+	const preOpen = new PreOpen(document.createElement('details'));
 
-	test('toggle', () => {
-		const preOpen = new PreOpen(document.querySelector('details')!);
-
-		preOpen.toggle();
-		expect(preOpen.state).toBeTruthy();
-
-		preOpen.toggle();
-		expect(preOpen.state).toBeFalsy();
-	});
+	expect(preOpen.toggle()).toBeTruthy();
+	expect(preOpen.toggle()).toBeFalsy();
 });

@@ -1,19 +1,16 @@
-import { describe, beforeEach, test, expect } from '@jest/globals';
+import { beforeAll, describe, expect, test } from '@jest/globals';
 import index from './index.ts';
 
-describe('argument type', () => {
-	beforeEach(() => {
-		document.body.insertAdjacentHTML(
-			'beforeend',
-			`
+beforeAll(() => {
+	document.body.innerHTML = `
 <details id="details" class="details">
 <summary>Open</summary>
 <p></p>
 </details>
-`,
-		);
-	});
+`;
+});
 
+describe('argument type', () => {
 	test('getElementById', () => {
 		expect(() => {
 			index(document.getElementById('details'));
@@ -49,10 +46,10 @@ describe('argument type', () => {
 			index(document.querySelector('.foo'));
 		}).not.toThrow();
 	});
+});
 
-	test('type mismatch', () => {
-		expect(() => {
-			index(document.querySelector('p'));
-		}).toThrow('Element must be a `HTMLDetailsElement`');
-	});
+test('type mismatch', () => {
+	expect(() => {
+		index(document.querySelector('p'));
+	}).toThrow('Element must be a `HTMLDetailsElement`');
 });

@@ -9,6 +9,8 @@ export interface AnimationFinishEventDetail {
 	orientation: StateOrientation;
 }
 
+export const ANIMATION_FINISH_EVENT_TYPE = 'animation-finish';
+
 /**
  * The additional information in a `<details>` element
  *
@@ -42,8 +44,10 @@ export default class CustomElementDetailsContent extends HTMLElement {
 		`;
 
 		const shadow = this.attachShadow({ mode: 'open' });
+
 		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 		'setHTMLUnsafe' in shadow ? shadow.setHTMLUnsafe(htmlString) : ((shadow as ShadowRoot).innerHTML = htmlString);
+
 		shadowAppendCss(shadow, cssString);
 	}
 
@@ -51,7 +55,7 @@ export default class CustomElementDetailsContent extends HTMLElement {
 		try {
 			this.#writingMode = new WritingMode(this);
 		} catch (e) {
-			/* TODO: jsdom は `getComputedStyle()` で CSS の継承を認識しない https://github.com/jsdom/jsdom/issues/2160 */
+			/* TODO: jsdom は `getComputedStyle()` で CSS の継承を認識しない https://github.com/jsdom/jsdom/issues/1696 */
 		}
 	}
 
@@ -177,7 +181,7 @@ export default class CustomElementDetailsContent extends HTMLElement {
 					orientation: orientation,
 				};
 				this.dispatchEvent(
-					new CustomEvent('animation-finish', {
+					new CustomEvent(ANIMATION_FINISH_EVENT_TYPE, {
 						detail: eventDetail,
 					}),
 				);
