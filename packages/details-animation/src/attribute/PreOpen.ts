@@ -21,8 +21,13 @@ export default class {
 
 	/**
 	 * Toggle attribute values
+	 *
+	 * @returns Toggled state
 	 */
-	toggle(): void {
-		this.#element.dataset['preOpen'] = String(this.#element.dataset['preOpen'] !== 'true');
+	toggle(): boolean {
+		const toggled = this.#element.dataset['preOpen'] !== 'true';
+		this.#element.dataset['preOpen'] = String(toggled);
+
+		return toggled;
 	}
 }

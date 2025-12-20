@@ -1,109 +1,73 @@
 import Duration from './attribute/Duration.ts';
 import Easing from './attribute/Easing.ts';
 import PreOpen from './attribute/PreOpen.ts';
-import CustomElementDetailsContent, { type AnimationFinishEventDetail } from './custom-element/DetailsContent.ts';
+import detailsToggleEvent from './event/details/toggle.ts';
+import detailsContentAnimationFinishEvent from './event/details-content/animation-finish.ts';
+import summaryClickEvent from './event/summary/click.ts';
+import DetailsContentElement, { type AnimationFinishEventDetail } from './custom-element/DetailsContent.ts';
 
-customElements.define('x-details-content', CustomElementDetailsContent);
+const DETAILS_CONTENT_ELEMENT_NAME = 'x-details-content';
 
 /**
  * Animating the `<details>` element
+ *
+ * @param thisElement - Target element
  */
-export default class {
-	readonly #detailsElement: HTMLDetailsElement; // `<details>` 要素
+export default (thisElement: HTMLDetailsElement): void => {
+	const { open } = thisElement;
+	const { duration: durationAttribute, easing: easingAttribute } = thisElement.dataset;
 
-	readonly #preOpenAttribute: PreOpen; // `data-pre-open` 属性
+	const duration = new Duration(durationAttribute ?? '500');
+	const easing = new Easing(easingAttribute ?? 'ease');
 
-	readonly #detailsContentElement: CustomElementDetailsContent; // `<details>` 要素内の `<summary>` 要素を除くコンテンツを囲う要素
-
-	/**
-	 * @param thisElement - Target element
-	 */
-	constructor(thisElement: HTMLDetailsElement) {
-		this.#detailsElement = thisElement;
-
-		const { open } = thisElement;
-		const { duration: durationAttribute, easing: easingAttribute } = thisElement.dataset;
-
-		const duration = new Duration(durationAttribute ?? '500');
-		const easing = new Easing(easingAttribute ?? 'ease');
-
-		const summaryElement = thisElement.querySelector('summary');
-		if (summaryElement === null) {
-			throw new Error('Element `<details>` is missing a required instance of child element `<summary>`.');
-		}
-
-		this.#preOpenAttribute = new PreOpen(thisElement);
-		this.#preOpenAttribute.state = open;
-
-		/* <summary> を除くノードをラップする */
-		const fragment = document.createDocumentFragment();
-		let nextNode = summaryElement.nextSibling;
-		// eslint-disable-next-line functional/no-loop-statements
-		while (nextNode !== null) {
-			fragment.appendChild(nextNode);
-			nextNode = summaryElement.nextSibling;
-		}
-
-		const detailsContentElement = document.createElement('x-details-content') as CustomElementDetailsContent;
-		detailsContentElement.duration = duration;
-		detailsContentElement.easing = easing;
-		detailsContentElement.appendChild(fragment);
-		summaryElement.insertAdjacentElement('afterend', detailsContentElement);
-		this.#detailsContentElement = detailsContentElement;
-
-		thisElement.addEventListener('toggle', this.#detailsToggleEvent, { passive: true });
-		summaryElement.addEventListener('click', this.#summaryClickEvent);
-		detailsContentElement.addEventListener('animation-finish', this.#detailsContentAnimationFinishEvent as (ev: Event) => void, {
-			passive: true,
-		});
+	const summaryElement = thisElement.querySelector<HTMLElement>(':scope > summary');
+	if (summaryElement === null) {
+		throw new Error('Element `<details>` is missing a required instance of child element `<summary>`.');
 	}
 
-	/**
-	 * `<details>` 要素の開閉状態が変化した時の処理
-	 */
-	readonly #detailsToggleEvent = (): void => {
-		const { open } = this.#detailsElement;
+	const preOpenAttribute = new PreOpen(thisElement);
+	preOpenAttribute.state = open;
 
-		if (this.#preOpenAttribute.state !== open) {
-			/* `<summary>` 要素のクリックを経ずに開閉状態が変化した場合（ブラウザのページ内検索など） */
-			this.#preOpenAttribute.state = open;
-		}
-	};
+	/* <summary> を除くノードをラップする */
+	const fragment = document.createDocumentFragment();
+	let nextNode = summaryElement.nextSibling;
+	// eslint-disable-next-line functional/no-loop-statements
+	while (nextNode !== null) {
+		fragment.appendChild(nextNode);
+		nextNode = summaryElement.nextSibling;
+	}
 
-	/**
-	 * `<summary>` 要素をクリックしたときの処理
-	 *
-	 * @param ev - Event
-	 */
-	readonly #summaryClickEvent = (ev: Event): void => {
-		ev.preventDefault();
+	if (customElements.get(DETAILS_CONTENT_ELEMENT_NAME) === undefined) {
+		customElements.define(DETAILS_CONTENT_ELEMENT_NAME, DetailsContentElement);
+	}
 
-		this.#preOpenAttribute.toggle();
+	const detailsContentElement = document.createElement(DETAILS_CONTENT_ELEMENT_NAME) as DetailsContentElement;
+	detailsContentElement.duration = duration;
+	detailsContentElement.easing = easing;
+	detailsContentElement.appendChild(fragment);
+	summaryElement.insertAdjacentElement('afterend', detailsContentElement);
 
-		if (this.#preOpenAttribute.state) {
-			this.#detailsElement.open = true;
-
-			this.#detailsContentElement.open();
-		} else {
-			this.#detailsContentElement.close();
-		}
-	};
-
-	/**
-	 * 開閉アニメーションが終了したときの処理
-	 *
-	 * @param ev - Event
-	 */
-	readonly #detailsContentAnimationFinishEvent = (ev: CustomEvent<AnimationFinishEventDetail>): void => {
-		const { detail } = ev;
-
-		switch (detail.orientation) {
-			case 'close': {
-				this.#detailsElement.open = false;
-
-				break;
-			}
-			default:
-		}
-	};
-}
+	thisElement.addEventListener(
+		'toggle',
+		(ev: Event) => {
+			detailsToggleEvent(ev, thisElement, {
+				preOpen: preOpenAttribute,
+			});
+		},
+		{ passive: true },
+	);
+	summaryElement.addEventListener('click', (ev: MouseEvent) => {
+		summaryClickEvent(ev, thisElement, detailsContentElement, {
+			preOpen: preOpenAttribute,
+		});
+	});
+	detailsContentElement.addEventListener(
+		'animation-finish',
+		((ev: CustomEvent<AnimationFinishEventDetail>) => {
+			detailsContentAnimationFinishEvent(ev, thisElement);
+		}) as (ev: Event) => void,
+		{
+			passive: true,
+		},
+	);
+};
