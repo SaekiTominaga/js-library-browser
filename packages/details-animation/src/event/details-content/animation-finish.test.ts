@@ -13,7 +13,9 @@ test('close → open', () => {
 
 	expect(detailsElement.open).toBeFalsy();
 
-	animationFinishEvent(event, detailsElement);
+	animationFinishEvent(event, {
+		detailsElement: detailsElement,
+	});
 	expect(detailsElement.open).toBeFalsy(); // 変化しない
 });
 
@@ -29,6 +31,8 @@ test('open → close', () => {
 	detailsElement.open = true;
 	expect(detailsElement.open).toBeTruthy();
 
-	animationFinishEvent(event, detailsElement);
+	animationFinishEvent(event, {
+		detailsElement: detailsElement,
+	});
 	expect(detailsElement.open).toBeFalsy();
 });
