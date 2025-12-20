@@ -9,6 +9,15 @@
 - Animation speed (`duration`) and easing effects (`easing`) can be customized.
 - In [`prefers-reduced-motion: reduce`](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion) environments, no animation is performed. (Version 4.2.0 or later)
 
+## Browser support
+
+Using the ShadowRoot: `adoptedStyleSheets`. ([Can I use...](https://caniuse.com/mdn-api_shadowroot_adoptedstylesheets))
+
+- Firefox 101+
+- Safari 16.4+
+- Chrome 73+
+- Edge 79+
+
 ## Demo
 
 - [Demo page](https://saekitominaga.github.io/js-library-browser/packages/details-animation/demo/)
@@ -20,7 +29,6 @@
   {
     "imports": {
       "@w0s/details-animation": "...",
-      "@w0s/shadow-append-css": "...",
       "@w0s/writing-mode": "..."
     }
   }
@@ -40,6 +48,8 @@
   <p>Contents text</p>
 </details>
 ```
+
+\* **`@w0s/shadow-append-css` is no longer required since version 7.0**
 
 ## HTML attributes
 

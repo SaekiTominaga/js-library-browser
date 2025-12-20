@@ -1,4 +1,3 @@
-import shadowAppendCss from '@w0s/shadow-append-css';
 import WritingMode from '@w0s/writing-mode';
 import Duration from '../attribute/Duration.ts';
 import Easing from '../attribute/Easing.ts';
@@ -48,7 +47,9 @@ export default class CustomElementDetailsContent extends HTMLElement {
 		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 		'setHTMLUnsafe' in shadow ? shadow.setHTMLUnsafe(htmlString) : ((shadow as ShadowRoot).innerHTML = htmlString);
 
-		shadowAppendCss(shadow, cssString);
+		const css = new CSSStyleSheet();
+		css.replaceSync(cssString);
+		shadow.adoptedStyleSheets.push(css);
 	}
 
 	connectedCallback(): void {
