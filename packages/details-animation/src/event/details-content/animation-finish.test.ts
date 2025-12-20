@@ -1,9 +1,9 @@
 import { expect, test } from '@jest/globals';
-import { type AnimationFinishEventDetail } from '../../custom-element/DetailsContent.ts';
+import { ANIMATION_FINISH_EVENT_TYPE, type AnimationFinishEventDetail } from '../../custom-element/DetailsContent.ts';
 import animationFinishEvent from './animation-finish.ts';
 
 test('close → open', () => {
-	const event = new CustomEvent<AnimationFinishEventDetail>('animation-finish', {
+	const event = new CustomEvent<AnimationFinishEventDetail>(ANIMATION_FINISH_EVENT_TYPE, {
 		detail: {
 			orientation: 'open',
 		},
@@ -20,7 +20,7 @@ test('close → open', () => {
 });
 
 test('open → close', () => {
-	const event = new CustomEvent<AnimationFinishEventDetail>('animation-finish', {
+	const event = new CustomEvent<AnimationFinishEventDetail>(ANIMATION_FINISH_EVENT_TYPE, {
 		detail: {
 			orientation: 'close',
 		},

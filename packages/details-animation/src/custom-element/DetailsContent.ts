@@ -9,6 +9,8 @@ export interface AnimationFinishEventDetail {
 	orientation: StateOrientation;
 }
 
+export const ANIMATION_FINISH_EVENT_TYPE = 'animation-finish';
+
 /**
  * The additional information in a `<details>` element
  *
@@ -179,7 +181,7 @@ export default class CustomElementDetailsContent extends HTMLElement {
 					orientation: orientation,
 				};
 				this.dispatchEvent(
-					new CustomEvent('animation-finish', {
+					new CustomEvent(ANIMATION_FINISH_EVENT_TYPE, {
 						detail: eventDetail,
 					}),
 				);

@@ -4,7 +4,7 @@ import PreOpen from './attribute/PreOpen.ts';
 import detailsToggleEvent from './event/details/toggle.ts';
 import detailsContentAnimationFinishEvent from './event/details-content/animation-finish.ts';
 import summaryClickEvent from './event/summary/click.ts';
-import DetailsContentElement, { type AnimationFinishEventDetail } from './custom-element/DetailsContent.ts';
+import DetailsContentElement, { ANIMATION_FINISH_EVENT_TYPE, type AnimationFinishEventDetail } from './custom-element/DetailsContent.ts';
 
 const DETAILS_CONTENT_ELEMENT_NAME = 'x-details-content';
 
@@ -64,7 +64,7 @@ export default (thisElement: HTMLDetailsElement): void => {
 		});
 	});
 	detailsContentElement.addEventListener(
-		'animation-finish',
+		ANIMATION_FINISH_EVENT_TYPE,
 		((ev: CustomEvent<AnimationFinishEventDetail>) => {
 			detailsContentAnimationFinishEvent(ev, {
 				detailsElement: thisElement,
