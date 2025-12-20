@@ -39,7 +39,7 @@
 	},
 	"dependencies": {
 		"@w0s/shadow-append-css": "^1.1.0",
-		"@w0s/writing-mode": "^1.1.0"
+		"@w0s/writing-mode": "^1.1.1"
 	},
 	"publishConfig": {
 		"access": "public"
