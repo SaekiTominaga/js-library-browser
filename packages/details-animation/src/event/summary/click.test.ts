@@ -29,7 +29,9 @@ test('close → open', () => {
 	const detailsContentElement = document.createElement(DETAILS_CONTENT_ELEMENT_NAME) as DetailsContentElement;
 	const preOpen = new PreOpen(detailsElement);
 
-	clickEvent(event, detailsElement, detailsContentElement, {
+	clickEvent(event, {
+		detailsElement: detailsElement,
+		detailsContentElement: detailsContentElement,
 		preOpen: preOpen,
 	});
 
@@ -45,7 +47,9 @@ test('open → close', () => {
 
 	detailsElement.open = true;
 
-	clickEvent(event, detailsElement, detailsContentElement, {
+	clickEvent(event, {
+		detailsElement: detailsElement,
+		detailsContentElement: detailsContentElement,
 		preOpen: preOpen,
 	});
 

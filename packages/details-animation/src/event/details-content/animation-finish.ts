@@ -4,15 +4,20 @@ import type { AnimationFinishEventDetail } from '../../custom-element/DetailsCon
  * `animation-finish` event
  *
  * @param ev - Event
- * @param detailsElement - HTMLDetailsElement
+ * @param data - Elements and attributes
+ * @param data.detailsElement - `<details>` element
  */
-export default (ev: CustomEvent<AnimationFinishEventDetail>, detailsElement: HTMLDetailsElement): void => {
+export default (
+	ev: CustomEvent<AnimationFinishEventDetail>,
+	data: Readonly<{
+		detailsElement: HTMLDetailsElement;
+	}>,
+): void => {
 	const { detail } = ev;
 
 	switch (detail.orientation) {
 		case 'close': {
-			detailsElement.open = false;
-
+			data.detailsElement.open = false;
 			break;
 		}
 		default:

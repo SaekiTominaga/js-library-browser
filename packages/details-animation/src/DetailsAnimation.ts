@@ -50,21 +50,25 @@ export default (thisElement: HTMLDetailsElement): void => {
 	thisElement.addEventListener(
 		'toggle',
 		(ev: Event) => {
-			detailsToggleEvent(ev, thisElement, {
+			detailsToggleEvent(ev, {
 				preOpen: preOpenAttribute,
 			});
 		},
 		{ passive: true },
 	);
 	summaryElement.addEventListener('click', (ev: MouseEvent) => {
-		summaryClickEvent(ev, thisElement, detailsContentElement, {
+		summaryClickEvent(ev, {
+			detailsElement: thisElement,
+			detailsContentElement: detailsContentElement,
 			preOpen: preOpenAttribute,
 		});
 	});
 	detailsContentElement.addEventListener(
 		'animation-finish',
 		((ev: CustomEvent<AnimationFinishEventDetail>) => {
-			detailsContentAnimationFinishEvent(ev, thisElement);
+			detailsContentAnimationFinishEvent(ev, {
+				detailsElement: thisElement,
+			});
 		}) as (ev: Event) => void,
 		{
 			passive: true,

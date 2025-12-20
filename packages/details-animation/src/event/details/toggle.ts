@@ -3,21 +3,20 @@ import type PreOpen from '../../attribute/PreOpen.ts';
 /**
  * `toggle` event
  *
- * @param _ev - Event
- * @param detailsElement - HTMLDetailsElement
- * @param options -
+ * @param ev - Event
+ * @param data - Elements and attributes
+ * @param data.preOpen - `<details data-pre-open>` attribute
  */
 export default (
-	_ev: Event,
-	detailsElement: HTMLDetailsElement,
-	options: Readonly<{
+	ev: Event,
+	data: Readonly<{
 		preOpen: PreOpen;
 	}>,
 ): void => {
-	const { open } = detailsElement;
+	const { open } = ev.currentTarget as HTMLDetailsElement;
 
-	if (options.preOpen.state !== open) {
+	if (data.preOpen.state !== open) {
 		/* `<summary>` 要素のクリックを経ずに開閉状態が変化した場合（ブラウザのページ内検索など） */
-		options.preOpen.state = open;
+		data.preOpen.state = open;
 	}
 };

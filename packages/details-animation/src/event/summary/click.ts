@@ -5,26 +5,27 @@ import type DetailsContentElement from '../../custom-element/DetailsContent.ts';
  * `click` event
  *
  * @param ev - Event
- * @param detailsElement - HTMLDetailsElement
- * @param detailsContentElement - DetailsContentElement
- * @param options -
+ * @param data - Elements and attributes
+ * @param data.detailsElement - `<details>` element
+ * @param data.detailsContentElement - DetailsContentElement
+ * @param data.preOpen - `<details data-pre-open>` attribute
  */
 export default (
 	ev: MouseEvent,
-	detailsElement: HTMLDetailsElement,
-	detailsContentElement: DetailsContentElement,
-	options: Readonly<{
+	data: Readonly<{
+		detailsElement: HTMLDetailsElement;
+		detailsContentElement: DetailsContentElement;
 		preOpen: PreOpen;
 	}>,
 ): void => {
 	ev.preventDefault();
 
-	const toggledState = options.preOpen.toggle();
+	const toggledState = data.preOpen.toggle();
 	if (toggledState) {
-		detailsElement.open = true;
+		data.detailsElement.open = true;
 
-		detailsContentElement.open();
+		data.detailsContentElement.open();
 	} else {
-		detailsContentElement.close();
+		data.detailsContentElement.close();
 	}
 };
