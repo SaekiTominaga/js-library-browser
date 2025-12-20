@@ -137,12 +137,15 @@ export default (thisElement: HTMLAnchorElement): void => {
 	thisElement.setAttribute('role', 'button');
 
 	thisElement.addEventListener('click', (ev: MouseEvent) => {
-		popoverTriggerClickEvent(ev, popoverElement);
+		popoverTriggerClickEvent(ev, {
+			popoverElement: popoverElement,
+		});
 	});
 	thisElement.addEventListener(
 		'mouseenter',
 		(ev: MouseEvent) => {
-			popoverTriggerMouseenterEvent(ev, popoverElement, {
+			popoverTriggerMouseenterEvent(ev, {
+				popoverElement: popoverElement,
 				delay: mouseenter.delay,
 				preloadImageSrc: popoverHide.imageSrc,
 			});
@@ -152,7 +155,8 @@ export default (thisElement: HTMLAnchorElement): void => {
 	thisElement.addEventListener(
 		'mouseleave',
 		(ev: MouseEvent) => {
-			popoverTriggerMouseleaveEvent(ev, popoverElement, {
+			popoverTriggerMouseleaveEvent(ev, {
+				popoverElement: popoverElement,
 				delay: mouseleave.delay,
 			});
 		},
@@ -162,7 +166,7 @@ export default (thisElement: HTMLAnchorElement): void => {
 	popoverElement.addEventListener(
 		'mouseenter',
 		(ev: MouseEvent) => {
-			popoverMouseenterEvent(ev, popoverElement, {
+			popoverMouseenterEvent(ev, {
 				delay: mouseenter.delay,
 			});
 		},
@@ -171,7 +175,7 @@ export default (thisElement: HTMLAnchorElement): void => {
 	popoverElement.addEventListener(
 		'mouseleave',
 		(ev: MouseEvent) => {
-			popoverMouseleaveEvent(ev, popoverElement, {
+			popoverMouseleaveEvent(ev, {
 				delay: mouseenter.delay,
 			});
 		},
@@ -181,7 +185,9 @@ export default (thisElement: HTMLAnchorElement): void => {
 	popoverElement.hideButtonElement.addEventListener(
 		'click',
 		(ev: MouseEvent) => {
-			popoverHiddenButtonClickEvent(ev, popoverElement);
+			popoverHiddenButtonClickEvent(ev, {
+				popoverElement: popoverElement,
+			});
 		},
 		{ passive: true },
 	);

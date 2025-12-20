@@ -14,7 +14,9 @@ test('popover status', () => {
 	expect(popoverElement.isConnected).toBeFalsy();
 	expect(popoverElement.state).toBeUndefined();
 
-	clickEvent(event, popoverElement);
+	clickEvent(event, {
+		popoverElement: popoverElement,
+	});
 
 	expect(popoverElement.isConnected).toBeTruthy();
 	expect(popoverElement.state).toBe('open');

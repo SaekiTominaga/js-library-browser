@@ -19,7 +19,8 @@ test('popover status', async () => {
 
 	const delay = 100;
 
-	mouseleaveEvent(event, popoverElement, {
+	mouseleaveEvent(event, {
+		popoverElement: popoverElement,
 		delay: delay,
 	});
 
