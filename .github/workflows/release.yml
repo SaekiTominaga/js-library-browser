@@ -43,7 +43,10 @@ jobs:
           echo "version=$version" >> "$GITHUB_OUTPUT"
 
       - name: Build
-        run: npm run build -w ${{ steps.extract.outputs.package }}
+        run: |
+          npm run build -w @w0s/shadow-append-css
+          npm run build -w @w0s/writing-mode
+          npm run build -w ${{ steps.extract.outputs.package }}
 
       - name: Version
         run: npm version ${{ steps.extract.outputs.version }} -w ${{ steps.extract.outputs.package }} --no-git-tag-version
