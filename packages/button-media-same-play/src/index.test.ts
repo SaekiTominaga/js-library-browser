@@ -1,17 +1,14 @@
-import { describe, beforeEach, test, expect } from '@jest/globals';
+import { beforeAll, describe, expect, test } from '@jest/globals';
 import index from './index.ts';
 
-describe('argument type', () => {
-	beforeEach(() => {
-		document.body.insertAdjacentHTML(
-			'beforeend',
-			`
+beforeAll(() => {
+	document.body.innerHTML = `
 <button aria-controls="video1">Simultaneous playback</button>
 <video id="video1"></video>
-`,
-		);
-	});
+`;
+});
 
+describe('argument type', () => {
 	test('getElementById', () => {
 		expect(() => {
 			index(document.getElementById('button'));

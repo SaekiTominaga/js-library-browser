@@ -1,8 +1,14 @@
 /**
  * Popover <https://github.com/jsdom/jsdom/issues/3721>
  */
-HTMLElement.prototype.showPopover = () => {};
 HTMLElement.prototype.hidePopover = () => {};
+HTMLElement.prototype.showPopover = () => {};
+
+/**
+ * HTMLMediaElement <https://github.com/jsdom/jsdom/issues/1515>
+ */
+HTMLMediaElement.prototype.pause = () => {};
+HTMLMediaElement.prototype.play = () => {};
 
 /**
  * ShadowRoot: adoptedStyleSheets <https://github.com/jsdom/jsdom/issues/3444>

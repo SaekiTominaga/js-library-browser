@@ -1,4 +1,4 @@
-import ButtonMediaSamePlay from './ButtonMediaSamePlay.ts';
+import buttonMediaSamePlay from './buttonMediaSamePlay.ts';
 
 const validate = (element: Element): HTMLButtonElement => {
 	if (!(element instanceof HTMLButtonElement)) {
@@ -14,10 +14,10 @@ export default (elementOrElements: NodeListOf<Element> | HTMLCollectionOf<Elemen
 	}
 
 	if (elementOrElements instanceof Element) {
-		new ButtonMediaSamePlay(validate(elementOrElements));
+		buttonMediaSamePlay(validate(elementOrElements));
 	} else {
 		Array.from(elementOrElements).forEach((element) => {
-			new ButtonMediaSamePlay(validate(element));
+			buttonMediaSamePlay(validate(element));
 		});
 	}
 };

@@ -58,7 +58,6 @@ export default [
 	},
 	{
 		files: [
-			'packages/button-media-same-play/src/index.ts',
 			'packages/button-share/src/index.ts',
 			'packages/form-before-unload-confirm/src/index.ts',
 			'packages/form-control-validation/src/index.ts',
