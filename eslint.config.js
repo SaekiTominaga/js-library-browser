@@ -58,7 +58,6 @@ export default [
 	},
 	{
 		files: [
-			'packages/button-confirm/src/index.ts',
 			'packages/button-media-same-play/src/index.ts',
 			'packages/button-share/src/index.ts',
 			'packages/form-before-unload-confirm/src/index.ts',
@@ -80,7 +79,7 @@ export default [
 		},
 	},
 	{
-		files: ['packages/button-confirm/src/ButtonConfirm.ts'],
+		files: ['packages/button-confirm/src/event/**/*.ts'],
 		rules: {
 			'no-alert': 'off',
 		},
