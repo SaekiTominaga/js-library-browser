@@ -5,6 +5,8 @@ on:
     paths:
       - 'packages/input-file-preview/**'
       - '!packages/input-file-preview/**/*.md'
+      - 'jest.config.mjs'
+      - 'jest.setup.js'
       - 'package.json'
   workflow_dispatch:
 

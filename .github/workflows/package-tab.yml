@@ -5,6 +5,8 @@ on:
     paths:
       - 'packages/tab/**'
       - '!packages/tab/**/*.md'
+      - 'jest.config.mjs'
+      - 'jest.setup.js'
       - 'package.json'
   workflow_dispatch:
 

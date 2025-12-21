@@ -5,6 +5,8 @@ on:
     paths:
       - 'packages/button-checkboxes/**'
       - '!packages/button-checkboxes/**/*.md'
+      - 'jest.config.mjs'
+      - 'jest.setup.js'
       - 'package.json'
   workflow_dispatch:
 

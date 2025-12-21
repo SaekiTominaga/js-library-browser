@@ -5,6 +5,8 @@ on:
     paths:
       - 'packages/details-animation/**'
       - '!packages/details-animation/**/*.md'
+      - 'jest.config.mjs'
+      - 'jest.setup.js'
       - 'package.json'
   workflow_dispatch:
 

@@ -5,6 +5,8 @@ on:
     paths:
       - 'packages/report-js-error/**'
       - '!packages/report-js-error/**/*.md'
+      - 'jest.config.mjs'
+      - 'jest.setup.js'
       - 'package.json'
   workflow_dispatch:
 

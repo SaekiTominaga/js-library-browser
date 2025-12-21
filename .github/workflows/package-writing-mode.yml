@@ -5,6 +5,8 @@ on:
     paths:
       - 'packages/writing-mode/**'
       - '!packages/writing-mode/**/*.md'
+      - 'jest.config.mjs'
+      - 'jest.setup.js'
       - 'package.json'
   workflow_dispatch:
 

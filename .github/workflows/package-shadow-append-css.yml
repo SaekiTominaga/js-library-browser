@@ -5,6 +5,8 @@ on:
     paths:
       - 'packages/shadow-append-css/**'
       - '!packages/shadow-append-css/**/*.md'
+      - 'jest.config.mjs'
+      - 'jest.setup.js'
       - 'package.json'
   workflow_dispatch:
 

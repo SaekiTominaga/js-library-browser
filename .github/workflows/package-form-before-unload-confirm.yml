@@ -5,6 +5,8 @@ on:
     paths:
       - 'packages/form-before-unload-confirm/**'
       - '!packages/form-before-unload-confirm/**/*.md'
+      - 'jest.config.mjs'
+      - 'jest.setup.js'
       - 'package.json'
   workflow_dispatch:
 

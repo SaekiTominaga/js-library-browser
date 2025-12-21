@@ -5,6 +5,8 @@ on:
     paths:
       - 'packages/form-control-validation/**'
       - '!packages/form-control-validation/**/*.md'
+      - 'jest.config.mjs'
+      - 'jest.setup.js'
       - 'package.json'
   workflow_dispatch:
 

@@ -5,6 +5,8 @@ on:
     paths:
       - 'packages/button-clipboard/**'
       - '!packages/button-clipboard/**/*.md'
+      - 'jest.config.mjs'
+      - 'jest.setup.js'
       - 'package.json'
   workflow_dispatch:
 

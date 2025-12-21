@@ -5,6 +5,8 @@ on:
     paths:
       - 'packages/footnote-reference-popover/**'
       - '!packages/footnote-reference-popover/**/*.md'
+      - 'jest.config.mjs'
+      - 'jest.setup.js'
       - 'package.json'
   workflow_dispatch:
 
