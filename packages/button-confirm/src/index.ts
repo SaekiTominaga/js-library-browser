@@ -1,4 +1,4 @@
-import ButtonConfirm from './ButtonConfirm.ts';
+import buttonConfirm from './buttonConfirm.ts';
 
 const validate = (element: Element): HTMLButtonElement => {
 	if (!(element instanceof HTMLButtonElement)) {
@@ -14,10 +14,10 @@ export default (elementOrElements: NodeListOf<Element> | HTMLCollectionOf<Elemen
 	}
 
 	if (elementOrElements instanceof Element) {
-		new ButtonConfirm(validate(elementOrElements));
+		buttonConfirm(validate(elementOrElements));
 	} else {
 		Array.from(elementOrElements).forEach((element) => {
-			new ButtonConfirm(validate(element));
+			buttonConfirm(validate(element));
 		});
 	}
 };
