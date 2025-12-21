@@ -5,6 +5,8 @@ on:
     paths:
       - 'packages/input-date-to-text/**'
       - '!packages/input-date-to-text/**/*.md'
+      - 'jest.config.mjs'
+      - 'jest.setup.js'
       - 'package.json'
   workflow_dispatch:
 

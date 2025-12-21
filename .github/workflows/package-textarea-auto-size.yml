@@ -5,6 +5,8 @@ on:
     paths:
       - 'packages/textarea-auto-size/**'
       - '!packages/textarea-auto-size/**/*.md'
+      - 'jest.config.mjs'
+      - 'jest.setup.js'
       - 'package.json'
   workflow_dispatch:
 

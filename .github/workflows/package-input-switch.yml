@@ -5,6 +5,8 @@ on:
     paths:
       - 'packages/input-switch/**'
       - '!packages/input-switch/**/*.md'
+      - 'jest.config.mjs'
+      - 'jest.setup.js'
       - 'package.json'
   workflow_dispatch:
 

@@ -5,6 +5,8 @@ on:
     paths:
       - 'packages/report-same-referrer/**'
       - '!packages/report-same-referrer/**/*.md'
+      - 'jest.config.mjs'
+      - 'jest.setup.js'
       - 'package.json'
   workflow_dispatch:
 

@@ -5,6 +5,8 @@ on:
     paths:
       - 'packages/input-isbn/**'
       - '!packages/input-isbn/**/*.md'
+      - 'jest.config.mjs'
+      - 'jest.setup.js'
       - 'package.json'
   workflow_dispatch:
 

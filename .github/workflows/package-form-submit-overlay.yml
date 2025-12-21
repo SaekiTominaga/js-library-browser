@@ -5,6 +5,8 @@ on:
     paths:
       - 'packages/form-submit-overlay/**'
       - '!packages/form-submit-overlay/**/*.md'
+      - 'jest.config.mjs'
+      - 'jest.setup.js'
       - 'package.json'
   workflow_dispatch:
 

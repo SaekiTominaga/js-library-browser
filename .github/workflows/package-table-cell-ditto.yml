@@ -5,6 +5,8 @@ on:
     paths:
       - 'packages/table-cell-ditto/**'
       - '!packages/table-cell-ditto/**/*.md'
+      - 'jest.config.mjs'
+      - 'jest.setup.js'
       - 'package.json'
   workflow_dispatch:
 
