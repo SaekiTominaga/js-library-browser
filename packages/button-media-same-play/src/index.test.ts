@@ -44,10 +44,10 @@ describe('argument type', () => {
 			index(document.querySelector('.foo'));
 		}).not.toThrow();
 	});
+});
 
-	test('type mismatch', () => {
-		expect(() => {
-			index(document.querySelector('video'));
-		}).toThrow('Element must be a `HTMLButtonElement`');
-	});
+test('type mismatch', () => {
+	expect(() => {
+		index(document.querySelector('video'));
+	}).toThrow('Element must be a `HTMLButtonElement`');
 });
