@@ -1,17 +1,14 @@
-import { describe, beforeEach, test, expect } from '@jest/globals';
+import { beforeAll, describe, expect, test } from '@jest/globals';
 import index from './index.ts';
 
-describe('argument type', () => {
-	beforeEach(() => {
-		document.body.insertAdjacentHTML(
-			'beforeend',
-			`
+beforeAll(() => {
+	document.body.innerHTML = `
 <a href="#footnote" class="footnote-reference-popover" id="footnote-reference-popover"></a>
 <p id="footnote"></p>
-`,
-		);
-	});
+`;
+});
 
+describe('argument type', () => {
 	test('getElementById', () => {
 		expect(() => {
 			index(document.getElementById('footnote-reference-popover'));
@@ -47,10 +44,10 @@ describe('argument type', () => {
 			index(document.querySelector('.foo'));
 		}).not.toThrow();
 	});
+});
 
-	test('type mismatch', () => {
-		expect(() => {
-			index(document.querySelector('p'));
-		}).toThrow('Element must be a `HTMLAnchorElement`');
-	});
+test('type mismatch', () => {
+	expect(() => {
+		index(document.querySelector('p'));
+	}).toThrow('Element must be a `HTMLAnchorElement`');
 });

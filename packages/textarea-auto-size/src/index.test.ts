@@ -1,17 +1,14 @@
-import { describe, beforeEach, test, expect } from '@jest/globals';
+import { beforeAll, describe, expect, test } from '@jest/globals';
 import index from './index.ts';
 
-describe('argument type', () => {
-	beforeEach(() => {
-		document.body.insertAdjacentHTML(
-			'beforeend',
-			`
+beforeAll(() => {
+	document.body.innerHTML = `
 <textarea id="textarea" class="textarea"></textarea>
 <span></span>
-`,
-		);
-	});
+`;
+});
 
+describe('argument type', () => {
 	test('getElementById', () => {
 		expect(() => {
 			index(document.getElementById('textarea'));
@@ -47,10 +44,10 @@ describe('argument type', () => {
 			index(document.querySelector('.foo'));
 		}).not.toThrow();
 	});
+});
 
-	test('type mismatch', () => {
-		expect(() => {
-			index(document.querySelector('span'));
-		}).toThrow('Element must be a `HTMLTextAreaElement`');
-	});
+test('type mismatch', () => {
+	expect(() => {
+		index(document.querySelector('span'));
+	}).toThrow('Element must be a `HTMLTextAreaElement`');
 });

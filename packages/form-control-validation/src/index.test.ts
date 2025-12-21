@@ -1,17 +1,14 @@
-import { describe, beforeEach, test, expect } from '@jest/globals';
+import { beforeAll, describe, expect, test } from '@jest/globals';
 import index from './index.ts';
 
-describe('argument type', () => {
-	beforeEach(() => {
-		document.body.insertAdjacentHTML(
-			'beforeend',
-			`
+beforeAll(() => {
+	document.body.innerHTML = `
 <input id="input" class="input" aria-errormessage="message">
 <p id="message"></p>
-`,
-		);
-	});
+`;
+});
 
+describe('argument type', () => {
 	test('getElementsByClassName', () => {
 		expect(() => {
 			index(document.getElementsByClassName('input'));

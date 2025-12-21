@@ -1,8 +1,8 @@
-import { describe, beforeEach, test, expect } from '@jest/globals';
+import { beforeAll, describe, expect, test } from '@jest/globals';
 import index from './index.ts';
 
 describe('argument type', () => {
-	beforeEach(() => {
+	beforeAll(() => {
 		document.body.innerHTML = `
 <input type="file" id="input" class="input" data-preview="preview" />
 <template id="preview">
@@ -55,7 +55,7 @@ describe('argument type', () => {
 });
 
 describe('type attribute', () => {
-	beforeEach(() => {
+	beforeAll(() => {
 		document.body.innerHTML = '<input type="foo" />';
 	});
 

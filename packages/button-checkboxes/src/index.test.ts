@@ -1,20 +1,17 @@
-import { beforeEach, describe, expect, test } from '@jest/globals';
+import { beforeAll, describe, expect, test } from '@jest/globals';
 import index from './index.ts';
 
-describe('argument type', () => {
-	beforeEach(() => {
-		document.body.insertAdjacentHTML(
-			'beforeend',
-			`
+beforeAll(() => {
+	document.body.innerHTML = `
 <button id="button" class="button" data-course="check" data-control="checkboxes"></button>
 
 <span id="checkboxes">
 <input type="checkbox" id="checkbox1" />
 </span>
-`,
-		);
-	});
+`;
+});
 
+describe('argument type', () => {
 	test('getElementById', () => {
 		expect(() => {
 			index(document.getElementById('button'));
@@ -50,10 +47,10 @@ describe('argument type', () => {
 			index(document.querySelector('.foo'));
 		}).not.toThrow();
 	});
+});
 
-	test('type mismatch', () => {
-		expect(() => {
-			index(document.querySelector('#checkboxes'));
-		}).toThrow('Element must be a `HTMLButtonElement`');
-	});
+test('type mismatch', () => {
+	expect(() => {
+		index(document.querySelector('#checkboxes'));
+	}).toThrow('Element must be a `HTMLButtonElement`');
 });
