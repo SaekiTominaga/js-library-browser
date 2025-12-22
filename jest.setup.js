@@ -14,6 +14,7 @@ HTMLMediaElement.prototype.play = () => {};
  * ShadowRoot: adoptedStyleSheets <https://github.com/jsdom/jsdom/issues/3444>
  */
 Object.defineProperty(ShadowRoot.prototype, 'adoptedStyleSheets', {
+	configurable: true,
 	get() {
 		return this._adoptedStyleSheets ?? [];
 	},

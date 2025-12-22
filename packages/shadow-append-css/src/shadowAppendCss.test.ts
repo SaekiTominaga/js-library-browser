@@ -1,9 +1,9 @@
-import { test, expect } from '@jest/globals';
+import { test, expect, beforeAll } from '@jest/globals';
 import shadowAppendCss from './shadowAppendCss.ts';
 
-test('not support `adoptedStyleSheets`', () => {
-	const cssString = ':host { color: red }';
+const cssString = ':host { color: red }';
 
+beforeAll(() => {
 	class MyElement extends HTMLElement {
 		constructor() {
 			super();
@@ -13,6 +13,14 @@ test('not support `adoptedStyleSheets`', () => {
 	}
 
 	customElements.define('my-element', MyElement);
+});
+
+test('not support', () => {
+	Object.defineProperty(ShadowRoot.prototype, 'adoptedStyleSheets', {
+		get() {
+			return undefined;
+		},
+	});
 
 	expect(document.createElement('my-element').shadowRoot?.querySelector('style')?.textContent).toBe(cssString);
 });
