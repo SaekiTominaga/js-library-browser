@@ -42,7 +42,7 @@ test('404', async () => {
 			fetch: fetchOptionsTemp,
 			validate: { ...options.validate },
 		}),
-	).rejects.toThrow('`http://example.com/endpoint` is 404 Not Found');
+	).rejects.toThrow('`http://example.com/endpoint` is 405 Not Allowed');
 });
 
 describe('validate', () => {
