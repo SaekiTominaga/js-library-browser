@@ -2,7 +2,7 @@
 	"name": "js-library-browser",
 	"type": "module",
 	"scripts": {
-		"lint": "npm run lint:js && npm run lint:html && npm run lint:css",
+		"lint": "conc \"npm run lint:js\" \"npm run lint:html\" \"npm run lint:css\"",
 		"lint:js": "eslint packages/*/src/**/*.ts *.{js,mjs}",
 		"lint:html": "markuplint packages/*/demo/**/*.html",
 		"lint:css": "stylelint packages/*/demo/**/*.html"
