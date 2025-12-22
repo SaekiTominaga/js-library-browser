@@ -115,6 +115,8 @@ export default [
 			'no-empty-function': 'off',
 			'no-new': 'off',
 			'no-underscore-dangle': 'off',
+			'jsdoc/require-param': 'off',
+			'jsdoc/require-returns': 'off',
 		},
 	},
 ];
