@@ -1,4 +1,4 @@
-import FormBeforeUnloadConfirm from './FormBeforeUnloadConfirm.ts';
+import formBeforeUnloadConfirm from './formBeforeUnloadConfirm.ts';
 
 const validate = (element: Element): HTMLFormElement => {
 	if (!(element instanceof HTMLFormElement)) {
@@ -14,10 +14,10 @@ export default (elementOrElements: NodeListOf<Element> | HTMLCollectionOf<Elemen
 	}
 
 	if (elementOrElements instanceof Element) {
-		new FormBeforeUnloadConfirm(validate(elementOrElements));
+		formBeforeUnloadConfirm(validate(elementOrElements));
 	} else {
 		Array.from(elementOrElements).forEach((element) => {
-			new FormBeforeUnloadConfirm(validate(element));
+			formBeforeUnloadConfirm(validate(element));
 		});
 	}
 };
