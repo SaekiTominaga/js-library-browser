@@ -1,6 +1,6 @@
 {
 	"name": "@w0s/textarea-auto-size",
-	"version": "4.0.2",
+	"version": "4.0.3",
 	"description": "Automatically adjust the block size dimension of the `<textarea>` element to the input content",
 	"keywords": [
 		"textarea"
