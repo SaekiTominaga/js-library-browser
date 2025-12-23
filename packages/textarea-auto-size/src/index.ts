@@ -1,4 +1,4 @@
-import TextareaAutoSize from './TextareaAutoSize.ts';
+import textareaAutoSize from './textareaAutoSize.ts';
 
 const validate = (element: Element): HTMLTextAreaElement => {
 	if (!(element instanceof HTMLTextAreaElement)) {
@@ -14,10 +14,10 @@ export default (elementOrElements: NodeListOf<Element> | HTMLCollectionOf<Elemen
 	}
 
 	if (elementOrElements instanceof Element) {
-		new TextareaAutoSize(validate(elementOrElements));
+		textareaAutoSize(validate(elementOrElements));
 	} else {
 		Array.from(elementOrElements).forEach((element) => {
-			new TextareaAutoSize(validate(element));
+			textareaAutoSize(validate(element));
 		});
 	}
 };

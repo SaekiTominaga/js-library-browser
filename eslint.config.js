@@ -65,7 +65,6 @@ export default [
 			'packages/input-date-to-text/src/index.ts',
 			'packages/input-file-preview/src/index.ts',
 			'packages/input-isbn/src/index.ts',
-			'packages/textarea-auto-size/src/index.ts',
 		],
 		rules: {
 			'no-new': 'off',
