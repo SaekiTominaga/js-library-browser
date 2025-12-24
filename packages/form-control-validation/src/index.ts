@@ -1,4 +1,4 @@
-import FormControlValidation from './FormControlValidation.ts';
+import formControlValidation from './formControlValidation.ts';
 
 const validate = (element: Element): HTMLElement => {
 	if (!(element instanceof HTMLElement)) {
@@ -14,10 +14,10 @@ export default (elementOrElements: NodeListOf<Element> | HTMLCollectionOf<Elemen
 	}
 
 	if (elementOrElements instanceof Element) {
-		new FormControlValidation(validate(elementOrElements));
+		formControlValidation(validate(elementOrElements));
 	} else {
 		Array.from(elementOrElements).forEach((element) => {
-			new FormControlValidation(validate(element));
+			formControlValidation(validate(element));
 		});
 	}
 };

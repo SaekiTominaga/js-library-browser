@@ -59,7 +59,6 @@ export default [
 	{
 		files: [
 			'packages/button-share/src/index.ts',
-			'packages/form-control-validation/src/index.ts',
 			'packages/form-submit-overlay/src/index.ts',
 			'packages/input-date-to-text/src/index.ts',
 			'packages/input-file-preview/src/index.ts',
