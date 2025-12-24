@@ -1,6 +1,6 @@
 {
 	"name": "@w0s/form-control-validation",
-	"version": "5.0.2",
+	"version": "5.0.3",
 	"description": "Input validation of form control",
 	"homepage": "https://github.com/SaekiTominaga/js-library-browser#readme",
 	"bugs": {
