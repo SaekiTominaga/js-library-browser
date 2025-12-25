@@ -1,4 +1,4 @@
-import InputDateToText from './InputDateToText.ts';
+import inputDateToText from './inputDateToText.ts';
 
 const validate = (element: Element): HTMLInputElement => {
 	if (!(element instanceof HTMLInputElement)) {
@@ -14,10 +14,10 @@ export default (elementOrElements: NodeListOf<Element> | HTMLCollectionOf<Elemen
 	}
 
 	if (elementOrElements instanceof Element) {
-		new InputDateToText(validate(elementOrElements));
+		inputDateToText(validate(elementOrElements));
 	} else {
 		Array.from(elementOrElements).forEach((element) => {
-			new InputDateToText(validate(element));
+			inputDateToText(validate(element));
 		});
 	}
 };
