@@ -7,13 +7,14 @@ import type ValidationMessageNoExist from '../attribute/ValidationMessageNoExist
 /**
  * 入力値を変換（整形）する
  *
- * @param inputElement - HTMLInputElement
+ * @param inputValue - `<input>` 要素への入力値
+ *
+ * @returns 空文字または YYYY-MM-DD 形式の文字列
  */
-export const convertValue = (inputElement: HTMLInputElement): void => {
-	const valueTrim = inputElement.value.trim();
+export const convertValue = (inputValue: string): string => {
+	const valueTrim = inputValue.trim();
 	if (valueTrim === '') {
-		inputElement.value = valueTrim;
-		return;
+		return valueTrim;
 	}
 
 	/* 数字を半角化 */
@@ -21,40 +22,66 @@ export const convertValue = (inputElement: HTMLInputElement): void => {
 
 	if (/^[0-9]{8}$/u.test(valueHankaku)) {
 		/* e.g. 20000101 → 2000-01-01 */
-		inputElement.value = `${valueHankaku.substring(0, 4)}-${valueHankaku.substring(4, 6)}-${valueHankaku.substring(6)}`;
-		return;
+		return `${valueHankaku.substring(0, 4)}-${valueHankaku.substring(4, 6)}-${valueHankaku.substring(6)}`;
 	}
 
 	/* e.g. 2000/1/1 → 2000-01-01, 2000-1-1 → 2000-01-01 */
 	const { 0: year, 1: month, 2: day } = valueHankaku.replaceAll('/', '-').split('-');
 	if (year !== undefined && month !== undefined && day !== undefined) {
-		inputElement.value = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+		return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
 	}
+
+	return valueTrim; // `pattern` 属性を設定しているので実際には到達しない
 };
 
 /**
- * カスタムバリデーション文言を設定
+ * カスタムバリデーション文言を取得する
  *
- * @param inputElement - HTMLInputElement
- * @param message - カスタムバリデーション文言
+ * @param convertedInputValue - 空文字または YYYY-MM-DD 形式の文字列
+ * @param attributes - Attributes
+ * @param attributes.min - Min
+ * @param attributes.max - Max
+ * @param attributes.validationMessageNoExist - ValidationMessageNoExist
+ * @param attributes.validationMessageMin - ValidationMessageMin
+ * @param attributes.validationMessageMax - ValidationMessageMax
+ *
+ * @returns カスタムバリデーション文言
  */
-const setMessage = (inputElement: HTMLInputElement, message: string | undefined): void => {
-	if (message === undefined) {
-		return;
+const getValidityMessage = (
+	convertedInputValue: string,
+	attributes: Readonly<{
+		min: Min;
+		max: Max;
+		validationMessageNoExist: ValidationMessageNoExist;
+		validationMessageMin: ValidationMessageMin;
+		validationMessageMax: ValidationMessageMax;
+	}>,
+): string | undefined => {
+	if (convertedInputValue === '') {
+		return undefined;
 	}
 
-	inputElement.setCustomValidity(message);
+	const valueYear = Number(convertedInputValue.substring(0, 4));
+	const valueMonth = Number(convertedInputValue.substring(5, 7)) - 1;
+	const valueDay = Number(convertedInputValue.substring(8, 10));
+	const valueDate = new Date(valueYear, valueMonth, valueDay);
 
-	inputElement.dispatchEvent(new Event('invalid'));
-};
+	if (valueDate.getFullYear() !== valueYear || valueDate.getMonth() !== valueMonth || valueDate.getDate() !== valueDay) {
+		/* 2月30日など存在しない日付の場合 */
+		return attributes.validationMessageNoExist.value;
+	}
 
-/**
- * カスタムバリデーション文言を削除
- *
- * @param inputElement - HTMLInputElement
- */
-const clearMessage = (inputElement: HTMLInputElement): void => {
-	inputElement.setCustomValidity('');
+	if (attributes.min.value !== undefined && valueDate < attributes.min.value) {
+		/* `min` 属性値より過去の日付を入力した場合 */
+		return attributes.validationMessageMin.value;
+	}
+
+	if (attributes.max.value !== undefined && valueDate > attributes.max.value) {
+		/* `max` 属性値より未来の日付を入力した場合 */
+		return attributes.validationMessageMax.value;
+	}
+
+	return undefined;
 };
 
 /**
@@ -68,7 +95,7 @@ const clearMessage = (inputElement: HTMLInputElement): void => {
  * @param data.validationMessageMin - ValidationMessageMin
  * @param data.validationMessageMax - ValidationMessageMax
  *
- * @returns バリデーションが通れば true
+ * @returns 検証結果に問題がなければ true
  */
 export const validate = (
 	inputElement: HTMLInputElement,
@@ -80,37 +107,10 @@ export const validate = (
 		validationMessageMax: ValidationMessageMax;
 	}>,
 ): boolean => {
-	convertValue(inputElement);
+	const convertedInputValue = convertValue(inputElement.value);
+	const validityMessage = getValidityMessage(convertedInputValue, data);
 
-	const { value } = inputElement;
-	if (value === '') {
-		clearMessage(inputElement);
-		return true;
-	}
-
-	const valueYear = Number(value.substring(0, 4));
-	const valueMonth = Number(value.substring(5, 7)) - 1;
-	const valueDay = Number(value.substring(8, 10));
-	const valueDate = new Date(valueYear, valueMonth, valueDay);
-
-	if (valueDate.getFullYear() !== valueYear || valueDate.getMonth() !== valueMonth || valueDate.getDate() !== valueDay) {
-		/* 2月30日など存在しない日付の場合 */
-		setMessage(inputElement, data.validationMessageNoExist.value);
-		return false;
-	}
-
-	if (data.min.value !== undefined && valueDate < data.min.value) {
-		/* `min` 属性値より過去の日付を入力した場合 */
-		setMessage(inputElement, data.validationMessageMin.value);
-		return false;
-	}
-
-	if (data.max.value !== undefined && valueDate > data.max.value) {
-		/* `max` 属性値より未来の日付を入力した場合 */
-		setMessage(inputElement, data.validationMessageMax.value);
-		return false;
-	}
-
-	clearMessage(inputElement);
-	return true;
+	inputElement.value = convertedInputValue;
+	inputElement.setCustomValidity(validityMessage ?? '');
+	return inputElement.reportValidity();
 };
