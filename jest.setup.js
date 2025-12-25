@@ -1,18 +1,17 @@
-/**
- * Popover <https://github.com/jsdom/jsdom/issues/3721>
- */
+/* Popover <https://github.com/jsdom/jsdom/issues/3721> */
 HTMLElement.prototype.hidePopover = () => {};
 HTMLElement.prototype.showPopover = () => {};
 
-/**
- * HTMLMediaElement <https://github.com/jsdom/jsdom/issues/1515>
- */
+/* HTMLDialogElement <https://github.com/jsdom/jsdom/issues/3294> */
+HTMLDialogElement.prototype.close = () => {};
+HTMLDialogElement.prototype.show = () => {};
+HTMLDialogElement.prototype.showModal = () => {};
+
+/* HTMLMediaElement <https://github.com/jsdom/jsdom/issues/1515> */
 HTMLMediaElement.prototype.pause = () => {};
 HTMLMediaElement.prototype.play = () => {};
 
-/**
- * ShadowRoot: adoptedStyleSheets <https://github.com/jsdom/jsdom/issues/3444>
- */
+/* ShadowRoot: adoptedStyleSheets <https://github.com/jsdom/jsdom/issues/3444> */
 Object.defineProperty(ShadowRoot.prototype, 'adoptedStyleSheets', {
 	configurable: true,
 	get() {
@@ -23,14 +22,10 @@ Object.defineProperty(ShadowRoot.prototype, 'adoptedStyleSheets', {
 	},
 });
 
-/**
- * CSSStyleSheet: replaceSync() <https://github.com/jsdom/jsdom/issues/3766>
- */
+/* CSSStyleSheet: replaceSync() <https://github.com/jsdom/jsdom/issues/3766> */
 CSSStyleSheet.prototype.replaceSync = () => {};
 
-/**
- * URL: canParse()
- */
+/* URL: canParse() */
 URL.canParse = (url, base) => {
 	try {
 		new URL(url, base);

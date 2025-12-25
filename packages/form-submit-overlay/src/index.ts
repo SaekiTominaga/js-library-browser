@@ -1,4 +1,4 @@
-import FormSubmitOverlay from './FormSubmitOverlay.ts';
+import formSubmitOverlay from './formSubmitOverlay.ts';
 
 const validate = (element: Element): HTMLFormElement => {
 	if (!(element instanceof HTMLFormElement)) {
@@ -14,10 +14,10 @@ export default (elementOrElements: NodeListOf<Element> | HTMLCollectionOf<Elemen
 	}
 
 	if (elementOrElements instanceof Element) {
-		new FormSubmitOverlay(validate(elementOrElements));
+		formSubmitOverlay(validate(elementOrElements));
 	} else {
 		Array.from(elementOrElements).forEach((element) => {
-			new FormSubmitOverlay(validate(element));
+			formSubmitOverlay(validate(element));
 		});
 	}
 };
