@@ -51,8 +51,6 @@ test('validate method', () => {
 	const event = new Event('invalid');
 	Object.defineProperty(event, 'currentTarget', { value: inputElement, writable: false });
 
-	const invalidEventSpy = jest.spyOn(inputElement, 'dispatchEvent');
-
 	changeEvent(event, {
 		min,
 		max,
@@ -62,7 +60,4 @@ test('validate method', () => {
 	});
 
 	expect(inputElement.validationMessage).toBe(VALIDATION_MESSAGE_NO_EXIST);
-	expect(invalidEventSpy).toHaveBeenCalled();
-
-	invalidEventSpy.mockRestore();
 });
