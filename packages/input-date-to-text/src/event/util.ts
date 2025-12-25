@@ -84,6 +84,7 @@ export const validate = (
 
 	const { value } = inputElement;
 	if (value === '') {
+		clearMessage(inputElement);
 		return true;
 	}
 

@@ -50,7 +50,7 @@ describe('convertValue', () => {
 	});
 });
 
-describe('const result = validate', () => {
+describe('validate', () => {
 	const VALIDATION_MESSAGE_NO_EXIST = 'no exist message';
 	const VALIDATION_MESSAGE_MIN = 'min message';
 	const VALIDATION_MESSAGE_MAX = 'max message';
@@ -64,6 +64,9 @@ describe('const result = validate', () => {
 		const validationMessageNoExist = new ValidationMessageNoExist(VALIDATION_MESSAGE_NO_EXIST);
 		const validationMessageMin = new ValidationMessageMin(VALIDATION_MESSAGE_MIN, inputElement);
 		const validationMessageMax = new ValidationMessageMax(VALIDATION_MESSAGE_MAX, inputElement);
+
+		inputElement.setCustomValidity(TEMP_MESSAGE);
+		expect(inputElement.validationMessage).toBe(TEMP_MESSAGE);
 
 		const invalidEventSpy = jest.spyOn(inputElement, 'dispatchEvent');
 
