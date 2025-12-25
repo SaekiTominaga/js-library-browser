@@ -59,7 +59,6 @@ export default [
 	{
 		files: [
 			'packages/button-share/src/index.ts',
-			'packages/form-submit-overlay/src/index.ts',
 			'packages/input-date-to-text/src/index.ts',
 			'packages/input-file-preview/src/index.ts',
 			'packages/input-isbn/src/index.ts',
@@ -112,8 +111,6 @@ export default [
 			'no-empty-function': 'off',
 			'no-new': 'off',
 			'no-underscore-dangle': 'off',
-			'jsdoc/require-param': 'off',
-			'jsdoc/require-returns': 'off',
 		},
 	},
 ];
