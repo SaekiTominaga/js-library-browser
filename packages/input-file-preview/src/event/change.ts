@@ -47,10 +47,10 @@ export default (
 		fragment.appendChild(templateElementClone);
 
 		const { name: fileName, size: fileSize, type: fileType } = file;
-		const { type } = new MIMEType(fileType);
+		const type = fileType !== '' ? new MIMEType(fileType).type : undefined;
 
 		/* ファイルが読み込み対象であるかどうかのチェック */
-		if ((data.maxSize.value !== undefined && fileSize > data.maxSize.value) || !['image', 'audio', 'video'].includes(type)) {
+		if ((data.maxSize.value !== undefined && fileSize > data.maxSize.value) || type === undefined || !['image', 'audio', 'video'].includes(type)) {
 			outputElement?.insertAdjacentHTML('beforeend', convert(data.preview.outputHtml, file));
 			return;
 		}

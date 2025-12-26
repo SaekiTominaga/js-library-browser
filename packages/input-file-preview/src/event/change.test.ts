@@ -111,7 +111,8 @@ describe('<output> element', () => {
 				createFile(undefined, 'test2.mp3', 'audio/mp3'),
 				createFile(undefined, 'test3.mp4', 'video/mp4'),
 				createFile(undefined, 'test4.txt', 'text/plain'),
-				createFile('xx', 'test5.png', 'image/png'),
+				createFile(undefined, 'test5.xxx', ''),
+				createFile('xx', 'test6.png', 'image/png'),
 			],
 		});
 
@@ -135,11 +136,12 @@ describe('<output> element', () => {
 
 		const outputElements = document.querySelectorAll('output');
 
-		expect(outputElements.length).toBe(5);
+		expect(outputElements.length).toBe(6);
 		expect(outputElements.item(0).innerHTML).toBe(`<img src="${FILE_READER_RESULT}" alt="test1.png">`);
 		expect(outputElements.item(1).innerHTML).toBe(`<audio src="${FILE_READER_RESULT}" controls="">test2.mp3</audio>`);
 		expect(outputElements.item(2).innerHTML).toBe(`<video src="${FILE_READER_RESULT}" controls="">test3.mp4</video>`);
 		expect(outputElements.item(3).innerHTML).toBe(`foo`);
 		expect(outputElements.item(4).innerHTML).toBe(`foo`);
+		expect(outputElements.item(5).innerHTML).toBe(`foo`);
 	});
 });
