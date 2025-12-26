@@ -1,5 +1,5 @@
 import type { HTMLInputFileElement } from '../@types/lib.dom.d.ts';
-import InputFilePreview from './InputFilePreview.ts';
+import inputFilePreview from './inputFilePreview.ts';
 
 const validate = (element: Element): HTMLInputFileElement => {
 	if (!(element instanceof HTMLInputElement)) {
@@ -18,10 +18,10 @@ export default (elementOrElements: NodeListOf<Element> | HTMLCollectionOf<Elemen
 	}
 
 	if (elementOrElements instanceof Element) {
-		new InputFilePreview(validate(elementOrElements));
+		inputFilePreview(validate(elementOrElements));
 	} else {
 		Array.from(elementOrElements).forEach((element) => {
-			new InputFilePreview(validate(element));
+			inputFilePreview(validate(element));
 		});
 	}
 };

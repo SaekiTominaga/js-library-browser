@@ -25,12 +25,12 @@
   inputFilePreview(document.querySelectorAll('.js-input-file-preview')); // `getElementById()` or `getElementsByClassName()` or `getElementsByTagName()` or `querySelector()` or `querySelectorAll()`
 </script>
 
-<input type="file" class="js-input-file-preview"
+<input type="file" id="input-file" class="js-input-file-preview"
   data-preview="preview"
   data-max-size="1048576"
 />
 <template id="preview">
-  <output><code>${name}</code> (<data value="${size}">${size} byte</data>) cannot be previewed.</output>
+  <output for="input-file"><code>${name}</code> (<data value="${size}">${size} byte</data>) cannot be previewed.</output>
 </template>
 ```
 
@@ -49,7 +49,9 @@
 
 - `<template>` element must have one `<output>` element.
   - 🆗 `<template> <output>Message</output> </template>`
+  - 🆗 `<template> <output>Message</output> <!-- comment --> </template>`
   - 🆗 `<ul> <template> <li> <output>Message</output> </li> </template> </ul>`
+  - 🆖 `<template> <output>Message</output> text </template>` (Text node other than empty string are not permitted as child nodes)
   - 🆖 `<template> <p>Message</p> </template>`
 - Include the error message in the `<output>` element.
 - `${name}` in the `<output>` element is converted to the file name, and `${size}` is converted to the file size (in bytes).

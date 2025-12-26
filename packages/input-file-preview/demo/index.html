@@ -58,11 +58,11 @@
 			<h2><code>data-preview</code> attribute</h2>
 
 			<p>
-				<input type="file" class="js-input-file-preview" data-preview="preview1" id="input1" />
+				<input type="file" class="js-input-file-preview" data-preview="preview1" id="input-file1" />
 			</p>
 			<p>
 				<template id="preview1">
-					<output for="input1"><code>${name}</code> (<data value="${size}">${size} byte</data>) cannot be previewed.</output>
+					<output for="input-file1"><code>${name}</code> (<data value="${size}">${size} byte</data>) cannot be previewed.</output>
 				</template>
 			</p>
 
@@ -73,12 +73,12 @@
 			<h2><code>multiple</code>, <code>data-preview</code>, <code>data-max-size</code> attribute</h2>
 
 			<p>
-				<input type="file" multiple="" class="js-input-file-preview" data-preview="preview2" data-max-size="1048576" id="input2" />
+				<input type="file" multiple="" class="js-input-file-preview" data-preview="preview2" data-max-size="1048576" id="input-file2" />
 			</p>
 			<ul>
 				<template id="preview2">
 					<li>
-						<output for="input2"><code>${name}</code> (<data value="${size}">${size} byte</data>) cannot be previewed.</output>
+						<output for="input-file2"><code>${name}</code> (<data value="${size}">${size} byte</data>) cannot be previewed.</output>
 					</li>
 				</template>
 			</ul>
