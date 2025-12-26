@@ -23,11 +23,31 @@ export default class {
 		}
 		this.#template = template;
 
-		const output = template.content.querySelector('output');
-		if (output === null) {
+		const templateContent = template.content;
+		if (
+			Array.from(templateContent.childNodes).some((node) => {
+				const { nodeType, nodeValue } = node;
+
+				if (([Node.ELEMENT_NODE, Node.COMMENT_NODE] as number[]).includes(nodeType)) {
+					return false;
+				}
+
+				if (nodeType === Node.TEXT_NODE && nodeValue?.trim() === '') {
+					return false;
+				}
+
+				return true;
+			})
+		) {
+			throw new Error('There must be only Element node, comment node, or empty text node within the `<template>` element.');
+		}
+
+		const outputElement = templateContent.querySelector('output');
+		if (outputElement === null) {
 			throw new Error('There must be one `<output>` element within the `<template>` element.');
 		}
-		this.#output = output;
+
+		this.#output = outputElement;
 	}
 
 	get template(): HTMLTemplateElement {
@@ -35,6 +55,9 @@ export default class {
 	}
 
 	get outputHtml(): string {
-		return 'getHTML' in this.#output ? this.#output.getHTML() : (this.#output as HTMLOutputElement).innerHTML;
+		if ('getHTML' in HTMLOutputElement) {
+			return this.#output.getHTML();
+		}
+		return this.#output.innerHTML;
 	}
 }
