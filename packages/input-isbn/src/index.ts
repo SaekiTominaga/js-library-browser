@@ -1,4 +1,4 @@
-import InputIsbn from './InputIsbn.ts';
+import inputIsbn from './inputIsbn.ts';
 
 const validate = (element: Element): HTMLInputElement => {
 	if (!(element instanceof HTMLInputElement)) {
@@ -14,10 +14,10 @@ export default (elementOrElements: NodeListOf<Element> | HTMLCollectionOf<Elemen
 	}
 
 	if (elementOrElements instanceof Element) {
-		new InputIsbn(validate(elementOrElements));
+		inputIsbn(validate(elementOrElements));
 	} else {
 		Array.from(elementOrElements).forEach((element) => {
-			new InputIsbn(validate(element));
+			inputIsbn(validate(element));
 		});
 	}
 };

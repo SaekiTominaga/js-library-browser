@@ -57,7 +57,7 @@ export default [
 		},
 	},
 	{
-		files: ['packages/button-share/src/index.ts', 'packages/input-isbn/src/index.ts'],
+		files: ['packages/button-share/src/index.ts'],
 		rules: {
 			'no-new': 'off',
 		},
