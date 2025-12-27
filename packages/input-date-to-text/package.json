@@ -1,6 +1,6 @@
 {
 	"name": "@w0s/input-date-to-text",
-	"version": "4.0.4",
+	"version": "4.0.5",
 	"description": "Convert date control to `<input type=text>`",
 	"keywords": [],
 	"homepage": "https://github.com/SaekiTominaga/js-library-browser#readme",
