@@ -1,4 +1,4 @@
-import { expect, jest, test } from '@jest/globals';
+import { describe, expect, test } from '@jest/globals';
 import Max from '../attribute/Max.ts';
 import Min from '../attribute/Min.ts';
 import ValidationMessageMax from '../attribute/ValidationMessageMax.ts';
@@ -6,41 +6,11 @@ import ValidationMessageMin from '../attribute/ValidationMessageMin.ts';
 import ValidationMessageNoExist from '../attribute/ValidationMessageNoExist.ts';
 import changeEvent from './change.ts';
 
-test('HTMLInputElement.validity.patternMismatch', () => {
-	const inputElement = document.createElement('input');
-	inputElement.pattern = 'foo';
-	inputElement.value = 'bar';
-
-	const min = new Min(undefined);
-	const max = new Max(undefined);
-	const validationMessageNoExist = new ValidationMessageNoExist('');
-	const validationMessageMin = new ValidationMessageMin('', inputElement);
-	const validationMessageMax = new ValidationMessageMax('', inputElement);
-
-	const event = new Event('invalid');
-	Object.defineProperty(event, 'currentTarget', { value: inputElement });
-
-	const invalidEventSpy = jest.spyOn(inputElement, 'dispatchEvent');
-
-	changeEvent(event, {
-		min,
-		max,
-		validationMessageNoExist,
-		validationMessageMin,
-		validationMessageMax,
-	});
-
-	expect(inputElement.validationMessage).not.toBe('');
-	expect(invalidEventSpy).not.toHaveBeenCalled(); // dispatchEvent() が呼び出されていない＝ブラウザ標準機能によるエラー
-
-	invalidEventSpy.mockRestore();
-});
-
-test('validate method', () => {
+describe('change event', () => {
 	const VALIDATION_MESSAGE_NO_EXIST = 'no exist message';
 
 	const inputElement = document.createElement('input');
-	inputElement.value = '2000-02-31';
+	inputElement.pattern = '([0-9]{8})|([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})';
 
 	const min = new Min(undefined);
 	const max = new Max(undefined);
@@ -48,16 +18,59 @@ test('validate method', () => {
 	const validationMessageMin = new ValidationMessageMin('', inputElement);
 	const validationMessageMax = new ValidationMessageMax('', inputElement);
 
-	const event = new Event('invalid');
-	Object.defineProperty(event, 'currentTarget', { value: inputElement });
+	test('invalid data (no exist)', () => {
+		inputElement.value = '2000-02-31';
 
-	changeEvent(event, {
-		min,
-		max,
-		validationMessageNoExist,
-		validationMessageMin,
-		validationMessageMax,
+		const event = new Event('change');
+		Object.defineProperty(event, 'currentTarget', { value: inputElement });
+
+		changeEvent(event, {
+			min,
+			max,
+			validationMessageNoExist,
+			validationMessageMin,
+			validationMessageMax,
+		});
+
+		expect(inputElement.validity.customError).toBeTruthy();
+		expect(inputElement.validationMessage).toBe(VALIDATION_MESSAGE_NO_EXIST);
 	});
 
-	expect(inputElement.validationMessage).toBe(VALIDATION_MESSAGE_NO_EXIST);
+	test('change invalid format', () => {
+		inputElement.value = 'bar';
+
+		const event = new Event('change');
+		Object.defineProperty(event, 'currentTarget', { value: inputElement });
+
+		changeEvent(event, {
+			min,
+			max,
+			validationMessageNoExist,
+			validationMessageMin,
+			validationMessageMax,
+		});
+
+		expect(inputElement.validity.customError).toBeFalsy();
+		expect(inputElement.validity.patternMismatch).toBeTruthy();
+		expect(inputElement.validationMessage).not.toBe('');
+		expect(inputElement.validationMessage).not.toBe(VALIDATION_MESSAGE_NO_EXIST);
+	});
+
+	test('change valid pattern', () => {
+		inputElement.value = '2000-01-01';
+
+		const event = new Event('change');
+		Object.defineProperty(event, 'currentTarget', { value: inputElement });
+
+		changeEvent(event, {
+			min,
+			max,
+			validationMessageNoExist,
+			validationMessageMin,
+			validationMessageMax,
+		});
+
+		expect(inputElement.validity.valid).toBeTruthy();
+		expect(inputElement.validationMessage).toBe('');
+	});
 });
