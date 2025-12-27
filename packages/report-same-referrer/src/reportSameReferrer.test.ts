@@ -43,7 +43,7 @@ test('application/x-www-form-urlencoded', async () => {
 describe('validate', () => {
 	describe('referrer', () => {
 		test('no referrer', async () => {
-			Object.defineProperty(document, 'referrer', { value: '', configurable: true });
+			Object.defineProperty(document, 'referrer', { value: '' });
 
 			expect(
 				await reportSameReferrer({
@@ -54,7 +54,7 @@ describe('validate', () => {
 
 		describe('sames', () => {
 			test('match', async () => {
-				Object.defineProperty(document, 'referrer', { value: 'http://example.com/', configurable: true });
+				Object.defineProperty(document, 'referrer', { value: 'http://example.com/' });
 
 				expect(
 					(
@@ -71,7 +71,7 @@ describe('validate', () => {
 			});
 
 			test('unmatch', async () => {
-				Object.defineProperty(document, 'referrer', { value: 'http://example.com/', configurable: true });
+				Object.defineProperty(document, 'referrer', { value: 'http://example.com/' });
 
 				expect(
 					await reportSameReferrer({
@@ -88,7 +88,7 @@ describe('validate', () => {
 
 		describe('comparePart', () => {
 			test('origin', async () => {
-				Object.defineProperty(document, 'referrer', { value: 'https://localhost/', configurable: true });
+				Object.defineProperty(document, 'referrer', { value: 'https://localhost/' });
 
 				expect(
 					await reportSameReferrer({
@@ -103,7 +103,7 @@ describe('validate', () => {
 			});
 
 			test('host', async () => {
-				Object.defineProperty(document, 'referrer', { value: 'http://localhost:999/', configurable: true });
+				Object.defineProperty(document, 'referrer', { value: 'http://localhost:999/' });
 
 				expect(
 					await reportSameReferrer({
@@ -118,7 +118,7 @@ describe('validate', () => {
 			});
 
 			test('hostname', async () => {
-				Object.defineProperty(document, 'referrer', { value: 'http://example.com/', configurable: true });
+				Object.defineProperty(document, 'referrer', { value: 'http://example.com/' });
 
 				expect(
 					await reportSameReferrer({
@@ -133,7 +133,7 @@ describe('validate', () => {
 			});
 
 			test('invalid', async () => {
-				Object.defineProperty(document, 'referrer', { value: 'http://example.com/', configurable: true });
+				Object.defineProperty(document, 'referrer', { value: 'http://example.com/' });
 
 				await expect(
 					reportSameReferrer({

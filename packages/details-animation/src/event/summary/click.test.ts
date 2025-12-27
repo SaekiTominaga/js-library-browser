@@ -11,7 +11,6 @@ customElements.define(DETAILS_CONTENT_ELEMENT_NAME, DetailsContentElement);
 mockAnimationsApi();
 
 Object.defineProperty(window, 'matchMedia', {
-	writable: true,
 	value: jest.fn().mockImplementation((query) => ({
 		matches: false,
 		media: query,
