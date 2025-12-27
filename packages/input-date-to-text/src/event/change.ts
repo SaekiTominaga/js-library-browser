@@ -30,6 +30,7 @@ export default (
 
 	if (inputElement.validity.patternMismatch) {
 		/* ブラウザ標準機能によるチェックを優先する */
+		inputElement.setCustomValidity('');
 		return;
 	}
 
