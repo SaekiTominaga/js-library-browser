@@ -23,7 +23,7 @@ test('invalid event', () => {
 	const event = new Event('invalid');
 
 	inputElement.setCustomValidity('error message');
-	Object.defineProperty(event, 'currentTarget', { value: inputElement, writable: false });
+	Object.defineProperty(event, 'currentTarget', { value: inputElement });
 	invalidEvent(event, {
 		targetElement: inputElement,
 		formControlElements: [inputElement],

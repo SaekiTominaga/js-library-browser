@@ -18,7 +18,7 @@ test('HTMLInputElement.validity.patternMismatch', () => {
 	const validationMessageMax = new ValidationMessageMax('', inputElement);
 
 	const event = new Event('invalid');
-	Object.defineProperty(event, 'currentTarget', { value: inputElement, writable: false });
+	Object.defineProperty(event, 'currentTarget', { value: inputElement });
 
 	const invalidEventSpy = jest.spyOn(inputElement, 'dispatchEvent');
 
@@ -49,7 +49,7 @@ test('validate method', () => {
 	const validationMessageMax = new ValidationMessageMax('', inputElement);
 
 	const event = new Event('invalid');
-	Object.defineProperty(event, 'currentTarget', { value: inputElement, writable: false });
+	Object.defineProperty(event, 'currentTarget', { value: inputElement });
 
 	changeEvent(event, {
 		min,
