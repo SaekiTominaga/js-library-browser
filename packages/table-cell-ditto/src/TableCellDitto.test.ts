@@ -1,11 +1,9 @@
-import { describe, expect, test, beforeEach, afterEach } from '@jest/globals';
+import { beforeEach, describe, expect, test } from '@jest/globals';
 import TableCellDitto from './TableCellDitto.ts';
 
 describe('正常系', () => {
 	beforeEach(() => {
-		document.body.insertAdjacentHTML(
-			'beforeend',
-			`
+		document.body.innerHTML = `
 <table class="js-table-cell-ditto">
 	<thead>
 		<tr>
@@ -18,11 +16,7 @@ describe('正常系', () => {
 		</tr>
 	</tbody>
 </table>
-`,
-		);
-	});
-	afterEach(() => {
-		document.body.innerHTML = '';
+`;
 	});
 
 	test('convert', () => {
@@ -69,12 +63,8 @@ describe('正常系', () => {
 });
 
 describe('異常系', () => {
-	afterEach(() => {
-		document.body.innerHTML = '';
-	});
-
 	test('<tbody> が存在しない', () => {
-		document.body.insertAdjacentHTML('beforeend', '<table class="js-table-cell-ditto"></table>');
+		document.body.innerHTML = '<table class="js-table-cell-ditto"></table>';
 
 		expect(() => {
 			new TableCellDitto(document.querySelector('.js-table-cell-ditto')!);

@@ -1,14 +1,11 @@
-import { describe, beforeAll, afterAll, beforeEach, afterEach, test, expect } from '@jest/globals';
+import { beforeAll, beforeEach, describe, expect, test } from '@jest/globals';
 import InputSwitch from './InputSwitch.ts';
 
 customElements.define('x-input-switch', InputSwitch);
 
 describe('connected & disconnected', () => {
 	beforeAll(() => {
-		document.body.insertAdjacentHTML('beforeend', '<x-input-switch></x-input-switch>');
-	});
-	afterAll(() => {
-		document.body.innerHTML = '';
+		document.body.innerHTML = `<x-input-switch></x-input-switch>`;
 	});
 
 	test('connected', () => {
@@ -21,10 +18,7 @@ describe('connected & disconnected', () => {
 
 describe('attribute', () => {
 	beforeAll(() => {
-		document.body.insertAdjacentHTML('beforeend', '<x-input-switch></x-input-switch>');
-	});
-	afterAll(() => {
-		document.body.innerHTML = '';
+		document.body.innerHTML = `<x-input-switch></x-input-switch>`;
 	});
 
 	test('value', () => {
@@ -78,10 +72,7 @@ describe('attribute', () => {
 
 describe('event', () => {
 	beforeEach(() => {
-		document.body.insertAdjacentHTML('beforeend', '<x-input-switch></x-input-switch>');
-	});
-	afterEach(() => {
-		document.body.innerHTML = '';
+		document.body.innerHTML = `<x-input-switch></x-input-switch>`;
 	});
 
 	test('change', () => {

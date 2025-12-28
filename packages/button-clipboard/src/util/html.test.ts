@@ -8,15 +8,12 @@ test('<img>', () => {
 });
 
 test('<textarea>', () => {
-	document.body.insertAdjacentHTML(
-		'beforeend',
-		`
+	document.body.innerHTML = `
 <textarea>
   content
   content
 </textarea>
-`,
-	);
+`;
 
 	expect(getContent(document.querySelector('textarea')!)).toBe(`  content
   content

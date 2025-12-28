@@ -1,5 +1,5 @@
 import { webcrypto } from 'node:crypto';
-import { describe, beforeAll, afterAll, beforeEach, afterEach, test, expect } from '@jest/globals';
+import { beforeAll, beforeEach, describe, expect, test } from '@jest/globals';
 import Tab from './Tab.ts';
 
 customElements.define('x-tab', Tab);
@@ -10,20 +10,14 @@ Object.defineProperty(globalThis, 'crypto', {
 
 describe('connected & disconnected', () => {
 	beforeAll(() => {
-		document.body.insertAdjacentHTML(
-			'beforeend',
-			`
+		document.body.innerHTML = `
 <x-tab>
 <a href="#tabpanel1" slot="tab">Tab 1</a>
 <a href="#tabpanel2" slot="tab">Tab 2</a>
 <div slot="tabpanel" id="tabpanel1">Tab panel 1</div>
 <div slot="tabpanel" id="tabpanel2">Tab panel 2</div>
 </x-tab>
-`,
-		);
-	});
-	afterAll(() => {
-		document.body.innerHTML = '';
+`;
 	});
 
 	test('connected', () => {
@@ -63,9 +57,7 @@ describe('attributes - get / set', () => {
 
 describe('tab event', () => {
 	beforeEach(() => {
-		document.body.insertAdjacentHTML(
-			'beforeend',
-			`
+		document.body.innerHTML = `
 <x-tab>
 <a href="#tabpanel1" slot="tab">Tab 1</a>
 <a href="#tabpanel2" slot="tab">Tab 2</a>
@@ -74,11 +66,7 @@ describe('tab event', () => {
 <div slot="tabpanel" id="tabpanel2">Tab panel 2</div>
 <div slot="tabpanel" id="tabpanel3">Tab panel 3</div>
 </x-tab>
-`,
-		);
-	});
-	afterEach(() => {
-		document.body.innerHTML = '';
+`;
 	});
 
 	test('click', () => {
@@ -170,9 +158,7 @@ describe('tab event', () => {
 
 describe('tabpanel event', () => {
 	beforeEach(() => {
-		document.body.insertAdjacentHTML(
-			'beforeend',
-			`
+		document.body.innerHTML = `
 <x-tab>
 <a href="#tabpanel1" slot="tab">Tab 1</a>
 <a href="#tabpanel2" slot="tab">Tab 2</a>
@@ -181,11 +167,7 @@ describe('tabpanel event', () => {
 <div slot="tabpanel" id="tabpanel2">Tab panel 2</div>
 <div slot="tabpanel" id="tabpanel3">Tab panel 3</div>
 </x-tab>
-`,
-		);
-	});
-	afterEach(() => {
-		document.body.innerHTML = '';
+`;
 	});
 
 	test('keydown ←', () => {
