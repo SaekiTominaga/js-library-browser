@@ -57,12 +57,6 @@ export default [
 		},
 	},
 	{
-		files: ['packages/button-share/src/index.ts'],
-		rules: {
-			'no-new': 'off',
-		},
-	},
-	{
 		files: ['packages/button-clipboard/src/util/html.ts'],
 		rules: {
 			'@typescript-eslint/no-unnecessary-type-assertion': 'off', // TypeScript 5.9
@@ -86,12 +80,6 @@ export default [
 		files: ['packages/input-file-preview/src/util/errorMessage.test.ts'],
 		rules: {
 			'no-template-curly-in-string': 'off',
-		},
-	},
-	{
-		files: ['packages/input-isbn/src/InputIsbn.test.ts'],
-		rules: {
-			'@typescript-eslint/unbound-method': 'off',
 		},
 	},
 	{
