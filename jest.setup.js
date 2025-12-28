@@ -1,3 +1,13 @@
+/* CSSStyleSheet: replaceSync() <https://github.com/jsdom/jsdom/issues/3766> */
+CSSStyleSheet.prototype.replaceSync = () => {};
+
+/* ElementInternals <https://github.com/jsdom/jsdom/issues/3831> */
+ElementInternals.prototype.setFormValue = () => {};
+ElementInternals.prototype.states = {
+	add: () => {},
+	delete: () => true,
+};
+
 /* Popover <https://github.com/jsdom/jsdom/issues/3721> */
 HTMLElement.prototype.hidePopover = () => {};
 HTMLElement.prototype.showPopover = () => {};
@@ -22,9 +32,6 @@ Object.defineProperty(ShadowRoot.prototype, 'adoptedStyleSheets', {
 	configurable: true,
 });
 
-/* CSSStyleSheet: replaceSync() <https://github.com/jsdom/jsdom/issues/3766> */
-CSSStyleSheet.prototype.replaceSync = () => {};
-
 /* URL: canParse() */
 URL.canParse = (url, base) => {
 	try {
@@ -34,3 +41,6 @@ URL.canParse = (url, base) => {
 	}
 	return true;
 };
+
+/* window: confirm */
+window.confirm = () => false;
