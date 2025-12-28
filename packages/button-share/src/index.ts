@@ -1,4 +1,4 @@
-import ButtonShare from './ButtonShare.ts';
+import buttonShare from './buttonShare.ts';
 
 const validate = (element: Element): HTMLButtonElement => {
 	if (!(element instanceof HTMLButtonElement)) {
@@ -14,10 +14,10 @@ export default (elementOrElements: NodeListOf<Element> | HTMLCollectionOf<Elemen
 	}
 
 	if (elementOrElements instanceof Element) {
-		new ButtonShare(validate(elementOrElements));
+		buttonShare(validate(elementOrElements));
 	} else {
 		Array.from(elementOrElements).forEach((element) => {
-			new ButtonShare(validate(element));
+			buttonShare(validate(element));
 		});
 	}
 };
