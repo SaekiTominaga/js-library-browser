@@ -1,5 +1,3 @@
-import shadowAppendCss from '@w0s/shadow-append-css';
-
 /**
  * Implement something like `<input type=checkbox switch>`
  */
@@ -16,6 +14,11 @@ export default class InputSwitch extends HTMLElement {
 
 	constructor() {
 		super();
+
+		if (!('adoptedStyleSheets' in ShadowRoot.prototype)) {
+			console.info('This browser does not support ShadowRoot: `adoptedStyleSheets`');
+			return;
+		}
 
 		try {
 			this.#internals = this.attachInternals();
@@ -103,7 +106,10 @@ export default class InputSwitch extends HTMLElement {
 		const shadow = this.attachShadow({ mode: 'open' });
 		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 		'setHTMLUnsafe' in shadow ? shadow.setHTMLUnsafe(htmlString) : ((shadow as ShadowRoot).innerHTML = htmlString);
-		shadowAppendCss(shadow, cssString);
+
+		const css = new CSSStyleSheet();
+		css.replaceSync(cssString);
+		shadow.adoptedStyleSheets.push(css);
 	}
 
 	connectedCallback(): void {
