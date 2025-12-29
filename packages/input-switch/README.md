@@ -3,6 +3,15 @@
 [![npm version](https://badge.fury.io/js/%40w0s%2Finput-switch.svg)](https://www.npmjs.com/package/@w0s/input-switch)
 [![Workflow status](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/package-input-switch.yml/badge.svg)](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/package-input-switch.yml)
 
+## Browser support
+
+Using the ShadowRoot: `adoptedStyleSheets`. ([Can I use...](https://caniuse.com/mdn-api_shadowroot_adoptedstylesheets))
+
+- Firefox 101+
+- Safari 16.4+
+- Chrome 73+
+- Edge 79+
+
 ## Demo
 
 - [Demo page](https://saekitominaga.github.io/js-library-browser/packages/input-switch/demo/)
@@ -13,8 +22,7 @@
 <script type="importmap">
   {
     "imports": {
-      "@w0s/input-switch": "...",
-      "@w0s/shadow-append-css": "..."
+      "@w0s/input-switch": "..."
     }
   }
 </script>
@@ -32,6 +40,8 @@
   storage-key="foo"
 ></x-input-switch> switch</label>
 ```
+
+\* **`@w0s/shadow-append-css` is no longer required since version 6.0**
 
 ## HTML attributes
 
