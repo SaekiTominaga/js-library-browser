@@ -1,14 +1,37 @@
-import { beforeAll, describe, expect, test } from '@jest/globals';
+import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals';
 import index from './index.ts';
 
-beforeAll(() => {
-	document.body.innerHTML = `
-<a href="#footnote" class="footnote-reference-popover" id="footnote-reference-popover"></a>
-<p id="footnote"></p>
-`;
+describe('blowser support popover', () => {
+	let tempShowPopover: () => void;
+
+	beforeAll(() => {
+		tempShowPopover = HTMLElement.prototype.showPopover.bind(HTMLElement);
+		// @ts-expect-error: ts(2790)
+		delete HTMLElement.prototype.showPopover;
+	});
+	afterAll(() => {
+		HTMLElement.prototype.showPopover = tempShowPopover;
+	});
+
+	test('not support', () => {
+		const consoleInfoSpy = jest.spyOn(console, 'info');
+
+		index(null);
+
+		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support popover');
+
+		consoleInfoSpy.mockRestore();
+	});
 });
 
 describe('argument type', () => {
+	beforeAll(() => {
+		document.body.innerHTML = `
+<a href="#footnote" class="footnote-reference-popover" id="footnote-reference-popover"></a>
+<p id="footnote"></p>
+`;
+	});
+
 	test('getElementById', () => {
 		expect(() => {
 			index(document.getElementById('footnote-reference-popover'));
@@ -48,6 +71,6 @@ describe('argument type', () => {
 
 test('type mismatch', () => {
 	expect(() => {
-		index(document.querySelector('p'));
+		index(document.createElement('p'));
 	}).toThrow('Element must be a `HTMLAnchorElement`');
 });

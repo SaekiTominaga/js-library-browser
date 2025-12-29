@@ -86,11 +86,6 @@ export const hide = (eventType: string, popover: PopoverElement): void => {
  * @param thisElement - Target element
  */
 export default (thisElement: HTMLAnchorElement): void => {
-	if (!('showPopover' in thisElement)) {
-		console.info('This browser does not support popover');
-		return;
-	}
-
 	const { href: hrefAttributeValue } = thisElement;
 	const {
 		popoverLabel: popoverLabelAttributeValue,
