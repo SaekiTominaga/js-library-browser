@@ -1,16 +1,39 @@
-import { beforeAll, describe, expect, test } from '@jest/globals';
+import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals';
 import index from './index.ts';
 
-beforeAll(() => {
-	document.body.innerHTML = `
+describe('blowser support adoptedStyleSheets', () => {
+	let tempAdoptedStyleSheets: CSSStyleSheet[];
+
+	beforeAll(() => {
+		tempAdoptedStyleSheets = ShadowRoot.prototype.adoptedStyleSheets;
+		// @ts-expect-error: ts(2790)
+		delete ShadowRoot.prototype.adoptedStyleSheets;
+	});
+	afterAll(() => {
+		ShadowRoot.prototype.adoptedStyleSheets = tempAdoptedStyleSheets;
+	});
+
+	test('not support', () => {
+		const consoleInfoSpy = jest.spyOn(console, 'info');
+
+		index(null);
+
+		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support ShadowRoot: `adoptedStyleSheets`');
+
+		consoleInfoSpy.mockRestore();
+	});
+});
+
+describe('argument type', () => {
+	beforeAll(() => {
+		document.body.innerHTML = `
 <details id="details" class="details">
 <summary>Open</summary>
 <p></p>
 </details>
 `;
-});
+	});
 
-describe('argument type', () => {
 	test('getElementById', () => {
 		expect(() => {
 			index(document.getElementById('details'));
@@ -50,6 +73,6 @@ describe('argument type', () => {
 
 test('type mismatch', () => {
 	expect(() => {
-		index(document.querySelector('p'));
+		index(document.createElement('p'));
 	}).toThrow('Element must be a `HTMLDetailsElement`');
 });
