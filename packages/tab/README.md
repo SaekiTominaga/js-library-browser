@@ -3,6 +3,15 @@
 [![npm version](https://badge.fury.io/js/%40w0s%2Ftab.svg)](https://www.npmjs.com/package/@w0s/tab)
 [![Workflow status](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/package-tab.yml/badge.svg)](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/package-tab.yml)
 
+## Browser support
+
+Using the ShadowRoot: `adoptedStyleSheets`. ([Can I use...](https://caniuse.com/mdn-api_shadowroot_adoptedstylesheets))
+
+- Firefox 101+
+- Safari 16.4+
+- Chrome 73+
+- Edge 79+
+
 ## Demo
 
 - [Demo page](https://saekitominaga.github.io/js-library-browser/packages/tab/demo/)
