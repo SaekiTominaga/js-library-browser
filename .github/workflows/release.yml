@@ -44,7 +44,6 @@ jobs:
 
       - name: Build
         run: |
-          npm run build -w @w0s/shadow-append-css
           npm run build -w @w0s/writing-mode
           npm run build -w ${{ steps.extract.outputs.package }}
 

@@ -30,7 +30,6 @@ jobs:
         with:
           node-version: '24'
       - run: npm ci
-      - run: npm run build -w @w0s/shadow-append-css
       - run: npm run build -w @w0s/writing-mode
       - run: npm run build -workspaces
       - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
