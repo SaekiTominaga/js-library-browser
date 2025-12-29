@@ -1,4 +1,4 @@
-import { afterAll, beforeAll, beforeEach, describe, expect, jest, test } from '@jest/globals';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, jest, test } from '@jest/globals';
 import InputSwitch from './InputSwitch.ts';
 
 const INPUT_SWITCH_ELEMENT_NAME = 'x-input-switch';
@@ -7,7 +7,7 @@ beforeAll(() => {
 	customElements.define(INPUT_SWITCH_ELEMENT_NAME, InputSwitch);
 });
 
-describe('blowser support adoptedStyleSheets', () => {
+describe('browser support adoptedStyleSheets', () => {
 	let tempAdoptedStyleSheets: CSSStyleSheet[];
 
 	beforeAll(() => {
@@ -30,7 +30,7 @@ describe('blowser support adoptedStyleSheets', () => {
 	});
 });
 
-describe('localStorage', () => {
+describe('browser setting storage', () => {
 	let tempLocalStorage: Storage;
 
 	beforeAll(() => {
@@ -53,15 +53,45 @@ describe('localStorage', () => {
 	});
 });
 
-describe('attribute', () => {
-	beforeAll(() => {
-		document.body.innerHTML = `<x-input-switch></x-input-switch>`;
+describe('connectedCallback', () => {
+	describe('storage', () => {
+		afterEach(() => {
+			localStorage.clear();
+		});
+
+		test('checked last time', () => {
+			localStorage.setItem('x', 'true');
+
+			document.body.innerHTML = `<x-input-switch storage-key="x"></x-input-switch>`;
+
+			const switchElement = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
+
+			expect(switchElement.checked).toBeTruthy();
+		});
+
+		test('not checked last time', () => {
+			localStorage.setItem('x', 'false');
+
+			document.body.innerHTML = `<x-input-switch checked="" storage-key="x"></x-input-switch>`;
+
+			const switchElement = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
+
+			expect(switchElement.checked).toBeFalsy();
+		});
 	});
 
-	test('init', () => {
+	test('HTML', () => {
+		document.body.innerHTML = `<x-input-switch></x-input-switch>`;
+
 		const switchElement = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
 
 		expect(switchElement.outerHTML).toBe('<x-input-switch tabindex="0" role="switch" aria-checked="false" aria-disabled="false"></x-input-switch>');
+	});
+});
+
+describe('attributeChangedCallback', () => {
+	beforeAll(() => {
+		document.body.innerHTML = `<x-input-switch></x-input-switch>`;
 	});
 
 	test('value', () => {
@@ -121,17 +151,22 @@ describe('attribute', () => {
 
 describe('event', () => {
 	beforeEach(() => {
-		document.body.innerHTML = `<x-input-switch></x-input-switch>`;
+		document.body.innerHTML = `<x-input-switch storage-key="x"></x-input-switch>`;
+	});
+	afterEach(() => {
+		localStorage.clear();
 	});
 
 	test('change', () => {
 		const switchElement = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
 
 		expect(switchElement.checked).toBeFalsy();
+		expect(localStorage.getItem('x')).toBeNull();
 
 		switchElement.dispatchEvent(new Event('change'));
 
 		expect(switchElement.checked).toBeTruthy();
+		expect(localStorage.getItem('x')).toBe('true');
 	});
 
 	test('click', () => {
@@ -144,7 +179,7 @@ describe('event', () => {
 		expect(switchElement.checked).toBeTruthy();
 	});
 
-	test('keydown - space', () => {
+	test('space key', () => {
 		const switchElement = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
 
 		expect(switchElement.checked).toBeFalsy();
@@ -154,7 +189,7 @@ describe('event', () => {
 		expect(switchElement.checked).toBeTruthy();
 	});
 
-	test('keydown - enter', () => {
+	test('enter key', () => {
 		const switchElement = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
 
 		expect(switchElement.checked).toBeFalsy();
