@@ -1,12 +1,39 @@
 import { webcrypto } from 'node:crypto';
-import { beforeAll, beforeEach, describe, expect, test } from '@jest/globals';
+import { afterAll, beforeAll, beforeEach, describe, expect, jest, test } from '@jest/globals';
 import Tab from './Tab.ts';
 
-customElements.define('x-tab', Tab);
+const TAB_ELEMENT_NAME = 'x-tab';
 
-Object.defineProperty(globalThis, 'crypto', {
-	value: webcrypto,
-}); // `jsdom` が `crypto.randomUUID()` 要素をサポートするまでの暫定処理 https://github.com/jsdom/jsdom/issues/1612
+beforeAll(() => {
+	Object.defineProperty(globalThis, 'crypto', {
+		value: webcrypto,
+	}); // `jsdom` が `crypto.randomUUID()` 要素をサポートするまでの暫定処理 https://github.com/jsdom/jsdom/issues/1612
+
+	customElements.define(TAB_ELEMENT_NAME, Tab);
+});
+
+describe('browser setting storage', () => {
+	let tempSessionStorage: Storage;
+
+	beforeAll(() => {
+		tempSessionStorage = sessionStorage;
+		// @ts-expect-error: ts(2790)
+		delete window.sessionStorage;
+	});
+	afterAll(() => {
+		window.sessionStorage = tempSessionStorage;
+	});
+
+	test('block', () => {
+		const consoleInfoSpy = jest.spyOn(console, 'info');
+
+		document.createElement(TAB_ELEMENT_NAME);
+
+		expect(consoleInfoSpy).toHaveBeenCalledWith('Storage access blocked.');
+
+		consoleInfoSpy.mockRestore();
+	});
+});
 
 describe('connected & disconnected', () => {
 	beforeAll(() => {
