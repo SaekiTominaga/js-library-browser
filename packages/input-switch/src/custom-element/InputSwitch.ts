@@ -16,7 +16,7 @@ export default class InputSwitch extends HTMLElement {
 		super();
 
 		if (!('adoptedStyleSheets' in ShadowRoot.prototype)) {
-			console.info('This browser does not support ShadowRoot: `adoptedStyleSheets`');
+			console.info('This browser does not support ShadowRoot: `adoptedStyleSheets`.');
 			return;
 		}
 
