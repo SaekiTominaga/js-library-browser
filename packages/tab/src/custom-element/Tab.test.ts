@@ -1,5 +1,5 @@
 import { webcrypto } from 'node:crypto';
-import { afterAll, beforeAll, beforeEach, describe, expect, jest, test } from '@jest/globals';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, jest, test } from '@jest/globals';
 import Tab from './Tab.ts';
 
 const TAB_ELEMENT_NAME = 'x-tab';
@@ -53,6 +53,51 @@ describe('connectedCallback', () => {
 				/^<x-tab><a slot="tab" id="[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}" role="tab" aria-controls="tabpanel1" tabindex="0" aria-selected="true">Tab 1<\/a><a slot="tab" id="[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}" role="tab" aria-controls="tabpanel2" tabindex="-1" aria-selected="false">Tab 2<\/a><div slot="tabpanel" id="tabpanel1" role="tabpanel" aria-labelledby="[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}">Tab panel 1<\/div><div slot="tabpanel" id="tabpanel2" role="tabpanel" aria-labelledby="[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}" class="is-hidden">Tab panel 2<\/div><\/x-tab>$/u,
 			),
 		);
+	});
+
+	test('`tablist-label` attribute', () => {
+		document.body.innerHTML = `<x-tab tablist-label="label"></x-tab>`;
+
+		const tabElement = document.querySelector<Tab>(TAB_ELEMENT_NAME)!;
+		const tablistElement = tabElement.shadowRoot?.querySelector<HTMLElement>('[part=tablist]');
+
+		expect(tablistElement?.getAttribute('aria-label')).toBe('label');
+	});
+
+	describe('storage', () => {
+		afterEach(() => {
+			sessionStorage.clear();
+		});
+
+		test('select tab', () => {
+			sessionStorage.setItem('x', 'tabpanel2');
+
+			document.body.innerHTML = `
+<x-tab storage-key="x">
+<a href="#tabpanel1" slot="tab">Tab 1</a>
+<a href="#tabpanel2" slot="tab">Tab 2</a>
+<div slot="tabpanel" id="tabpanel1">Tab panel 1</div>
+<div slot="tabpanel" id="tabpanel2">Tab panel 2</div>
+</x-tab>
+`;
+
+			expect(document.querySelector('[slot=tab][aria-controls=tabpanel1]')?.getAttribute('aria-selected')).toBe('false');
+			expect(document.querySelector('[slot=tab][aria-controls=tabpanel2]')?.getAttribute('aria-selected')).toBe('true');
+			expect(document.querySelector('#tabpanel1')?.classList.contains('is-hidden')).toBeTruthy();
+			expect(document.querySelector('#tabpanel2')?.classList.contains('is-hidden')).toBeFalsy();
+		});
+
+		test('no exist id', () => {
+			const consoleInfoSpy = jest.spyOn(console, 'info');
+
+			sessionStorage.setItem('x', 'foo');
+
+			document.body.innerHTML = `<x-tab storage-key="x"></x-tab>`;
+
+			expect(consoleInfoSpy).toHaveBeenCalledWith('Element `#foo` not found.');
+
+			consoleInfoSpy.mockRestore();
+		});
 	});
 });
 
