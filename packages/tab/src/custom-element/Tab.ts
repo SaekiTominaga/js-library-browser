@@ -113,7 +113,7 @@ export default class Tab extends HTMLElement {
 				if (initialSelectTabpanelId !== null) {
 					const initialSelectTabpanelElement = document.getElementById(initialSelectTabpanelId);
 					if (initialSelectTabpanelElement === null) {
-						console.info(`Element \`${initialSelectTabpanelId}\` not found.`);
+						console.info(`Element \`#${initialSelectTabpanelId}\` not found.`);
 					} else {
 						this.#selectedTabNo = this.#tabpanelElements.indexOf(initialSelectTabpanelElement);
 					}
@@ -135,10 +135,14 @@ export default class Tab extends HTMLElement {
 		});
 	}
 
-	attributeChangedCallback(name: string, _oldValue: string, newValue: string): void {
+	attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null): void {
 		switch (name) {
 			case 'tablist-label': {
-				this.#tablistElement.setAttribute('aria-label', newValue);
+				if (newValue === null) {
+					this.#tablistElement.removeAttribute('aria-label');
+				} else {
+					this.#tablistElement.setAttribute('aria-label', newValue);
+				}
 
 				break;
 			}
