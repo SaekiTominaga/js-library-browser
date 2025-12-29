@@ -13,8 +13,7 @@
 <script type="importmap">
   {
     "imports": {
-      "@w0s/tab": "...",
-      "@w0s/shadow-append-css": "..."
+      "@w0s/tab": "..."
     }
   }
 </script>
@@ -34,6 +33,8 @@
   <div slot="tabpanel" id="tabpanel2">Contents of tabpanel 2</div>
 </x-tab>
 ```
+
+\* **`@w0s/shadow-append-css` is no longer required since version 5.0**
 
 \* **`uuid` is no longer required since version 3.1**
 

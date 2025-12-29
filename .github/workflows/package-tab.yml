@@ -28,5 +28,4 @@ jobs:
         with:
           node-version: '24'
       - run: npm ci
-      - run: npm run build -w @w0s/shadow-append-css
       - run: npm test -w '@w0s/tab'

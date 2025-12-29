@@ -1,5 +1,3 @@
-import shadowAppendCss from '@w0s/shadow-append-css';
-
 /**
  * Tabs UI component
  */
@@ -61,7 +59,9 @@ export default class Tab extends HTMLElement {
 		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 		'setHTMLUnsafe' in shadow ? shadow.setHTMLUnsafe(htmlString) : ((shadow as ShadowRoot).innerHTML = htmlString);
 
-		shadowAppendCss(shadow, cssString);
+		const css = new CSSStyleSheet();
+		css.replaceSync(cssString);
+		shadow.adoptedStyleSheets.push(css);
 
 		this.#tablistElement = shadow.querySelector('[part="tablist"]')!;
 		this.#tabElements = shadow.querySelector<HTMLSlotElement>('slot[name="tab"]')!.assignedNodes({ flatten: true }) as HTMLAnchorElement[];
