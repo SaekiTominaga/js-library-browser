@@ -10,7 +10,7 @@ const validate = (element: Element): HTMLAnchorElement => {
 
 export default (elementOrElements: NodeListOf<Element> | HTMLCollectionOf<Element> | Element | null): void => {
 	if (!('showPopover' in HTMLElement.prototype)) {
-		console.info('This browser does not support popover');
+		console.info('This browser does not support popover.');
 		return;
 	}
 

@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals';
 import index from './index.ts';
 
-describe('blowser support adoptedStyleSheets', () => {
+describe('browser support adoptedStyleSheets', () => {
 	let tempAdoptedStyleSheets: CSSStyleSheet[];
 
 	beforeAll(() => {
@@ -18,7 +18,7 @@ describe('blowser support adoptedStyleSheets', () => {
 
 		index(null);
 
-		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support ShadowRoot: `adoptedStyleSheets`');
+		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support ShadowRoot: `adoptedStyleSheets`.');
 
 		consoleInfoSpy.mockRestore();
 	});

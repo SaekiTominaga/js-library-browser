@@ -10,7 +10,7 @@ const validate = (element: Element): HTMLDetailsElement => {
 
 export default (elementOrElements: NodeListOf<Element> | HTMLCollectionOf<Element> | Element | null): void => {
 	if (!('adoptedStyleSheets' in ShadowRoot.prototype)) {
-		console.info('This browser does not support ShadowRoot: `adoptedStyleSheets`');
+		console.info('This browser does not support ShadowRoot: `adoptedStyleSheets`.');
 		return;
 	}
 

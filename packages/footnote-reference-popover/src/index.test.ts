@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals';
 import index from './index.ts';
 
-describe('blowser support popover', () => {
+describe('browser support popover', () => {
 	let tempShowPopover: () => void;
 
 	beforeAll(() => {
@@ -18,7 +18,7 @@ describe('blowser support popover', () => {
 
 		index(null);
 
-		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support popover');
+		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support popover.');
 
 		consoleInfoSpy.mockRestore();
 	});
