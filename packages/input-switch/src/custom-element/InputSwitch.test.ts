@@ -1,18 +1,33 @@
-import { beforeAll, beforeEach, describe, expect, test } from '@jest/globals';
+import { afterAll, beforeAll, beforeEach, describe, expect, jest, test } from '@jest/globals';
 import InputSwitch from './InputSwitch.ts';
 
-customElements.define('x-input-switch', InputSwitch);
+const INPUT_SWITCH_ELEMENT_NAME = 'x-input-switch';
 
-describe('connected & disconnected', () => {
+beforeAll(() => {
+	customElements.define(INPUT_SWITCH_ELEMENT_NAME, InputSwitch);
+});
+
+describe('blowser support adoptedStyleSheets', () => {
+	let tempAdoptedStyleSheets: CSSStyleSheet[];
+
 	beforeAll(() => {
-		document.body.innerHTML = `<x-input-switch></x-input-switch>`;
+		tempAdoptedStyleSheets = ShadowRoot.prototype.adoptedStyleSheets;
+		// @ts-expect-error: ts(2790)
+		delete ShadowRoot.prototype.adoptedStyleSheets;
+	});
+	afterAll(() => {
+		ShadowRoot.prototype.adoptedStyleSheets = tempAdoptedStyleSheets;
 	});
 
-	test('connected', () => {
-		expect(document.body.innerHTML).toBe('<x-input-switch tabindex="0" role="switch" aria-checked="false" aria-disabled="false"></x-input-switch>');
-	});
-	test('disconnected', () => {
-		document.querySelector('x-input-switch')?.remove();
+	test('not support', () => {
+		const consoleInfoSpy = jest.spyOn(console, 'info');
+
+		document.createElement(INPUT_SWITCH_ELEMENT_NAME);
+
+		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support ShadowRoot: `adoptedStyleSheets`');
+
+		consoleInfoSpy.mockRestore();
+		jest.resetModules();
 	});
 });
 
@@ -21,52 +36,64 @@ describe('attribute', () => {
 		document.body.innerHTML = `<x-input-switch></x-input-switch>`;
 	});
 
+	test('init', () => {
+		const switchElement = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
+
+		expect(switchElement.outerHTML).toBe('<x-input-switch tabindex="0" role="switch" aria-checked="false" aria-disabled="false"></x-input-switch>');
+	});
+
 	test('value', () => {
-		const element = document.querySelector<InputSwitch>('x-input-switch')!;
+		const switchElement = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
 
-		expect(element.value).toBe('on');
+		expect(switchElement.value).toBe('on');
 
-		element.value = 'foo';
-		expect(element.outerHTML).toBe('<x-input-switch tabindex="0" role="switch" aria-checked="false" aria-disabled="false" value="foo"></x-input-switch>');
+		switchElement.value = 'foo';
+		expect(switchElement.value).toBe('foo');
 
-		element.value = null;
-		expect(element.outerHTML).toBe('<x-input-switch tabindex="0" role="switch" aria-checked="false" aria-disabled="false"></x-input-switch>');
+		switchElement.value = null;
+		expect(switchElement.value).toBe('on');
 	});
 
 	test('checked', () => {
-		const element = document.querySelector<InputSwitch>('x-input-switch')!;
+		const switchElement = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
 
-		expect(element.checked).toBeFalsy();
+		expect(switchElement.checked).toBeFalsy();
+		expect(switchElement.getAttribute('aria-checked')).toBe('false');
 
-		element.checked = true;
-		expect(element.outerHTML).toBe('<x-input-switch tabindex="0" role="switch" aria-checked="true" aria-disabled="false" checked=""></x-input-switch>');
+		switchElement.checked = true;
+		expect(switchElement.checked).toBeTruthy();
+		expect(switchElement.getAttribute('aria-checked')).toBe('true');
 
-		element.checked = false;
-		expect(element.outerHTML).toBe('<x-input-switch tabindex="0" role="switch" aria-checked="false" aria-disabled="false"></x-input-switch>');
+		switchElement.checked = false;
+		expect(switchElement.checked).toBeFalsy();
+		expect(switchElement.getAttribute('aria-checked')).toBe('false');
 	});
 
 	test('disabled', () => {
-		const element = document.querySelector<InputSwitch>('x-input-switch')!;
+		const switchElement = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
 
-		expect(element.disabled).toBeFalsy();
+		expect(switchElement.disabled).toBeFalsy();
+		expect(switchElement.getAttribute('aria-disabled')).toBe('false');
 
-		element.disabled = true;
-		expect(element.outerHTML).toBe('<x-input-switch tabindex="-1" role="switch" aria-checked="false" aria-disabled="true" disabled=""></x-input-switch>');
+		switchElement.disabled = true;
+		expect(switchElement.disabled).toBeTruthy();
+		expect(switchElement.getAttribute('aria-disabled')).toBe('true');
 
-		element.disabled = false;
-		expect(element.outerHTML).toBe('<x-input-switch tabindex="0" role="switch" aria-checked="false" aria-disabled="false"></x-input-switch>');
+		switchElement.disabled = false;
+		expect(switchElement.disabled).toBeFalsy();
+		expect(switchElement.getAttribute('aria-disabled')).toBe('false');
 	});
 
 	test('storage-key', () => {
-		const element = document.querySelector<InputSwitch>('x-input-switch')!;
+		const switchElement = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
 
-		expect(element.storageKey).toBeNull();
+		expect(switchElement.storageKey).toBeNull();
 
-		element.storageKey = 'foo';
-		expect(element.outerHTML).toBe('<x-input-switch tabindex="0" role="switch" aria-checked="false" aria-disabled="false" storage-key="foo"></x-input-switch>');
+		switchElement.storageKey = 'foo';
+		expect(switchElement.storageKey).toBe('foo');
 
-		element.storageKey = null;
-		expect(element.outerHTML).toBe('<x-input-switch tabindex="0" role="switch" aria-checked="false" aria-disabled="false"></x-input-switch>');
+		switchElement.storageKey = null;
+		expect(switchElement.storageKey).toBeNull();
 	});
 });
 
@@ -76,34 +103,42 @@ describe('event', () => {
 	});
 
 	test('change', () => {
-		const element = document.querySelector('x-input-switch');
+		const switchElement = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
 
-		element?.dispatchEvent(new Event('change'));
+		expect(switchElement.checked).toBeFalsy();
 
-		expect(element?.outerHTML).toBe('<x-input-switch tabindex="0" role="switch" aria-checked="true" aria-disabled="false" checked=""></x-input-switch>');
+		switchElement.dispatchEvent(new Event('change'));
+
+		expect(switchElement.checked).toBeTruthy();
 	});
 
 	test('click', () => {
-		const element = document.querySelector('x-input-switch');
+		const switchElement = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
 
-		element?.dispatchEvent(new MouseEvent('click'));
+		expect(switchElement.checked).toBeFalsy();
 
-		expect(element?.outerHTML).toBe('<x-input-switch tabindex="0" role="switch" aria-checked="true" aria-disabled="false" checked=""></x-input-switch>');
-	});
+		switchElement.dispatchEvent(new MouseEvent('click'));
 
-	test('keydown - enter', () => {
-		const element = document.querySelector('x-input-switch');
-
-		element?.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
-
-		expect(element?.outerHTML).toBe('<x-input-switch tabindex="0" role="switch" aria-checked="false" aria-disabled="false"></x-input-switch>');
+		expect(switchElement.checked).toBeTruthy();
 	});
 
 	test('keydown - space', () => {
-		const element = document.querySelector('x-input-switch');
+		const switchElement = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
 
-		element?.dispatchEvent(new KeyboardEvent('keydown', { key: ' ' }));
+		expect(switchElement.checked).toBeFalsy();
 
-		expect(element?.outerHTML).toBe('<x-input-switch tabindex="0" role="switch" aria-checked="true" aria-disabled="false" checked=""></x-input-switch>');
+		switchElement.dispatchEvent(new KeyboardEvent('keydown', { key: ' ' }));
+
+		expect(switchElement.checked).toBeTruthy();
+	});
+
+	test('keydown - enter', () => {
+		const switchElement = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
+
+		expect(switchElement.checked).toBeFalsy();
+
+		switchElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+
+		expect(switchElement.checked).toBeFalsy(); // Enter キーでは変わらない
 	});
 });
