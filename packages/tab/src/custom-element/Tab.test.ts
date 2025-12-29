@@ -35,8 +35,8 @@ describe('browser setting storage', () => {
 	});
 });
 
-describe('connected & disconnected', () => {
-	beforeAll(() => {
+describe('connectedCallback', () => {
+	test('HTML', () => {
 		document.body.innerHTML = `
 <x-tab>
 <a href="#tabpanel1" slot="tab">Tab 1</a>
@@ -45,40 +45,48 @@ describe('connected & disconnected', () => {
 <div slot="tabpanel" id="tabpanel2">Tab panel 2</div>
 </x-tab>
 `;
-	});
 
-	test('connected', () => {
-		expect(document.body.innerHTML.replaceAll('\n', '')).toEqual(
+		const tabElement = document.querySelector<Tab>(TAB_ELEMENT_NAME)!;
+
+		expect(tabElement.outerHTML.replaceAll('\n', '')).toEqual(
 			expect.stringMatching(
 				/^<x-tab><a slot="tab" id="[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}" role="tab" aria-controls="tabpanel1" tabindex="0" aria-selected="true">Tab 1<\/a><a slot="tab" id="[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}" role="tab" aria-controls="tabpanel2" tabindex="-1" aria-selected="false">Tab 2<\/a><div slot="tabpanel" id="tabpanel1" role="tabpanel" aria-labelledby="[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}">Tab panel 1<\/div><div slot="tabpanel" id="tabpanel2" role="tabpanel" aria-labelledby="[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}" class="is-hidden">Tab panel 2<\/div><\/x-tab>$/u,
 			),
 		);
 	});
-
-	test('disconnected', () => {
-		document.querySelector('x-tab')?.remove();
-	});
 });
 
-describe('attributes - get / set', () => {
-	test('tablist-label', () => {
-		const tab = new Tab();
+describe('attributeChangedCallback', () => {
+	beforeAll(() => {
+		document.body.innerHTML = `<x-tab></x-tab>`;
+	});
 
-		expect(tab.tablistLabel).toBeNull();
-		tab.tablistLabel = 'label';
-		expect(tab.tablistLabel).toBe('label');
-		tab.tablistLabel = null;
-		expect(tab.tablistLabel).toBeNull();
+	test('tablist-label', () => {
+		const tabElement = document.querySelector<Tab>(TAB_ELEMENT_NAME)!;
+		const tablistElement = tabElement.shadowRoot?.querySelector<HTMLElement>('[part=tablist]');
+
+		expect(tabElement.tablistLabel).toBeNull();
+		expect(tablistElement?.getAttribute('aria-label')).toBeNull();
+
+		tabElement.tablistLabel = 'label';
+		expect(tabElement.tablistLabel).toBe('label');
+		expect(tablistElement?.getAttribute('aria-label')).toBe('label');
+
+		tabElement.tablistLabel = null;
+		expect(tabElement.tablistLabel).toBeNull();
+		expect(tablistElement?.getAttribute('aria-label')).toBeNull();
 	});
 
 	test('storage-key', () => {
-		const tab = new Tab();
+		const tabElement = document.querySelector<Tab>(TAB_ELEMENT_NAME)!;
 
-		expect(tab.storageKey).toBeNull();
-		tab.storageKey = 'foo';
-		expect(tab.storageKey).toBe('foo');
-		tab.storageKey = null;
-		expect(tab.storageKey).toBeNull();
+		expect(tabElement.storageKey).toBeNull();
+
+		tabElement.storageKey = 'foo';
+		expect(tabElement.storageKey).toBe('foo');
+
+		tabElement.storageKey = null;
+		expect(tabElement.storageKey).toBeNull();
 	});
 });
 
