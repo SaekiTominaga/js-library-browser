@@ -43,10 +43,6 @@ These package programs can be used in the browser. It does not depend on any spe
 
 - [Get the CSS `writing-mode` status of the element](packages/writing-mode)
 
-## Shadow DOM
-
-- [Appending CSS into the shadow DOM](packages/shadow-append-css)
-
 ## URL
 
 - [Get the data of the HTML page of the nearest ancestor hierarchy](packages/closest-html-page)

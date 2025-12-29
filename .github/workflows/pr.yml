@@ -27,7 +27,7 @@ jobs:
           node-version: '24'
 
       - run: npm ci
-      - run: npm run build -w @w0s/shadow-append-css -w @w0s/writing-mode
+      - run: npm run build -w @w0s/writing-mode
 
       - name: Run lint
         run: npm run lint
