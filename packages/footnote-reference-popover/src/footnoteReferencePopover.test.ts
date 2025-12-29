@@ -1,4 +1,4 @@
-import { beforeAll, describe, expect, test } from '@jest/globals';
+import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals';
 import type PopoverElement from './custom-element/Popover.ts';
 import footnoteReferencePopover from './footnoteReferencePopover.ts';
 
@@ -8,6 +8,29 @@ const sleep = (ms: number) =>
 	new Promise((callback) => {
 		setTimeout(callback, ms);
 	});
+
+describe('blowser support popover', () => {
+	let tempShowPopover: () => void;
+
+	beforeAll(() => {
+		tempShowPopover = HTMLElement.prototype.showPopover.bind(HTMLElement);
+		// @ts-expect-error: ts(2790)
+		delete HTMLElement.prototype.showPopover;
+	});
+	afterAll(() => {
+		HTMLElement.prototype.showPopover = tempShowPopover;
+	});
+
+	test('not support', () => {
+		const consoleInfoSpy = jest.spyOn(console, 'info');
+
+		footnoteReferencePopover(document.createElement('a'));
+
+		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support popover');
+
+		consoleInfoSpy.mockRestore();
+	});
+});
 
 describe('trigger click event', () => {
 	beforeAll(() => {
