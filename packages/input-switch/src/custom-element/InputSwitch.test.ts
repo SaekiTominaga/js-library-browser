@@ -24,10 +24,32 @@ describe('blowser support adoptedStyleSheets', () => {
 
 		document.createElement(INPUT_SWITCH_ELEMENT_NAME);
 
-		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support ShadowRoot: `adoptedStyleSheets`');
+		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support ShadowRoot: `adoptedStyleSheets`.');
 
 		consoleInfoSpy.mockRestore();
-		jest.resetModules();
+	});
+});
+
+describe('localStorage', () => {
+	let tempLocalStorage: Storage;
+
+	beforeAll(() => {
+		tempLocalStorage = localStorage;
+		// @ts-expect-error: ts(2790)
+		delete window.localStorage;
+	});
+	afterAll(() => {
+		window.localStorage = tempLocalStorage;
+	});
+
+	test('block', () => {
+		const consoleInfoSpy = jest.spyOn(console, 'info');
+
+		document.createElement(INPUT_SWITCH_ELEMENT_NAME);
+
+		expect(consoleInfoSpy).toHaveBeenCalledWith('Storage access blocked.');
+
+		consoleInfoSpy.mockRestore();
 	});
 });
 
