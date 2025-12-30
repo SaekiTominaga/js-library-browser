@@ -69,14 +69,6 @@ export default [
 		},
 	},
 	{
-		files: ['packages/closest-html-page/src/closestHTMLPage.ts'],
-		rules: {
-			'no-await-in-loop': 'off',
-			'no-continue': 'off',
-			'functional/no-loop-statements': 'off',
-		},
-	},
-	{
 		files: ['packages/input-file-preview/src/util/errorMessage.test.ts'],
 		rules: {
 			'no-template-curly-in-string': 'off',

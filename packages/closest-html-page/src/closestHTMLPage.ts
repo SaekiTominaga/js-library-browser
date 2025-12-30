@@ -1,16 +1,68 @@
 import MIMEType from 'whatwg-mimetype';
-import { getParentPage } from './util/url.ts';
+import { getAncestorUrls } from './util/url.ts';
 
 interface Option {
 	maxFetchCount?: number; // If no HTML page matching the condition can be retrieved after this number of attempts to access the ancestor hierarchy, the process is rounded up (0 = ∞)
 	fetchOptions?: RequestInit; // An object containing any custom settings that you want to apply to the reques
-	mimeTypes?: DOMParserSupportedType[]; // MIME types of the HTML resource to retrieve
+	mimeTypes?: readonly DOMParserSupportedType[]; // MIME types of the HTML resource to retrieve
 }
 
 interface HTMLPageData {
 	url: string;
 	title: string | undefined;
 }
+
+/**
+ * Fetch HTML content
+ *
+ * @param url - URL
+ * @param options - Options for accessing web content
+ *
+ * @returns Data from the web content fetched
+ */
+export const fetchProcess = async (
+	url: URL,
+	options?: Readonly<Option>,
+): Promise<{
+	response: Response;
+	htmlPage?: boolean;
+	title?: string | undefined;
+}> => {
+	const response = await fetch(`${url.origin}${url.pathname}`, options?.fetchOptions);
+
+	console.info(`【Fetch API】${response.url} [${[String(response.status), response.statusText].filter((s) => s !== '').join(' ')}]`);
+
+	if (!response.ok) {
+		return {
+			response: response,
+		};
+	}
+
+	const mimeType = response.headers.get('content-type');
+	if (mimeType === null) {
+		throw new Error(`Missing \`Content-Type\` in response header for URL <${response.url}>.`);
+	}
+
+	/* MIME タイプからパラメーターを除去（e.g 'text/html; charset=utf-8' → 'text/html'） */
+	const mimeTypeEssence = new MIMEType(mimeType).essence;
+
+	if (!(options?.mimeTypes ?? (['text/html', 'application/xhtml+xml'] as readonly string[])).includes(mimeTypeEssence)) {
+		/* 指定された MIME タイプにマッチしない場合 */
+		return {
+			response: response,
+			htmlPage: false,
+		};
+	}
+
+	/* 諸条件を満たした場合 */
+	const document = new DOMParser().parseFromString(await response.text(), mimeTypeEssence as DOMParserSupportedType);
+
+	return {
+		response: response,
+		htmlPage: true,
+		title: document.querySelector<HTMLMetaElement>('meta[property="og:title"]')?.content ?? document.querySelector('title')?.textContent ?? undefined,
+	};
+};
 
 /**
  * Get the data of the HTML page of the nearest ancestor hierarchy
@@ -20,8 +72,8 @@ interface HTMLPageData {
  *
  * @returns Data from the web page fetched
  */
-const closestHTMLPage = async (
-	baseUrl: string = location.toString(),
+export default async (
+	baseUrl = location.toString(),
 	options?: Readonly<Option>,
 ): Promise<{
 	fetchedResponses: Response[];
@@ -37,52 +89,35 @@ const closestHTMLPage = async (
 		}
 	}
 
-	const ancestorUrls: URL[] = [];
-	while (ancestorUrls.at(-1)?.pathname !== '/') {
-		ancestorUrls.push(getParentPage(ancestorUrls.at(-1) ?? new URL(baseUrl)));
-	}
+	const ancestorUrls: readonly URL[] = getAncestorUrls(new URL(baseUrl));
 
 	const fetchUrls = options?.maxFetchCount !== undefined && options.maxFetchCount > 0 ? ancestorUrls.slice(0, options.maxFetchCount) : ancestorUrls;
 
-	const fetchedResponses: Response[] = []; // fetch() した Response 情報
-	const htmlPageData: HTMLPageData[] = [];
-	for (const url of fetchUrls) {
-		const response = await fetch(`${url.origin}${url.pathname}`, options?.fetchOptions);
+	const fetchedResponses: Response[] = []; // `fetch()` した Response 情報
+
+	const getHtmlPageData = async (index = 0): Promise<HTMLPageData | undefined> => {
+		const fetchUrl = fetchUrls.at(index);
+		if (fetchUrl === undefined) {
+			return undefined;
+		}
+
+		const { response, htmlPage, title } = await fetchProcess(fetchUrl, options);
 
 		fetchedResponses.push(response);
-		console.info(`【Fetch API】${response.url} [${[String(response.status), response.statusText].filter((s) => s !== '').join(' ')}]`);
 
-		if (!response.ok) {
-			continue;
+		if (htmlPage) {
+			return {
+				url: response.url,
+				title: title,
+			};
 		}
 
-		const mimeType = response.headers.get('content-type');
-		if (mimeType === null) {
-			throw new Error(`Missing \`Content-Type\` in response header for URL <${response.url}>`);
-		}
-
-		/* MIME タイプからパラメーターを除去（e.g 'text/html; charset=utf-8' → 'text/html'） */
-		const mimeTypeEssence = new MIMEType(mimeType).essence;
-
-		if (!(options?.mimeTypes ?? (['text/html', 'application/xhtml+xml'] as string[])).includes(mimeTypeEssence)) {
-			/* 指定された MIME タイプにマッチしない場合 */
-			continue;
-		}
-
-		/* 諸条件を満たした場合 */
-		const document = new DOMParser().parseFromString(await response.text(), mimeTypeEssence as DOMParserSupportedType);
-
-		htmlPageData.push({
-			url: response.url,
-			title: document.querySelector<HTMLMetaElement>('meta[property="og:title"]')?.content ?? document.querySelector('title')?.textContent ?? undefined,
-		});
-
-		break;
-	}
+		return await getHtmlPageData(index + 1);
+	};
+	const htmlPageData = await getHtmlPageData();
 
 	return {
 		fetchedResponses: fetchedResponses,
-		closestHTMLPageData: htmlPageData.at(-1),
+		closestHTMLPageData: htmlPageData,
 	};
 };
-export default closestHTMLPage;
