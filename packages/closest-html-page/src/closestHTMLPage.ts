@@ -1,5 +1,5 @@
 import MIMEType from 'whatwg-mimetype';
-import { getParentPage } from './util/url.ts';
+import { getAncestorUrls } from './util/url.ts';
 
 interface Option {
 	maxFetchCount?: number; // If no HTML page matching the condition can be retrieved after this number of attempts to access the ancestor hierarchy, the process is rounded up (0 = ∞)
@@ -20,7 +20,7 @@ interface HTMLPageData {
  *
  * @returns Data from the web page fetched
  */
-const closestHTMLPage = async (
+export default async (
 	baseUrl: string = location.toString(),
 	options?: Readonly<Option>,
 ): Promise<{
@@ -37,15 +37,13 @@ const closestHTMLPage = async (
 		}
 	}
 
-	const ancestorUrls: URL[] = [];
-	while (ancestorUrls.at(-1)?.pathname !== '/') {
-		ancestorUrls.push(getParentPage(ancestorUrls.at(-1) ?? new URL(baseUrl)));
-	}
+	const ancestorUrls: readonly URL[] = getAncestorUrls(new URL(baseUrl));
 
 	const fetchUrls = options?.maxFetchCount !== undefined && options.maxFetchCount > 0 ? ancestorUrls.slice(0, options.maxFetchCount) : ancestorUrls;
 
 	const fetchedResponses: Response[] = []; // fetch() した Response 情報
 	const htmlPageData: HTMLPageData[] = [];
+
 	for (const url of fetchUrls) {
 		const response = await fetch(`${url.origin}${url.pathname}`, options?.fetchOptions);
 
@@ -85,4 +83,3 @@ const closestHTMLPage = async (
 		closestHTMLPageData: htmlPageData.at(-1),
 	};
 };
-export default closestHTMLPage;
