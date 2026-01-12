@@ -79,7 +79,7 @@ details {
 
     &::-webkit-details-marker {
       display: none;
-    }
+    } /* for Safari 18.3- */
 
     &::before {
       display: inline flow-root;
@@ -92,5 +92,3 @@ details {
 ```
 
 \* By including both `:not([open])` and `[data-pre-open='false']` in the selector's condition, we can handle both cases when JavaScript works correctly and when it does not (e.g. script disabled environment).
-
-\* Safari(26) does not support `list-style` for the `<summary>` element, so use the `::-webkit-details-marker` pseudo-element. ([Can I use...](https://caniuse.com/mdn-html_elements_summary_display_list_item))
