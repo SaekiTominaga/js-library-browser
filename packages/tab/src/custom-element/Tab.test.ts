@@ -12,6 +12,29 @@ beforeAll(() => {
 	customElements.define(TAB_ELEMENT_NAME, Tab);
 });
 
+describe('browser support adoptedStyleSheets', () => {
+	let tempAdoptedStyleSheets: CSSStyleSheet[];
+
+	beforeAll(() => {
+		tempAdoptedStyleSheets = ShadowRoot.prototype.adoptedStyleSheets;
+		// @ts-expect-error: ts(2790)
+		delete ShadowRoot.prototype.adoptedStyleSheets;
+	});
+	afterAll(() => {
+		ShadowRoot.prototype.adoptedStyleSheets = tempAdoptedStyleSheets;
+	});
+
+	test('not support', () => {
+		const consoleInfoSpy = jest.spyOn(console, 'info');
+
+		document.createElement(TAB_ELEMENT_NAME);
+
+		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support ShadowRoot: `adoptedStyleSheets`.');
+
+		consoleInfoSpy.mockRestore();
+	});
+});
+
 describe('browser setting storage', () => {
 	let tempSessionStorage: Storage;
 

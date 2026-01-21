@@ -4,11 +4,11 @@
 export default class Tab extends HTMLElement {
 	readonly #mySessionStorage: Storage | null = null;
 
-	readonly #tablistElement: HTMLElement;
+	readonly #tablistElement: HTMLElement | undefined;
 
-	readonly #tabElements: readonly HTMLAnchorElement[];
+	readonly #tabElements: readonly HTMLAnchorElement[] = [];
 
-	readonly #tabpanelElements: readonly HTMLElement[];
+	readonly #tabpanelElements: readonly HTMLElement[] = [];
 
 	#selectedTabNo = 0; // 何番目のタブが選択されているか
 
@@ -20,6 +20,11 @@ export default class Tab extends HTMLElement {
 
 	constructor() {
 		super();
+
+		if (!('adoptedStyleSheets' in ShadowRoot.prototype)) {
+			console.info('This browser does not support ShadowRoot: `adoptedStyleSheets`.');
+			return;
+		}
 
 		try {
 			this.#mySessionStorage = sessionStorage;
@@ -63,7 +68,7 @@ export default class Tab extends HTMLElement {
 		css.replaceSync(cssString);
 		shadow.adoptedStyleSheets.push(css);
 
-		this.#tablistElement = shadow.querySelector('[part="tablist"]')!;
+		this.#tablistElement = shadow.querySelector<HTMLElement>('[part="tablist"]')!;
 		this.#tabElements = shadow.querySelector<HTMLSlotElement>('slot[name="tab"]')!.assignedNodes({ flatten: true }) as HTMLAnchorElement[];
 		this.#tabpanelElements = shadow.querySelector<HTMLSlotElement>('slot[name="tabpanel"]')!.assignedNodes({ flatten: true }) as HTMLElement[];
 	}
@@ -71,7 +76,7 @@ export default class Tab extends HTMLElement {
 	connectedCallback(): void {
 		const { tablistLabel } = this;
 		if (tablistLabel !== null) {
-			this.#tablistElement.setAttribute('aria-label', tablistLabel);
+			this.#tablistElement?.setAttribute('aria-label', tablistLabel);
 		}
 
 		this.#tabElements.forEach((tabElement): void => {
@@ -139,9 +144,9 @@ export default class Tab extends HTMLElement {
 		switch (name) {
 			case 'tablist-label': {
 				if (newValue === null) {
-					this.#tablistElement.removeAttribute('aria-label');
+					this.#tablistElement?.removeAttribute('aria-label');
 				} else {
-					this.#tablistElement.setAttribute('aria-label', newValue);
+					this.#tablistElement?.setAttribute('aria-label', newValue);
 				}
 
 				break;
