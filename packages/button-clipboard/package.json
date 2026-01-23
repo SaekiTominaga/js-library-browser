@@ -9,8 +9,16 @@
 	"bugs": {
 		"url": "https://github.com/SaekiTominaga/js-library-browser/issues"
 	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/SaekiTominaga/js-library-browser.git"
+	},
 	"license": "MIT",
 	"author": "Saeki Tominaga",
+	"type": "module",
+	"main": "dist/index.js",
+	"module": "dist/index.js",
+	"types": "dist/index.d.ts",
 	"files": [
 		"dist/**/*.d.ts",
 		"!dist/**/*.test.d.ts",
@@ -21,14 +29,6 @@
 		"dist/**/*.js.map",
 		"!dist/**/*.test.js.map"
 	],
-	"type": "module",
-	"main": "dist/index.js",
-	"module": "dist/index.js",
-	"types": "dist/index.d.ts",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/SaekiTominaga/js-library-browser.git"
-	},
 	"scripts": {
 		"dev": "conc \"http-server -o demo -c-1\" \"tsc -w\"",
 		"prebuild": "rimraf dist/* -g",
