@@ -64,11 +64,7 @@ const validate = (options?: Readonly<ValidateOption>): boolean => {
 
 	const { referrer: referrerPart, location: locationPart } = getUrlPart(options?.referrer?.comparePart);
 
-	if (options?.referrer?.sames !== undefined) {
-		if (!options.referrer.sames.includes(referrerPart)) {
-			return false;
-		}
-	} else if (referrerPart !== locationPart) {
+	if (referrerPart !== locationPart && !options?.referrer?.sames?.includes(referrerPart)) {
 		return false;
 	}
 
