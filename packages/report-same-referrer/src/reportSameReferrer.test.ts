@@ -53,7 +53,7 @@ describe('validate', () => {
 		});
 
 		describe('sames', () => {
-			test('match', async () => {
+			test('referrer match', async () => {
 				Object.defineProperty(document, 'referrer', { value: 'http://example.com/' });
 
 				expect(
@@ -63,6 +63,23 @@ describe('validate', () => {
 							validate: {
 								referrer: {
 									sames: ['http://example.com'],
+								},
+							},
+						})
+					)?.status,
+				).toBe(204);
+			});
+
+			test('location match', async () => {
+				Object.defineProperty(document, 'referrer', { value: 'http://localhost/' });
+
+				expect(
+					(
+						await reportSameReferrer({
+							fetch: fetchOptions,
+							validate: {
+								referrer: {
+									sames: ['http://example.net'],
 								},
 							},
 						})
