@@ -2,6 +2,9 @@
 	"extends": "../../tsconfig.json",
 	"include": ["src/**/*.ts"],
 	"compilerOptions": {
+		/* Modules */
+		"rootDir": "src",
+
 		/* Emit */
 		"outDir": "dist"
 	}
