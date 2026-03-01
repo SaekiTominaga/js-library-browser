@@ -4,6 +4,9 @@
 		/* Emit */
 		"declaration": true,
 		"declarationMap": true,
-		"sourceMap": true
+		"sourceMap": true,
+
+		/* Projects */
+		"incremental": false
 	}
 }
