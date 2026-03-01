@@ -30,7 +30,7 @@
 		"!dist/**/*.test.js.map"
 	],
 	"scripts": {
-		"dev": "conc \"http-server -o demo -c-1\" \"tsc -w\"",
+		"dev": "http-server -o demo -c-1 & tsc -w",
 		"prebuild": "rimraf dist/* -g",
 		"build": "tsc",
 		"lint": "eslint src/**/*.ts",

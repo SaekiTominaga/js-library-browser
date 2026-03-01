@@ -6,7 +6,7 @@
 		"packages/*"
 	],
 	"scripts": {
-		"lint": "conc \"npm run lint:js\" \"npm run lint:html\" \"npm run lint:css\"",
+		"lint": "npm run lint:js & npm run lint:html & npm run lint:css",
 		"lint:js": "eslint packages/*/src/**/*.ts *.{js,mjs}",
 		"lint:html": "markuplint packages/*/demo/**/*.html",
 		"lint:css": "stylelint packages/*/demo/**/*.html"
@@ -16,7 +16,6 @@
 		"@w0s/markuplint-config": "^3.12.0",
 		"@w0s/stylelint-config": "^4.18.1",
 		"@w0s/tsconfig": "^2.0.1",
-		"concurrently": "^9.2.1",
 		"coveralls": "^3.1.1",
 		"cross-env": "^10.1.0",
 		"cross-fetch": "^4.1.0",
