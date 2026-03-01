@@ -1,4 +1,4 @@
-import MIMEType from 'whatwg-mimetype';
+import { MIMEType } from 'whatwg-mimetype';
 import { getAncestorUrls } from './util/url.ts';
 
 interface Option {
