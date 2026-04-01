@@ -31,18 +31,18 @@ test('application/x-www-form-urlencoded', async () => {
 	).rejects.toThrow('`https://report.w0s.jp/report/js-sample` is 400 Bad Request'); // TODO: データ形式の正当性が確認できていない
 });
 
-test('404', async () => {
+test('fetch error', async () => {
 	const event = new ErrorEvent('error', errorEventInit);
 
 	const fetchOptionsTemp = { ...options.fetch };
-	fetchOptionsTemp.endpoint = new URL('http://example.com/endpoint');
+	fetchOptionsTemp.endpoint = new URL('https://saekitominaga.github.io/js-library-browser/packages/report-js-error/');
 
 	await expect(
 		errorEvent(event, {
 			fetch: fetchOptionsTemp,
 			validate: { ...options.validate },
 		}),
-	).rejects.toThrow('`http://example.com/endpoint` is 405 Not Allowed');
+	).rejects.toThrow('`https://saekitominaga.github.io/js-library-browser/packages/report-js-error/` is 405 Method Not Allowed');
 });
 
 describe('validate', () => {
