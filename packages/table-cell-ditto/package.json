@@ -38,7 +38,7 @@
 		"text-metrics": "^4.0.1"
 	},
 	"devDependencies": {
-		"@types/text-metrics": "^3.0.3"
+		"@types/text-metrics": "^3.0.4"
 	},
 	"publishConfig": {
 		"access": "public"
