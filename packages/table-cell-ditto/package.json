@@ -35,10 +35,10 @@
 		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest dist/.+\\.test\\.js  -c ../../jest.config.mjs --roots packages/table-cell-ditto"
 	},
 	"dependencies": {
-		"text-metrics": "^4.0.1"
+		"text-metrics": "4.0.1"
 	},
 	"devDependencies": {
-		"@types/text-metrics": "^3.0.4"
+		"@types/text-metrics": "3.0.4"
 	},
 	"publishConfig": {
 		"access": "public"
