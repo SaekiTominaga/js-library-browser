@@ -15,10 +15,12 @@ export default (thisElement: HTMLButtonElement): void => {
 
 	thisElement.addEventListener(
 		'click',
-		async (ev: MouseEvent) => {
-			await clickEvent(ev, {
+		(ev: MouseEvent) => {
+			clickEvent(ev, {
 				controls: controls,
 				status: status,
+			}).catch((e: unknown) => {
+				throw e;
 			});
 		},
 		{ passive: true },

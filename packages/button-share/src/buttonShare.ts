@@ -23,11 +23,13 @@ export default (thisElement: HTMLButtonElement): void => {
 
 	thisElement.addEventListener(
 		'click',
-		async (ev: MouseEvent) => {
-			await clickEvent(ev, {
+		(ev: MouseEvent) => {
+			clickEvent(ev, {
 				text: text,
 				title: title,
 				url: url,
+			}).catch((e: unknown) => {
+				throw e;
 			});
 		},
 		{ passive: true },
