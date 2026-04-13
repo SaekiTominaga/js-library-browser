@@ -69,8 +69,10 @@ export default (options: Readonly<Option>): void => {
 
 	window.addEventListener(
 		'error',
-		async (ev: ErrorEvent) => {
-			await errorEvent(ev, options);
+		(ev: ErrorEvent) => {
+			errorEvent(ev, options).catch((e: unknown) => {
+				throw e;
+			});
 		},
 		{ passive: true },
 	);
