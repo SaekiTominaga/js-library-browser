@@ -1,5 +1,5 @@
-import Data from '../attribute/Data.ts';
-import Feedback from '../attribute/Feedback.ts';
+import type Data from '../attribute/Data.ts';
+import type Feedback from '../attribute/Feedback.ts';
 import { getContent } from '../util/html.ts';
 
 /**

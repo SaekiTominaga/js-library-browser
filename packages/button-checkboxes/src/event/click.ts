@@ -1,5 +1,5 @@
-import Checkbox from '../attribute/Checkbox.ts';
-import Course from '../attribute/Course.ts';
+import type Checkbox from '../attribute/Checkbox.ts';
+import type Course from '../attribute/Course.ts';
 
 /**
  * ボタン押下時の処理
