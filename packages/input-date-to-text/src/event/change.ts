@@ -1,5 +1,5 @@
-import Max from '../attribute/Max.ts';
-import Min from '../attribute/Min.ts';
+import type Max from '../attribute/Max.ts';
+import type Min from '../attribute/Min.ts';
 import type ValidationMessageMax from '../attribute/ValidationMessageMax.ts';
 import type ValidationMessageMin from '../attribute/ValidationMessageMin.ts';
 import type ValidationMessageNoExist from '../attribute/ValidationMessageNoExist.ts';
