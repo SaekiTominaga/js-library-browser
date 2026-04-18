@@ -28,7 +28,7 @@ export default class Tab extends HTMLElement {
 
 		try {
 			this.#mySessionStorage = sessionStorage;
-		} catch (e) {
+		} catch {
 			console.info('Storage access blocked.');
 		}
 

@@ -1,4 +1,4 @@
-import { test, expect } from '@jest/globals';
+import { expect, test } from '@jest/globals';
 import WritingMode from './WritingMode.ts';
 
 test('horizontal-tb', () => {

@@ -13,7 +13,7 @@ export const getBlockSize = (textareaElement: HTMLTextAreaElement): number => {
 	let horizontal: boolean;
 	try {
 		horizontal = new WrtingMode(textareaElement).isHorizontal();
-	} catch (e) {
+	} catch {
 		/* TODO: jsdom は `getComputedStyle()` で CSS の継承を認識しない https://github.com/jsdom/jsdom/issues/2160 */
 		return 0;
 	}

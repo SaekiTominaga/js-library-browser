@@ -55,7 +55,7 @@ export default class CustomElementDetailsContent extends HTMLElement {
 	connectedCallback(): void {
 		try {
 			this.#writingMode = new WritingMode(this);
-		} catch (e) {
+		} catch {
 			/* TODO: jsdom は `getComputedStyle()` で CSS の継承を認識しない https://github.com/jsdom/jsdom/issues/1696 */
 		}
 	}
