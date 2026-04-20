@@ -1,7 +1,12 @@
-name: Pull request
+name: CI
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions: {}
@@ -27,7 +32,22 @@ jobs:
           node-version: '24'
 
       - run: npm ci
-      - run: npm run build -w @w0s/writing-mode
 
       - name: Run lint
         run: npm run lint
+
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version: '24'
+
+      - run: npm ci
+
+      - name: Run test
+        run: npm test

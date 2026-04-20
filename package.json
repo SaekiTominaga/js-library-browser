@@ -7,9 +7,11 @@
 	],
 	"scripts": {
 		"lint": "conc \"npm run lint:js\" \"npm run lint:html\" \"npm run lint:css\"",
-		"lint:js": "eslint packages/**/*.ts *.{js,mjs}",
+		"lint:js": "npm run build -w @w0s/writing-mode && eslint packages/**/*.ts *.{js,mjs}",
 		"lint:html": "markuplint packages/**/*.html",
-		"lint:css": "stylelint -f verbose packages/**/*.html"
+		"lint:css": "stylelint -f verbose packages/**/*.html",
+		"pretest": "npm run build -w @w0s/writing-mode && npm run build --workspaces",
+		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest packages/.+?/dist/.+\\.test\\.js  -c jest.config.mjs"
 	},
 	"devDependencies": {
 		"@w0s/eslint-config": "9.6.0",
