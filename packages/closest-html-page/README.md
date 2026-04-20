@@ -1,7 +1,7 @@
 # Get the data of the HTML page of the nearest ancestor hierarchy
 
 [![npm version](https://badge.fury.io/js/%40w0s%2Fclosest-html-page.svg)](https://www.npmjs.com/package/@w0s/closest-html-page)
-[![Workflow status](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/package-closest-html-page.yml/badge.svg)](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/package-closest-html-page.yml)
+[![CI status](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/ci.yml/badge.svg)](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/ci.yml)
 
 ## Demo
 
