@@ -25,10 +25,8 @@ export const getContent = (element: HTMLElement): string => {
 		return String(element.value);
 	}
 	if (element instanceof HTMLPreElement) {
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		return element.textContent!; // HTMLPreElement では `Node.textContent` が null になることはない
+		return element.textContent;
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-	return element.textContent!.trim(); // HTMLElement では `Node.textContent` が null になることはない（空要素は空文字列を返す）
+	return element.textContent.trim();
 };
