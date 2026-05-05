@@ -43,6 +43,6 @@
 		"stylelint-plugin-logical-css": "2.1.0",
 		"stylelint-root-colors": "3.0.1",
 		"typescript": "6.0.2",
-		"typescript-eslint": "8.58.2"
+		"typescript-eslint": "8.59.0"
 	}
 }
