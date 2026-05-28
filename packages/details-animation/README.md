@@ -75,7 +75,7 @@ details {
   }
 
   & > summary {
-    list-style: none;
+    list-style-type: none;
 
     &::-webkit-details-marker {
       display: none;

@@ -6,12 +6,9 @@
 		<style>
 			.switch-wrap {
 				display: inline flex;
+				flex-wrap: nowrap;
 				gap: 10px;
 				align-items: center;
-
-				p& {
-					display: block flex;
-				}
 			}
 
 			.switch {
@@ -54,7 +51,9 @@
 
 			<pre><code>&lt;x-input-switch id="input-switch-1"&gt;&lt;/x-input-switch&gt; &lt;label for="input-switch-1"&gt;switch&lt;/label&gt;</code></pre>
 
-			<p class="switch-wrap"><x-input-switch id="input-switch-1"></x-input-switch> <label for="input-switch-1">switch</label></p>
+			<p>
+				<span class="switch-wrap"><x-input-switch id="input-switch-1"></x-input-switch> <label for="input-switch-1">switch</label></span>
+			</p>
 		</section>
 
 		<section>
