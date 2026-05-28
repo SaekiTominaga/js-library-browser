@@ -35,9 +35,9 @@
 
 				& > summary {
 					border: 1px solid #999;
-					background: #8f0;
+					background-color: #8f0;
 					padding: 1em;
-					list-style: none;
+					list-style-type: none;
 					color: #000;
 
 					&:focus {
@@ -47,7 +47,7 @@
 
 					&::-webkit-details-marker {
 						display: none;
-					}
+					} /* for Safari 18.3- */
 
 					&::before {
 						display: inline flow-root;
@@ -60,7 +60,7 @@
 
 			.prmr {
 				border: 1px solid #f00;
-				background: #fee;
+				background-color: #fee;
 				padding: 1em;
 				color: #000;
 
