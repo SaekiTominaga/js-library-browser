@@ -42,11 +42,13 @@ Using the Popover feature. ([Can I use...](https://caniuse.com/wf-popover))
   footnoteReferencePopover(document.querySelectorAll('.js-footnote-reference-popover')); // `getElementById()` or `getElementsByClassName()` or `getElementsByTagName()` or `querySelector()` or `querySelectorAll()`
 </script>
 
-<a class="js-footnote-reference-popover" href="#footnote-1">[1]</a>
+<a class="js-footnote-reference-popover" href="#fn-1">[1]</a>
 
 <a
   class="js-footnote-reference-popover"
-  href="#footnote-2"
+  id="fnref-2"
+  href="#fn-2"
+  data-ignore=".backref"
   data-popover-label="Note"
   data-popover-class="my-popover"
   data-popover-hide-text="Popover Close"
@@ -58,10 +60,9 @@ Using the Popover feature. ([Can I use...](https://caniuse.com/wf-popover))
   >[2]</a
 >
 
-<ul>
-  <li id="footnote-1">Footnote text.</li>
-  <li id="footnote-2">Footnote text. <a href="#">link</a> <code>code</code> <em>emphasis</em></li>
-</ul>
+<p id="fn-1">Footnote1 text.</p>
+
+<p id="fn-2">Footnote2 <a href="#">link</a> text. <a href="#fnref-2" class="backref">↩ Back</a></p>
 ```
 
 \* **`@w0s/shadow-append-css` is no longer required since version 7.3**
@@ -70,7 +71,9 @@ Using the Popover feature. ([Can I use...](https://caniuse.com/wf-popover))
 
 <dl>
 <dt><code>href</code> [required]</dt>
-<dd>URL hash value of the element that contains the content to be displayed in the popover. (e.g. <code>#footnote-1</code> )</dd>
+<dd>URL hash value of the element that contains the content to be displayed in the popover. (e.g. <code>#fn-1</code> )</dd>
+<dt><code>data-ignore</code> [optional]</dt>
+<dd>Selectors string for elements to ignore from the popover. For example, if a footnote contains a “Back” link, it should not be displayed in the popover.</dd>
 <dt><code>data-popover-label</code> [optional]</dt>
 <dd>Label to be set on popover (<code>aria-label</code> attribute value).</dd>
 <dt><code>data-popover-class</code> [optional]</dt>
@@ -96,15 +99,13 @@ The popover markup looks like this.
 ```html
 <a
   class="js-footnote-reference-popover"
-  href="#footnote"
+  href="#fn"
   data-popover-label="Note"
   data-popover-class="my-popover"
   data-popover-hide-text="Popover Close"
   data-popover-hide-image-src="./popover-close.svg"
   data-popover-hide-image-width="18"
   data-popover-hide-image-height="18"
-  data-mouseenter-delay="1000"
-  data-mouseleave-delay="1000"
   >[1]</a
 >
 

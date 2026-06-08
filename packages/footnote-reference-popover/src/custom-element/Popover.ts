@@ -15,6 +15,8 @@ export default class extends HTMLElement {
 
 	readonly #lastFocusableElement: HTMLElement;
 
+	#ignoreSelectors: string | null = null;
+
 	readonly #hideButtonElement: HTMLButtonElement;
 
 	readonly #hideButtonTextElement: HTMLSpanElement;
@@ -34,7 +36,7 @@ export default class extends HTMLElement {
 	#state: State | undefined; // test で使用（JSDOM が `:popover-open` 疑似クラスに対応したら不要になる https://github.com/jsdom/jsdom/issues/3721 ）
 
 	static get observedAttributes(): string[] {
-		return ['hide-text', 'hide-image-src', 'hide-image-width', 'hide-image-height'];
+		return ['ignore-selectors', 'hide-text', 'hide-image-src', 'hide-image-width', 'hide-image-height'];
 	}
 
 	constructor() {
@@ -93,11 +95,17 @@ export default class extends HTMLElement {
 		this.popover = '';
 		this.#hideButtonElement.popoverTargetElement = this;
 
-		/* コピー元の HTML 中に `id` 属性が設定されていた場合、ページ中に ID が重複してしまうのを防ぐ */
 		const hostElement = this.shadowRoot?.host;
-		if (hostElement !== undefined) {
-			hostElement.querySelectorAll('[id]').forEach((element) => {
-				element.removeAttribute('id');
+
+		/* コピー元の HTML 中に `id` 属性が設定されていた場合、ページ中に ID が重複してしまうのを防ぐ */
+		hostElement?.querySelectorAll('[id]').forEach((element) => {
+			element.removeAttribute('id');
+		});
+
+		/* 除外要素 */
+		if (this.#ignoreSelectors !== null) {
+			hostElement?.querySelectorAll(this.#ignoreSelectors).forEach((element) => {
+				element.remove();
 			});
 		}
 
@@ -120,6 +128,10 @@ export default class extends HTMLElement {
 
 	attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null): void {
 		switch (name) {
+			case 'ignore-selectors': {
+				this.ignoreSelectors = newValue;
+				break;
+			}
 			case 'hide-text': {
 				this.hideText = newValue;
 				break;
@@ -140,7 +152,15 @@ export default class extends HTMLElement {
 		}
 	}
 
-	get hideText(): string {
+	get ignoreSelectors(): string | null {
+		return this.#ignoreSelectors;
+	}
+
+	set ignoreSelectors(value: string | null) {
+		this.#ignoreSelectors = value;
+	}
+
+	get hideText(): string | null {
 		return this.#hideText;
 	}
 
@@ -232,7 +252,7 @@ export default class extends HTMLElement {
 	}
 
 	/**
-	 * ポップオーバーの表示／非表示状態が変化したの処理
+	 * ポップオーバーの表示／非表示状態が変化したときの処理
 	 *
 	 * @param ev - Event
 	 */

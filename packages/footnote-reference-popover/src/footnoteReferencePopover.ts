@@ -1,4 +1,5 @@
 import FootnoteElementAttribute from './attribute/FootnoteElement.ts';
+import IgnoreAttribute from './attribute/Ignore.ts';
 import MouseenterAttribute from './attribute/Mouseenter.ts';
 import MouseleaveAttribute from './attribute/Mouseleave.ts';
 import PopoverClassAttribute from './attribute/PopoverClass.ts';
@@ -88,6 +89,7 @@ export const hide = (eventType: string, popover: PopoverElement): void => {
 export default (thisElement: HTMLAnchorElement): void => {
 	const { href: hrefAttributeValue } = thisElement;
 	const {
+		ignore: ignoreAttributeValue,
 		popoverLabel: popoverLabelAttributeValue,
 		popoverClass: popoverClassAttributeValue,
 		popoverHideText: popoverHideTextAttributeValue,
@@ -99,6 +101,7 @@ export default (thisElement: HTMLAnchorElement): void => {
 	} = thisElement.dataset;
 
 	const footnoteElement = new FootnoteElementAttribute(hrefAttributeValue);
+	const ignore = new IgnoreAttribute(ignoreAttributeValue);
 	const popoverLabel = new PopoverLabelAttribute(popoverLabelAttributeValue);
 	const popoverClass = new PopoverClassAttribute(popoverClassAttributeValue);
 	const popoverHide = new PopoverHideAttribute({
@@ -118,6 +121,7 @@ export default (thisElement: HTMLAnchorElement): void => {
 	if (popoverClass.name !== undefined) {
 		popoverElement.className = popoverClass.name;
 	}
+	popoverElement.ignoreSelectors = ignore.selectors ?? null;
 	popoverElement.ariaLabel = popoverLabel.text ?? null;
 	popoverElement.hideText = popoverHide.text ?? null;
 	popoverElement.hideImageSrc = popoverHide.imageSrc ?? null;
