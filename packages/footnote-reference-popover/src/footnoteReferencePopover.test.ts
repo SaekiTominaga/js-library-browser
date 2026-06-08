@@ -9,6 +9,59 @@ const sleep = (ms: number) =>
 		setTimeout(callback, ms);
 	});
 
+describe('attribute', () => {
+	describe('Required attributes only', () => {
+		beforeAll(() => {
+			document.body.innerHTML = `
+<a href="#footnote"></a>
+<p id="footnote"></p>
+`;
+
+			footnoteReferencePopover(document.querySelector('a')!);
+		});
+
+		test('trigger', () => {
+			expect(document.querySelector('a')?.getAttribute('role')).toBe('button');
+		});
+
+		test('popover', () => {
+			document.querySelector('a')?.dispatchEvent(new UIEvent('click'));
+
+			const popoverElement = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME);
+			expect(popoverElement?.popover).toBe('');
+			expect(popoverElement?.getAttribute('class')).toBeNull();
+			expect(popoverElement?.getAttribute('aria-label')).toBeNull();
+		});
+	});
+
+	describe('All attributes', () => {
+		beforeAll(() => {
+			document.body.innerHTML = `
+<a
+	href="#footnote"
+	data-popover-label="Note"
+	data-popover-class="my-popover"></a>
+<p id="footnote"></p>
+`;
+
+			footnoteReferencePopover(document.querySelector('a')!);
+		});
+
+		test('trigger', () => {
+			expect(document.querySelector('a')?.getAttribute('role')).toBe('button');
+		});
+
+		test('popover', () => {
+			document.querySelector('a')?.dispatchEvent(new UIEvent('click'));
+
+			const popoverElement = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME);
+			expect(popoverElement?.popover).toBe('');
+			expect(popoverElement?.getAttribute('class')).toBe('my-popover');
+			expect(popoverElement?.getAttribute('aria-label')).toBe('Note');
+		});
+	});
+});
+
 describe('trigger click event', () => {
 	beforeAll(() => {
 		document.body.innerHTML = `
@@ -17,10 +70,6 @@ describe('trigger click event', () => {
 `;
 
 		footnoteReferencePopover(document.querySelector('a')!);
-	});
-
-	test('init', () => {
-		expect(document.querySelector('a')?.getAttribute('role')).toBe('button');
 	});
 
 	test('click', () => {

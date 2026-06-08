@@ -13,6 +13,16 @@ describe('slot', () => {
 		expect(spanElement?.textContent).toBe('text');
 		expect(spanElement?.id).toBe('');
 	});
+
+	test('ignore-selectors', () => {
+		document.body.innerHTML = `<x-popover ignore-selectors=".foo"><span class="foo"></span><span class="bar"></span></x-popover>`;
+
+		const popoverElement = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME)!;
+
+		expect(popoverElement.ignoreSelectors).toBe('.foo');
+		expect(popoverElement.querySelector('.foo')).toBeNull();
+		expect(popoverElement.querySelector('.bar')).not.toBeNull();
+	});
 });
 
 describe('attributes', () => {

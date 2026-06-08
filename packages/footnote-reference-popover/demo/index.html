@@ -4,12 +4,6 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1" />
 		<title>`footnote-reference-popover` Demo</title>
 		<style>
-			.footnotes {
-				margin-block-start: 5em;
-				border-block-start: 1px solid #ccc;
-				padding-block-start: 1em;
-			}
-
 			.my-popover {
 				--popover-hide-button-image-size: 18px;
 				--popover-hide-button-padding: 10px;
@@ -46,6 +40,25 @@
 					background-color: #eee;
 				}
 			}
+
+			.footnotes {
+				display: block grid;
+				grid-template-columns: auto 1fr;
+				gap: 1em 0.5em;
+				margin-block-start: 5em;
+				border-block-start: 1px solid #ccc;
+				padding-block-start: 1em;
+			}
+
+			.footnote {
+				display: block grid;
+				grid-template-columns: subgrid;
+				grid-column: 1 / -1;
+
+				& p {
+					margin: unset;
+				}
+			}
 		</style>
 		<script type="importmap">
 			{
@@ -66,10 +79,10 @@
 		<section>
 			<h2>Required attributes only</h2>
 
-			<pre><code>&lt;a class="js-footnote-reference-popover" href="#footnote-1"&gt;[1]&lt;/a&gt;</code></pre>
+			<pre><code>&lt;a class="js-footnote-reference-popover" href="#fn-1"&gt;[1]&lt;/a&gt;</code></pre>
 
 			<p>
-				text text <sup><a class="js-footnote-reference-popover" href="#footnote-1">[1]</a></sup> text text
+				text text <sup><a class="js-footnote-reference-popover" href="#fn-1">[1]</a></sup> text
 			</p>
 		</section>
 
@@ -77,16 +90,18 @@
 			<h2>All attributes &amp; Style customization</h2>
 
 			<pre><code>&lt;a
-  class="js-footnote-reference-popover"
-  href="#footnote-2"
-  data-popover-label="Note"
-  data-popover-class="my-popover"
-  data-popover-hide-text="Popover Close"
-  data-popover-hide-image-src="./popover-close.svg"
-  data-popover-hide-image-width="18"
-  data-popover-hide-image-height="18"
-  data-mouseenter-delay="1000"
-  data-mouseleave-delay="1000"
+	class="js-footnote-reference-popover"
+	id="fnref-2"
+	href="#fn-2"
+	data-ignore=".backref"
+	data-popover-label="Note"
+	data-popover-class="my-popover"
+	data-popover-hide-text="Popover Close"
+	data-popover-hide-image-src="./popover-close.svg"
+	data-popover-hide-image-width="18"
+	data-popover-hide-image-height="18"
+	data-mouseenter-delay="1000"
+	data-mouseleave-delay="1000"
 &gt;[2]&lt;/a&gt;</code></pre>
 
 			<p>
@@ -94,7 +109,9 @@
 				<sup
 					><a
 						class="js-footnote-reference-popover"
-						href="#footnote-2"
+						id="fnref-2"
+						href="#fn-2"
+						data-ignore=".backref"
 						data-popover-label="Note"
 						data-popover-class="my-popover"
 						data-popover-hide-text="Popover Close"
@@ -106,24 +123,23 @@
 						>[2]</a
 					></sup
 				>
-				text text
+				text
 			</p>
 		</section>
 
-		<ul class="footnotes">
-			<li>
-				[1]
-				<span id="footnote-1">footnotes1 <a href="https://example.com/1">Link1</a></span>
-			</li>
-			<li>
-				[2]
-				<span id="footnote-2"
-					>footnotes2 text text <a href="https://example.com/1" id="footnote2-link1">Link1</a> text
-					<a href="https://example.com/1" id="footnote2-link2">Link2</a> text text text text text text text text text text text text text text text text text
-					text text text text text text text text text text text text text text text text text text text text text text text text text text text text text text
-					text text text text text text text text text text text text text text text text text text text text text</span
-				>
-			</li>
-		</ul>
+		<div class="footnotes">
+			<div class="footnote">
+				<span class="footnote__no">1.</span>
+				<p id="fn-1">Footnote1 text.</p>
+			</div>
+			<div class="footnote">
+				<span class="footnote__no">2.</span>
+				<p id="fn-2">
+					Footnote2 <a href="https://example.com/1" id="footnote2-link1">Link1</a> text text text text text text text text text text text text text text text
+					text text text text text text text text text text text text text text text.
+					<a href="#fnref-2" class="backref">↩ Back</a>
+				</p>
+			</div>
+		</div>
 	</body>
 </html>
