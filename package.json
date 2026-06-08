@@ -18,7 +18,7 @@
 		"@w0s/markuplint-config": "3.13.0",
 		"@w0s/stylelint-config": "4.23.0",
 		"@w0s/tsconfig": "3.0.0",
-		"concurrently": "9.2.1",
+		"concurrently": "10.0.3",
 		"coveralls": "3.1.1",
 		"cross-env": "10.1.0",
 		"cross-fetch": "4.1.0",
