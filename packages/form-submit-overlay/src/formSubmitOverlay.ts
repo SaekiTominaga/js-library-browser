@@ -1,5 +1,5 @@
 import Overlay from './attribute/Overlay.ts';
-import windowBeforeUnloadEvent from './event/window/beforeunload.ts';
+import windowPagehideEvent from './event/window/pagehide.ts';
 import submitEvent from './event/submit.ts';
 
 /**
@@ -23,9 +23,9 @@ export default (thisElement: HTMLFormElement): void => {
 	);
 
 	window.addEventListener(
-		'beforeunload',
-		(ev: BeforeUnloadEvent) => {
-			windowBeforeUnloadEvent(ev, {
+		'pagehide',
+		(ev: PageTransitionEvent) => {
+			windowPagehideEvent(ev, {
 				overlay: overlay,
 			});
 		},

@@ -1,17 +1,20 @@
 import type Overlay from '../../attribute/Overlay.ts';
 
 /**
- * `beforeunload` event
+ * `pagehide` event
  *
- * @param _ev - BeforeUnloadEvent
+ * @param _ev - PageTransitionEvent
  * @param data - Elements, attributes and others
  * @param data.overlayElement - Overlay
  */
 export default (
-	_ev: BeforeUnloadEvent,
+	_ev: PageTransitionEvent,
 	data: Readonly<{
 		overlay: Overlay;
 	}>,
 ): void => {
-	data.overlay.element.close();
+	const dialog = data.overlay.element;
+	if (dialog.open) {
+		dialog.close();
+	}
 };

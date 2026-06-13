@@ -23,12 +23,13 @@ describe('event', () => {
 		dialogShowModalSpy.mockRestore();
 	});
 
-	test('beforeunload', () => {
+	test('pagehide', () => {
 		const dialogElement = document.querySelector('dialog')!;
+		dialogElement.open = true; // TODO: 本来は showModal() すべき
 
 		const dialogCloseSpy = jest.spyOn(dialogElement, 'close');
 
-		window.dispatchEvent(new Event('beforeunload'));
+		window.dispatchEvent(new Event('pagehide'));
 
 		expect(dialogCloseSpy).toHaveBeenCalled();
 

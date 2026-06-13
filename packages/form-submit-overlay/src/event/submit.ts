@@ -13,5 +13,8 @@ export default (
 		overlay: Overlay;
 	}>,
 ): void => {
-	data.overlay.element.showModal();
+	const dialog = data.overlay.element;
+	if (!dialog.open) {
+		data.overlay.element.showModal();
+	}
 };
