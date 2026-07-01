@@ -42,6 +42,6 @@
 		"stylelint-no-default-viewport": "2.0.1",
 		"stylelint-root-colors": "3.0.1",
 		"typescript": "6.0.3",
-		"typescript-eslint": "8.60.0"
+		"typescript-eslint": "8.62.0"
 	}
 }
