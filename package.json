@@ -14,7 +14,7 @@
 		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest packages/.+?/dist/.+\\.test\\.js  -c jest.config.mjs"
 	},
 	"devDependencies": {
-		"@w0s/eslint-config": "9.7.0",
+		"@w0s/eslint-config": "9.7.1",
 		"@w0s/markuplint-config": "3.13.0",
 		"@w0s/stylelint-config": "4.23.0",
 		"@w0s/tsconfig": "3.0.0",
@@ -23,11 +23,11 @@
 		"cross-env": "10.1.0",
 		"cross-fetch": "4.1.0",
 		"eslint": "9.39.4",
-		"eslint-plugin-functional": "9.0.5",
+		"eslint-plugin-functional": "10.0.0",
 		"eslint-plugin-import": "2.32.0",
-		"eslint-plugin-jsdoc": "62.9.0",
+		"eslint-plugin-jsdoc": "63.0.12",
 		"eslint-plugin-safely-storage": "1.1.0",
-		"globals": "17.6.0",
+		"globals": "17.7.0",
 		"http-server": "14.1.1",
 		"jest": "30.4.2",
 		"jest-environment-jsdom": "30.4.1",
@@ -42,6 +42,6 @@
 		"stylelint-no-default-viewport": "2.0.1",
 		"stylelint-root-colors": "3.0.1",
 		"typescript": "6.0.3",
-		"typescript-eslint": "8.60.0"
+		"typescript-eslint": "8.63.0"
 	}
 }
