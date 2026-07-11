@@ -6,77 +6,52 @@ Object.defineProperty(globalThis, 'crypto', {
 	value: webcrypto,
 }); // `jsdom` が `crypto.randomUUID()` 要素をサポートするまでの暫定処理 <https://github.com/jsdom/jsdom/issues/1612>
 
-test('click event', () => {
-	document.body.innerHTML = `
+describe('aria-controls', () => {
+	test('UUID auto set', () => {
+		document.body.innerHTML = `
 <button data-course="check" data-control="checkboxes"></button>
 
 <span id="checkboxes">
+<input type="checkbox" id="checkbox1" />
 <input type="checkbox" />
-<input type="checkbox" checked="" />
 </span>
 `;
 
-	const buttonElement = document.querySelector('button')!;
+		const $button = document.querySelector('button');
+		const $checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
-	buttonCheckboxes(buttonElement);
+		expect($button?.getAttribute('aria-controls')).toBeNull();
+		expect($checkboxes[0]?.id).toBe('checkbox1');
+		expect($checkboxes[1]?.id).toBe('');
 
-	buttonElement.dispatchEvent(new MouseEvent('click'));
+		buttonCheckboxes($button!);
 
-	expect([...document.querySelectorAll<HTMLInputElement>('input[type="checkbox"]')].every((element) => element.checked)).toBeTruthy();
-});
+		expect($button?.getAttribute('aria-controls')).toMatch(/^checkbox1 [a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/v);
+		expect($checkboxes[0]?.id).toBe('checkbox1');
+		expect($checkboxes[1]?.id).toMatch(/^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/v);
+	});
 
-describe('aria-controls', () => {
 	test('already aria-controls set', () => {
 		document.body.innerHTML = `
 <button data-course="check" data-control="checkboxes" aria-controls="checkbox1 checkbox2"></button>
 
 <span id="checkboxes">
 <input type="checkbox" id="checkbox1" />
-<input type="checkbox" id="checkbox2" checked="" />
+<input type="checkbox" id="checkbox2" />
 </span>
 `;
 
-		buttonCheckboxes(document.querySelector('button')!);
+		const $button = document.querySelector('button');
+		const $checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
-		expect(document.querySelector('button')?.getAttribute('aria-controls')).toBe('checkbox1 checkbox2');
+		expect($button?.getAttribute('aria-controls')).toBe('checkbox1 checkbox2');
+		expect($checkboxes[0]?.id).toBe('checkbox1');
+		expect($checkboxes[1]?.id).toBe('checkbox2');
 
-		const checkboxes = [...document.querySelectorAll('input[type="checkbox"]')];
-		expect(checkboxes[0]?.id).toBe('checkbox1');
-		expect(checkboxes[1]?.id).toBe('checkbox2');
-	});
+		buttonCheckboxes($button!);
 
-	test('already id set', () => {
-		document.body.innerHTML = `
-<button data-course="check" data-control="checkboxes"></button>
-
-<span id="checkboxes">
-<input type="checkbox" id="checkbox1" />
-<input type="checkbox" id="checkbox2" checked="" />
-</span>
-`;
-
-		buttonCheckboxes(document.querySelector('button')!);
-
-		expect(document.querySelector('button')?.getAttribute('aria-controls')).toBe('checkbox1 checkbox2');
-
-		const checkboxes = [...document.querySelectorAll('input[type="checkbox"]')];
-		expect(checkboxes[0]?.id).toBe('checkbox1');
-		expect(checkboxes[1]?.id).toBe('checkbox2');
-	});
-
-	test('UUID auto set', () => {
-		document.body.innerHTML = `
-<button data-course="check" data-control="checkboxes"></button>
-
-<span id="checkboxes">
-<input type="checkbox" />
-<input type="checkbox" checked="" />
-</span>
-`;
-
-		buttonCheckboxes(document.querySelector('button')!);
-
-		expect(document.querySelector('button')?.getAttribute('aria-controls')?.length).toBe(36 * 2 + 1);
-		expect([...document.querySelectorAll('input[type="checkbox"]')].every((element) => element.id.length === 36)).toBeTruthy();
+		expect($button?.getAttribute('aria-controls')).toBe('checkbox1 checkbox2');
+		expect($checkboxes[0]?.id).toBe('checkbox1');
+		expect($checkboxes[1]?.id).toBe('checkbox2');
 	});
 });

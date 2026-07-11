@@ -17,13 +17,13 @@ test('全選択', () => {
 	const course = new Course('check');
 	const checkbox = new Checkbox({ id: 'checkboxes' });
 
-	const checkboxElements = checkbox.elements;
-	expect(checkboxElements.filter((element) => element.checked).length).toBe(1);
-	expect(checkboxElements.filter((element) => !element.checked).length).toBe(1);
+	const $checkboxes = checkbox.elements;
+	expect($checkboxes.filter((element) => element.checked).length).toBe(1);
+	expect($checkboxes.filter((element) => !element.checked).length).toBe(1);
 
 	clickEvent(event, course, checkbox);
 
-	expect(checkboxElements.every((element) => element.checked)).toBeTruthy();
+	expect($checkboxes.every((element) => element.checked)).toBeTruthy();
 });
 
 test('全解除', () => {
@@ -31,11 +31,11 @@ test('全解除', () => {
 	const course = new Course('uncheck');
 	const checkbox = new Checkbox({ id: 'checkboxes' });
 
-	const checkboxElements = checkbox.elements;
-	expect(checkboxElements.filter((element) => element.checked).length).toBe(1);
-	expect(checkboxElements.filter((element) => !element.checked).length).toBe(1);
+	const $checkboxes = checkbox.elements;
+	expect($checkboxes.filter((element) => element.checked).length).toBe(1);
+	expect($checkboxes.filter((element) => !element.checked).length).toBe(1);
 
 	clickEvent(event, course, checkbox);
 
-	expect(checkboxElements.every((element) => !element.checked)).toBeTruthy();
+	expect($checkboxes.every((element) => !element.checked)).toBeTruthy();
 });

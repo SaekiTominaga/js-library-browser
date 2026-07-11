@@ -36,6 +36,7 @@ export default defineConfig([
 		extends: [playwright.configs['flat/recommended']],
 		rules: {
 			'import/no-extraneous-dependencies': 'off',
+			'playwright/no-skipped-test': 'off',
 		},
 	},
 	{
