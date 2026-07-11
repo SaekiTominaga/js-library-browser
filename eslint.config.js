@@ -2,8 +2,8 @@
 /* eslint-disable import/no-unresolved */
 
 import { defineConfig } from 'eslint/config';
-import globals from 'globals';
 import playwright from 'eslint-plugin-playwright';
+import globals from 'globals';
 import w0sConfig from '@w0s/eslint-config';
 
 /** @type {import("eslint").Linter.Config[]} */
@@ -11,14 +11,6 @@ export default defineConfig([
 	...w0sConfig,
 	{
 		ignores: ['packages/*/dist'],
-	},
-	{
-		files: ['**/*.ts'],
-		languageOptions: {
-			parserOptions: {
-				tsconfigRootDir: import.meta.dirname,
-			},
-		},
 	},
 	{
 		languageOptions: {
@@ -29,6 +21,21 @@ export default defineConfig([
 			parserOptions: {
 				sourceType: 'module',
 			},
+		},
+	},
+	{
+		files: ['**/*.ts'],
+		languageOptions: {
+			parserOptions: {
+				tsconfigRootDir: import.meta.dirname,
+			},
+		},
+	},
+	{
+		files: ['e2e/*.spec.ts'],
+		extends: [playwright.configs['flat/recommended']],
+		rules: {
+			'import/no-extraneous-dependencies': 'off',
 		},
 	},
 	{
@@ -46,13 +53,6 @@ export default defineConfig([
 					checksVoidReturn: false,
 				},
 			],
-		},
-	},
-	{
-		files: ['e2e/*.spec.ts'],
-		extends: [playwright.configs['flat/recommended']],
-		rules: {
-			'import/no-extraneous-dependencies': 'off',
 		},
 	},
 	{
