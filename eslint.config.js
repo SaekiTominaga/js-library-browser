@@ -46,7 +46,7 @@ export default [
 		},
 	},
 	{
-		files: ['tests/*.spec.ts'],
+		files: ['e2e/*.spec.ts'],
 		rules: {
 			'import/no-extraneous-dependencies': 'off',
 		},
