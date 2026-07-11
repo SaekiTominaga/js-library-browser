@@ -6,7 +6,7 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
 	testDir: './e2e',
 	fullyParallel: true,
-	forbidOnly: !!process.env.CI,
+	forbidOnly: Boolean(process.env.CI),
 	reporter: 'list', // https://playwright.dev/docs/test-reporters
 	use: {
 		baseURL: 'http://localhost:8080',

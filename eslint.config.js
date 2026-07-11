@@ -1,10 +1,13 @@
 // @ts-check
+/* eslint-disable import/no-unresolved */
 
+import { defineConfig } from 'eslint/config';
 import globals from 'globals';
+import playwright from 'eslint-plugin-playwright';
 import w0sConfig from '@w0s/eslint-config';
 
 /** @type {import("eslint").Linter.Config[]} */
-export default [
+export default defineConfig([
 	...w0sConfig,
 	{
 		ignores: ['packages/*/dist'],
@@ -47,6 +50,7 @@ export default [
 	},
 	{
 		files: ['e2e/*.spec.ts'],
+		extends: [playwright.configs['flat/recommended']],
 		rules: {
 			'import/no-extraneous-dependencies': 'off',
 		},
@@ -94,4 +98,4 @@ export default [
 			'no-underscore-dangle': 'off',
 		},
 	},
-];
+]);
