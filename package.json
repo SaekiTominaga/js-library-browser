@@ -11,9 +11,13 @@
 		"lint:html": "markuplint packages/**/*.html",
 		"lint:css": "stylelint -f verbose packages/**/*.html",
 		"pretest": "npm run build -w @w0s/writing-mode && npm run build --workspaces",
-		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest packages/.+?/dist/.+\\.test\\.js  -c jest.config.mjs"
+		"test": "npm run test:node & npm run test:playwright",
+		"test:node": "cross-env NODE_OPTIONS=--experimental-vm-modules jest packages/.+?/dist/.+\\.test\\.js -c jest.config.mjs",
+		"test:playwright": "playwright test"
 	},
 	"devDependencies": {
+		"@playwright/test": "1.61.1",
+		"@types/node": "26.1.1",
 		"@w0s/eslint-config": "9.7.1",
 		"@w0s/markuplint-config": "3.13.0",
 		"@w0s/stylelint-config": "4.24.0",

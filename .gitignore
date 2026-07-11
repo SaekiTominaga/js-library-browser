@@ -1,5 +1,11 @@
 **/node_modules
-
-/.coverage
-/.vscode/launch.json
 /packages/*/dist
+
+# Jest
+/.jest
+
+# Playwright
+/.playwright
+
+# VSCode
+/.vscode/launch.json

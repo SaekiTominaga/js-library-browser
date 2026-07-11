@@ -1,6 +1,6 @@
 export default {
 	collectCoverage: true,
-	coverageDirectory: './.coverage/',
+	coverageDirectory: './.jest/coverage/',
 	testEnvironment: 'jsdom',
 	setupFiles: ['./jest.setup.js'],
 };

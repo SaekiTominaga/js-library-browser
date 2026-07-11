@@ -46,6 +46,12 @@ export default [
 		},
 	},
 	{
+		files: ['tests/*.spec.ts'],
+		rules: {
+			'import/no-extraneous-dependencies': 'off',
+		},
+	},
+	{
 		/* Custom elements */
 		files: [
 			'packages/footnote-reference-popover/src/custom-element/Popover.ts',
