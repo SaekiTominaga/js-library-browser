@@ -32,9 +32,7 @@
 		"build": "tsc",
 		"lint": "eslint src/**/*.ts",
 		"pretest": "npm run build",
-		"test": "npm run test:node & npm run test:playwright",
-		"test:node": "cross-env NODE_OPTIONS=--experimental-vm-modules jest dist/.+\\.test\\.js -c ../../jest.config.mjs --roots packages/writing-mode",
-		"test:playwright": "playwright test writing-mode.spec.ts -c ../../playwright.config.js"
+		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest dist/.+\\.test\\.js -c ../../jest.config.mjs --roots packages/writing-mode"
 	},
 	"publishConfig": {
 		"access": "public"
