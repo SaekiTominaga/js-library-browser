@@ -12,6 +12,10 @@ const setCurrentTime = (video: HTMLMediaElement, time: number) => {
 	video.currentTime = time;
 };
 
+const setEndTime = (video: HTMLMediaElement) => {
+	video.currentTime = video.duration + 1; // Chromium 対策で多少大きな値をセットする
+};
+
 const getPaused = (video: HTMLMediaElement) => video.paused;
 
 test('pause → play → pause', async ({ page }) => {
@@ -64,7 +68,7 @@ test('All videos have finished playing', async ({ page }) => {
 	const video1 = videos.nth(0);
 	const video2 = videos.nth(1);
 
-	await Promise.all([video1.evaluate(setCurrentTime, 32), video2.evaluate(setCurrentTime, 32)]);
+	await Promise.all([video1.evaluate(setEndTime), video2.evaluate(setEndTime)]);
 
 	expect(await video1.evaluate((video: HTMLMediaElement) => video.ended)).toBeTruthy();
 	expect(await video2.evaluate((video: HTMLMediaElement) => video.ended)).toBeTruthy();
