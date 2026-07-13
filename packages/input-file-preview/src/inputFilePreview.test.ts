@@ -14,11 +14,11 @@ describe('event', () => {
 
 	test('change', () => {
 		const initBodyHTML = document.body.innerHTML;
-		const inputElement = document.querySelector<HTMLInputFileElement>('input[type="file"]')!;
+		const $input = document.querySelector<HTMLInputFileElement>('input[type="file"]')!;
 
-		inputFilePreview(inputElement);
+		inputFilePreview($input);
 
-		inputElement.dispatchEvent(new Event('change'));
+		$input.dispatchEvent(new Event('change'));
 
 		expect(document.body.innerHTML).toBe(initBodyHTML); // change イベントを発生させただけでは何も変わらない
 	});

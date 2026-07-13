@@ -9,14 +9,14 @@ test('close → open', () => {
 		},
 	});
 
-	const detailsElement = document.createElement('details');
+	const $details = document.createElement('details');
 
-	expect(detailsElement.open).toBeFalsy();
+	expect($details.open).toBeFalsy();
 
 	animationFinishEvent(event, {
-		detailsElement: detailsElement,
+		detailsElement: $details,
 	});
-	expect(detailsElement.open).toBeFalsy(); // 変化しない
+	expect($details.open).toBeFalsy(); // 変化しない
 });
 
 test('open → close', () => {
@@ -26,13 +26,13 @@ test('open → close', () => {
 		},
 	});
 
-	const detailsElement = document.createElement('details');
+	const $details = document.createElement('details');
 
-	detailsElement.open = true;
-	expect(detailsElement.open).toBeTruthy();
+	$details.open = true;
+	expect($details.open).toBeTruthy();
 
 	animationFinishEvent(event, {
-		detailsElement: detailsElement,
+		detailsElement: $details,
 	});
-	expect(detailsElement.open).toBeFalsy();
+	expect($details.open).toBeFalsy();
 });

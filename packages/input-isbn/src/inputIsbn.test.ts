@@ -7,13 +7,13 @@ describe('attribute', () => {
 	});
 
 	test('set', () => {
-		const inputElement = document.querySelector('input')!;
+		const $input = document.querySelector('input')!;
 
-		inputIsbn(inputElement);
+		inputIsbn($input);
 
-		expect(inputElement.minLength).toBe(10);
-		expect(inputElement.maxLength).toBe(17);
-		expect(inputElement.pattern).toBe('(978|979)-[0-9]{1,5}-[0-9]{1,7}-[0-9]{1,7}-[0-9]|[0-9]{13}|[0-9]{1,5}-[0-9]{1,7}-[0-9]{1,7}-[0-9X]|[0-9]{9}[0-9X]');
+		expect($input.minLength).toBe(10);
+		expect($input.maxLength).toBe(17);
+		expect($input.pattern).toBe('(978|979)-[0-9]{1,5}-[0-9]{1,7}-[0-9]{1,7}-[0-9]|[0-9]{13}|[0-9]{1,5}-[0-9]{1,7}-[0-9]{1,7}-[0-9X]|[0-9]{9}[0-9X]');
 	});
 });
 
@@ -25,13 +25,13 @@ describe('event', () => {
 	});
 
 	test('change', () => {
-		const inputElement = document.querySelector('input')!;
+		const $input = document.querySelector('input')!;
 
-		const changeEventSpy = jest.spyOn(inputElement, 'dispatchEvent');
+		const changeEventSpy = jest.spyOn($input, 'dispatchEvent');
 
-		inputElement.dispatchEvent(new Event('change'));
+		$input.dispatchEvent(new Event('change'));
 
-		expect(inputElement.validationMessage).not.toBe('');
+		expect($input.validationMessage).not.toBe('');
 		expect(changeEventSpy).toHaveBeenCalled();
 
 		changeEventSpy.mockRestore();

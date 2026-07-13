@@ -39,97 +39,97 @@ describe('validate', () => {
 	const TEMP_MESSAGE = 'temp message';
 
 	test('empty', () => {
-		const inputElement = document.createElement('input');
+		const $input = document.createElement('input');
 
-		const min = new Min(inputElement.min);
-		const max = new Max(inputElement.max);
+		const min = new Min($input.min);
+		const max = new Max($input.max);
 		const validationMessageNoExist = new ValidationMessageNoExist(VALIDATION_MESSAGE_NO_EXIST);
-		const validationMessageMin = new ValidationMessageMin(VALIDATION_MESSAGE_MIN, inputElement);
-		const validationMessageMax = new ValidationMessageMax(VALIDATION_MESSAGE_MAX, inputElement);
+		const validationMessageMin = new ValidationMessageMin(VALIDATION_MESSAGE_MIN, $input);
+		const validationMessageMax = new ValidationMessageMax(VALIDATION_MESSAGE_MAX, $input);
 
-		inputElement.setCustomValidity(TEMP_MESSAGE);
-		expect(inputElement.validationMessage).toBe(TEMP_MESSAGE);
+		$input.setCustomValidity(TEMP_MESSAGE);
+		expect($input.validationMessage).toBe(TEMP_MESSAGE);
 
-		const result = validate(inputElement, { min, max, validationMessageNoExist, validationMessageMin, validationMessageMax });
+		const result = validate($input, { min, max, validationMessageNoExist, validationMessageMin, validationMessageMax });
 
 		expect(result).toBeTruthy();
-		expect(inputElement.validationMessage).toBe('');
+		expect($input.validationMessage).toBe('');
 	});
 
 	test('valid date', () => {
-		const inputElement = document.createElement('input');
-		inputElement.min = '2000-01-01';
-		inputElement.max = '2099-12-31';
-		inputElement.value = '2000-01-01';
+		const $input = document.createElement('input');
+		$input.min = '2000-01-01';
+		$input.max = '2099-12-31';
+		$input.value = '2000-01-01';
 
-		const min = new Min(inputElement.min);
-		const max = new Max(inputElement.max);
+		const min = new Min($input.min);
+		const max = new Max($input.max);
 		const validationMessageNoExist = new ValidationMessageNoExist(VALIDATION_MESSAGE_NO_EXIST);
-		const validationMessageMin = new ValidationMessageMin(VALIDATION_MESSAGE_MIN, inputElement);
-		const validationMessageMax = new ValidationMessageMax(VALIDATION_MESSAGE_MAX, inputElement);
+		const validationMessageMin = new ValidationMessageMin(VALIDATION_MESSAGE_MIN, $input);
+		const validationMessageMax = new ValidationMessageMax(VALIDATION_MESSAGE_MAX, $input);
 
-		inputElement.setCustomValidity(TEMP_MESSAGE);
-		expect(inputElement.validationMessage).toBe(TEMP_MESSAGE);
+		$input.setCustomValidity(TEMP_MESSAGE);
+		expect($input.validationMessage).toBe(TEMP_MESSAGE);
 
-		const result = validate(inputElement, { min, max, validationMessageNoExist, validationMessageMin, validationMessageMax });
+		const result = validate($input, { min, max, validationMessageNoExist, validationMessageMin, validationMessageMax });
 
 		expect(result).toBeTruthy();
-		expect(inputElement.validationMessage).toBe('');
+		expect($input.validationMessage).toBe('');
 	});
 
 	test('no exist date', () => {
-		const inputElement = document.createElement('input');
-		inputElement.value = '2000-02-31';
+		const $input = document.createElement('input');
+		$input.value = '2000-02-31';
 
 		const min = new Min(undefined);
 		const max = new Max(undefined);
 		const validationMessageNoExist = new ValidationMessageNoExist(VALIDATION_MESSAGE_NO_EXIST);
-		const validationMessageMin = new ValidationMessageMin(VALIDATION_MESSAGE_MIN, inputElement);
-		const validationMessageMax = new ValidationMessageMax(VALIDATION_MESSAGE_MAX, inputElement);
+		const validationMessageMin = new ValidationMessageMin(VALIDATION_MESSAGE_MIN, $input);
+		const validationMessageMax = new ValidationMessageMax(VALIDATION_MESSAGE_MAX, $input);
 
-		expect(inputElement.validationMessage).toBe('');
+		expect($input.validationMessage).toBe('');
 
-		const result = validate(inputElement, { min, max, validationMessageNoExist, validationMessageMin, validationMessageMax });
+		const result = validate($input, { min, max, validationMessageNoExist, validationMessageMin, validationMessageMax });
 
 		expect(result).toBeFalsy();
-		expect(inputElement.validationMessage).toBe(VALIDATION_MESSAGE_NO_EXIST);
+		expect($input.validationMessage).toBe(VALIDATION_MESSAGE_NO_EXIST);
 	});
 
 	test('past', () => {
-		const inputElement = document.createElement('input');
-		inputElement.min = '2000-01-01';
-		inputElement.value = '1999-12-31';
+		const $input = document.createElement('input');
+		$input.min = '2000-01-01';
+		$input.value = '1999-12-31';
 
-		const min = new Min(inputElement.min);
+		const min = new Min($input.min);
 		const max = new Max(undefined);
 		const validationMessageNoExist = new ValidationMessageNoExist(VALIDATION_MESSAGE_NO_EXIST);
-		const validationMessageMin = new ValidationMessageMin(VALIDATION_MESSAGE_MIN, inputElement);
-		const validationMessageMax = new ValidationMessageMax(VALIDATION_MESSAGE_MAX, inputElement);
+		const validationMessageMin = new ValidationMessageMin(VALIDATION_MESSAGE_MIN, $input);
+		const validationMessageMax = new ValidationMessageMax(VALIDATION_MESSAGE_MAX, $input);
 
-		expect(inputElement.validationMessage).toBe('');
+		expect($input.validationMessage).toBe('');
 
-		const result = validate(inputElement, { min, max, validationMessageNoExist, validationMessageMin, validationMessageMax });
+		const result = validate($input, { min, max, validationMessageNoExist, validationMessageMin, validationMessageMax });
 
 		expect(result).toBeFalsy();
-		expect(inputElement.validationMessage).toBe(VALIDATION_MESSAGE_MIN);
+		expect($input.validationMessage).toBe(VALIDATION_MESSAGE_MIN);
 	});
 
 	test('future', () => {
-		const inputElement = document.createElement('input');
-		inputElement.max = '2100-01-01';
-		inputElement.value = '2100-01-02';
+		const $input = document.createElement('input');
+		$input.max = '2100-01-01';
+		$input.value = '2100-01-02';
 
 		const min = new Min(undefined);
-		const max = new Max(inputElement.max);
+		const max = new Max($input.max);
 		const validationMessageNoExist = new ValidationMessageNoExist(VALIDATION_MESSAGE_NO_EXIST);
-		const validationMessageMin = new ValidationMessageMin(VALIDATION_MESSAGE_MIN, inputElement);
-		const validationMessageMax = new ValidationMessageMax(VALIDATION_MESSAGE_MAX, inputElement);
+		const validationMessageMin = new ValidationMessageMin(VALIDATION_MESSAGE_MIN, $input);
+		const validationMessageMax = new ValidationMessageMax(VALIDATION_MESSAGE_MAX, $input);
 
-		expect(inputElement.validationMessage).toBe('');
+		expect($input.validationMessage).toBe('');
 
-		const result = validate(inputElement, { min, max, validationMessageNoExist, validationMessageMin, validationMessageMax });
+		const result = validate($input, { min, max, validationMessageNoExist, validationMessageMin, validationMessageMax });
 
 		expect(result).toBeFalsy();
-		expect(inputElement.validationMessage).toBe(VALIDATION_MESSAGE_MAX);
+		expect($input.validationMessage).toBe(VALIDATION_MESSAGE_MAX);
 	});
 });

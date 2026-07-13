@@ -17,17 +17,17 @@ describe('exist preview elements clear', () => {
 	});
 
 	test('add two file', () => {
-		const inputElement = document.querySelector<HTMLInputFileElement>('input[type=file]')!;
-		Object.defineProperty(inputElement, 'files', {
+		const $input = document.querySelector<HTMLInputFileElement>('input[type=file]')!;
+		Object.defineProperty($input, 'files', {
 			value: [createFile(undefined, 'test1.png', 'image/png'), createFile(undefined, 'test2.mp3', 'audio/mp3')],
 			configurable: true,
 		});
 
-		const preview = new Preview(inputElement.dataset['preview']);
-		const maxSize = new MaxSize(inputElement.dataset['maxSize']);
+		const preview = new Preview($input.dataset['preview']);
+		const maxSize = new MaxSize($input.dataset['maxSize']);
 
 		const event = new Event('change');
-		Object.defineProperty(event, 'currentTarget', { value: inputElement });
+		Object.defineProperty(event, 'currentTarget', { value: $input });
 
 		changeEvent(event, {
 			preview,
@@ -47,17 +47,17 @@ describe('exist preview elements clear', () => {
 	});
 
 	test('change one file', () => {
-		const inputElement = document.querySelector<HTMLInputFileElement>('input[type=file]')!;
-		Object.defineProperty(inputElement, 'files', {
+		const $input = document.querySelector<HTMLInputFileElement>('input[type=file]')!;
+		Object.defineProperty($input, 'files', {
 			value: [createFile(undefined, 'test3.mp4', 'video/mp4')],
 			configurable: true,
 		});
 
-		const preview = new Preview(inputElement.dataset['preview']);
-		const maxSize = new MaxSize(inputElement.dataset['maxSize']);
+		const preview = new Preview($input.dataset['preview']);
+		const maxSize = new MaxSize($input.dataset['maxSize']);
 
 		const event = new Event('change');
-		Object.defineProperty(event, 'currentTarget', { value: inputElement });
+		Object.defineProperty(event, 'currentTarget', { value: $input });
 
 		changeEvent(event, {
 			preview,
@@ -104,8 +104,8 @@ describe('<output> element', () => {
 	});
 
 	test('file types', () => {
-		const inputElement = document.querySelector<HTMLInputFileElement>('input[type=file]')!;
-		Object.defineProperty(inputElement, 'files', {
+		const $input = document.querySelector<HTMLInputFileElement>('input[type=file]')!;
+		Object.defineProperty($input, 'files', {
 			value: [
 				createFile(undefined, 'test1.png', 'image/png'),
 				createFile(undefined, 'test2.mp3', 'audio/mp3'),
@@ -116,11 +116,11 @@ describe('<output> element', () => {
 			],
 		});
 
-		const preview = new Preview(inputElement.dataset['preview']);
-		const maxSize = new MaxSize(inputElement.dataset['maxSize']);
+		const preview = new Preview($input.dataset['preview']);
+		const maxSize = new MaxSize($input.dataset['maxSize']);
 
 		const event = new Event('change');
-		Object.defineProperty(event, 'currentTarget', { value: inputElement });
+		Object.defineProperty(event, 'currentTarget', { value: $input });
 
 		changeEvent(event, {
 			preview,
@@ -134,14 +134,14 @@ describe('<output> element', () => {
 				call.at(1)();
 			});
 
-		const outputElements = document.querySelectorAll('output');
+		const $outputs = document.querySelectorAll('output');
 
-		expect(outputElements.length).toBe(6);
-		expect(outputElements.item(0).innerHTML).toBe(`<img src="${FILE_READER_RESULT}" alt="test1.png">`);
-		expect(outputElements.item(1).innerHTML).toBe(`<audio src="${FILE_READER_RESULT}" controls="">test2.mp3</audio>`);
-		expect(outputElements.item(2).innerHTML).toBe(`<video src="${FILE_READER_RESULT}" controls="">test3.mp4</video>`);
-		expect(outputElements.item(3).innerHTML).toBe(`foo`);
-		expect(outputElements.item(4).innerHTML).toBe(`foo`);
-		expect(outputElements.item(5).innerHTML).toBe(`foo`);
+		expect($outputs.length).toBe(6);
+		expect($outputs.item(0).innerHTML).toBe(`<img src="${FILE_READER_RESULT}" alt="test1.png">`);
+		expect($outputs.item(1).innerHTML).toBe(`<audio src="${FILE_READER_RESULT}" controls="">test2.mp3</audio>`);
+		expect($outputs.item(2).innerHTML).toBe(`<video src="${FILE_READER_RESULT}" controls="">test3.mp4</video>`);
+		expect($outputs.item(3).innerHTML).toBe(`foo`);
+		expect($outputs.item(4).innerHTML).toBe(`foo`);
+		expect($outputs.item(5).innerHTML).toBe(`foo`);
 	});
 });

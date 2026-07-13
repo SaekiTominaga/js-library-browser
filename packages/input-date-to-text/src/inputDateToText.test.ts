@@ -10,28 +10,28 @@ describe('attribute', () => {
   step="1"
 >`;
 
-		const inputElement = document.querySelector('input')!;
+		const $input = document.querySelector('input')!;
 
-		inputDateToText(inputElement);
+		inputDateToText($input);
 
-		expect(inputElement.min).toBe('');
-		expect(inputElement.max).toBe('');
-		expect(inputElement.step).toBe('');
+		expect($input.min).toBe('');
+		expect($input.max).toBe('');
+		expect($input.step).toBe('');
 	});
 
 	test('date → text', () => {
 		document.body.innerHTML = `<input type="date" data-validation-noexist="">`;
 
-		const inputElement = document.querySelector('input')!;
+		const $input = document.querySelector('input')!;
 
-		expect(inputElement.type).toBe('date');
+		expect($input.type).toBe('date');
 
-		inputDateToText(inputElement);
+		inputDateToText($input);
 
-		expect(inputElement.type).toBe('text');
-		expect(inputElement.minLength).toBe(8);
-		expect(inputElement.pattern).toBe('([0-9０-９]{8})|([0-9０-９]{4}[\\-\\/－／][0-9０-９]{1,2}[\\-\\/－／][0-9０-９]{1,2})');
-		expect(inputElement.placeholder).toBe('YYYY-MM-DD');
+		expect($input.type).toBe('text');
+		expect($input.minLength).toBe(8);
+		expect($input.pattern).toBe('([0-9０-９]{8})|([0-9０-９]{4}[\\-\\/－／][0-9０-９]{1,2}[\\-\\/－／][0-9０-９]{1,2})');
+		expect($input.placeholder).toBe('YYYY-MM-DD');
 	});
 
 	test('data-title', () => {
@@ -39,15 +39,15 @@ describe('attribute', () => {
 
 		document.body.innerHTML = `<input data-validation-noexist="" data-title="${TITLE_ATTRIBUTE_VALUE}">`;
 
-		const inputElement = document.querySelector('input')!;
+		const $input = document.querySelector('input')!;
 
-		expect(inputElement.dataset['title']).toBe(TITLE_ATTRIBUTE_VALUE);
-		expect(inputElement.title).toBe('');
+		expect($input.dataset['title']).toBe(TITLE_ATTRIBUTE_VALUE);
+		expect($input.title).toBe('');
 
-		inputDateToText(inputElement);
+		inputDateToText($input);
 
-		expect(inputElement.dataset['title']).toBeUndefined();
-		expect(inputElement.title).toBe(TITLE_ATTRIBUTE_VALUE);
+		expect($input.dataset['title']).toBeUndefined();
+		expect($input.title).toBe(TITLE_ATTRIBUTE_VALUE);
 	});
 });
 
@@ -59,19 +59,19 @@ describe('event', () => {
 	});
 
 	test('change', () => {
-		const inputElement = document.querySelector('input')!;
+		const $input = document.querySelector('input')!;
 
-		inputElement.dispatchEvent(new Event('change'));
+		$input.dispatchEvent(new Event('change'));
 
-		expect(inputElement.validationMessage).toBe('');
+		expect($input.validationMessage).toBe('');
 	});
 
 	test('submit', () => {
-		const formElement = document.querySelector('form')!;
-		const inputElement = document.querySelector('input')!;
+		const $form = document.querySelector('form')!;
+		const $input = document.querySelector('input')!;
 
-		formElement.dispatchEvent(new Event('submit'));
+		$form.dispatchEvent(new Event('submit'));
 
-		expect(inputElement.validationMessage).toBe('');
+		expect($input.validationMessage).toBe('');
 	});
 });

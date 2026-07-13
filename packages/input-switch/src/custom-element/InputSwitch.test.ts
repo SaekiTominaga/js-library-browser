@@ -64,9 +64,9 @@ describe('connectedCallback', () => {
 
 			document.body.innerHTML = `<x-input-switch storage-key="x"></x-input-switch>`;
 
-			const switchElement = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
+			const $switch = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
 
-			expect(switchElement.checked).toBeTruthy();
+			expect($switch.checked).toBeTruthy();
 		});
 
 		test('not checked last time', () => {
@@ -74,18 +74,18 @@ describe('connectedCallback', () => {
 
 			document.body.innerHTML = `<x-input-switch checked="" storage-key="x"></x-input-switch>`;
 
-			const switchElement = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
+			const $switch = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
 
-			expect(switchElement.checked).toBeFalsy();
+			expect($switch.checked).toBeFalsy();
 		});
 	});
 
 	test('HTML', () => {
 		document.body.innerHTML = `<x-input-switch></x-input-switch>`;
 
-		const switchElement = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
+		const $switch = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
 
-		expect(switchElement.outerHTML).toBe('<x-input-switch tabindex="0" role="switch" aria-checked="false" aria-disabled="false"></x-input-switch>');
+		expect($switch.outerHTML).toBe('<x-input-switch tabindex="0" role="switch" aria-checked="false" aria-disabled="false"></x-input-switch>');
 	});
 });
 
@@ -95,57 +95,57 @@ describe('attributeChangedCallback', () => {
 	});
 
 	test('value', () => {
-		const switchElement = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
+		const $switch = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
 
-		expect(switchElement.value).toBe('on');
+		expect($switch.value).toBe('on');
 
-		switchElement.value = 'foo';
-		expect(switchElement.value).toBe('foo');
+		$switch.value = 'foo';
+		expect($switch.value).toBe('foo');
 
-		switchElement.value = null;
-		expect(switchElement.value).toBe('on');
+		$switch.value = null;
+		expect($switch.value).toBe('on');
 	});
 
 	test('checked', () => {
-		const switchElement = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
+		const $switch = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
 
-		expect(switchElement.checked).toBeFalsy();
-		expect(switchElement.getAttribute('aria-checked')).toBe('false');
+		expect($switch.checked).toBeFalsy();
+		expect($switch.getAttribute('aria-checked')).toBe('false');
 
-		switchElement.checked = true;
-		expect(switchElement.checked).toBeTruthy();
-		expect(switchElement.getAttribute('aria-checked')).toBe('true');
+		$switch.checked = true;
+		expect($switch.checked).toBeTruthy();
+		expect($switch.getAttribute('aria-checked')).toBe('true');
 
-		switchElement.checked = false;
-		expect(switchElement.checked).toBeFalsy();
-		expect(switchElement.getAttribute('aria-checked')).toBe('false');
+		$switch.checked = false;
+		expect($switch.checked).toBeFalsy();
+		expect($switch.getAttribute('aria-checked')).toBe('false');
 	});
 
 	test('disabled', () => {
-		const switchElement = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
+		const $switch = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
 
-		expect(switchElement.disabled).toBeFalsy();
-		expect(switchElement.getAttribute('aria-disabled')).toBe('false');
+		expect($switch.disabled).toBeFalsy();
+		expect($switch.getAttribute('aria-disabled')).toBe('false');
 
-		switchElement.disabled = true;
-		expect(switchElement.disabled).toBeTruthy();
-		expect(switchElement.getAttribute('aria-disabled')).toBe('true');
+		$switch.disabled = true;
+		expect($switch.disabled).toBeTruthy();
+		expect($switch.getAttribute('aria-disabled')).toBe('true');
 
-		switchElement.disabled = false;
-		expect(switchElement.disabled).toBeFalsy();
-		expect(switchElement.getAttribute('aria-disabled')).toBe('false');
+		$switch.disabled = false;
+		expect($switch.disabled).toBeFalsy();
+		expect($switch.getAttribute('aria-disabled')).toBe('false');
 	});
 
 	test('storage-key', () => {
-		const switchElement = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
+		const $switch = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
 
-		expect(switchElement.storageKey).toBeNull();
+		expect($switch.storageKey).toBeNull();
 
-		switchElement.storageKey = 'foo';
-		expect(switchElement.storageKey).toBe('foo');
+		$switch.storageKey = 'foo';
+		expect($switch.storageKey).toBe('foo');
 
-		switchElement.storageKey = null;
-		expect(switchElement.storageKey).toBeNull();
+		$switch.storageKey = null;
+		expect($switch.storageKey).toBeNull();
 	});
 });
 
@@ -158,44 +158,44 @@ describe('event', () => {
 	});
 
 	test('change', () => {
-		const switchElement = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
+		const $switch = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
 
-		expect(switchElement.checked).toBeFalsy();
+		expect($switch.checked).toBeFalsy();
 		expect(localStorage.getItem('x')).toBeNull();
 
-		switchElement.dispatchEvent(new Event('change'));
+		$switch.dispatchEvent(new Event('change'));
 
-		expect(switchElement.checked).toBeTruthy();
+		expect($switch.checked).toBeTruthy();
 		expect(localStorage.getItem('x')).toBe('true');
 	});
 
 	test('click', () => {
-		const switchElement = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
+		const $switch = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
 
-		expect(switchElement.checked).toBeFalsy();
+		expect($switch.checked).toBeFalsy();
 
-		switchElement.dispatchEvent(new MouseEvent('click'));
+		$switch.dispatchEvent(new MouseEvent('click'));
 
-		expect(switchElement.checked).toBeTruthy();
+		expect($switch.checked).toBeTruthy();
 	});
 
 	test('space key', () => {
-		const switchElement = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
+		const $switch = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
 
-		expect(switchElement.checked).toBeFalsy();
+		expect($switch.checked).toBeFalsy();
 
-		switchElement.dispatchEvent(new KeyboardEvent('keydown', { key: ' ' }));
+		$switch.dispatchEvent(new KeyboardEvent('keydown', { key: ' ' }));
 
-		expect(switchElement.checked).toBeTruthy();
+		expect($switch.checked).toBeTruthy();
 	});
 
 	test('enter key', () => {
-		const switchElement = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
+		const $switch = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
 
-		expect(switchElement.checked).toBeFalsy();
+		expect($switch.checked).toBeFalsy();
 
-		switchElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+		$switch.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
 
-		expect(switchElement.checked).toBeFalsy(); // Enter キーでは変わらない
+		expect($switch.checked).toBeFalsy(); // Enter キーでは変わらない
 	});
 });

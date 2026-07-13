@@ -69,9 +69,9 @@ describe('connectedCallback', () => {
 </x-tab>
 `;
 
-		const tabElement = document.querySelector<Tab>(TAB_ELEMENT_NAME)!;
+		const $tab = document.querySelector<Tab>(TAB_ELEMENT_NAME)!;
 
-		expect(tabElement.outerHTML.replaceAll('\n', '')).toEqual(
+		expect($tab.outerHTML.replaceAll('\n', '')).toEqual(
 			expect.stringMatching(
 				/^<x-tab><a slot="tab" id="[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}" role="tab" aria-controls="tabpanel1" tabindex="0" aria-selected="true">Tab 1<\/a><a slot="tab" id="[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}" role="tab" aria-controls="tabpanel2" tabindex="-1" aria-selected="false">Tab 2<\/a><div slot="tabpanel" id="tabpanel1" role="tabpanel" aria-labelledby="[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}">Tab panel 1<\/div><div slot="tabpanel" id="tabpanel2" role="tabpanel" aria-labelledby="[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}" class="is-hidden">Tab panel 2<\/div><\/x-tab>$/u,
 			),
@@ -81,10 +81,10 @@ describe('connectedCallback', () => {
 	test('`tablist-label` attribute', () => {
 		document.body.innerHTML = `<x-tab tablist-label="label"></x-tab>`;
 
-		const tabElement = document.querySelector<Tab>(TAB_ELEMENT_NAME)!;
-		const tablistElement = tabElement.shadowRoot?.querySelector<HTMLElement>('[part=tablist]');
+		const $tab = document.querySelector<Tab>(TAB_ELEMENT_NAME)!;
+		const $tablist = $tab.shadowRoot?.querySelector<HTMLElement>('[part=tablist]');
 
-		expect(tablistElement?.getAttribute('aria-label')).toBe('label');
+		expect($tablist?.getAttribute('aria-label')).toBe('label');
 	});
 
 	describe('storage', () => {
@@ -104,13 +104,13 @@ describe('connectedCallback', () => {
 </x-tab>
 `;
 
-			const tabElements = Array.from(document.querySelectorAll<HTMLElement>('[role="tab"]'));
-			expect(tabElements.at(0)?.getAttribute('aria-selected')).toBe('false');
-			expect(tabElements.at(1)?.getAttribute('aria-selected')).toBe('true');
+			const $tabs = Array.from(document.querySelectorAll<HTMLElement>('[role="tab"]'));
+			expect($tabs.at(0)?.getAttribute('aria-selected')).toBe('false');
+			expect($tabs.at(1)?.getAttribute('aria-selected')).toBe('true');
 
-			const tabpanelElements = Array.from(document.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
-			expect(tabpanelElements.at(0)?.classList.contains('is-hidden')).toBeTruthy();
-			expect(tabpanelElements.at(1)?.classList.contains('is-hidden')).toBeFalsy();
+			const $tabpanels = Array.from(document.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
+			expect($tabpanels.at(0)?.classList.contains('is-hidden')).toBeTruthy();
+			expect($tabpanels.at(1)?.classList.contains('is-hidden')).toBeFalsy();
 		});
 
 		test('no exist id', () => {
@@ -133,31 +133,31 @@ describe('attributeChangedCallback', () => {
 	});
 
 	test('tablist-label', () => {
-		const tabElement = document.querySelector<Tab>(TAB_ELEMENT_NAME)!;
-		const tablistElement = tabElement.shadowRoot?.querySelector<HTMLElement>('[part=tablist]');
+		const $tab = document.querySelector<Tab>(TAB_ELEMENT_NAME)!;
+		const $tablist = $tab.shadowRoot?.querySelector<HTMLElement>('[part=tablist]');
 
-		expect(tabElement.tablistLabel).toBeNull();
-		expect(tablistElement?.getAttribute('aria-label')).toBeNull();
+		expect($tab.tablistLabel).toBeNull();
+		expect($tablist?.getAttribute('aria-label')).toBeNull();
 
-		tabElement.tablistLabel = 'label';
-		expect(tabElement.tablistLabel).toBe('label');
-		expect(tablistElement?.getAttribute('aria-label')).toBe('label');
+		$tab.tablistLabel = 'label';
+		expect($tab.tablistLabel).toBe('label');
+		expect($tablist?.getAttribute('aria-label')).toBe('label');
 
-		tabElement.tablistLabel = null;
-		expect(tabElement.tablistLabel).toBeNull();
-		expect(tablistElement?.getAttribute('aria-label')).toBeNull();
+		$tab.tablistLabel = null;
+		expect($tab.tablistLabel).toBeNull();
+		expect($tablist?.getAttribute('aria-label')).toBeNull();
 	});
 
 	test('storage-key', () => {
-		const tabElement = document.querySelector<Tab>(TAB_ELEMENT_NAME)!;
+		const $tab = document.querySelector<Tab>(TAB_ELEMENT_NAME)!;
 
-		expect(tabElement.storageKey).toBeNull();
+		expect($tab.storageKey).toBeNull();
 
-		tabElement.storageKey = 'foo';
-		expect(tabElement.storageKey).toBe('foo');
+		$tab.storageKey = 'foo';
+		expect($tab.storageKey).toBe('foo');
 
-		tabElement.storageKey = null;
-		expect(tabElement.storageKey).toBeNull();
+		$tab.storageKey = null;
+		expect($tab.storageKey).toBeNull();
 	});
 });
 
@@ -185,69 +185,69 @@ describe('tab event', () => {
 
 		expect(sessionStorage.getItem('x')).toBe('tabpanel2');
 
-		const tabElements = Array.from(document.querySelectorAll<HTMLElement>('[role="tab"]'));
-		expect(tabElements.at(0)?.tabIndex).toBe(-1);
-		expect(tabElements.at(1)?.tabIndex).toBe(0);
-		expect(tabElements.at(2)?.tabIndex).toBe(-1);
-		expect(tabElements.at(0)?.getAttribute('aria-selected')).toBe('false');
-		expect(tabElements.at(1)?.getAttribute('aria-selected')).toBe('true');
-		expect(tabElements.at(2)?.getAttribute('aria-selected')).toBe('false');
+		const $tabs = Array.from(document.querySelectorAll<HTMLElement>('[role="tab"]'));
+		expect($tabs.at(0)?.tabIndex).toBe(-1);
+		expect($tabs.at(1)?.tabIndex).toBe(0);
+		expect($tabs.at(2)?.tabIndex).toBe(-1);
+		expect($tabs.at(0)?.getAttribute('aria-selected')).toBe('false');
+		expect($tabs.at(1)?.getAttribute('aria-selected')).toBe('true');
+		expect($tabs.at(2)?.getAttribute('aria-selected')).toBe('false');
 
-		const tabpanelElements = Array.from(document.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
-		expect(tabpanelElements.at(0)?.classList.contains('is-hidden')).toBeTruthy();
-		expect(tabpanelElements.at(1)?.classList.contains('is-hidden')).toBeFalsy();
-		expect(tabpanelElements.at(2)?.classList.contains('is-hidden')).toBeTruthy();
+		const $tabpanels = Array.from(document.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
+		expect($tabpanels.at(0)?.classList.contains('is-hidden')).toBeTruthy();
+		expect($tabpanels.at(1)?.classList.contains('is-hidden')).toBeFalsy();
+		expect($tabpanels.at(2)?.classList.contains('is-hidden')).toBeTruthy();
 	});
 
 	test('← key', () => {
 		document.querySelector('[role="tab"][aria-controls="tabpanel1"]')?.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft' }));
 
-		const tabElements = Array.from(document.querySelectorAll<HTMLElement>('[role="tab"]'));
-		expect(tabElements.at(0)?.tabIndex).toBe(-1);
-		expect(tabElements.at(1)?.tabIndex).toBe(-1);
-		expect(tabElements.at(2)?.tabIndex).toBe(0);
-		expect(tabElements.at(0)?.getAttribute('aria-selected')).toBe('false');
-		expect(tabElements.at(1)?.getAttribute('aria-selected')).toBe('false');
-		expect(tabElements.at(2)?.getAttribute('aria-selected')).toBe('true');
+		const $tabs = Array.from(document.querySelectorAll<HTMLElement>('[role="tab"]'));
+		expect($tabs.at(0)?.tabIndex).toBe(-1);
+		expect($tabs.at(1)?.tabIndex).toBe(-1);
+		expect($tabs.at(2)?.tabIndex).toBe(0);
+		expect($tabs.at(0)?.getAttribute('aria-selected')).toBe('false');
+		expect($tabs.at(1)?.getAttribute('aria-selected')).toBe('false');
+		expect($tabs.at(2)?.getAttribute('aria-selected')).toBe('true');
 
-		const tabpanelElements = Array.from(document.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
-		expect(tabpanelElements.at(0)?.classList.contains('is-hidden')).toBeTruthy();
-		expect(tabpanelElements.at(1)?.classList.contains('is-hidden')).toBeTruthy();
-		expect(tabpanelElements.at(2)?.classList.contains('is-hidden')).toBeFalsy();
+		const $tabpanels = Array.from(document.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
+		expect($tabpanels.at(0)?.classList.contains('is-hidden')).toBeTruthy();
+		expect($tabpanels.at(1)?.classList.contains('is-hidden')).toBeTruthy();
+		expect($tabpanels.at(2)?.classList.contains('is-hidden')).toBeFalsy();
 	});
 
 	test('→ key', () => {
 		document.querySelector('[role="tab"][aria-controls="tabpanel1"]')?.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }));
 
-		const tabElements = Array.from(document.querySelectorAll<HTMLElement>('[role="tab"]'));
-		expect(tabElements.at(0)?.tabIndex).toBe(-1);
-		expect(tabElements.at(1)?.tabIndex).toBe(0);
-		expect(tabElements.at(2)?.tabIndex).toBe(-1);
-		expect(tabElements.at(0)?.getAttribute('aria-selected')).toBe('false');
-		expect(tabElements.at(1)?.getAttribute('aria-selected')).toBe('true');
-		expect(tabElements.at(2)?.getAttribute('aria-selected')).toBe('false');
+		const $tabs = Array.from(document.querySelectorAll<HTMLElement>('[role="tab"]'));
+		expect($tabs.at(0)?.tabIndex).toBe(-1);
+		expect($tabs.at(1)?.tabIndex).toBe(0);
+		expect($tabs.at(2)?.tabIndex).toBe(-1);
+		expect($tabs.at(0)?.getAttribute('aria-selected')).toBe('false');
+		expect($tabs.at(1)?.getAttribute('aria-selected')).toBe('true');
+		expect($tabs.at(2)?.getAttribute('aria-selected')).toBe('false');
 
-		const tabpanelElements = Array.from(document.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
-		expect(tabpanelElements.at(0)?.classList.contains('is-hidden')).toBeTruthy();
-		expect(tabpanelElements.at(1)?.classList.contains('is-hidden')).toBeFalsy();
-		expect(tabpanelElements.at(2)?.classList.contains('is-hidden')).toBeTruthy();
+		const $tabpanels = Array.from(document.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
+		expect($tabpanels.at(0)?.classList.contains('is-hidden')).toBeTruthy();
+		expect($tabpanels.at(1)?.classList.contains('is-hidden')).toBeFalsy();
+		expect($tabpanels.at(2)?.classList.contains('is-hidden')).toBeTruthy();
 	});
 
 	test('End key', () => {
 		document.querySelector('[role="tab"][aria-controls="tabpanel1"]')?.dispatchEvent(new KeyboardEvent('keydown', { key: 'End' }));
 
-		const tabElements = Array.from(document.querySelectorAll<HTMLElement>('[role="tab"]'));
-		expect(tabElements.at(0)?.tabIndex).toBe(-1);
-		expect(tabElements.at(1)?.tabIndex).toBe(-1);
-		expect(tabElements.at(2)?.tabIndex).toBe(0);
-		expect(tabElements.at(0)?.getAttribute('aria-selected')).toBe('false');
-		expect(tabElements.at(1)?.getAttribute('aria-selected')).toBe('false');
-		expect(tabElements.at(2)?.getAttribute('aria-selected')).toBe('true');
+		const $tabs = Array.from(document.querySelectorAll<HTMLElement>('[role="tab"]'));
+		expect($tabs.at(0)?.tabIndex).toBe(-1);
+		expect($tabs.at(1)?.tabIndex).toBe(-1);
+		expect($tabs.at(2)?.tabIndex).toBe(0);
+		expect($tabs.at(0)?.getAttribute('aria-selected')).toBe('false');
+		expect($tabs.at(1)?.getAttribute('aria-selected')).toBe('false');
+		expect($tabs.at(2)?.getAttribute('aria-selected')).toBe('true');
 
-		const tabpanelElements = Array.from(document.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
-		expect(tabpanelElements.at(0)?.classList.contains('is-hidden')).toBeTruthy();
-		expect(tabpanelElements.at(1)?.classList.contains('is-hidden')).toBeTruthy();
-		expect(tabpanelElements.at(2)?.classList.contains('is-hidden')).toBeFalsy();
+		const $tabpanels = Array.from(document.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
+		expect($tabpanels.at(0)?.classList.contains('is-hidden')).toBeTruthy();
+		expect($tabpanels.at(1)?.classList.contains('is-hidden')).toBeTruthy();
+		expect($tabpanels.at(2)?.classList.contains('is-hidden')).toBeFalsy();
 	});
 
 	test('Home key', () => {

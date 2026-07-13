@@ -11,12 +11,12 @@ describe('event', () => {
 	});
 
 	test('submit', () => {
-		const formElement = document.querySelector('form')!;
-		const dialogElement = document.querySelector('dialog')!;
+		const $form = document.querySelector('form')!;
+		const $dialog = document.querySelector('dialog')!;
 
-		const dialogShowModalSpy = jest.spyOn(dialogElement, 'showModal');
+		const dialogShowModalSpy = jest.spyOn($dialog, 'showModal');
 
-		formElement.dispatchEvent(new Event('submit'));
+		$form.dispatchEvent(new Event('submit'));
 
 		expect(dialogShowModalSpy).toHaveBeenCalled();
 
@@ -24,10 +24,10 @@ describe('event', () => {
 	});
 
 	test('pagehide', () => {
-		const dialogElement = document.querySelector('dialog')!;
-		dialogElement.open = true; // TODO: 本来は showModal() すべき
+		const $dialog = document.querySelector('dialog')!;
+		$dialog.open = true; // TODO: 本来は showModal() すべき
 
-		const dialogCloseSpy = jest.spyOn(dialogElement, 'close');
+		const dialogCloseSpy = jest.spyOn($dialog, 'close');
 
 		window.dispatchEvent(new Event('pagehide'));
 

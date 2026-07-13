@@ -9,24 +9,24 @@ describe('event', () => {
 	});
 
 	test('load', () => {
-		const textareaElement = document.querySelector('textarea')!;
+		const $textarea = document.querySelector('textarea')!;
 
 		window.dispatchEvent(new InputEvent('load'));
 
-		expect(textareaElement.textContent).toBe('');
-		expect(textareaElement.style.cssText).toBe('block-size: 0px;'); // TODO: jsdom では常に 0px しか取得できない
+		expect($textarea.textContent).toBe('');
+		expect($textarea.style.cssText).toBe('block-size: 0px;'); // TODO: jsdom では常に 0px しか取得できない
 	});
 
 	test('input', () => {
 		const INPUT_TEXT = 'text';
 
-		const textareaElement = document.querySelector('textarea')!;
+		const $textarea = document.querySelector('textarea')!;
 
-		textareaElement.textContent = INPUT_TEXT;
-		textareaElement.dispatchEvent(new InputEvent('input'));
+		$textarea.textContent = INPUT_TEXT;
+		$textarea.dispatchEvent(new InputEvent('input'));
 
-		expect(textareaElement.textContent).toBe(INPUT_TEXT);
-		expect(textareaElement.style.cssText).toBe('block-size: 0px;'); // TODO: jsdom では常に 0px しか取得できない
+		expect($textarea.textContent).toBe(INPUT_TEXT);
+		expect($textarea.style.cssText).toBe('block-size: 0px;'); // TODO: jsdom では常に 0px しか取得できない
 	});
 });
 
@@ -48,22 +48,22 @@ describe('box-sizing', () => {
 	test('content-box', () => {
 		document.body.innerHTML = `<textarea style="box-sizing: content-box; border-top: 2px solid black; border-bottom: 3px solid black; padding-block-start: 4px; padding-block-end: 5px"></textarea>`;
 
-		const textareaElement = document.querySelector('textarea')!;
+		const $textarea = document.querySelector('textarea')!;
 
-		textareaAutoSize(textareaElement);
+		textareaAutoSize($textarea);
 		window.dispatchEvent(new InputEvent('load'));
 
-		expect(textareaElement.style.blockSize).toBe('-9px');
+		expect($textarea.style.blockSize).toBe('-9px');
 	});
 
 	test('border-box', () => {
 		document.body.innerHTML = `<textarea style="box-sizing: border-box; border-top: 2px solid black; border-bottom: 3px solid black; padding-block-start: 4px; padding-block-end: 5px"></textarea>`;
 
-		const textareaElement = document.querySelector('textarea')!;
+		const $textarea = document.querySelector('textarea')!;
 
-		textareaAutoSize(textareaElement);
+		textareaAutoSize($textarea);
 		window.dispatchEvent(new InputEvent('load'));
 
-		expect(textareaElement.style.blockSize).toBe('5px');
+		expect($textarea.style.blockSize).toBe('5px');
 	});
 });

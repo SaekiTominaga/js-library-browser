@@ -12,29 +12,29 @@ describe('attributes', () => {
 		});
 
 		test('init', () => {
-			const detailsContentElement = document.querySelector<DetailsContentElement>(DETAILS_CONTENT_ELEMENT_NAME)!;
+			const $detailsContent = document.querySelector<DetailsContentElement>(DETAILS_CONTENT_ELEMENT_NAME)!;
 
-			expect(detailsContentElement.duration?.value).toBe(100);
+			expect($detailsContent.duration?.value).toBe(100);
 
-			detailsContentElement.setAttribute('duration', '200');
-			expect(detailsContentElement.duration?.value).toBe(200);
+			$detailsContent.setAttribute('duration', '200');
+			expect($detailsContent.duration?.value).toBe(200);
 
-			detailsContentElement.removeAttribute('duration');
-			expect(detailsContentElement.duration?.value).toBeUndefined();
+			$detailsContent.removeAttribute('duration');
+			expect($detailsContent.duration?.value).toBeUndefined();
 		});
 
 		test('set', () => {
-			const detailsContentElement = document.querySelector<DetailsContentElement>(DETAILS_CONTENT_ELEMENT_NAME)!;
+			const $detailsContent = document.querySelector<DetailsContentElement>(DETAILS_CONTENT_ELEMENT_NAME)!;
 
-			detailsContentElement.setAttribute('duration', '200');
-			expect(detailsContentElement.duration?.value).toBe(200);
+			$detailsContent.setAttribute('duration', '200');
+			expect($detailsContent.duration?.value).toBe(200);
 		});
 
 		test('seu null', () => {
-			const detailsContentElement = document.querySelector<DetailsContentElement>(DETAILS_CONTENT_ELEMENT_NAME)!;
+			const $detailsContent = document.querySelector<DetailsContentElement>(DETAILS_CONTENT_ELEMENT_NAME)!;
 
-			detailsContentElement.removeAttribute('duration');
-			expect(detailsContentElement.duration?.value).toBeUndefined();
+			$detailsContent.removeAttribute('duration');
+			expect($detailsContent.duration?.value).toBeUndefined();
 		});
 	});
 
@@ -44,28 +44,28 @@ describe('attributes', () => {
 		});
 
 		test('init', () => {
-			const detailsContentElement = document.querySelector<DetailsContentElement>(DETAILS_CONTENT_ELEMENT_NAME)!;
+			const $detailsContent = document.querySelector<DetailsContentElement>(DETAILS_CONTENT_ELEMENT_NAME)!;
 
-			expect(detailsContentElement.easing?.value).toBe('ease');
+			expect($detailsContent.easing?.value).toBe('ease');
 
-			detailsContentElement.setAttribute('easing', 'ease-in');
-			expect(detailsContentElement.easing?.value).toBe('ease-in');
+			$detailsContent.setAttribute('easing', 'ease-in');
+			expect($detailsContent.easing?.value).toBe('ease-in');
 		});
 
 		test('set', () => {
-			const detailsContentElement = document.querySelector<DetailsContentElement>(DETAILS_CONTENT_ELEMENT_NAME)!;
+			const $detailsContent = document.querySelector<DetailsContentElement>(DETAILS_CONTENT_ELEMENT_NAME)!;
 
-			detailsContentElement.setAttribute('easing', 'ease-in');
-			expect(detailsContentElement.easing?.value).toBe('ease-in');
+			$detailsContent.setAttribute('easing', 'ease-in');
+			expect($detailsContent.easing?.value).toBe('ease-in');
 		});
 
 		test('set null', () => {
-			const detailsContentElement = document.querySelector<DetailsContentElement>(DETAILS_CONTENT_ELEMENT_NAME)!;
+			const $detailsContent = document.querySelector<DetailsContentElement>(DETAILS_CONTENT_ELEMENT_NAME)!;
 
-			expect(detailsContentElement.easing?.value).toBe('ease');
+			expect($detailsContent.easing?.value).toBe('ease');
 
-			detailsContentElement.removeAttribute('easing');
-			expect(detailsContentElement.easing?.value).toBeUndefined();
+			$detailsContent.removeAttribute('easing');
+			expect($detailsContent.easing?.value).toBeUndefined();
 		});
 	});
 });

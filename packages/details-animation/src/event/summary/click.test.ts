@@ -24,33 +24,33 @@ Object.defineProperty(window, 'matchMedia', {
 test('close → open', () => {
 	const event = new MouseEvent('click');
 
-	const detailsElement = document.createElement('details');
-	const detailsContentElement = document.createElement(DETAILS_CONTENT_ELEMENT_NAME) as DetailsContentElement;
-	const preOpen = new PreOpen(detailsElement);
+	const $details = document.createElement('details');
+	const $detailsContent = document.createElement(DETAILS_CONTENT_ELEMENT_NAME) as DetailsContentElement;
+	const preOpen = new PreOpen($details);
 
 	clickEvent(event, {
-		detailsElement: detailsElement,
-		detailsContentElement: detailsContentElement,
+		detailsElement: $details,
+		detailsContentElement: $detailsContent,
 		preOpen: preOpen,
 	});
 
-	expect(detailsElement.open).toBeTruthy();
+	expect($details.open).toBeTruthy();
 });
 
 test('open → close', () => {
 	const event = new MouseEvent('click');
 
-	const detailsElement = document.createElement('details');
-	const detailsContentElement = document.createElement(DETAILS_CONTENT_ELEMENT_NAME) as DetailsContentElement;
-	const preOpen = new PreOpen(detailsElement);
+	const $details = document.createElement('details');
+	const $detailsContent = document.createElement(DETAILS_CONTENT_ELEMENT_NAME) as DetailsContentElement;
+	const preOpen = new PreOpen($details);
 
-	detailsElement.open = true;
+	$details.open = true;
 
 	clickEvent(event, {
-		detailsElement: detailsElement,
-		detailsContentElement: detailsContentElement,
+		detailsElement: $details,
+		detailsContentElement: $detailsContent,
 		preOpen: preOpen,
 	});
 
-	expect(detailsElement.open).toBeTruthy();
+	expect($details.open).toBeTruthy();
 });

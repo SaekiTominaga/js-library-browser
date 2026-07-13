@@ -10,9 +10,9 @@ describe('HTML', () => {
 		// @ts-expect-error: ts(2322)
 		navigator.share = undefined;
 
-		const buttonElement = document.querySelector('button')!;
+		const $button = document.querySelector('button')!;
 
-		buttonShare(buttonElement);
+		buttonShare($button);
 
 		expect(document.body.innerHTML).toBe(`<button disabled="">Share</button>`);
 	});
@@ -26,12 +26,12 @@ describe('event', () => {
 	});
 
 	test('click', () => {
-		const buttonElement = document.createElement('button');
+		const $button = document.createElement('button');
 
-		buttonShare(buttonElement);
+		buttonShare($button);
 
-		buttonElement.dispatchEvent(new Event('click'));
+		$button.dispatchEvent(new Event('click'));
 
-		expect(buttonElement.disabled).toBeFalsy();
+		expect($button.disabled).toBeFalsy();
 	});
 });
