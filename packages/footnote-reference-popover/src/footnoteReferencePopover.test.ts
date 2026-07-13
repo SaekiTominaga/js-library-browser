@@ -23,7 +23,7 @@ describe('attribute', () => {
 		document.querySelector('a')?.dispatchEvent(new UIEvent('click'));
 
 		const $popover = document.querySelector<PopoverElement>('x-popover');
-		expect($popover?.getAttribute('popover')).toBe('');
+		expect($popover?.popover).toBe('');
 		expect($popover?.getAttribute('class')).toBe('my-popover');
 		expect($popover?.getAttribute('aria-label')).toBe('Note');
 	});
