@@ -35,8 +35,8 @@ export default defineConfig([
 		files: ['e2e/*.spec.ts'],
 		extends: [playwright.configs['flat/recommended']],
 		rules: {
-			'import/no-extraneous-dependencies': 'off',
 			'playwright/no-skipped-test': 'off',
+			'playwright/prefer-to-have-count': 'off',
 		},
 	},
 	{
