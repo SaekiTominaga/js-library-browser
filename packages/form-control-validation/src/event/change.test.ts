@@ -10,26 +10,26 @@ beforeAll(() => {
 });
 
 test('change event', () => {
-	const inputElement = document.querySelector('input')!;
-	const errorMessage = new ErrorMessage(inputElement.getAttribute('aria-errormessage'));
+	const $input = document.querySelector('input')!;
+	const errorMessage = new ErrorMessage($input.getAttribute('aria-errormessage'));
 
-	expect(inputElement.getAttribute('aria-invalid')).toBe('true');
-	expect(inputElement.validationMessage).not.toBe('');
+	expect($input.getAttribute('aria-invalid')).toBe('true');
+	expect($input.validationMessage).not.toBe('');
 	expect(errorMessage.element.hidden).toBeFalsy();
 	expect(errorMessage.element.innerHTML).toBe('error message');
 
-	inputElement.value = 'foo';
+	$input.value = 'foo';
 
 	const event = new Event('change');
 
 	changeEvent(event, {
-		targetElement: inputElement,
-		formControlElements: [inputElement],
+		targetElement: $input,
+		formControlElements: [$input],
 		errorMessage: errorMessage,
 	});
 
-	expect(inputElement.getAttribute('aria-invalid')).toBe('false');
-	expect(inputElement.validationMessage).toBe('');
+	expect($input.getAttribute('aria-invalid')).toBe('false');
+	expect($input.validationMessage).toBe('');
 	expect(errorMessage.element.hidden).toBeTruthy();
 	expect(errorMessage.element.innerHTML).toBe('');
 });

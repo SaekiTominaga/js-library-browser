@@ -20,14 +20,14 @@ test('radiogroup', () => {
 <p id="message"></p>
 `;
 
-	const radiogroupElement = document.querySelector<HTMLElement>('[role="radiogroup"]')!;
-	const radioElements = document.querySelectorAll<HTMLInputElement>('input[type="radio"]');
+	const $radiogroup = document.querySelector<HTMLElement>('[role="radiogroup"]')!;
+	const $radios = document.querySelectorAll<HTMLInputElement>('input[type="radio"]');
 
-	formControlValidation(radiogroupElement);
+	formControlValidation($radiogroup);
 
-	[...radioElements].at(0)?.dispatchEvent(new Event('change'));
+	[...$radios].at(0)?.dispatchEvent(new Event('change'));
 
-	expect(radiogroupElement.getAttribute('aria-invalid')).toBe('true');
+	expect($radiogroup.getAttribute('aria-invalid')).toBe('true');
 });
 
 test('invalid element', () => {
@@ -52,27 +52,27 @@ describe('event', () => {
 	});
 
 	test('valid', () => {
-		const inputElement = document.querySelector('input')!;
-		const errorMessageElement = document.getElementById('message')!;
+		const $input = document.querySelector('input')!;
+		const $errorMessage = document.getElementById('message')!;
 
-		inputElement.value = 'foo';
-		inputElement.dispatchEvent(new Event('change'));
+		$input.value = 'foo';
+		$input.dispatchEvent(new Event('change'));
 
-		expect(inputElement.getAttribute('aria-invalid')).toBe('false');
-		expect(errorMessageElement.hidden).toBeTruthy();
-		expect(errorMessageElement.innerHTML).toBe('');
+		expect($input.getAttribute('aria-invalid')).toBe('false');
+		expect($errorMessage.hidden).toBeTruthy();
+		expect($errorMessage.innerHTML).toBe('');
 	});
 
 	test('invalid', () => {
-		const inputElement = document.querySelector('input')!;
-		const errorMessageElement = document.getElementById('message')!;
+		const $input = document.querySelector('input')!;
+		const $errorMessage = document.getElementById('message')!;
 
-		inputElement.value = '';
-		inputElement.dispatchEvent(new Event('change'));
+		$input.value = '';
+		$input.dispatchEvent(new Event('change'));
 
-		expect(inputElement.getAttribute('aria-invalid')).toBe('true');
-		expect(errorMessageElement.hidden).toBeFalsy();
-		expect(errorMessageElement.innerHTML).not.toBe('');
+		expect($input.getAttribute('aria-invalid')).toBe('true');
+		expect($errorMessage.hidden).toBeFalsy();
+		expect($errorMessage.innerHTML).not.toBe('');
 	});
 });
 
@@ -82,12 +82,12 @@ test('title attribute', () => {
 <p id="message"></p>
 `;
 
-	const inputElement = document.querySelector('input')!;
+	const $input = document.querySelector('input')!;
 
-	formControlValidation(inputElement);
+	formControlValidation($input);
 
-	inputElement.value = 'foo';
-	inputElement.dispatchEvent(new Event('change'));
+	$input.value = 'foo';
+	$input.dispatchEvent(new Event('change'));
 
 	expect(document.getElementById('message')?.textContent).toBe('error message');
 });
