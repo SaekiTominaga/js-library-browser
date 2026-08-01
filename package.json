@@ -14,7 +14,7 @@
 		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest packages/.+?/dist/.+\\.test\\.js  -c jest.config.mjs"
 	},
 	"devDependencies": {
-		"@w0s/eslint-config": "9.7.1",
+		"@w0s/eslint-config": "9.8.0",
 		"@w0s/markuplint-config": "3.13.0",
 		"@w0s/stylelint-config": "4.24.0",
 		"@w0s/tsconfig": "3.0.0",
