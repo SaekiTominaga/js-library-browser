@@ -4,6 +4,10 @@ test.beforeEach(async ({ page }) => {
 	await page.goto('/button-confirm/demo/');
 });
 
+test.afterEach(async ({ page }) => {
+	await page.close();
+});
+
 test('data-message', async ({ page }) => {
 	const section = page.locator('section').filter({ hasText: 'data-message attribute' });
 

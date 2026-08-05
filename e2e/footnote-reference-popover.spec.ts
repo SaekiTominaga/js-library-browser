@@ -9,6 +9,10 @@ test.beforeEach(async ({ page }) => {
 	await page.goto('/footnote-reference-popover/demo/');
 });
 
+test.afterEach(async ({ page }) => {
+	await page.close();
+});
+
 test.describe('show & hide', () => {
 	test('click', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'Required attributes only' });

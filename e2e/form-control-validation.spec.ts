@@ -52,6 +52,10 @@ test.beforeEach(async ({ page }) => {
 	await page.goto('/form-control-validation/demo/');
 });
 
+test.afterEach(async ({ page }) => {
+	await page.close();
+});
+
 test.describe('input text', () => {
 	test('validationMessage', async ({ browserName, page }) => {
 		const fieldset = page.locator('.fieldset').filter({ hasText: 'Telephone number' });

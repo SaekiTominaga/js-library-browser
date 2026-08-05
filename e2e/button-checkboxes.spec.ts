@@ -4,6 +4,10 @@ test.beforeEach(async ({ page }) => {
 	await page.goto('/button-checkboxes/demo/');
 });
 
+test.afterEach(async ({ page }) => {
+	await page.close();
+});
+
 test.describe('group ID', () => {
 	test('load', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'Specified by group ID' });

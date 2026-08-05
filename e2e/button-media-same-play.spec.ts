@@ -6,17 +6,21 @@ test.beforeEach(async ({ browserName, page }) => {
 	await page.goto('/button-media-same-play/demo/');
 });
 
-const getCurrentTime = (video: HTMLMediaElement) => video.currentTime;
+test.afterEach(async ({ page }) => {
+	await page.close();
+});
 
-const setCurrentTime = (video: HTMLMediaElement, time: number) => {
-	video.currentTime = time;
+const getCurrentTime = ($video: HTMLMediaElement): number => $video.currentTime;
+
+const setCurrentTime = ($video: HTMLMediaElement, time: number): void => {
+	$video.currentTime = time;
 };
 
-const setEndTime = (video: HTMLMediaElement) => {
-	video.currentTime = video.duration + 1; // Chromium 対策で多少大きな値をセットする
+const setEndTime = ($video: HTMLMediaElement): void => {
+	$video.currentTime = Math.ceil($video.duration);
 };
 
-const getPaused = (video: HTMLMediaElement) => video.paused;
+const getPaused = ($video: HTMLMediaElement): boolean => $video.paused;
 
 test('pause → play → pause', async ({ page }) => {
 	const videos = page.locator('video');
@@ -63,15 +67,17 @@ test('difference in current time', async ({ page }) => {
 	expect(await video2.evaluate(getPaused)).toBeFalsy();
 });
 
-test('All videos have finished playing', async ({ page }) => {
+test('All videos have finished playing', async ({ browserName, page }) => {
+	test.skip(['chromium'].includes(browserName), 'Exclude browsers that do not correctly return `HTMLMediaElement.ended`');
+
 	const videos = page.locator('video');
 	const video1 = videos.nth(0);
 	const video2 = videos.nth(1);
 
 	await Promise.all([video1.evaluate(setEndTime), video2.evaluate(setEndTime)]);
 
-	expect(await video1.evaluate((video: HTMLMediaElement) => video.ended)).toBeTruthy();
-	expect(await video2.evaluate((video: HTMLMediaElement) => video.ended)).toBeTruthy();
+	expect(await video1.evaluate(($video: HTMLMediaElement) => $video.ended)).toBeTruthy();
+	expect(await video2.evaluate(($video: HTMLMediaElement) => $video.ended)).toBeTruthy();
 
 	await page.getByRole('button', { name: 'Simultaneous playback' }).first().click();
 

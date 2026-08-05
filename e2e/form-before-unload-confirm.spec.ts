@@ -6,6 +6,10 @@ test.beforeEach(async ({ browserName, page }) => {
 	await page.goto('/form-before-unload-confirm/demo/');
 });
 
+test.afterEach(async ({ page }) => {
+	await page.close();
+});
+
 test('submit', async ({ page }) => {
 	let calledDialog: Dialog | undefined;
 

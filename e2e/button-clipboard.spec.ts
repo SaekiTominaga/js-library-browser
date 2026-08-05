@@ -15,6 +15,8 @@ test.afterEach(async ({ browserName, page }) => {
 	await page.evaluate(async () => {
 		await navigator.clipboard.writeText('');
 	});
+
+	await page.close();
 });
 
 test('data-text', async ({ page }) => {
