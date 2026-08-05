@@ -11,7 +11,7 @@ test.afterEach(async ({ page }) => {
 test.describe('init', () => {
 	test('Minimal attributes', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'Minimal attributes' });
-		const input = section.getByRole('textbox').first();
+		const input = section.getByRole('textbox');
 
 		await expect(input).toHaveAttribute('type', 'text');
 		await expect(input).toHaveAttribute('minlength', '8');
@@ -21,7 +21,7 @@ test.describe('init', () => {
 
 	test('data-title attribute', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'data-title attribute' });
-		const input = section.getByRole('textbox').first();
+		const input = section.getByRole('textbox');
 
 		await expect(input).not.toHaveAttribute('data-title');
 		await expect(input).toHaveAttribute('title', 'Dates should be consecutive numbers or separated by `-` or `/` in the order of year, month, and day.');
@@ -29,14 +29,14 @@ test.describe('init', () => {
 
 	test('min attribute', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'min, data-validation-min attribute' });
-		const input = section.getByRole('textbox').first();
+		const input = section.getByRole('textbox');
 
 		await expect(input).not.toHaveAttribute('min');
 	});
 
 	test('max attribute', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'max, data-validation-max attribute' });
-		const input = section.getByRole('textbox').first();
+		const input = section.getByRole('textbox');
 
 		await expect(input).not.toHaveAttribute('max');
 	});
@@ -45,7 +45,7 @@ test.describe('init', () => {
 test.describe('validity', () => {
 	test('tooShort', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'Minimal attributes' });
-		const input = section.getByRole('textbox').first();
+		const input = section.getByRole('textbox');
 
 		await input.fill('123');
 
@@ -67,7 +67,7 @@ test.describe('validity', () => {
 
 	test('patternMismatch', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'Minimal attributes' });
-		const input = section.getByRole('textbox').first();
+		const input = section.getByRole('textbox');
 
 		await input.fill('abcdefgh');
 
@@ -89,10 +89,10 @@ test.describe('validity', () => {
 
 	test('customError (2/30)', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'Minimal attributes' });
-		const input = section.getByRole('textbox').first();
+		const input = section.getByRole('textbox');
 
 		await input.fill('2001-02-30');
-		await section.getByRole('button', { name: 'Submit' }).first().focus();
+		await section.getByRole('button', { name: 'Submit' }).focus();
 
 		const validityState = await input.evaluate(($input: HTMLInputElement): Partial<ValidityState> => {
 			const { validity } = $input;
@@ -114,10 +114,10 @@ test.describe('validity', () => {
 
 	test('customError (min)', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'min, data-validation-min attribute' });
-		const input = section.getByRole('textbox').first();
+		const input = section.getByRole('textbox');
 
 		await input.fill('1999-12-31');
-		await section.getByRole('button', { name: 'Submit' }).first().focus();
+		await section.getByRole('button', { name: 'Submit' }).focus();
 
 		const validityState = await input.evaluate(($input: HTMLInputElement): Partial<ValidityState> => {
 			const { validity } = $input;
@@ -139,10 +139,10 @@ test.describe('validity', () => {
 
 	test('customError (max)', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'max, data-validation-max attribute' });
-		const input = section.getByRole('textbox').first();
+		const input = section.getByRole('textbox');
 
 		await input.fill('2021-01-01');
-		await section.getByRole('button', { name: 'Submit' }).first().focus();
+		await section.getByRole('button', { name: 'Submit' }).focus();
 
 		const validityState = await input.evaluate(($input: HTMLInputElement): Partial<ValidityState> => {
 			const { validity } = $input;

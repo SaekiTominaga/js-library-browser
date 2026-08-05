@@ -24,7 +24,7 @@ test('data-text', async ({ page }) => {
 
 	expect(await page.evaluate('navigator.clipboard.readText()')).toBe('');
 
-	await section.getByRole('button', { name: 'Copy' }).first().click();
+	await section.getByRole('button', { name: 'Copy' }).click();
 
 	expect(await page.evaluate('navigator.clipboard.readText()')).toBe('Text 1');
 });
@@ -35,7 +35,7 @@ test.describe('data-target', () => {
 
 		expect(await page.evaluate('navigator.clipboard.readText()')).toBe('');
 
-		await section.getByRole('button', { name: 'Copy' }).first().click();
+		await section.getByRole('button', { name: 'Copy' }).click();
 
 		expect(await page.evaluate('navigator.clipboard.readText()')).toBe('Text 2-1');
 	});
@@ -45,7 +45,7 @@ test.describe('data-target', () => {
 
 		expect(await page.evaluate('navigator.clipboard.readText()')).toBe('');
 
-		await section.getByRole('button', { name: 'Copy' }).first().click();
+		await section.getByRole('button', { name: 'Copy' }).click();
 
 		expect(await page.evaluate('navigator.clipboard.readText()')).toMatch(/^ {2}Text 2-2\r\n {4}Text 2-2$/v);
 	});
@@ -55,7 +55,7 @@ test.describe('data-target', () => {
 
 		expect(await page.evaluate('navigator.clipboard.readText()')).toBe('');
 
-		await section.getByRole('button', { name: 'Copy' }).first().click();
+		await section.getByRole('button', { name: 'Copy' }).click();
 
 		expect(await page.evaluate('navigator.clipboard.readText()')).toBe('Text 2-3');
 	});
@@ -65,7 +65,7 @@ test.describe('data-target', () => {
 
 		expect(await page.evaluate('navigator.clipboard.readText()')).toBe('');
 
-		await section.getByRole('button', { name: 'Copy' }).first().click();
+		await section.getByRole('button', { name: 'Copy' }).click();
 
 		expect(await page.evaluate('navigator.clipboard.readText()')).toMatch(/^ {2}Text 2-4\r\n {4}Text 2-4$/v);
 	});
@@ -77,7 +77,7 @@ test('data-feedback', async ({ page }) => {
 	expect(await page.evaluate('navigator.clipboard.readText()')).toBe('');
 	await expect(section.getByText('✔ Clipboard write successful!', { exact: true })).toBeHidden();
 
-	await section.getByRole('button', { name: 'Copy' }).first().click();
+	await section.getByRole('button', { name: 'Copy' }).click();
 
 	expect(await page.evaluate('navigator.clipboard.readText()')).toBe('Text 3');
 	await expect(section.getByText('✔ Clipboard write successful!', { exact: true })).toBeVisible();

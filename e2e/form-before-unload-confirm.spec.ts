@@ -18,8 +18,8 @@ test('submit', async ({ page }) => {
 		calledDialog = dialog;
 	});
 
-	await page.getByRole('textbox', { name: 'Type anything' }).first().fill('abc');
-	await page.getByRole('button', { name: 'Submit' }).first().click();
+	await page.getByRole('textbox', { name: 'Type anything' }).fill('abc');
+	await page.getByRole('button', { name: 'Submit' }).click();
 
 	expect(calledDialog).toBeUndefined();
 });
@@ -33,7 +33,7 @@ test.describe('link', () => {
 			calledDialog = dialog;
 		});
 
-		await page.getByRole('link', { name: 'example.com' }).first().click();
+		await page.getByRole('link', { name: 'example.com' }).click();
 
 		expect(calledDialog).toBeUndefined();
 	});
@@ -46,8 +46,8 @@ test.describe('link', () => {
 			calledDialog = dialog;
 		});
 
-		await page.getByRole('textbox', { name: 'Type anything' }).first().fill('abc');
-		await page.getByRole('link', { name: 'example.com' }).first().click();
+		await page.getByRole('textbox', { name: 'Type anything' }).fill('abc');
+		await page.getByRole('link', { name: 'example.com' }).click();
 
 		expect(calledDialog?.type()).toBe('beforeunload');
 	});

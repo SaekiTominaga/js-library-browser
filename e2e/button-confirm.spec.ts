@@ -20,7 +20,7 @@ test('data-message', async ({ page }) => {
 
 	expect(calledDialog).toBeUndefined();
 
-	await section.getByRole('button', { name: 'Submit' }).first().click();
+	await section.getByRole('button', { name: 'Submit' }).click();
 
 	expect(calledDialog?.type()).toBe('confirm');
 	expect(calledDialog?.message()).toBe('Message text');

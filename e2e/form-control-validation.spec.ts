@@ -59,8 +59,8 @@ test.afterEach(async ({ page }) => {
 test.describe('input text', () => {
 	test('validationMessage', async ({ browserName, page }) => {
 		const fieldset = page.locator('.fieldset').filter({ hasText: 'Telephone number' });
-		const alert = fieldset.getByRole('alert').first();
-		const button = page.getByRole('button', { name: 'Submit' }).first();
+		const alert = fieldset.getByRole('alert');
+		const button = page.getByRole('button', { name: 'Submit' });
 
 		await expect(alert).toBeHidden();
 
@@ -72,9 +72,9 @@ test.describe('input text', () => {
 
 	test('patternMismatch', async ({ page }) => {
 		const fieldset = page.locator('.fieldset').filter({ hasText: 'Telephone number' });
-		const input = fieldset.getByRole('textbox', { name: 'Telephone number (required)' }).first();
-		const alert = fieldset.getByRole('alert').first();
-		const button = page.getByRole('button', { name: 'Submit' }).first();
+		const input = fieldset.getByRole('textbox', { name: 'Telephone number (required)' });
+		const alert = fieldset.getByRole('alert');
+		const button = page.getByRole('button', { name: 'Submit' });
 
 		await input.fill('abc');
 		await button.click();
@@ -85,24 +85,26 @@ test.describe('input text', () => {
 
 	test('invalid → valid', async ({ page }) => {
 		const fieldset = page.locator('.fieldset').filter({ hasText: 'Telephone number' });
-		const input = fieldset.getByRole('textbox', { name: 'Telephone number (required)' }).first();
-		const alert = fieldset.getByRole('alert').first();
-		const button = page.getByRole('button', { name: 'Submit' }).first();
+		const input = fieldset.getByRole('textbox', { name: 'Telephone number (required)' });
+		const alert = fieldset.getByRole('alert');
+		const button = page.getByRole('button', { name: 'Submit' });
 
-		await button.click();
-
-		await expect(alert).toBeVisible();
-
-		await input.fill('123');
-
-		await expect(alert).toBeVisible();
-
-		await button.focus();
-
+		await expect(input).not.toHaveAttribute('aria-invalid');
 		await expect(alert).toBeHidden();
 
 		await button.click();
 
+		await expect(input).toHaveAttribute('aria-invalid', 'true');
+		await expect(alert).toBeVisible();
+
+		await input.fill('123');
+
+		await expect(input).toHaveAttribute('aria-invalid', 'true');
+		await expect(alert).toBeVisible();
+
+		await button.focus();
+
+		await expect(input).toHaveAttribute('aria-invalid', 'false');
 		await expect(alert).toBeHidden();
 	});
 });
@@ -110,22 +112,27 @@ test.describe('input text', () => {
 test.describe('radiogroup', () => {
 	test('invalid → valid', async ({ browserName, page }) => {
 		const fieldset = page.locator('.fieldset').filter({ hasText: 'Sex' });
-		const alert = fieldset.getByRole('alert').first();
-		const button = page.getByRole('button', { name: 'Submit' }).first();
+		const radiogroup = fieldset.getByRole('radiogroup');
+		const alert = fieldset.getByRole('alert');
+		const button = page.getByRole('button', { name: 'Submit' });
 
+		await expect(radiogroup).not.toHaveAttribute('aria-invalid');
 		await expect(alert).toBeHidden();
 
 		await button.click();
 
+		await expect(radiogroup).toHaveAttribute('aria-invalid', 'true');
 		await expect(alert).toBeVisible();
 		await expect(alert).toHaveText(getEmptyRadiogroupMessage(browserName));
 
 		await fieldset.getByRole('radio', { name: 'Neither' }).check();
 
+		await expect(radiogroup).toHaveAttribute('aria-invalid', 'false');
 		await expect(alert).toBeHidden();
 
 		await button.click();
 
+		await expect(radiogroup).toHaveAttribute('aria-invalid', 'false');
 		await expect(alert).toBeHidden();
 	});
 });
@@ -133,27 +140,32 @@ test.describe('radiogroup', () => {
 test.describe('select', () => {
 	test('invalid → valid → invalid', async ({ browserName, page }) => {
 		const fieldset = page.locator('.fieldset').filter({ has: page.getByRole('combobox') });
-		const select = fieldset.getByRole('combobox', { name: 'Age (required)' }).first();
-		const alert = fieldset.getByRole('alert').first();
-		const button = page.getByRole('button', { name: 'Submit' }).first();
+		const select = fieldset.getByRole('combobox', { name: 'Age (required)' });
+		const alert = fieldset.getByRole('alert');
+		const button = page.getByRole('button', { name: 'Submit' });
 
+		await expect(select).not.toHaveAttribute('aria-invalid');
 		await expect(alert).toBeHidden();
 
 		await button.click();
 
+		await expect(select).toHaveAttribute('aria-invalid', 'true');
 		await expect(alert).toBeVisible();
 		await expect(alert).toHaveText(getEmptyListboxMessage(browserName));
 
 		await select.selectOption('0–9');
 
+		await expect(select).toHaveAttribute('aria-invalid', 'false');
 		await expect(alert).toBeHidden();
 
 		await button.click();
 
+		await expect(select).toHaveAttribute('aria-invalid', 'false');
 		await expect(alert).toBeHidden();
 
 		await select.selectOption('');
 
+		await expect(select).toHaveAttribute('aria-invalid', 'true');
 		await expect(alert).toBeVisible();
 		await expect(alert).toHaveText(getEmptyListboxMessage(browserName));
 	});
@@ -162,25 +174,32 @@ test.describe('select', () => {
 test.describe('textarea', () => {
 	test('invalid → valid', async ({ browserName, page }) => {
 		const fieldset = page.locator('.fieldset').filter({ hasText: 'Message' });
-		const input = fieldset.getByRole('textbox', { name: 'Message (required)' }).first();
-		const alert = fieldset.getByRole('alert').first();
-		const button = page.getByRole('button', { name: 'Submit' }).first();
+		const textarea = fieldset.getByRole('textbox', { name: 'Message (required)' });
+		const alert = fieldset.getByRole('alert');
+		const button = page.getByRole('button', { name: 'Submit' });
 
-		await button.click();
-
-		await expect(alert).toBeVisible();
-		await expect(alert).toHaveText(getEmptyTextboxMessage(browserName));
-
-		await input.fill('abc');
-
-		await expect(alert).toBeVisible();
-
-		await button.focus();
-
+		await expect(textarea).not.toHaveAttribute('aria-invalid');
 		await expect(alert).toBeHidden();
 
 		await button.click();
 
+		await expect(textarea).toHaveAttribute('aria-invalid', 'true');
+		await expect(alert).toBeVisible();
+		await expect(alert).toHaveText(getEmptyTextboxMessage(browserName));
+
+		await textarea.fill('abc');
+
+		await expect(textarea).toHaveAttribute('aria-invalid', 'true');
+		await expect(alert).toBeVisible();
+
+		await button.focus();
+
+		await expect(textarea).toHaveAttribute('aria-invalid', 'false');
+		await expect(alert).toBeHidden();
+
+		await button.click();
+
+		await expect(textarea).toHaveAttribute('aria-invalid', 'false');
 		await expect(alert).toBeHidden();
 	});
 });

@@ -32,14 +32,14 @@ test('pause → play → pause', async ({ page }) => {
 	expect(Math.floor(await video2.evaluate(getCurrentTime))).toBe(0);
 	expect(await video2.evaluate(getPaused)).toBeTruthy();
 
-	await page.getByRole('button', { name: 'Simultaneous playback' }).first().click();
+	await page.getByRole('button', { name: 'Simultaneous playback' }).click();
 
 	expect(Math.floor(await video1.evaluate(getCurrentTime))).toBe(0);
 	expect(await video1.evaluate(getPaused)).toBeFalsy();
 	expect(Math.floor(await video2.evaluate(getCurrentTime))).toBe(0);
 	expect(await video2.evaluate(getPaused)).toBeFalsy();
 
-	await page.getByRole('button', { name: 'Simultaneous playback' }).first().click();
+	await page.getByRole('button', { name: 'Simultaneous playback' }).click();
 
 	expect(Math.floor(await video1.evaluate(getCurrentTime))).toBe(0);
 	expect(await video1.evaluate(getPaused)).toBeTruthy();
@@ -59,7 +59,7 @@ test('difference in current time', async ({ page }) => {
 	expect(Math.floor(await video2.evaluate(getCurrentTime))).toBe(2);
 	expect(await video1.evaluate(getPaused)).toBeTruthy();
 
-	await page.getByRole('button', { name: 'Simultaneous playback' }).first().click();
+	await page.getByRole('button', { name: 'Simultaneous playback' }).click();
 
 	expect(Math.floor(await video1.evaluate(getCurrentTime))).toBe(1);
 	expect(await video1.evaluate(getPaused)).toBeFalsy();
@@ -79,7 +79,7 @@ test('All videos have finished playing', async ({ browserName, page }) => {
 	expect(await video1.evaluate(($video: HTMLMediaElement) => $video.ended)).toBeTruthy();
 	expect(await video2.evaluate(($video: HTMLMediaElement) => $video.ended)).toBeTruthy();
 
-	await page.getByRole('button', { name: 'Simultaneous playback' }).first().click();
+	await page.getByRole('button', { name: 'Simultaneous playback' }).click();
 
 	expect(Math.floor(await video1.evaluate(getCurrentTime))).toBe(0);
 	expect(await video1.evaluate(getPaused)).toBeFalsy();
