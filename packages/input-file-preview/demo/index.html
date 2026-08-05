@@ -7,8 +7,7 @@
 			output {
 				box-sizing: border-box;
 				display: block flow;
-				block-size: 300px;
-				inline-size: 300px;
+				max-inline-size: 300px;
 
 				&:not(:has(:is(img, audio, video))) {
 					border: 1px solid #000;
@@ -55,7 +54,7 @@
 		<h1><code>input-file-preview</code> Demo</h1>
 
 		<section>
-			<h2><code>data-preview</code> attribute</h2>
+			<h2>Minimal attributes (<code>data-preview</code> attribute)</h2>
 
 			<p>
 				<input type="file" class="js-input-file-preview" data-preview="preview1" id="input-file1" />
@@ -70,10 +69,10 @@
 		</section>
 
 		<section>
-			<h2><code>multiple</code>, <code>data-preview</code>, <code>data-max-size</code> attribute</h2>
+			<h2><code>multiple</code> attribute</h2>
 
 			<p>
-				<input type="file" multiple="" class="js-input-file-preview" data-preview="preview2" data-max-size="1048576" id="input-file2" />
+				<input type="file" multiple="" class="js-input-file-preview" data-preview="preview2" id="input-file2" />
 			</p>
 			<ul>
 				<template id="preview2">
@@ -82,10 +81,25 @@
 					</li>
 				</template>
 			</ul>
+		</section>
+
+		<section>
+			<h2><code>data-max-size</code> attribute</h2>
 
 			<p>
-				* Files larger than 1 MiB (<code>data-max-size="1048576"</code>) or files in formats other than image / audio / video will not be previewed and an error
-				message will be displayed.
+				<input type="file" class="js-input-file-preview" data-preview="preview3" data-max-size="102400" id="input-file3" />
+			</p>
+			<ul>
+				<template id="preview3">
+					<li>
+						<output for="input-file3"><code>${name}</code> (<data value="${size}">${size} byte</data>) cannot be previewed.</output>
+					</li>
+				</template>
+			</ul>
+
+			<p>
+				* Files larger than 100 KiB (<code>data-max-size="102400"</code>) or files in formats other than image / audio / video will not be previewed and an
+				error message will be displayed.
 			</p>
 		</section>
 	</body>
