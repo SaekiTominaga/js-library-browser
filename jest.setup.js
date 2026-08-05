@@ -37,6 +37,3 @@ URL.canParse = (url, base) => {
 	}
 	return true;
 };
-
-/* window: confirm */
-window.confirm = () => false;
