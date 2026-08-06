@@ -161,4 +161,21 @@ test.describe('validity', () => {
 
 		expect(await input.evaluate(($input: HTMLInputElement): string => $input.validationMessage)).toBe('Please enter a value before A.D.2020.');
 	});
+
+	test('valid', async ({ page }) => {
+		const section = page.locator('section').filter({ hasText: 'Minimal attributes' });
+		const input = section.getByRole('textbox');
+
+		await input.fill('2021-01-01');
+		await section.getByRole('button', { name: 'Submit' }).focus();
+
+		const validityState = await input.evaluate(($input: HTMLInputElement): Partial<ValidityState> => {
+			const { validity } = $input;
+			return {
+				valid: validity.valid,
+			};
+		});
+
+		expect(validityState.valid).toBeTruthy();
+	});
 });
