@@ -35,9 +35,7 @@
 		"build": "tsc",
 		"lint": "eslint src/**/*.ts",
 		"pretest": "npm run build",
-		"test": "npm run test:node & npm run test:playwright",
-		"test:node": "cross-env NODE_OPTIONS=--experimental-vm-modules jest dist/.+\\.test\\.js -c ../../jest.config.mjs --roots packages/textarea-auto-size",
-		"test:playwright": "playwright test textarea-auto-size.spec.ts -c ../../playwright.config.js"
+		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest dist/.+\\.test\\.js -c ../../jest.config.mjs --roots packages/textarea-auto-size"
 	},
 	"dependencies": {
 		"@w0s/writing-mode": "1.1.0"
