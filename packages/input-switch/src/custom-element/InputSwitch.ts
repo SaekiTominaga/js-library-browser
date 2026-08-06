@@ -139,7 +139,7 @@ export default class InputSwitch extends HTMLElement {
 		this.#initilalChecked = checked;
 		this.tabIndex = disabled ? -1 : 0;
 		this.setAttribute('role', 'switch');
-		this.setAttribute('aria-checked', String(checked));
+		this.setAttribute('aria-checked', String(this.checked));
 		this.setAttribute('aria-disabled', String(disabled));
 
 		if (!disabled) {
