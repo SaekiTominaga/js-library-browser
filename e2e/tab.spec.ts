@@ -213,7 +213,7 @@ test.describe('storage', () => {
 
 		expect(await page.evaluate(() => sessionStorage.getItem('tab3'))).toBe('tabpanel3-2');
 
-		await page.reload({ waitUntil: 'domcontentloaded' });
+		await page.reload();
 
 		await Promise.all([
 			expect(tab1).toHaveAttribute('tabindex', '-1'),
@@ -261,7 +261,7 @@ test.describe('storage', () => {
 		const tabpanel3 = tabpanels.nth(2);
 
 		await tab2.click();
-		await page.reload({ waitUntil: 'domcontentloaded' });
+		await page.reload();
 
 		await Promise.all([
 			expect(tab1).toHaveAttribute('tabindex', '0'),
