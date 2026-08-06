@@ -13,8 +13,7 @@
 <script type="importmap">
   {
     "imports": {
-      "@w0s/table-cell-ditto": "...",
-      "text-metrics": "..."
+      "@w0s/table-cell-ditto": "..."
     }
   }
 </script>
@@ -49,6 +48,8 @@
   </tbody>
 </table>
 ```
+
+\* **`text-metrics` is no longer required since version 4.2**
 
 ### NG cases
 

@@ -36,12 +36,6 @@
 		"test:node": "cross-env NODE_OPTIONS=--experimental-vm-modules jest dist/.+\\.test\\.js -c ../../jest.config.mjs --roots packages/table-cell-ditto",
 		"test:playwright": "playwright test table-cell-ditto.spec.ts -c ../../playwright.config.js"
 	},
-	"dependencies": {
-		"text-metrics": "4.0.1"
-	},
-	"devDependencies": {
-		"@types/text-metrics": "3.0.4"
-	},
 	"publishConfig": {
 		"access": "public"
 	}

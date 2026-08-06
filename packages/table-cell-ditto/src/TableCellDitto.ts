@@ -1,4 +1,4 @@
-import { init as textMetrics } from 'text-metrics';
+import { getTextWidth } from './util/htmlElement.ts';
 
 interface Option {
 	mark: string;
@@ -15,8 +15,6 @@ export default class {
 
 	readonly #dittoMark: string; // ノノ字点
 
-	readonly #dittoMarkWidth: number = 0; // ノノ字点の幅
-
 	readonly #cellSelector: string; // セル（<th>, <td> 要素）のセレクター
 
 	/**
@@ -30,18 +28,12 @@ export default class {
 		this.#dittoMark = options?.mark ?? '"';
 		this.#cellSelector = (options?.th ?? false) ? ':is(th, td)' : 'td';
 
-		const firstRowCellElements = thisElement
-			.querySelector(':scope > tbody')
-			?.querySelectorAll<HTMLTableCellElement>(`:scope > tr:first-child > ${this.#cellSelector}`); // 表の列数
+		const firstRowCellElements = thisElement.querySelector(':scope > tbody')?.querySelectorAll(`:scope > tr:first-child > ${this.#cellSelector}`); // 表の列数
 		if (firstRowCellElements === undefined) {
 			throw new Error('Table body cell does not exist in the specified table.');
 		}
 
 		this.#col = firstRowCellElements.length;
-		if (firstRowCellElements.length > 0) {
-			const metrics = textMetrics(firstRowCellElements.item(0));
-			this.#dittoMarkWidth = metrics.width(this.#dittoMark);
-		}
 	}
 
 	/**
@@ -49,8 +41,8 @@ export default class {
 	 */
 	convert(): void {
 		this.#thisElement.querySelectorAll(':scope > tbody').forEach((tbodyElement) => {
-			const aboveCellText = new Array(this.#col) as string[]; // 直上行のセルの中身
-			const aboveRowspans = new Array(this.#col) as number[]; //
+			const aboveCellText = new Array<string>(this.#col); // 直上行のセルの中身
+			const aboveRowspans = new Array<number>(this.#col); //
 
 			tbodyElement.querySelectorAll(':scope > tr').forEach((trElement, trIndex) => {
 				let skip = 0;
@@ -75,32 +67,30 @@ export default class {
 					aboveRowspans[colIndex] = rowspan;
 
 					if (trIndex >= 1 && text !== undefined && text !== '' && text === aboveCellText[colIndex]) {
-						/* 表示位置調整 */
-						switch (getComputedStyle(tdElement, '').textAlign) {
-							case 'start': {
-								const metrics = textMetrics(tdElement);
-
-								const paddingStart = getComputedStyle(tdElement).paddingInlineStart;
-								tdElement.style.paddingInlineStart = `calc((${String(Math.round(metrics.width(text)))}px - ${String(
-									this.#dittoMarkWidth,
-								)}px) / 2 + ${paddingStart})`;
-								break;
-							}
-							case 'end': {
-								const metrics = textMetrics(tdElement);
-
-								const paddingEnd = getComputedStyle(tdElement).paddingInlineEnd;
-								tdElement.style.paddingInlineEnd = `calc((${String(Math.round(metrics.width(text)))}px - ${String(
-									this.#dittoMarkWidth,
-								)}px) / 2 + ${paddingEnd})`;
-								break;
-							}
-							default:
-						}
+						const cellTextWidth = getTextWidth(tdElement);
 
 						/* テキスト変換 */
 						tdElement.title = text;
 						tdElement.textContent = this.#dittoMark;
+
+						const dittoMarkWidth = getTextWidth(tdElement);
+
+						/* 表示位置調整 */
+						switch (getComputedStyle(tdElement, '').textAlign) {
+							case 'start': {
+								const paddingInlineStart = Number(getComputedStyle(tdElement).paddingInlineStart.replace(/px$/v, ''));
+
+								tdElement.style.paddingInlineStart = `${((cellTextWidth - dittoMarkWidth) / 2 + paddingInlineStart).toFixed(2)}px`;
+								break;
+							}
+							case 'end': {
+								const paddingInlineEnd = Number(getComputedStyle(tdElement).paddingInlineEnd.replace(/px$/v, ''));
+
+								tdElement.style.paddingInlineEnd = `${((cellTextWidth - dittoMarkWidth) / 2 + paddingInlineEnd).toFixed(2)}px`;
+								break;
+							}
+							default:
+						}
 					}
 
 					aboveCellText[colIndex] = text ?? '';
