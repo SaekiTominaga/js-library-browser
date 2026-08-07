@@ -66,8 +66,7 @@ test.describe('input text', () => {
 
 		await button.click();
 
-		await expect(alert).toBeVisible();
-		await expect(alert).toHaveText(getEmptyTextboxMessage(browserName));
+		await Promise.all([expect(alert).toBeVisible(), expect(alert).toHaveText(getEmptyTextboxMessage(browserName))]);
 	});
 
 	test('patternMismatch', async ({ page }) => {
@@ -79,8 +78,7 @@ test.describe('input text', () => {
 		await input.fill('abc');
 		await button.click();
 
-		await expect(alert).toBeVisible();
-		await expect(alert).toHaveText('Phone numbers is numbers and hyphens only.');
+		await Promise.all([expect(alert).toBeVisible(), expect(alert).toHaveText('Phone numbers is numbers and hyphens only.')]);
 	});
 
 	test('invalid → valid', async ({ page }) => {
@@ -89,23 +87,19 @@ test.describe('input text', () => {
 		const alert = fieldset.getByRole('alert');
 		const button = page.getByRole('button', { name: 'Submit' });
 
-		await expect(input).not.toHaveAttribute('aria-invalid');
-		await expect(alert).toBeHidden();
+		await Promise.all([expect(input).not.toHaveAttribute('aria-invalid'), expect(alert).toBeHidden()]);
 
 		await button.click();
 
-		await expect(input).toHaveAttribute('aria-invalid', 'true');
-		await expect(alert).toBeVisible();
+		await Promise.all([expect(input).toHaveAttribute('aria-invalid', 'true'), expect(alert).toBeVisible()]);
 
 		await input.fill('123');
 
-		await expect(input).toHaveAttribute('aria-invalid', 'true');
-		await expect(alert).toBeVisible();
+		await Promise.all([expect(input).toHaveAttribute('aria-invalid', 'true'), expect(alert).toBeVisible()]);
 
 		await button.focus();
 
-		await expect(input).toHaveAttribute('aria-invalid', 'false');
-		await expect(alert).toBeHidden();
+		await Promise.all([expect(input).toHaveAttribute('aria-invalid', 'false'), expect(alert).toBeHidden()]);
 	});
 });
 
@@ -116,24 +110,23 @@ test.describe('radiogroup', () => {
 		const alert = fieldset.getByRole('alert');
 		const button = page.getByRole('button', { name: 'Submit' });
 
-		await expect(radiogroup).not.toHaveAttribute('aria-invalid');
-		await expect(alert).toBeHidden();
+		await Promise.all([expect(radiogroup).not.toHaveAttribute('aria-invalid'), expect(alert).toBeHidden()]);
 
 		await button.click();
 
-		await expect(radiogroup).toHaveAttribute('aria-invalid', 'true');
-		await expect(alert).toBeVisible();
-		await expect(alert).toHaveText(getEmptyRadiogroupMessage(browserName));
+		await Promise.all([
+			expect(radiogroup).toHaveAttribute('aria-invalid', 'true'),
+			expect(alert).toBeVisible(),
+			expect(alert).toHaveText(getEmptyRadiogroupMessage(browserName)),
+		]);
 
 		await fieldset.getByRole('radio', { name: 'Neither' }).check();
 
-		await expect(radiogroup).toHaveAttribute('aria-invalid', 'false');
-		await expect(alert).toBeHidden();
+		await Promise.all([expect(radiogroup).toHaveAttribute('aria-invalid', 'false'), expect(alert).toBeHidden()]);
 
 		await button.click();
 
-		await expect(radiogroup).toHaveAttribute('aria-invalid', 'false');
-		await expect(alert).toBeHidden();
+		await Promise.all([expect(radiogroup).toHaveAttribute('aria-invalid', 'false'), expect(alert).toBeHidden()]);
 	});
 });
 
@@ -144,30 +137,31 @@ test.describe('select', () => {
 		const alert = fieldset.getByRole('alert');
 		const button = page.getByRole('button', { name: 'Submit' });
 
-		await expect(select).not.toHaveAttribute('aria-invalid');
-		await expect(alert).toBeHidden();
+		await Promise.all([expect(select).not.toHaveAttribute('aria-invalid'), expect(alert).toBeHidden()]);
 
 		await button.click();
 
-		await expect(select).toHaveAttribute('aria-invalid', 'true');
-		await expect(alert).toBeVisible();
-		await expect(alert).toHaveText(getEmptyListboxMessage(browserName));
+		await Promise.all([
+			expect(select).toHaveAttribute('aria-invalid', 'true'),
+			expect(alert).toBeVisible(),
+			expect(alert).toHaveText(getEmptyListboxMessage(browserName)),
+		]);
 
 		await select.selectOption('0–9');
 
-		await expect(select).toHaveAttribute('aria-invalid', 'false');
-		await expect(alert).toBeHidden();
+		await Promise.all([expect(select).toHaveAttribute('aria-invalid', 'false'), expect(alert).toBeHidden()]);
 
 		await button.click();
 
-		await expect(select).toHaveAttribute('aria-invalid', 'false');
-		await expect(alert).toBeHidden();
+		await Promise.all([expect(select).toHaveAttribute('aria-invalid', 'false'), expect(alert).toBeHidden()]);
 
 		await select.selectOption('');
 
-		await expect(select).toHaveAttribute('aria-invalid', 'true');
-		await expect(alert).toBeVisible();
-		await expect(alert).toHaveText(getEmptyListboxMessage(browserName));
+		await Promise.all([
+			expect(select).toHaveAttribute('aria-invalid', 'true'),
+			expect(alert).toBeVisible(),
+			expect(alert).toHaveText(getEmptyListboxMessage(browserName)),
+		]);
 	});
 });
 
@@ -178,28 +172,26 @@ test.describe('textarea', () => {
 		const alert = fieldset.getByRole('alert');
 		const button = page.getByRole('button', { name: 'Submit' });
 
-		await expect(textarea).not.toHaveAttribute('aria-invalid');
-		await expect(alert).toBeHidden();
+		await Promise.all([expect(textarea).not.toHaveAttribute('aria-invalid'), expect(alert).toBeHidden()]);
 
 		await button.click();
 
-		await expect(textarea).toHaveAttribute('aria-invalid', 'true');
-		await expect(alert).toBeVisible();
-		await expect(alert).toHaveText(getEmptyTextboxMessage(browserName));
+		await Promise.all([
+			expect(textarea).toHaveAttribute('aria-invalid', 'true'),
+			expect(alert).toBeVisible(),
+			expect(alert).toHaveText(getEmptyTextboxMessage(browserName)),
+		]);
 
 		await textarea.fill('abc');
 
-		await expect(textarea).toHaveAttribute('aria-invalid', 'true');
-		await expect(alert).toBeVisible();
+		await Promise.all([expect(textarea).toHaveAttribute('aria-invalid', 'true'), expect(alert).toBeVisible()]);
 
 		await button.focus();
 
-		await expect(textarea).toHaveAttribute('aria-invalid', 'false');
-		await expect(alert).toBeHidden();
+		await Promise.all([expect(textarea).toHaveAttribute('aria-invalid', 'false'), expect(alert).toBeHidden()]);
 
 		await button.click();
 
-		await expect(textarea).toHaveAttribute('aria-invalid', 'false');
-		await expect(alert).toBeHidden();
+		await Promise.all([expect(textarea).toHaveAttribute('aria-invalid', 'false'), expect(alert).toBeHidden()]);
 	});
 });

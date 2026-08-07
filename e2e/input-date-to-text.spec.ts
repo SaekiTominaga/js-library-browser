@@ -13,32 +13,36 @@ test.describe('init', () => {
 		const section = page.locator('section').filter({ hasText: 'Minimal attributes' });
 		const input = section.getByRole('textbox');
 
-		await expect(input).toHaveAttribute('type', 'text');
-		await expect(input).toHaveAttribute('minlength', '8');
-		await expect(input).toHaveAttribute('pattern', '([0-9０-９]{8})|([0-9０-９]{4}[\\-\\/－／][0-9０-９]{1,2}[\\-\\/－／][0-9０-９]{1,2})');
-		await expect(input).toHaveAttribute('placeholder', 'YYYY-MM-DD');
+		await Promise.all([
+			expect(input).toHaveAttribute('type', 'text'),
+			expect(input).toHaveAttribute('minlength', '8'),
+			expect(input).toHaveAttribute('pattern', '([0-9０-９]{8})|([0-9０-９]{4}[\\-\\/－／][0-9０-９]{1,2}[\\-\\/－／][0-9０-９]{1,2})'),
+			expect(input).toHaveAttribute('placeholder', 'YYYY-MM-DD'),
+		]);
 	});
 
 	test('data-title attribute', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'data-title attribute' });
 		const input = section.getByRole('textbox');
 
-		await expect(input).not.toHaveAttribute('data-title');
-		await expect(input).toHaveAttribute('title', 'Dates should be consecutive numbers or separated by `-` or `/` in the order of year, month, and day.');
+		await Promise.all([
+			expect(input).not.toHaveAttribute('data-title'),
+			expect(input).toHaveAttribute('title', 'Dates should be consecutive numbers or separated by `-` or `/` in the order of year, month, and day.'),
+		]);
 	});
 
 	test('min attribute', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'min, data-validation-min attribute' });
 		const input = section.getByRole('textbox');
 
-		await expect(input).not.toHaveAttribute('min');
+		await Promise.all([expect(input).not.toHaveAttribute('min')]);
 	});
 
 	test('max attribute', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'max, data-validation-max attribute' });
 		const input = section.getByRole('textbox');
 
-		await expect(input).not.toHaveAttribute('max');
+		await Promise.all([expect(input).not.toHaveAttribute('max')]);
 	});
 });
 

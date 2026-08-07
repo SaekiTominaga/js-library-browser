@@ -25,15 +25,19 @@ test.describe('convert', () => {
 
 		const targetCell = tbody.nth(0).getByRole('row').nth(1).getByRole('rowheader').nth(0);
 
-		await expect(targetCell).toHaveText('"');
-		await expect(targetCell).toHaveAttribute('title', 'header cell');
-		await expect(targetCell).not.toHaveAttribute('style');
+		await Promise.all([
+			expect(targetCell).toHaveText('"'),
+			expect(targetCell).toHaveAttribute('title', 'header cell'),
+			expect(targetCell).not.toHaveAttribute('style'),
+		]);
 
 		await switchButton.click();
 
-		await expect(targetCell).toHaveText('header cell');
-		await expect(targetCell).not.toHaveAttribute('title');
-		await expect(targetCell).not.toHaveAttribute('style');
+		await Promise.all([
+			expect(targetCell).toHaveText('header cell'),
+			expect(targetCell).not.toHaveAttribute('title'),
+			expect(targetCell).not.toHaveAttribute('style'),
+		]);
 	});
 
 	test('style attribute', async ({ page }) => {
@@ -44,15 +48,19 @@ test.describe('convert', () => {
 
 		const targetCell = tbody.nth(0).getByRole('row').nth(2).getByRole('cell').nth(0);
 
-		await expect(targetCell).toHaveText('"');
-		await expect(targetCell).toHaveAttribute('title', 'data cell 1');
-		await expect(targetCell).toHaveAttribute('style');
+		await Promise.all([
+			expect(targetCell).toHaveText('"'),
+			expect(targetCell).toHaveAttribute('title', 'data cell 1'),
+			expect(targetCell).toHaveAttribute('style'),
+		]);
 
 		await switchButton.click();
 
-		await expect(targetCell).toHaveText('data cell 1');
-		await expect(targetCell).not.toHaveAttribute('title');
-		await expect(targetCell).toHaveAttribute('style', '');
+		await Promise.all([
+			expect(targetCell).toHaveText('data cell 1'),
+			expect(targetCell).not.toHaveAttribute('title'),
+			expect(targetCell).toHaveAttribute('style', ''),
+		]);
 	});
 });
 
@@ -71,8 +79,10 @@ test.describe('text-align', () => {
 		const cellPadding = Number.parseInt(await aboveCell.evaluate(($element): string => getComputedStyle($element).paddingInlineStart), 10);
 		const padding = (cellTextWidth - dittoMarkWidth) / 2 + cellPadding;
 
-		await expect(targetCell).toHaveText('"');
-		await expect(targetCell).toHaveAttribute('style', `padding-inline-start: ${String(Number(padding.toFixed(2)))}px;`);
+		await Promise.all([
+			expect(targetCell).toHaveText('"'),
+			expect(targetCell).toHaveAttribute('style', `padding-inline-start: ${String(Number(padding.toFixed(2)))}px;`),
+		]);
 	});
 
 	test('center', async ({ page }) => {
@@ -83,8 +93,7 @@ test.describe('text-align', () => {
 
 		const targetCell = tbody.nth(0).getByRole('row').nth(1).getByRole('rowheader').nth(0);
 
-		await expect(targetCell).toHaveText('"');
-		await expect(targetCell).not.toHaveAttribute('style');
+		await Promise.all([expect(targetCell).toHaveText('"'), expect(targetCell).not.toHaveAttribute('style')]);
 	});
 
 	test('right', async ({ page }) => {
@@ -101,7 +110,9 @@ test.describe('text-align', () => {
 		const cellPadding = Number.parseInt(await aboveCell.evaluate(($element): string => getComputedStyle($element).paddingInlineEnd), 10);
 		const padding = (cellTextWidth - dittoMarkWidth) / 2 + cellPadding;
 
-		await expect(targetCell).toHaveText('"');
-		await expect(targetCell).toHaveAttribute('style', `text-align: end; padding-inline-end: ${String(Number(padding.toFixed(2)))}px;`);
+		await Promise.all([
+			expect(targetCell).toHaveText('"'),
+			expect(targetCell).toHaveAttribute('style', `text-align: end; padding-inline-end: ${String(Number(padding.toFixed(2)))}px;`),
+		]);
 	});
 });

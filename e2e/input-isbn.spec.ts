@@ -11,12 +11,14 @@ test.afterEach(async ({ page }) => {
 test('init', async ({ page }) => {
 	const input = page.getByRole('textbox');
 
-	await expect(input).toHaveAttribute('minlength', '10');
-	await expect(input).toHaveAttribute('maxlength', '17');
-	await expect(input).toHaveAttribute(
-		'pattern',
-		'(978|979)-[0-9]{1,5}-[0-9]{1,7}-[0-9]{1,7}-[0-9]|[0-9]{13}|[0-9]{1,5}-[0-9]{1,7}-[0-9]{1,7}-[0-9X]|[0-9]{9}[0-9X]',
-	);
+	await Promise.all([
+		expect(input).toHaveAttribute('minlength', '10'),
+		expect(input).toHaveAttribute('maxlength', '17'),
+		expect(input).toHaveAttribute(
+			'pattern',
+			'(978|979)-[0-9]{1,5}-[0-9]{1,7}-[0-9]{1,7}-[0-9]|[0-9]{13}|[0-9]{1,5}-[0-9]{1,7}-[0-9]{1,7}-[0-9X]|[0-9]{9}[0-9X]',
+		),
+	]);
 });
 
 test.describe('validity', () => {

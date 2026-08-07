@@ -22,12 +22,10 @@ test.describe('file type', () => {
 
 		await input.setInputFiles(path.resolve(demoDir, 'sample.png'));
 
-		await expect(output).toBeVisible();
+		await Promise.all([expect(output).toBeVisible(), expect(output).toHaveText(''), expect(output.locator('img')).toHaveAttribute('alt', 'sample.png')]);
 		expect(await output.locator('img').count()).toBe(1);
-		await expect(output.locator('img')).toHaveAttribute('alt', 'sample.png');
 		expect(await output.locator('audio').count()).toBe(0);
 		expect(await output.locator('video').count()).toBe(0);
-		await expect(output).toHaveText('');
 	});
 
 	test('audio', async ({ page }) => {
@@ -39,12 +37,10 @@ test.describe('file type', () => {
 
 		await input.setInputFiles(path.resolve(demoDir, 'sample.mp3'));
 
-		await expect(output).toBeVisible();
+		await Promise.all([expect(output).toBeVisible(), expect(output).toHaveText('sample.mp3'), expect(output.locator('audio')).toHaveText('sample.mp3')]);
 		expect(await output.locator('img').count()).toBe(0);
 		expect(await output.locator('audio').count()).toBe(1);
-		await expect(output.locator('audio')).toHaveText('sample.mp3');
 		expect(await output.locator('video').count()).toBe(0);
-		await expect(output).toHaveText('sample.mp3');
 	});
 
 	test('video', async ({ page }) => {
@@ -56,12 +52,10 @@ test.describe('file type', () => {
 
 		await input.setInputFiles(path.resolve(demoDir, 'sample.webm'));
 
-		await expect(output).toBeVisible();
+		await Promise.all([expect(output).toBeVisible(), expect(output).toHaveText('sample.webm'), expect(output.locator('video')).toHaveText('sample.webm')]);
 		expect(await output.locator('img').count()).toBe(0);
 		expect(await output.locator('audio').count()).toBe(0);
 		expect(await output.locator('video').count()).toBe(1);
-		await expect(output.locator('video')).toHaveText('sample.webm');
-		await expect(output).toHaveText('sample.webm');
 	});
 
 	test('text', async ({ page }) => {
@@ -73,11 +67,10 @@ test.describe('file type', () => {
 
 		await input.setInputFiles(path.resolve(demoDir, 'sample.txt'));
 
-		await expect(output).toBeVisible();
+		await Promise.all([expect(output).toBeVisible(), expect(output).toHaveText('sample.txt (20 byte) cannot be previewed.')]);
 		expect(await output.locator('img').count()).toBe(0);
 		expect(await output.locator('audio').count()).toBe(0);
 		expect(await output.locator('video').count()).toBe(0);
-		await expect(output).toHaveText('sample.txt (20 byte) cannot be previewed.');
 	});
 });
 
@@ -88,10 +81,9 @@ test('multiple', async ({ page }) => {
 
 	await input.setInputFiles([path.resolve(demoDir, 'sample.mp3'), path.resolve(demoDir, 'sample.png')]);
 
+	await Promise.all([expect(output.nth(0)).toBeVisible(), expect(output.nth(1)).toBeVisible()]);
 	expect(await output.count()).toBe(2);
-	await expect(output.nth(0)).toBeVisible();
 	expect(await output.nth(0).locator('audio').count()).toBe(1);
-	await expect(output.nth(1)).toBeVisible();
 	expect(await output.nth(1).locator('img').count()).toBe(1);
 });
 
