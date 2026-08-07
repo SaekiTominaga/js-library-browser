@@ -57,6 +57,12 @@ export default defineConfig([
 		},
 	},
 	{
+		files: ['packages/*/src/**/*.test.ts'],
+		rules: {
+			'import/no-extraneous-dependencies': 'off', // Allow imports from `@jest/globals`
+		},
+	},
+	{
 		/* Custom elements */
 		files: [
 			'packages/footnote-reference-popover/src/custom-element/Popover.ts',
