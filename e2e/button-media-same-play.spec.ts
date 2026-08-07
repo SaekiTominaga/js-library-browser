@@ -16,8 +16,19 @@ const setCurrentTime = ($video: HTMLMediaElement, time: number): void => {
 	$video.currentTime = time;
 };
 
-const setEndTime = ($video: HTMLMediaElement): void => {
-	$video.currentTime = Math.ceil($video.duration);
+const setEnded = async ($video: HTMLMediaElement): Promise<void> => {
+	$video.currentTime = Math.floor($video.duration);
+	await $video.play();
+
+	return new Promise((resolve) => {
+		$video.addEventListener(
+			'ended',
+			() => {
+				resolve();
+			},
+			{ once: true },
+		);
+	});
 };
 
 const getPaused = ($video: HTMLMediaElement): boolean => $video.paused;
@@ -67,14 +78,12 @@ test('difference in current time', async ({ page }) => {
 	expect(await video2.evaluate(getPaused)).toBeFalsy();
 });
 
-test('All videos have finished playing', async ({ browserName, page }) => {
-	test.skip(['chromium'].includes(browserName), 'Exclude browsers that do not correctly return `HTMLMediaElement.ended`');
-
+test('All videos have finished playing', async ({ page }) => {
 	const videos = page.locator('video');
 	const video1 = videos.nth(0);
 	const video2 = videos.nth(1);
 
-	await Promise.all([video1.evaluate(setEndTime), video2.evaluate(setEndTime)]);
+	await Promise.all([video1.evaluate(setEnded), video2.evaluate(setEnded)]);
 
 	expect(await video1.evaluate(($video: HTMLMediaElement) => $video.ended)).toBeTruthy();
 	expect(await video2.evaluate(($video: HTMLMediaElement) => $video.ended)).toBeTruthy();
