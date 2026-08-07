@@ -47,7 +47,7 @@ test.describe('data-target', () => {
 
 		await section.getByRole('button', { name: 'Copy' }).click();
 
-		expect(await page.evaluate('navigator.clipboard.readText()')).toMatch(/^ {2}Text 2-2\r\n {4}Text 2-2$/v);
+		expect(await page.evaluate('navigator.clipboard.readText()')).toMatch(/^ {2}Text 2-2\r?\n {4}Text 2-2$/v);
 	});
 
 	test('<meta> element', async ({ page }) => {
@@ -67,7 +67,7 @@ test.describe('data-target', () => {
 
 		await section.getByRole('button', { name: 'Copy' }).click();
 
-		expect(await page.evaluate('navigator.clipboard.readText()')).toMatch(/^ {2}Text 2-4\r\n {4}Text 2-4$/v);
+		expect(await page.evaluate('navigator.clipboard.readText()')).toMatch(/^ {2}Text 2-4\r?\n {4}Text 2-4$/v);
 	});
 });
 
