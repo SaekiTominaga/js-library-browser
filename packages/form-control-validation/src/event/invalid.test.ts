@@ -11,28 +11,28 @@ beforeAll(() => {
 });
 
 test('invalid event', () => {
-	const inputElement = document.querySelector('input')!;
-	const title = new Title(inputElement.getAttribute('title'));
-	const errorMessage = new ErrorMessage(inputElement.getAttribute('aria-errormessage'));
+	const $input = document.querySelector('input')!;
+	const title = new Title($input.getAttribute('title'));
+	const errorMessage = new ErrorMessage($input.getAttribute('aria-errormessage'));
 
-	expect(inputElement.getAttribute('aria-invalid')).toBeNull();
-	expect(inputElement.validationMessage).toBe('');
+	expect($input.getAttribute('aria-invalid')).toBeNull();
+	expect($input.validationMessage).toBe('');
 	expect(errorMessage.element.hidden).toBeTruthy();
 	expect(errorMessage.element.innerHTML).toBe('');
 
 	const event = new Event('invalid');
 
-	inputElement.setCustomValidity('error message');
-	Object.defineProperty(event, 'currentTarget', { value: inputElement });
+	$input.setCustomValidity('error message');
+	Object.defineProperty(event, 'currentTarget', { value: $input });
 	invalidEvent(event, {
-		targetElement: inputElement,
-		formControlElements: [inputElement],
+		targetElement: $input,
+		formControlElements: [$input],
 		errorMessage: errorMessage,
 		title: title,
 	});
 
-	expect(inputElement.getAttribute('aria-invalid')).toBe('true');
-	expect(inputElement.validationMessage).toBe('error message');
+	expect($input.getAttribute('aria-invalid')).toBe('true');
+	expect($input.validationMessage).toBe('error message');
 	expect(errorMessage.element.hidden).toBeFalsy();
 	expect(errorMessage.element.innerHTML).toBe('error message');
 });

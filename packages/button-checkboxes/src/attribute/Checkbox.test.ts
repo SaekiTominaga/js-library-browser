@@ -21,15 +21,15 @@ test('all attributes', () => {
 <input type="checkbox" class="checkbox-class" id="checkbox6" checked="" />
 `;
 
-	const checkboxes = new Checkbox({ id: 'checkboxes', class: 'checkbox-class', name: 'checkbox-name' }).elements;
+	const $checkboxes = new Checkbox({ id: 'checkboxes', class: 'checkbox-class', name: 'checkbox-name' }).elements;
 
-	expect(checkboxes.length).toBe(6);
-	expect(checkboxes.at(0)?.id).toBe('checkbox1');
-	expect(checkboxes.at(1)?.id).toBe('checkbox2');
-	expect(checkboxes.at(2)?.id).toBe('checkbox5');
-	expect(checkboxes.at(3)?.id).toBe('checkbox6');
-	expect(checkboxes.at(4)?.id).toBe('checkbox3');
-	expect(checkboxes.at(5)?.id).toBe('checkbox4');
+	expect($checkboxes.length).toBe(6);
+	expect($checkboxes.at(0)?.id).toBe('checkbox1');
+	expect($checkboxes.at(1)?.id).toBe('checkbox2');
+	expect($checkboxes.at(2)?.id).toBe('checkbox5');
+	expect($checkboxes.at(3)?.id).toBe('checkbox6');
+	expect($checkboxes.at(4)?.id).toBe('checkbox3');
+	expect($checkboxes.at(5)?.id).toBe('checkbox4');
 });
 
 describe('id', () => {
@@ -54,10 +54,10 @@ describe('id', () => {
 </span>
 `;
 
-		const checkboxes = new Checkbox({ id: 'checkboxes' }).elements;
+		const $checkboxes = new Checkbox({ id: 'checkboxes' }).elements;
 
-		expect(checkboxes.length).toBe(1);
-		expect(checkboxes.at(0)?.id).toBe('checkbox1');
+		expect($checkboxes.length).toBe(1);
+		expect($checkboxes.at(0)?.id).toBe('checkbox1');
 	});
 });
 
@@ -79,10 +79,10 @@ describe('class', () => {
 	test('exist checkboxes', () => {
 		document.body.innerHTML = `<input type="checkbox" class="checkbox" id="checkbox1" />`;
 
-		const checkboxes = new Checkbox({ class: 'checkbox' }).elements;
+		const $checkboxes = new Checkbox({ class: 'checkbox' }).elements;
 
-		expect(checkboxes.length).toBe(1);
-		expect(checkboxes.at(0)?.id).toBe('checkbox1');
+		expect($checkboxes.length).toBe(1);
+		expect($checkboxes.at(0)?.id).toBe('checkbox1');
 	});
 });
 
@@ -106,9 +106,9 @@ describe('name', () => {
 	test('exist checkboxes', () => {
 		document.body.innerHTML = `<input type="checkbox" name="checkbox" id="checkbox1" />`;
 
-		const checkboxes = new Checkbox({ name: 'checkbox' }).elements;
+		const $checkboxes = new Checkbox({ name: 'checkbox' }).elements;
 
-		expect(checkboxes.length).toBe(1);
-		expect(checkboxes.at(0)?.id).toBe('checkbox1');
+		expect($checkboxes.length).toBe(1);
+		expect($checkboxes.at(0)?.id).toBe('checkbox1');
 	});
 });

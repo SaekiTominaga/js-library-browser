@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<title>`button-checkboxes` Demo</title>
+		<script type="importmap">
+			{
+				"imports": {
+					"@w0s/button-checkboxes": "../dist/index.js"
+				}
+			}
+		</script>
+		<script type="module">
+			import buttonCheckboxes from '@w0s/button-checkboxes';
+
+			buttonCheckboxes(document.querySelectorAll('.js-button-checkboxes'));
+		</script>
+	</head>
+	<body>
+		<h1><code>button-checkboxes</code> Demo</h1>
+
+		<section>
+			<h2><code>aria-controls</code> attribute</h2>
+
+			<p>
+				<button type="button" class="js-button-checkboxes" data-course="check" data-controls-class="checkbox4" aria-controls="checkbox4-1">Check all</button>
+				<span>
+					<label><input type="checkbox" class="checkbox4" id="checkbox4-1" />1</label>
+				</span>
+			</p>
+		</section>
+
+		<section>
+			<h2>checkbox <code>id</code> attribute</h2>
+
+			<p>
+				<button type="button" class="js-button-checkboxes" data-course="check" data-controls-class="checkbox5">Check all</button>
+				<span>
+					<label><input type="checkbox" class="checkbox5" id="checkbox5-1" />1</label>
+				</span>
+			</p>
+		</section>
+	</body>
+</html>

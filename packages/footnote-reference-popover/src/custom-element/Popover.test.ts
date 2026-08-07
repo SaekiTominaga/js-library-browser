@@ -9,19 +9,19 @@ describe('slot', () => {
 	test('ID remove', () => {
 		document.body.innerHTML = `<x-popover><span id="xxx">text</span></x-popover>`;
 
-		const spanElement = document.querySelector('span');
-		expect(spanElement?.textContent).toBe('text');
-		expect(spanElement?.id).toBe('');
+		const $span = document.querySelector('span');
+		expect($span?.textContent).toBe('text');
+		expect($span?.id).toBe('');
 	});
 
 	test('ignore-selectors', () => {
 		document.body.innerHTML = `<x-popover ignore-selectors=".foo"><span class="foo"></span><span class="bar"></span></x-popover>`;
 
-		const popoverElement = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME)!;
+		const $popover = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME)!;
 
-		expect(popoverElement.ignoreSelectors).toBe('.foo');
-		expect(popoverElement.querySelector('.foo')).toBeNull();
-		expect(popoverElement.querySelector('.bar')).not.toBeNull();
+		expect($popover.ignoreSelectors).toBe('.foo');
+		expect($popover.querySelector('.foo')).toBeNull();
+		expect($popover.querySelector('.bar')).not.toBeNull();
 	});
 });
 
@@ -32,25 +32,25 @@ describe('attributes', () => {
 		});
 
 		test('init', () => {
-			const popoverElement = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME)!;
-			const hideButtonTextElement = popoverElement.shadowRoot?.querySelector<HTMLElement>('[part=hide-button-text]');
-			const hideButtonImageElement = popoverElement.shadowRoot?.querySelector<HTMLElement>('[part=hide-button-image]');
+			const $popover = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME)!;
+			const $hideButtonText = $popover.shadowRoot?.querySelector<HTMLElement>('[part=hide-button-text]');
+			const $hideButtonImage = $popover.shadowRoot?.querySelector<HTMLElement>('[part=hide-button-image]');
 
-			expect(popoverElement.hideText).toBe('hide');
-			expect(hideButtonTextElement?.innerHTML).toBe('hide');
-			expect(hideButtonImageElement?.hidden).toBeTruthy();
+			expect($popover.hideText).toBe('hide');
+			expect($hideButtonText?.innerHTML).toBe('hide');
+			expect($hideButtonImage?.hidden).toBeTruthy();
 		});
 
 		test('hideText = null', () => {
-			const popoverElement = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME)!;
-			const hideButtonTextElement = popoverElement.shadowRoot?.querySelector<HTMLElement>('[part=hide-button-text]');
-			const hideButtonImageElement = popoverElement.shadowRoot?.querySelector<HTMLElement>('[part=hide-button-image]');
+			const $popover = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME)!;
+			const $hideButtonText = $popover.shadowRoot?.querySelector<HTMLElement>('[part=hide-button-text]');
+			const $hideButtonImage = $popover.shadowRoot?.querySelector<HTMLElement>('[part=hide-button-image]');
 
-			popoverElement.hideText = null;
+			$popover.hideText = null;
 
-			expect(popoverElement.hideText).toBe('Close');
-			expect(hideButtonTextElement?.innerHTML).toBe('Close');
-			expect(hideButtonImageElement?.hidden).toBeTruthy();
+			expect($popover.hideText).toBe('Close');
+			expect($hideButtonText?.innerHTML).toBe('Close');
+			expect($hideButtonImage?.hidden).toBeTruthy();
 		});
 	});
 
@@ -60,48 +60,48 @@ describe('attributes', () => {
 		});
 
 		test('init', () => {
-			const popoverElement = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME)!;
-			const hideButtonTextElement = popoverElement.shadowRoot?.querySelector<HTMLElement>('[part=hide-button-text]');
-			const hideButtonImageElement = popoverElement.shadowRoot?.querySelector<HTMLElement>('[part=hide-button-image]');
+			const $popover = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME)!;
+			const $hideButtonText = $popover.shadowRoot?.querySelector<HTMLElement>('[part=hide-button-text]');
+			const $hideButtonImage = $popover.shadowRoot?.querySelector<HTMLElement>('[part=hide-button-image]');
 
-			expect(popoverElement.hideText).toBe('hide');
-			expect(popoverElement.hideImageSrc).toBe('http://localhost/hide.svg');
-			expect(popoverElement.hideImageWidth).toBe(10);
-			expect(popoverElement.hideImageHeight).toBe(20);
-			expect(hideButtonTextElement?.hidden).toBeTruthy();
-			expect(hideButtonTextElement?.innerHTML).toBe('hide');
-			expect(hideButtonImageElement?.outerHTML).toBe('<img part="hide-button-image" alt="hide" src="hide.svg" width="10" height="20">');
+			expect($popover.hideText).toBe('hide');
+			expect($popover.hideImageSrc).toBe('http://localhost/hide.svg');
+			expect($popover.hideImageWidth).toBe(10);
+			expect($popover.hideImageHeight).toBe(20);
+			expect($hideButtonText?.hidden).toBeTruthy();
+			expect($hideButtonText?.innerHTML).toBe('hide');
+			expect($hideButtonImage?.outerHTML).toBe('<img part="hide-button-image" alt="hide" src="hide.svg" width="10" height="20">');
 		});
 
 		test('hideImageWidth = null', () => {
-			const popoverElement = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME)!;
-			const hideButtonImageElement = popoverElement.shadowRoot?.querySelector<HTMLElement>('[part=hide-button-image]');
+			const $popover = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME)!;
+			const $hideButtonImage = $popover.shadowRoot?.querySelector<HTMLElement>('[part=hide-button-image]');
 
-			popoverElement.hideImageWidth = null;
+			$popover.hideImageWidth = null;
 
-			expect(popoverElement.hideImageWidth).toBe(0);
-			expect(hideButtonImageElement?.outerHTML).toBe('<img part="hide-button-image" alt="hide" src="hide.svg" height="20" width="0">');
+			expect($popover.hideImageWidth).toBe(0);
+			expect($hideButtonImage?.outerHTML).toBe('<img part="hide-button-image" alt="hide" src="hide.svg" height="20" width="0">');
 		});
 
 		test('hideImageHeight = null', () => {
-			const popoverElement = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME)!;
-			const hideButtonImageElement = popoverElement.shadowRoot?.querySelector<HTMLElement>('[part=hide-button-image]');
+			const $popover = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME)!;
+			const $hideButtonImage = $popover.shadowRoot?.querySelector<HTMLElement>('[part=hide-button-image]');
 
-			popoverElement.hideImageHeight = null;
+			$popover.hideImageHeight = null;
 
-			expect(popoverElement.hideImageHeight).toBe(0);
-			expect(hideButtonImageElement?.outerHTML).toBe('<img part="hide-button-image" alt="hide" src="hide.svg" width="0" height="0">');
+			expect($popover.hideImageHeight).toBe(0);
+			expect($hideButtonImage?.outerHTML).toBe('<img part="hide-button-image" alt="hide" src="hide.svg" width="0" height="0">');
 		});
 
 		test('hideImageSrc = null', () => {
-			const popoverElement = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME)!;
-			const hideButtonTextElement = popoverElement.shadowRoot?.querySelector<HTMLElement>('[part=hide-button-text]');
-			const hideButtonImageElement = popoverElement.shadowRoot?.querySelector<HTMLElement>('[part=hide-button-image]');
+			const $popover = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME)!;
+			const $hideButtonText = $popover.shadowRoot?.querySelector<HTMLElement>('[part=hide-button-text]');
+			const $hideButtonImage = $popover.shadowRoot?.querySelector<HTMLElement>('[part=hide-button-image]');
 
-			popoverElement.hideImageSrc = null;
+			$popover.hideImageSrc = null;
 
-			expect(hideButtonTextElement?.hidden).toBeFalsy();
-			expect(hideButtonImageElement?.hidden).toBeTruthy();
+			expect($hideButtonText?.hidden).toBeFalsy();
+			expect($hideButtonImage?.hidden).toBeTruthy();
 		});
 	});
 });
@@ -115,26 +115,26 @@ describe('properties', () => {
 	});
 
 	test('width', () => {
-		const popoverElement = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME)!;
+		const $popover = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME)!;
 
-		expect(popoverElement.width).toBe(0); // TODO: jsdom では常に 0 が返ってきてしまう https://github.com/jsdom/jsdom/issues/3729
+		expect($popover.width).toBe(0); // TODO: jsdom では常に 0 が返ってきてしまう https://github.com/jsdom/jsdom/issues/3729
 	});
 
 	test('hideButtonElement', () => {
-		const popoverElement = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME)!;
+		const $popover = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME)!;
 
-		expect(popoverElement.hideButtonElement.getAttribute('part')).toBe('hide-button');
+		expect($popover.hideButtonElement.getAttribute('part')).toBe('hide-button');
 	});
 
 	test('triggerElement', () => {
-		const triggerElement = document.querySelector('a');
-		const popoverElement = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME)!;
+		const $trigger = document.querySelector('a');
+		const $popover = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME)!;
 
-		expect(popoverElement.triggerElement).toBeUndefined();
+		expect($popover.triggerElement).toBeUndefined();
 
-		popoverElement.triggerElement = triggerElement ?? undefined;
+		$popover.triggerElement = $trigger ?? undefined;
 
-		expect(popoverElement.triggerElement instanceof HTMLAnchorElement).toBeTruthy();
+		expect($popover.triggerElement instanceof HTMLAnchorElement).toBeTruthy();
 	});
 });
 
@@ -144,8 +144,8 @@ describe('custom toggle event', () => {
 	});
 
 	test('open', () => {
-		const popoverElement = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME);
-		popoverElement?.dispatchEvent(
+		const $popover = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME);
+		$popover?.dispatchEvent(
 			new CustomEvent('my-toggle', {
 				detail: {
 					newState: 'open',
@@ -153,13 +153,13 @@ describe('custom toggle event', () => {
 			}),
 		);
 
-		expect(popoverElement?.isConnected).toBeTruthy();
-		expect(popoverElement?.state).toBe('open');
+		expect($popover?.isConnected).toBeTruthy();
+		expect($popover?.state).toBe('open');
 	});
 
 	test('close', () => {
-		const popoverElement = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME);
-		popoverElement?.dispatchEvent(
+		const $popover = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME);
+		$popover?.dispatchEvent(
 			new CustomEvent('my-toggle', {
 				detail: {
 					newState: 'closed',
@@ -167,8 +167,8 @@ describe('custom toggle event', () => {
 			}),
 		);
 
-		expect(popoverElement?.isConnected).toBeTruthy();
-		expect(popoverElement?.state).toBe('closed');
+		expect($popover?.isConnected).toBeTruthy();
+		expect($popover?.state).toBe('closed');
 	});
 });
 
@@ -178,21 +178,21 @@ describe('focus', () => {
 	});
 
 	test('first-focusable', () => {
-		const popoverElement = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME);
+		const $popover = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME);
 
-		const hideButtonElement = popoverElement?.shadowRoot?.querySelector<HTMLElement>('[part="hide-button"]');
-		const firstFocusableElement = popoverElement?.shadowRoot?.querySelector<HTMLElement>('#first-focusable');
+		const $hideButton = $popover?.shadowRoot?.querySelector<HTMLElement>('[part="hide-button"]');
+		const $firstFocusable = $popover?.shadowRoot?.querySelector<HTMLElement>('#first-focusable');
 
-		firstFocusableElement?.focus();
-		expect(popoverElement?.shadowRoot?.activeElement === hideButtonElement).toBeTruthy();
+		$firstFocusable?.focus();
+		expect($popover?.shadowRoot?.activeElement === $hideButton).toBeTruthy();
 	});
 
 	test('last-focusable', () => {
-		const popoverElement = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME);
-		const contentElement = popoverElement?.shadowRoot?.querySelector<HTMLElement>('[part="content"]');
-		const lastFocusableElement = popoverElement?.shadowRoot?.querySelector<HTMLElement>('#last-focusable');
+		const $popover = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME);
+		const $content = $popover?.shadowRoot?.querySelector<HTMLElement>('[part="content"]');
+		const $lastFocusable = $popover?.shadowRoot?.querySelector<HTMLElement>('#last-focusable');
 
-		lastFocusableElement?.focus();
-		expect(popoverElement?.shadowRoot?.activeElement === contentElement).toBeTruthy();
+		$lastFocusable?.focus();
+		expect($popover?.shadowRoot?.activeElement === $content).toBeTruthy();
 	});
 });

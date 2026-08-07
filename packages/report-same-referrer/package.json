@@ -30,12 +30,12 @@
 		"!dist/**/*.test.js.map"
 	],
 	"scripts": {
-		"dev": "conc \"http-server -o demo -c-1\" \"tsc -w\"",
+		"dev": "conc \"http-server ../ -p 8080 -o report-same-referrer/demo -c-1\" \"tsc -w\"",
 		"prebuild": "rimraf dist/* -g",
 		"build": "tsc",
 		"lint": "eslint src/**/*.ts",
 		"pretest": "npm run build",
-		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest dist/.+\\.test\\.js  -c ../../jest.config.mjs --roots packages/report-same-referrer"
+		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest dist/.+\\.test\\.js -c ../../jest.config.mjs --roots packages/report-same-referrer"
 	},
 	"publishConfig": {
 		"access": "public"

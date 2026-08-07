@@ -9,15 +9,15 @@ customElements.define(POPOVER_ELEMENT_NAME, PopoverElement);
 test('popover status', () => {
 	const event = new MouseEvent('click');
 
-	const popoverElement = document.createElement(POPOVER_ELEMENT_NAME) as PopoverElement;
+	const $popover = document.createElement(POPOVER_ELEMENT_NAME) as PopoverElement;
 
-	expect(popoverElement.isConnected).toBeFalsy();
-	expect(popoverElement.state).toBeUndefined();
+	expect($popover.isConnected).toBeFalsy();
+	expect($popover.state).toBeUndefined();
 
 	clickEvent(event, {
-		popoverElement: popoverElement,
+		popoverElement: $popover,
 	});
 
-	expect(popoverElement.isConnected).toBeTruthy();
-	expect(popoverElement.state).toBe('open');
+	expect($popover.isConnected).toBeTruthy();
+	expect($popover.state).toBe('open');
 });

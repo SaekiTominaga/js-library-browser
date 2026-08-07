@@ -7,14 +7,18 @@
 	],
 	"scripts": {
 		"lint": "conc \"npm run lint:js\" \"npm run lint:html\" \"npm run lint:css\"",
-		"lint:js": "npm run build -w @w0s/writing-mode && eslint packages/**/*.ts *.{js,mjs}",
+		"lint:js": "npm run build -w @w0s/writing-mode && eslint *.{js,mjs} e2e/**/*.spec.ts packages/**/*.ts",
 		"lint:html": "markuplint packages/**/*.html",
 		"lint:css": "stylelint -f verbose packages/**/*.html",
 		"pretest": "npm run build -w @w0s/writing-mode && npm run build --workspaces",
-		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest packages/.+?/dist/.+\\.test\\.js  -c jest.config.mjs"
+		"test": "npm run test:node & npm run test:playwright",
+		"test:node": "cross-env NODE_OPTIONS=--experimental-vm-modules jest packages/.+?/dist/.+\\.test\\.js -c jest.config.mjs",
+		"test:playwright": "playwright test"
 	},
 	"devDependencies": {
-		"@w0s/eslint-config": "9.7.1",
+		"@playwright/test": "1.62.1",
+		"@types/node": "26.1.2",
+		"@w0s/eslint-config": "9.9.0",
 		"@w0s/markuplint-config": "3.13.0",
 		"@w0s/stylelint-config": "4.24.0",
 		"@w0s/tsconfig": "3.0.0",
@@ -26,6 +30,7 @@
 		"eslint-plugin-functional": "10.0.0",
 		"eslint-plugin-import": "2.32.0",
 		"eslint-plugin-jsdoc": "63.0.12",
+		"eslint-plugin-playwright": "2.11.0",
 		"eslint-plugin-safely-storage": "1.1.0",
 		"globals": "17.7.0",
 		"http-server": "14.1.1",

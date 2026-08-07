@@ -30,12 +30,14 @@
 		"!dist/**/*.test.js.map"
 	],
 	"scripts": {
-		"dev": "conc \"http-server -o demo -c-1\" \"tsc -w\"",
+		"dev": "conc \"http-server ../ -p 8080 -o input-isbn/demo -c-1\" \"tsc -w\"",
 		"prebuild": "rimraf dist/* -g",
 		"build": "tsc",
 		"lint": "eslint src/**/*.ts",
 		"pretest": "npm run build",
-		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest dist/.+\\.test\\.js  -c ../../jest.config.mjs --roots packages/input-isbn"
+		"test": "npm run test:node & npm run test:playwright",
+		"test:node": "cross-env NODE_OPTIONS=--experimental-vm-modules jest dist/.+\\.test\\.js -c ../../jest.config.mjs --roots packages/input-isbn",
+		"test:playwright": "playwright test input-isbn.spec.ts -c ../../playwright.config.js"
 	},
 	"dependencies": {
 		"@w0s/isbn-verify": "3.1.2"

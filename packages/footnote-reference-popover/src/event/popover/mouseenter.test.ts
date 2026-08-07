@@ -14,20 +14,20 @@ const sleep = (ms: number) =>
 test('popover status', async () => {
 	const event = new MouseEvent('mouseenter');
 
-	const popoverElement = document.createElement(POPOVER_ELEMENT_NAME) as PopoverElement;
+	const $popover = document.createElement(POPOVER_ELEMENT_NAME) as PopoverElement;
 
 	const delay = 100;
 
-	Object.defineProperty(event, 'currentTarget', { value: popoverElement });
+	Object.defineProperty(event, 'currentTarget', { value: $popover });
 	mouseenterEvent(event, {
 		delay: delay,
 	});
 
-	expect(popoverElement.isConnected).toBeFalsy();
-	expect(popoverElement.state).toBeUndefined();
+	expect($popover.isConnected).toBeFalsy();
+	expect($popover.state).toBeUndefined();
 
 	await sleep(delay);
 
-	expect(popoverElement.isConnected).toBeTruthy();
-	expect(popoverElement.state).toBe('open');
+	expect($popover.isConnected).toBeTruthy();
+	expect($popover.state).toBe('open');
 });

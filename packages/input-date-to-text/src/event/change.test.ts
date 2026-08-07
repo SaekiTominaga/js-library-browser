@@ -9,20 +9,20 @@ import changeEvent from './change.ts';
 describe('change event', () => {
 	const VALIDATION_MESSAGE_NO_EXIST = 'no exist message';
 
-	const inputElement = document.createElement('input');
-	inputElement.pattern = '([0-9]{8})|([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})';
+	const $input = document.createElement('input');
+	$input.pattern = '([0-9]{8})|([0-9]{4}-[0-9]{1,2}-[0-9]{1,2})';
 
 	const min = new Min(undefined);
 	const max = new Max(undefined);
 	const validationMessageNoExist = new ValidationMessageNoExist(VALIDATION_MESSAGE_NO_EXIST);
-	const validationMessageMin = new ValidationMessageMin('', inputElement);
-	const validationMessageMax = new ValidationMessageMax('', inputElement);
+	const validationMessageMin = new ValidationMessageMin('', $input);
+	const validationMessageMax = new ValidationMessageMax('', $input);
 
 	test('invalid data (no exist)', () => {
-		inputElement.value = '2000-02-31';
+		$input.value = '2000-02-31';
 
 		const event = new Event('change');
-		Object.defineProperty(event, 'currentTarget', { value: inputElement });
+		Object.defineProperty(event, 'currentTarget', { value: $input });
 
 		changeEvent(event, {
 			min,
@@ -32,15 +32,15 @@ describe('change event', () => {
 			validationMessageMax,
 		});
 
-		expect(inputElement.validity.customError).toBeTruthy();
-		expect(inputElement.validationMessage).toBe(VALIDATION_MESSAGE_NO_EXIST);
+		expect($input.validity.customError).toBeTruthy();
+		expect($input.validationMessage).toBe(VALIDATION_MESSAGE_NO_EXIST);
 	});
 
 	test('change invalid format', () => {
-		inputElement.value = 'bar';
+		$input.value = 'bar';
 
 		const event = new Event('change');
-		Object.defineProperty(event, 'currentTarget', { value: inputElement });
+		Object.defineProperty(event, 'currentTarget', { value: $input });
 
 		changeEvent(event, {
 			min,
@@ -50,17 +50,17 @@ describe('change event', () => {
 			validationMessageMax,
 		});
 
-		expect(inputElement.validity.customError).toBeFalsy();
-		expect(inputElement.validity.patternMismatch).toBeTruthy();
-		expect(inputElement.validationMessage).not.toBe('');
-		expect(inputElement.validationMessage).not.toBe(VALIDATION_MESSAGE_NO_EXIST);
+		expect($input.validity.customError).toBeFalsy();
+		expect($input.validity.patternMismatch).toBeTruthy();
+		expect($input.validationMessage).not.toBe('');
+		expect($input.validationMessage).not.toBe(VALIDATION_MESSAGE_NO_EXIST);
 	});
 
 	test('change valid pattern', () => {
-		inputElement.value = '2000-01-01';
+		$input.value = '2000-01-01';
 
 		const event = new Event('change');
-		Object.defineProperty(event, 'currentTarget', { value: inputElement });
+		Object.defineProperty(event, 'currentTarget', { value: $input });
 
 		changeEvent(event, {
 			min,
@@ -70,7 +70,7 @@ describe('change event', () => {
 			validationMessageMax,
 		});
 
-		expect(inputElement.validity.valid).toBeTruthy();
-		expect(inputElement.validationMessage).toBe('');
+		expect($input.validity.valid).toBeTruthy();
+		expect($input.validationMessage).toBe('');
 	});
 });

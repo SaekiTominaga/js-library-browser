@@ -14,20 +14,20 @@ const sleep = (ms: number) =>
 test('popover status', async () => {
 	const event = new MouseEvent('mouseleave');
 
-	const popoverElement = document.createElement(POPOVER_ELEMENT_NAME) as PopoverElement;
-	document.body.appendChild(popoverElement);
+	const $popover = document.createElement(POPOVER_ELEMENT_NAME) as PopoverElement;
+	document.body.appendChild($popover);
 
 	const delay = 100;
 
 	mouseleaveEvent(event, {
-		popoverElement: popoverElement,
+		popoverElement: $popover,
 		delay: delay,
 	});
 
-	expect(popoverElement.state).toBeUndefined();
+	expect($popover.state).toBeUndefined();
 
 	await sleep(delay);
 
-	expect(popoverElement.isConnected).toBeTruthy();
-	expect(popoverElement.state).toBe('closed');
+	expect($popover.isConnected).toBeTruthy();
+	expect($popover.state).toBe('closed');
 });

@@ -3,7 +3,7 @@ import ValidationMessageIsbnCheckdigit from '../../attribute/ValidationMessageIs
 import submitEvent from './submit.ts';
 
 test('valid', () => {
-	const inputElement = document.createElement('input');
+	const $input = document.createElement('input');
 
 	const validationMessageIsbnCheckdigit = new ValidationMessageIsbnCheckdigit('');
 
@@ -12,11 +12,11 @@ test('valid', () => {
 	const preventDefaultSpy = jest.spyOn(event, 'preventDefault');
 
 	submitEvent(event, {
-		inputElement,
+		inputElement: $input,
 		validationMessageIsbnCheckdigit,
 	});
 
-	expect(inputElement.validationMessage).toBe('');
+	expect($input.validationMessage).toBe('');
 	expect(preventDefaultSpy).not.toHaveBeenCalled();
 
 	preventDefaultSpy.mockRestore();
@@ -25,8 +25,8 @@ test('valid', () => {
 test('invalid', () => {
 	const VALIDATION_MESSAGE_ISBN_CHECKDIGIT = 'ISBN check digit message';
 
-	const inputElement = document.createElement('input');
-	inputElement.value = '978-4-06-519981-0';
+	const $input = document.createElement('input');
+	$input.value = '978-4-06-519981-0';
 
 	const validationMessageIsbnCheckdigit = new ValidationMessageIsbnCheckdigit(VALIDATION_MESSAGE_ISBN_CHECKDIGIT);
 
@@ -35,11 +35,11 @@ test('invalid', () => {
 	const preventDefaultSpy = jest.spyOn(event, 'preventDefault');
 
 	submitEvent(event, {
-		inputElement,
+		inputElement: $input,
 		validationMessageIsbnCheckdigit,
 	});
 
-	expect(inputElement.validationMessage).toBe(VALIDATION_MESSAGE_ISBN_CHECKDIGIT);
+	expect($input.validationMessage).toBe(VALIDATION_MESSAGE_ISBN_CHECKDIGIT);
 	expect(preventDefaultSpy).toHaveBeenCalled();
 
 	preventDefaultSpy.mockRestore();

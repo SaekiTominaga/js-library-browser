@@ -1,21 +1,16 @@
 // @ts-check
+/* eslint-disable import/no-unresolved */
 
+import { defineConfig } from 'eslint/config';
+import playwright from 'eslint-plugin-playwright';
 import globals from 'globals';
 import w0sConfig from '@w0s/eslint-config';
 
 /** @type {import("eslint").Linter.Config[]} */
-export default [
+export default defineConfig([
 	...w0sConfig,
 	{
 		ignores: ['packages/*/dist'],
-	},
-	{
-		files: ['**/*.ts'],
-		languageOptions: {
-			parserOptions: {
-				tsconfigRootDir: import.meta.dirname,
-			},
-		},
 	},
 	{
 		languageOptions: {
@@ -26,6 +21,22 @@ export default [
 			parserOptions: {
 				sourceType: 'module',
 			},
+		},
+	},
+	{
+		files: ['**/*.ts'],
+		languageOptions: {
+			parserOptions: {
+				tsconfigRootDir: import.meta.dirname,
+			},
+		},
+	},
+	{
+		files: ['e2e/*.spec.ts'],
+		extends: [playwright.configs['flat/recommended']],
+		rules: {
+			'playwright/no-skipped-test': 'off',
+			'playwright/prefer-to-have-count': 'off',
 		},
 	},
 	{
@@ -43,6 +54,12 @@ export default [
 					checksVoidReturn: false,
 				},
 			],
+		},
+	},
+	{
+		files: ['packages/*/src/**/*.test.ts'],
+		rules: {
+			'import/no-extraneous-dependencies': 'off', // Allow imports from `@jest/globals`
 		},
 	},
 	{
@@ -88,4 +105,4 @@ export default [
 			'no-underscore-dangle': 'off',
 		},
 	},
-];
+]);

@@ -41,20 +41,20 @@ describe('toggle event', () => {
 	});
 
 	test('load', () => {
-		const detailsElement = document.querySelector('details')!;
+		const $details = document.querySelector('details')!;
 
-		expect(detailsElement.dataset['preOpen']).toBe('false');
+		expect($details.dataset['preOpen']).toBe('false');
 	});
 
 	test('toggle event (open !== preopen)', () => {
-		const detailsElement = document.querySelector('details')!;
+		const $details = document.querySelector('details')!;
 
-		detailsElement.open = true;
+		$details.open = true;
 
-		detailsElement.dispatchEvent(new UIEvent('toggle'));
+		$details.dispatchEvent(new UIEvent('toggle'));
 
-		expect(detailsElement.open).toBeTruthy();
-		expect(detailsElement.dataset['preOpen']).toBe('true');
+		expect($details.open).toBeTruthy();
+		expect($details.dataset['preOpen']).toBe('true');
 	});
 });
 
@@ -70,22 +70,22 @@ describe('close → open', () => {
 	});
 
 	test('summary click', () => {
-		const detailsElement = document.querySelector('details')!;
-		const summaryElement = detailsElement.querySelector('summary')!;
+		const $details = document.querySelector('details')!;
+		const $summary = $details.querySelector('summary')!;
 
-		summaryElement.dispatchEvent(new UIEvent('click'));
+		$summary.dispatchEvent(new UIEvent('click'));
 
-		expect(detailsElement.open).toBeTruthy();
-		expect(detailsElement.dataset['preOpen']).toBe('true');
+		expect($details.open).toBeTruthy();
+		expect($details.dataset['preOpen']).toBe('true');
 	});
 
 	test('animetion end', async () => {
-		const detailsElement = document.querySelector('details')!;
+		const $details = document.querySelector('details')!;
 
 		await sleep(100);
 
-		expect(detailsElement.open).toBeTruthy();
-		expect(detailsElement.dataset['preOpen']).toBe('true');
+		expect($details.open).toBeTruthy();
+		expect($details.dataset['preOpen']).toBe('true');
 	});
 });
 
@@ -101,22 +101,22 @@ describe('open → close', () => {
 	});
 
 	test('summary click', () => {
-		const detailsElement = document.querySelector('details')!;
-		const summaryElement = detailsElement.querySelector('summary')!;
+		const $details = document.querySelector('details')!;
+		const $summary = $details.querySelector('summary')!;
 
-		summaryElement.dispatchEvent(new UIEvent('click'));
+		$summary.dispatchEvent(new UIEvent('click'));
 
-		expect(detailsElement.open).toBeTruthy();
-		expect(detailsElement.dataset['preOpen']).toBe('false');
+		expect($details.open).toBeTruthy();
+		expect($details.dataset['preOpen']).toBe('false');
 	});
 
 	test('animetion end', async () => {
-		const detailsElement = document.querySelector('details')!;
+		const $details = document.querySelector('details')!;
 
 		await sleep(100);
 
-		expect(detailsElement.open).toBeFalsy();
-		expect(detailsElement.dataset['preOpen']).toBe('false');
+		expect($details.open).toBeFalsy();
+		expect($details.dataset['preOpen']).toBe('false');
 	});
 });
 
@@ -134,24 +134,24 @@ describe('summary click during animetion', () => {
 		});
 
 		test('summary click', async () => {
-			const detailsElement = document.querySelector('details')!;
-			const summaryElement = detailsElement.querySelector('summary')!;
+			const $details = document.querySelector('details')!;
+			const $summary = $details.querySelector('summary')!;
 
-			summaryElement.dispatchEvent(new UIEvent('click'));
+			$summary.dispatchEvent(new UIEvent('click'));
 			await sleep(50);
-			summaryElement.dispatchEvent(new UIEvent('click'));
+			$summary.dispatchEvent(new UIEvent('click'));
 
-			expect(detailsElement.open).toBeTruthy();
-			expect(detailsElement.dataset['preOpen']).toBe('false');
+			expect($details.open).toBeTruthy();
+			expect($details.dataset['preOpen']).toBe('false');
 		});
 
 		test('animetion end', async () => {
-			const detailsElement = document.querySelector('details')!;
+			const $details = document.querySelector('details')!;
 
 			await sleep(100);
 
-			expect(detailsElement.open).toBeFalsy();
-			expect(detailsElement.dataset['preOpen']).toBe('false');
+			expect($details.open).toBeFalsy();
+			expect($details.dataset['preOpen']).toBe('false');
 		});
 	});
 
@@ -167,24 +167,24 @@ describe('summary click during animetion', () => {
 		});
 
 		test('summary click', async () => {
-			const detailsElement = document.querySelector('details')!;
-			const summaryElement = detailsElement.querySelector('summary')!;
+			const $details = document.querySelector('details')!;
+			const $summary = $details.querySelector('summary')!;
 
-			summaryElement.dispatchEvent(new UIEvent('click'));
+			$summary.dispatchEvent(new UIEvent('click'));
 			await sleep(50);
-			summaryElement.dispatchEvent(new UIEvent('click'));
+			$summary.dispatchEvent(new UIEvent('click'));
 
-			expect(detailsElement.open).toBeTruthy();
-			expect(detailsElement.dataset['preOpen']).toBe('true');
+			expect($details.open).toBeTruthy();
+			expect($details.dataset['preOpen']).toBe('true');
 		});
 
 		test('animetion end', async () => {
-			const detailsElement = document.querySelector('details')!;
+			const $details = document.querySelector('details')!;
 
 			await sleep(100);
 
-			expect(detailsElement.open).toBeTruthy();
-			expect(detailsElement.dataset['preOpen']).toBe('true');
+			expect($details.open).toBeTruthy();
+			expect($details.dataset['preOpen']).toBe('true');
 		});
 	});
 });

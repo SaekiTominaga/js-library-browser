@@ -17,10 +17,6 @@ HTMLDialogElement.prototype.close = () => {};
 HTMLDialogElement.prototype.show = () => {};
 HTMLDialogElement.prototype.showModal = () => {};
 
-/* HTMLMediaElement <https://github.com/jsdom/jsdom/issues/1515> */
-HTMLMediaElement.prototype.pause = () => {};
-HTMLMediaElement.prototype.play = () => {};
-
 /* ShadowRoot: adoptedStyleSheets <https://github.com/jsdom/jsdom/issues/3444> */
 Object.defineProperty(ShadowRoot.prototype, 'adoptedStyleSheets', {
 	get() {
@@ -41,6 +37,3 @@ URL.canParse = (url, base) => {
 	}
 	return true;
 };
-
-/* window: confirm */
-window.confirm = () => false;

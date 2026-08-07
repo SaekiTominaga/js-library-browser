@@ -7,20 +7,20 @@ import ValidationMessageNoExist from '../../attribute/ValidationMessageNoExist.t
 import submitEvent from './submit.ts';
 
 test('valid', () => {
-	const inputElement = document.createElement('input');
+	const $input = document.createElement('input');
 
 	const min = new Min(undefined);
 	const max = new Max(undefined);
 	const validationMessageNoExist = new ValidationMessageNoExist('');
-	const validationMessageMin = new ValidationMessageMin('', inputElement);
-	const validationMessageMax = new ValidationMessageMax('', inputElement);
+	const validationMessageMin = new ValidationMessageMin('', $input);
+	const validationMessageMax = new ValidationMessageMax('', $input);
 
 	const event = new Event('submit') as SubmitEvent;
 
 	const preventDefaultSpy = jest.spyOn(event, 'preventDefault');
 
 	submitEvent(event, {
-		inputElement,
+		inputElement: $input,
 		min,
 		max,
 		validationMessageNoExist,
@@ -28,7 +28,7 @@ test('valid', () => {
 		validationMessageMax,
 	});
 
-	expect(inputElement.validationMessage).toBe('');
+	expect($input.validationMessage).toBe('');
 	expect(preventDefaultSpy).not.toHaveBeenCalled();
 
 	preventDefaultSpy.mockRestore();
@@ -37,21 +37,21 @@ test('valid', () => {
 test('invalid', () => {
 	const VALIDATION_MESSAGE_NO_EXIST = 'no exist message';
 
-	const inputElement = document.createElement('input');
-	inputElement.value = '2000-02-31';
+	const $input = document.createElement('input');
+	$input.value = '2000-02-31';
 
 	const min = new Min(undefined);
 	const max = new Max(undefined);
 	const validationMessageNoExist = new ValidationMessageNoExist(VALIDATION_MESSAGE_NO_EXIST);
-	const validationMessageMin = new ValidationMessageMin('', inputElement);
-	const validationMessageMax = new ValidationMessageMax('', inputElement);
+	const validationMessageMin = new ValidationMessageMin('', $input);
+	const validationMessageMax = new ValidationMessageMax('', $input);
 
 	const event = new Event('submit') as SubmitEvent;
 
 	const preventDefaultSpy = jest.spyOn(event, 'preventDefault');
 
 	submitEvent(event, {
-		inputElement,
+		inputElement: $input,
 		min,
 		max,
 		validationMessageNoExist,
@@ -59,7 +59,7 @@ test('invalid', () => {
 		validationMessageMax,
 	});
 
-	expect(inputElement.validationMessage).toBe(VALIDATION_MESSAGE_NO_EXIST);
+	expect($input.validationMessage).toBe(VALIDATION_MESSAGE_NO_EXIST);
 	expect(preventDefaultSpy).toHaveBeenCalled();
 
 	preventDefaultSpy.mockRestore();

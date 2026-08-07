@@ -27,9 +27,9 @@ test('exist media', () => {
 <video id="video2"></video>
 `;
 
-	const mediaElements = new Controles('video1 video2').elements;
+	const $medias = new Controles('video1 video2').elements;
 
-	expect(mediaElements.length).toBe(2);
-	expect(mediaElements.at(0)?.id).toBe('video1');
-	expect(mediaElements.at(1)?.id).toBe('video2');
+	expect($medias.length).toBe(2);
+	expect($medias.at(0)?.id).toBe('video1');
+	expect($medias.at(1)?.id).toBe('video2');
 });
