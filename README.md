@@ -24,7 +24,6 @@ These package programs can be used in the browser. It does not depend on any spe
 - [Show preview with `<input type=file>`](packages/input-file-preview)
 - [ISBN input field](packages/input-isbn)
 - [Implement something like `<input type=checkbox switch>`](packages/input-switch)
-- [Automatically adjust the block size dimension of the `<textarea>` element to the input content](packages/textarea-auto-size)
 
 ### Button
 
