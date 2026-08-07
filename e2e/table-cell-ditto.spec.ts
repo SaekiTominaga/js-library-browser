@@ -72,7 +72,7 @@ test.describe('text-align', () => {
 		const padding = (cellTextWidth - dittoMarkWidth) / 2 + cellPadding;
 
 		await expect(targetCell).toHaveText('"');
-		await expect(targetCell).toHaveAttribute('style', `padding-inline-start: ${padding.toFixed(2)}px;`);
+		await expect(targetCell).toHaveAttribute('style', `padding-inline-start: ${String(Number(padding.toFixed(2)))}px;`);
 	});
 
 	test('center', async ({ page }) => {
@@ -102,6 +102,6 @@ test.describe('text-align', () => {
 		const padding = (cellTextWidth - dittoMarkWidth) / 2 + cellPadding;
 
 		await expect(targetCell).toHaveText('"');
-		await expect(targetCell).toHaveAttribute('style', `text-align: end; padding-inline-end: ${padding.toFixed(2)}px;`);
+		await expect(targetCell).toHaveAttribute('style', `text-align: end; padding-inline-end: ${String(Number(padding.toFixed(2)))}px;`);
 	});
 });
