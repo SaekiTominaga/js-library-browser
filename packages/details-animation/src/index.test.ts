@@ -74,5 +74,5 @@ describe('argument type', () => {
 test('type mismatch', () => {
 	expect(() => {
 		index(document.createElement('p'));
-	}).toThrow('Element must be a `HTMLDetailsElement`');
+	}).toThrow(new Error('Element must be a `HTMLDetailsElement`'));
 });

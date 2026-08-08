@@ -62,5 +62,5 @@ test('invalid value', () => {
 
 	expect(() => {
 		new WritingMode(element);
-	}).toThrow('Unexpected `writing-mode` value: xxx');
+	}).toThrow(new Error('Unexpected `writing-mode` value: xxx'));
 });

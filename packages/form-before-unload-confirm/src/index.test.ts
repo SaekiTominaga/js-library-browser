@@ -49,5 +49,5 @@ describe('argument type', () => {
 test('type mismatch', () => {
 	expect(() => {
 		index(document.querySelector('span'));
-	}).toThrow('Element must be a `HTMLFormElement`');
+	}).toThrow(new Error('Element must be a `HTMLFormElement`'));
 });

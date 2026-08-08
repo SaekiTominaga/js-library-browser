@@ -8,13 +8,13 @@ beforeAll(() => {
 test('no attribute', () => {
 	expect(() => {
 		new ErrorMessage(undefined);
-	}).toThrow('The `aria-errormessage` attribute is not set');
+	}).toThrow(new Error('The `aria-errormessage` attribute is not set'));
 });
 
 test('no element', () => {
 	expect(() => {
 		new ErrorMessage('xxx');
-	}).toThrow('Element `#xxx` not found');
+	}).toThrow(new Error('Element `#xxx` not found'));
 });
 
 test('exist element', () => {

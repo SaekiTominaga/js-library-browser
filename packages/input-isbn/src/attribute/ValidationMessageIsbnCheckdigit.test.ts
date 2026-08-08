@@ -4,7 +4,7 @@ import ValidationMessageIsbnCheckdigit from './ValidationMessageIsbnCheckdigit.t
 test('no attribute', () => {
 	expect(() => {
 		new ValidationMessageIsbnCheckdigit(undefined);
-	}).toThrow('The `data-validation-message-isbn-checkdigit` attribute is not set');
+	}).toThrow(new Error('The `data-validation-message-isbn-checkdigit` attribute is not set'));
 });
 
 test('valid string', () => {

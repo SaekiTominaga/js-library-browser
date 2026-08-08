@@ -50,7 +50,7 @@ describe('argument type', () => {
 	test('type mismatch', () => {
 		expect(() => {
 			index(document.querySelector('template'));
-		}).toThrow('Element must be a `HTMLInputElement`');
+		}).toThrow(new Error('Element must be a `HTMLInputElement`'));
 	});
 });
 
@@ -62,6 +62,6 @@ describe('type attribute', () => {
 	test('type mismatch', () => {
 		expect(() => {
 			index(document.querySelector('input'));
-		}).toThrow('Element must be a `<input type=file>`');
+		}).toThrow(new Error('Element must be a `<input type=file>`'));
 	});
 });

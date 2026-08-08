@@ -36,7 +36,7 @@ test(
 				fetch: fetchOptionsTemp,
 				validate: { ...options.validate },
 			}),
-		).rejects.toThrow('`https://report.w0s.jp/report/js-sample` is 400 Bad Request'); // TODO: データ形式の正当性が確認できていない
+		).rejects.toThrow(new Error('`https://report.w0s.jp/report/js-sample` is 400 Bad Request')); // TODO: データ形式の正当性が確認できていない
 	},
 	testTimeout,
 );
@@ -54,7 +54,7 @@ test(
 				fetch: fetchOptionsTemp,
 				validate: { ...options.validate },
 			}),
-		).rejects.toThrow('`https://saekitominaga.github.io/js-library-browser/packages/report-js-error/` is 405 Method Not Allowed');
+		).rejects.toThrow(new Error('`https://saekitominaga.github.io/js-library-browser/packages/report-js-error/` is 405 Method Not Allowed'));
 	},
 	testTimeout,
 );

@@ -4,13 +4,13 @@ import Controles from './Controles.ts';
 test('no attribute', () => {
 	expect(() => {
 		new Controles(undefined);
-	}).toThrow('The `aria-controls` attribute is not set');
+	}).toThrow(new Error('The `aria-controls` attribute is not set'));
 });
 
 test('no element', () => {
 	expect(() => {
 		new Controles('xxx');
-	}).toThrow('Element `#xxx` not found');
+	}).toThrow(new Error('Element `#xxx` not found'));
 });
 
 test('not media element', () => {
@@ -18,7 +18,7 @@ test('not media element', () => {
 
 	expect(() => {
 		new Controles('video1');
-	}).toThrow('Element `#video1` is not a `HTMLMediaElement`');
+	}).toThrow(new Error('Element `#video1` is not a `HTMLMediaElement`'));
 });
 
 test('exist media', () => {

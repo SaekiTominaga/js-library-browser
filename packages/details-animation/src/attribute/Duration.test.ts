@@ -8,13 +8,13 @@ test('undefined', () => {
 test('not number', () => {
 	expect(() => {
 		new Duration('xxx');
-	}).toThrow('The value of the `data-duration` attribute must be a number');
+	}).toThrow(new Error('The value of the `data-duration` attribute must be a number'));
 });
 
 test('negative number', () => {
 	expect(() => {
 		new Duration('-1');
-	}).toThrow('The value of the `data-duration` attribute must be a positive number');
+	}).toThrow(new Error('The value of the `data-duration` attribute must be a positive number'));
 });
 
 test('zero', () => {

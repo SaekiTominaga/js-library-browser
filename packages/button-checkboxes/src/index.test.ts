@@ -52,5 +52,5 @@ describe('argument type', () => {
 test('type mismatch', () => {
 	expect(() => {
 		index(document.querySelector('#checkboxes'));
-	}).toThrow('Element must be a `HTMLButtonElement`');
+	}).toThrow(new Error('Element must be a `HTMLButtonElement`'));
 });
