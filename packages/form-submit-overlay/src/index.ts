@@ -2,7 +2,7 @@ import formSubmitOverlay from './formSubmitOverlay.ts';
 
 const validate = (element: Element): HTMLFormElement => {
 	if (!(element instanceof HTMLFormElement)) {
-		throw new Error('Element must be a `HTMLFormElement`');
+		throw new TypeError('Element must be a `HTMLFormElement`');
 	}
 
 	return element;

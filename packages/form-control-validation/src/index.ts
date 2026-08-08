@@ -2,7 +2,7 @@ import formControlValidation from './formControlValidation.ts';
 
 const validate = (element: Element): HTMLElement => {
 	if (!(element instanceof HTMLElement)) {
-		throw new Error('Element must be a `HTMLElement`');
+		throw new TypeError('Element must be a `HTMLElement`');
 	}
 
 	return element;
