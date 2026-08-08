@@ -82,12 +82,12 @@ export default class Tab extends HTMLElement {
 		this.#tabElements.forEach((tabElement): void => {
 			const { href } = tabElement;
 			if (href === '') {
-				throw new Error('The `href` attribute is not set.');
+				throw new Error('The `href` attribute is not set');
 			}
 
 			const { hash } = new URL(href);
 			if (hash === '') {
-				throw new Error('The `href` attribute does not contain hash.');
+				throw new Error('The `href` attribute does not contain hash');
 			}
 
 			const tabpanelElementId = decodeURIComponent(hash.substring(1));

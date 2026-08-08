@@ -15,10 +15,10 @@ export default class {
 		const valueNumber = Number(value);
 
 		if (!Number.isFinite(valueNumber)) {
-			throw new TypeError('The value of the `data-max-size` attribute must be a number.');
+			throw new TypeError('The value of the `data-max-size` attribute must be a number');
 		}
 		if (valueNumber < 0) {
-			throw new TypeError('The value of the `data-max-size` attribute must be a positive number.');
+			throw new TypeError('The value of the `data-max-size` attribute must be a positive number');
 		}
 
 		this.#value = valueNumber;

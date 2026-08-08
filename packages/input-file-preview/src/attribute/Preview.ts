@@ -11,7 +11,7 @@ export default class {
 	 */
 	constructor(value: string | null | undefined) {
 		if (value === null || value === undefined) {
-			throw new TypeError('The `data-preview` attribute is not set.');
+			throw new TypeError('The `data-preview` attribute is not set');
 		}
 
 		const template = document.getElementById(value);
@@ -39,12 +39,12 @@ export default class {
 				return true;
 			})
 		) {
-			throw new Error('There must be only Element node, comment node, or empty text node within the `<template>` element.');
+			throw new Error('There must be only Element node, comment node, or empty text node within the `<template>` element');
 		}
 
 		const outputElement = templateContent.querySelector('output');
 		if (outputElement === null) {
-			throw new Error('There must be one `<output>` element within the `<template>` element.');
+			throw new Error('There must be one `<output>` element within the `<template>` element');
 		}
 
 		this.#output = outputElement;

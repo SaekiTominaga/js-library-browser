@@ -9,7 +9,7 @@ export default class {
 	 */
 	constructor(value: string | null | undefined) {
 		if (value === null || value === undefined) {
-			throw new TypeError('The `data-message` attribute is not set.');
+			throw new TypeError('The `data-message` attribute is not set');
 		}
 
 		this.#text = value;

@@ -25,7 +25,7 @@ test('no <summary>', () => {
 
 	expect(() => {
 		detailsAnimation(document.querySelector('details')!);
-	}).toThrow('Element `<details>` is missing a required instance of child element `<summary>`.');
+	}).toThrow('Element `<details>` is missing a required instance of child element `<summary>`');
 });
 
 describe('toggle event', () => {

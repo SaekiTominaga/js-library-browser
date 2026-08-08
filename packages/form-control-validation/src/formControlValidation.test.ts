@@ -9,5 +9,5 @@ test('invalid element', () => {
 
 	expect(() => {
 		formControlValidation(document.querySelector('div')!);
-	}).toThrow('The `formControlValidation` feature can only be specified for `<input>`, `<select>`, `<textarea>` or `<XXX role=radiogroup>`.');
+	}).toThrow('The `formControlValidation` feature can only be specified for `<input>`, `<select>`, `<textarea>` or `<XXX role=radiogroup>`');
 });

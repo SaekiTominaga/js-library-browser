@@ -11,7 +11,7 @@ export default class {
 	constructor(value: string | null | undefined, element: HTMLInputElement) {
 		if (element.max !== '') {
 			if (value === null || value === undefined) {
-				throw new TypeError('The `data-validation-max` attribute is not set.');
+				throw new TypeError('The `data-validation-max` attribute is not set');
 			}
 			this.#value = value;
 		}

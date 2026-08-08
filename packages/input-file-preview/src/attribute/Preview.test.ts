@@ -4,13 +4,13 @@ import Preview from './Preview.ts';
 test('no attribute', () => {
 	expect(() => {
 		new Preview(undefined);
-	}).toThrow('The `data-preview` attribute is not set.');
+	}).toThrow('The `data-preview` attribute is not set');
 });
 
 test('no element', () => {
 	expect(() => {
 		new Preview('xxx');
-	}).toThrow('Element `#xxx` not found.');
+	}).toThrow('Element `#xxx` not found');
 });
 
 test('no template', () => {
@@ -18,7 +18,7 @@ test('no template', () => {
 
 	expect(() => {
 		new Preview('template');
-	}).toThrow('Element `#template` must be a `<template>` element.');
+	}).toThrow('Element `#template` must be a `<template>` element');
 });
 
 describe('template content', () => {
@@ -27,7 +27,7 @@ describe('template content', () => {
 
 		expect(() => {
 			new Preview('template');
-		}).toThrow('There must be only Element node, comment node, or empty text node within the `<template>` element.');
+		}).toThrow('There must be only Element node, comment node, or empty text node within the `<template>` element');
 	});
 
 	test('empty', () => {
@@ -35,7 +35,7 @@ describe('template content', () => {
 
 		expect(() => {
 			new Preview('template');
-		}).toThrow('There must be one `<output>` element within the `<template>` element.');
+		}).toThrow('There must be one `<output>` element within the `<template>` element');
 	});
 
 	test('no <output> element', () => {
@@ -43,7 +43,7 @@ describe('template content', () => {
 
 		expect(() => {
 			new Preview('template');
-		}).toThrow('There must be one `<output>` element within the `<template>` element.');
+		}).toThrow('There must be one `<output>` element within the `<template>` element');
 	});
 
 	test('exist <output>', () => {

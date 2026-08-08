@@ -23,7 +23,7 @@ describe('data', () => {
 		await clickEvent(event, data, feedback);
 
 		expect(clipboardWriteTextSpy).toHaveBeenCalledWith('Text');
-		expect(consoleInfoSpy).toHaveBeenCalledWith('Clipboard write successfully.', 'Text');
+		expect(consoleInfoSpy).toHaveBeenCalledWith('Clipboard write successfully', 'Text');
 		clipboardWriteTextSpy.mockRestore();
 		consoleInfoSpy.mockRestore();
 	});
@@ -41,7 +41,7 @@ describe('data', () => {
 		await clickEvent(event, data, feedback);
 
 		expect(clipboardWriteTextSpy).toHaveBeenCalledWith('Text');
-		expect(consoleInfoSpy).toHaveBeenCalledWith('Clipboard write successfully.', 'Text');
+		expect(consoleInfoSpy).toHaveBeenCalledWith('Clipboard write successfully', 'Text');
 		clipboardWriteTextSpy.mockRestore();
 		consoleInfoSpy.mockRestore();
 	});

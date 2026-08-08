@@ -4,7 +4,7 @@ import Checkbox from './Checkbox.ts';
 test('no attribute', () => {
 	expect(() => {
 		new Checkbox({});
-	}).toThrow('The `data-control` or `data-controls-class` or `data-controls-name` attribute is not set.');
+	}).toThrow('The `data-control` or `data-controls-class` or `data-controls-name` attribute is not set');
 });
 
 test('all attributes', () => {
@@ -36,7 +36,7 @@ describe('id', () => {
 	test('no id', () => {
 		expect(() => {
 			new Checkbox({ id: 'xxx' });
-		}).toThrow('Element `#xxx` not found.');
+		}).toThrow('Element `#xxx` not found');
 	});
 
 	test('no checkbox', () => {
@@ -44,7 +44,7 @@ describe('id', () => {
 
 		expect(() => {
 			new Checkbox({ id: 'checkboxes' });
-		}).toThrow('Checkbox does not exist in descendants of the element `#checkboxes`.');
+		}).toThrow('Checkbox does not exist in descendants of the element `#checkboxes`');
 	});
 
 	test('exist checkboxes', () => {
@@ -65,7 +65,7 @@ describe('class', () => {
 	test('no checkbox', () => {
 		expect(() => {
 			new Checkbox({ class: 'xxx' });
-		}).toThrow('Element `.xxx` not found.');
+		}).toThrow('Element `.xxx` not found');
 	});
 
 	test('not input', () => {
@@ -73,7 +73,7 @@ describe('class', () => {
 
 		expect(() => {
 			new Checkbox({ class: 'checkbox' });
-		}).toThrow('Element `.checkbox` is not a `HTMLInputElement`.');
+		}).toThrow('Element `.checkbox` is not a `HTMLInputElement`');
 	});
 
 	test('exist checkboxes', () => {
@@ -92,7 +92,7 @@ describe('name', () => {
 
 		expect(() => {
 			new Checkbox({ name: 'xxx' });
-		}).toThrow('Element `[name=xxx]` not found.');
+		}).toThrow('Element `[name=xxx]` not found');
 	});
 
 	test('not input', () => {
@@ -100,7 +100,7 @@ describe('name', () => {
 
 		expect(() => {
 			new Checkbox({ name: 'checkbox' });
-		}).toThrow('Element `[name=checkbox]` is not a `HTMLInputElement`.');
+		}).toThrow('Element `[name=checkbox]` is not a `HTMLInputElement`');
 	});
 
 	test('exist checkboxes', () => {

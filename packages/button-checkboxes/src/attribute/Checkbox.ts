@@ -16,7 +16,7 @@ export default class {
 			(value.class === null || value.class === undefined) &&
 			(value.name === null || value.name === undefined)
 		) {
-			throw new TypeError('The `data-control` or `data-controls-class` or `data-controls-name` attribute is not set.');
+			throw new TypeError('The `data-control` or `data-controls-class` or `data-controls-name` attribute is not set');
 		}
 
 		if (value.id !== null && value.id !== undefined) {

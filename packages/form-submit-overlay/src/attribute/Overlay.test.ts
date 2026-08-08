@@ -4,13 +4,13 @@ import Overlay from './Overlay.ts';
 test('no attribute', () => {
 	expect(() => {
 		new Overlay(undefined);
-	}).toThrow('The `data-overlayed-by` attribute is not set.');
+	}).toThrow('The `data-overlayed-by` attribute is not set');
 });
 
 test('no element', () => {
 	expect(() => {
 		new Overlay('xxx');
-	}).toThrow('Element `#xxx` not found.');
+	}).toThrow('Element `#xxx` not found');
 });
 
 test('not dialog', () => {
@@ -18,7 +18,7 @@ test('not dialog', () => {
 
 	expect(() => {
 		new Overlay('dialog');
-	}).toThrow('Element `#dialog` must be a `<dialog>` element.');
+	}).toThrow('Element `#dialog` must be a `<dialog>` element');
 });
 
 test('exist element', () => {

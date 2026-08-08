@@ -29,13 +29,13 @@ describe('imageWidth', () => {
 	test('not number', () => {
 		expect(() => {
 			new PopoverHide({ imageWidth: 'xxx' });
-		}).toThrow('The value of the `data-popover-hide-image-width` attribute must be a number.');
+		}).toThrow('The value of the `data-popover-hide-image-width` attribute must be a number');
 	});
 
 	test('zero', () => {
 		expect(() => {
 			new PopoverHide({ imageWidth: '0' });
-		}).toThrow('The value of the `data-popover-hide-image-width` attribute must be a number greater than zero.');
+		}).toThrow('The value of the `data-popover-hide-image-width` attribute must be a number greater than zero');
 	});
 
 	test('greater than 0', () => {
@@ -51,13 +51,13 @@ describe('imageHeight', () => {
 	test('not number', () => {
 		expect(() => {
 			new PopoverHide({ imageHeight: 'xxx' });
-		}).toThrow('The value of the `data-popover-hide-image-height` attribute must be a number.');
+		}).toThrow('The value of the `data-popover-hide-image-height` attribute must be a number');
 	});
 
 	test('zero', () => {
 		expect(() => {
 			new PopoverHide({ imageHeight: '0' });
-		}).toThrow('The value of the `data-popover-hide-image-height` attribute must be a number greater than zero.');
+		}).toThrow('The value of the `data-popover-hide-image-height` attribute must be a number greater than zero');
 	});
 
 	test('greater than 0', () => {

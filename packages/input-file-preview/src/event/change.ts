@@ -23,7 +23,7 @@ export default (
 
 	const { parentNode: templateParentNode } = data.preview.template;
 	if (templateParentNode === null) {
-		throw new Error('The parent element of the `<template>` element does not exist.'); // `<template>` 要素がルート要素ないし `DocumentFragment` であることはあり得ないのでここには到達しない
+		throw new Error('The parent element of the `<template>` element does not exist'); // `<template>` 要素がルート要素ないし `DocumentFragment` であることはあり得ないのでここには到達しない
 	}
 
 	/* 既存のプレビューをクリア */
@@ -60,7 +60,7 @@ export default (
 		fileReader.addEventListener('load', (): void => {
 			const fileReaderResult = fileReader.result;
 			if (fileReaderResult === null) {
-				throw new Error('File load failed.');
+				throw new Error('File load failed');
 			}
 
 			let mediaElement: HTMLImageElement | HTMLAudioElement | HTMLVideoElement;
