@@ -16,10 +16,10 @@ export default class {
 
 		const template = document.getElementById(value);
 		if (template === null) {
-			throw new Error(`Element \`#${value}\` not found.`);
+			throw new Error(`Element \`#${value}\` not found`);
 		}
 		if (!(template instanceof HTMLTemplateElement)) {
-			throw new TypeError(`Element \`#${value}\` must be a \`<template>\` element.`);
+			throw new TypeError(`Element \`#${value}\` must be a \`<template>\` element`);
 		}
 		this.#template = template;
 

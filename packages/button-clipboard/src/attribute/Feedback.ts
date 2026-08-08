@@ -14,7 +14,7 @@ export default class {
 
 		const feedbackElement = document.getElementById(value);
 		if (feedbackElement === null) {
-			throw new Error(`Element \`#${value}\` not found.`);
+			throw new Error(`Element \`#${value}\` not found`);
 		}
 
 		this.#element = feedbackElement;

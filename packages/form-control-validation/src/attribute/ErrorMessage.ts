@@ -14,7 +14,7 @@ export default class {
 
 		const element = document.getElementById(value);
 		if (element === null) {
-			throw new Error(`Element \`#${value}\` not found.`);
+			throw new Error(`Element \`#${value}\` not found`);
 		}
 
 		this.#element = element;

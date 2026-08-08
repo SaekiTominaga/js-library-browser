@@ -93,7 +93,7 @@ export default class Tab extends HTMLElement {
 			const tabpanelElementId = decodeURIComponent(hash.substring(1));
 			const tabpanelElement = document.getElementById(tabpanelElementId);
 			if (tabpanelElement === null) {
-				throw new Error(`Element \`#${tabpanelElementId}\` not found.`);
+				throw new Error(`Element \`#${tabpanelElementId}\` not found`);
 			}
 
 			const tabElementId = crypto.randomUUID();

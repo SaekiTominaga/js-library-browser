@@ -40,7 +40,7 @@ export const fetchProcess = async (
 
 	const mimeType = response.headers.get('content-type');
 	if (mimeType === null) {
-		throw new Error(`Missing \`Content-Type\` in response header for URL <${response.url}>.`);
+		throw new Error(`Missing \`Content-Type\` in response header for URL <${response.url}>`);
 	}
 
 	/* MIME タイプからパラメーターを除去（e.g 'text/html; charset=utf-8' → 'text/html'） */
