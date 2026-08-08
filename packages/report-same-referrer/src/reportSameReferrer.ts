@@ -58,7 +58,7 @@ const validate = (options?: Readonly<ValidateOption>): boolean => {
 				return { referrer: referrerUrl.hostname, location: location.hostname };
 			}
 			default:
-				throw new Error('An invalid value was specified for the argument `condition`.');
+				throw new Error('An invalid value was specified for the argument `condition`');
 		}
 	};
 

@@ -25,7 +25,7 @@ describe('constructor - max attribute', () => {
 	test('no attribute', () => {
 		expect(() => {
 			new ValidationMessageMax(undefined, document.querySelector('input')!);
-		}).toThrow('The `data-validation-max` attribute is not set.');
+		}).toThrow('The `data-validation-max` attribute is not set');
 	});
 
 	test('valid string', () => {

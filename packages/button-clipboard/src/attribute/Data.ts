@@ -13,7 +13,7 @@ export default class {
 	 */
 	constructor(value: Readonly<{ text?: string | null | undefined; target?: string | null | undefined }>) {
 		if ((value.text === null || value.text === undefined) && (value.target === null || value.target === undefined)) {
-			throw new TypeError('The `data-text` or `data-target` attribute is not set.');
+			throw new TypeError('The `data-text` or `data-target` attribute is not set');
 		}
 
 		if (value.text !== null && value.text !== undefined) {

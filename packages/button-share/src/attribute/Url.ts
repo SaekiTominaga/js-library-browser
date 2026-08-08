@@ -13,7 +13,7 @@ export default class {
 		}
 
 		if (!URL.canParse(value)) {
-			throw new TypeError('The value of the `data-url` attribute must be a URL.');
+			throw new TypeError('The value of the `data-url` attribute must be a URL');
 		}
 
 		this.#url = new URL(value);

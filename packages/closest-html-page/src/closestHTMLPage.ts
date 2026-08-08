@@ -82,10 +82,10 @@ export default async (
 	/* Options validate */
 	if (options?.maxFetchCount !== undefined) {
 		if (!Number.isInteger(options.maxFetchCount)) {
-			throw new TypeError('Argument `maxFetchCount` must be an integer.');
+			throw new TypeError('Argument `maxFetchCount` must be an integer');
 		}
 		if (options.maxFetchCount < 0) {
-			throw new RangeError('Argument `maxFetchCount` must be greater than or equal to 0.');
+			throw new RangeError('Argument `maxFetchCount` must be greater than or equal to 0');
 		}
 	}
 

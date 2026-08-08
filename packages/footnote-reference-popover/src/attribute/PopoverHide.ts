@@ -37,10 +37,10 @@ export default class {
 			const width = Number(value.imageWidth);
 
 			if (!Number.isFinite(width)) {
-				throw new TypeError('The value of the `data-popover-hide-image-width` attribute must be a number.');
+				throw new TypeError('The value of the `data-popover-hide-image-width` attribute must be a number');
 			}
 			if (width <= 0) {
-				throw new TypeError('The value of the `data-popover-hide-image-width` attribute must be a number greater than zero.');
+				throw new TypeError('The value of the `data-popover-hide-image-width` attribute must be a number greater than zero');
 			}
 
 			this.#imageWidth = width;
@@ -50,10 +50,10 @@ export default class {
 			const height = Number(value.imageHeight);
 
 			if (!Number.isFinite(height)) {
-				throw new TypeError('The value of the `data-popover-hide-image-height` attribute must be a number.');
+				throw new TypeError('The value of the `data-popover-hide-image-height` attribute must be a number');
 			}
 			if (height <= 0) {
-				throw new TypeError('The value of the `data-popover-hide-image-height` attribute must be a number greater than zero.');
+				throw new TypeError('The value of the `data-popover-hide-image-height` attribute must be a number greater than zero');
 			}
 
 			this.#imageHeight = height;

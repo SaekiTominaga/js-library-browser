@@ -30,7 +30,7 @@ export default class {
 
 		const firstRowCellElements = thisElement.querySelector(':scope > tbody')?.querySelectorAll(`:scope > tr:first-child > ${this.#cellSelector}`); // 表の列数
 		if (firstRowCellElements === undefined) {
-			throw new Error('Table body cell does not exist in the specified table.');
+			throw new Error('Table body cell does not exist in the specified table');
 		}
 
 		this.#col = firstRowCellElements.length;

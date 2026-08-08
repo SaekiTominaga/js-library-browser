@@ -6,13 +6,11 @@ import closestHTMLPage, { fetchProcess } from './closestHTMLPage.ts';
 describe('validate', () => {
 	describe('maxFetchCount', () => {
 		test('not integer', async () => {
-			await expect(closestHTMLPage('http://example.com', { maxFetchCount: 1.5 })).rejects.toThrow('Argument `maxFetchCount` must be an integer.');
+			await expect(closestHTMLPage('http://example.com', { maxFetchCount: 1.5 })).rejects.toThrow('Argument `maxFetchCount` must be an integer');
 		});
 
 		test('minus', async () => {
-			await expect(closestHTMLPage('http://example.com', { maxFetchCount: -1 })).rejects.toThrow(
-				'Argument `maxFetchCount` must be greater than or equal to 0.',
-			);
+			await expect(closestHTMLPage('http://example.com', { maxFetchCount: -1 })).rejects.toThrow('Argument `maxFetchCount` must be greater than or equal to 0');
 		});
 	});
 });

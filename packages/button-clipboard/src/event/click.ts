@@ -18,6 +18,6 @@ export default async (_ev: MouseEvent, data: Data, feedback: Feedback): Promise<
 	if (feedback.element !== undefined) {
 		feedback.element.hidden = false;
 	} else {
-		console.info('Clipboard write successfully.', content);
+		console.info('Clipboard write successfully', content);
 	}
 };

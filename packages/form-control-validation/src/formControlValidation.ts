@@ -24,7 +24,7 @@ export default (thisElement: HTMLElement): void => {
 			return [...targetElement.querySelectorAll<HTMLInputElement>('input[type="radio"]')];
 		}
 
-		throw new Error('The `formControlValidation` feature can only be specified for `<input>`, `<select>`, `<textarea>` or `<XXX role=radiogroup>`.');
+		throw new Error('The `formControlValidation` feature can only be specified for `<input>`, `<select>`, `<textarea>` or `<XXX role=radiogroup>`');
 	};
 
 	const formControlElements = getFormControlElements(thisElement); // フォームコントロール要素

@@ -12,10 +12,10 @@ export default class {
 		const delay = Number(value.delay);
 
 		if (!Number.isFinite(delay)) {
-			throw new TypeError('The value of the `data-mouseenter-delay` attribute must be a number.');
+			throw new TypeError('The value of the `data-mouseenter-delay` attribute must be a number');
 		}
 		if (delay <= 0) {
-			throw new TypeError('The value of the `data-mouseenter-delay` attribute must be a number greater than zero.');
+			throw new TypeError('The value of the `data-mouseenter-delay` attribute must be a number greater than zero');
 		}
 
 		this.#delay = delay;

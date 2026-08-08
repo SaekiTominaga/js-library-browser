@@ -22,7 +22,7 @@ export default (thisElement: HTMLDetailsElement): void => {
 
 	const summaryElement = thisElement.querySelector<HTMLElement>(':scope > summary');
 	if (summaryElement === null) {
-		throw new Error('Element `<details>` is missing a required instance of child element `<summary>`.');
+		throw new Error('Element `<details>` is missing a required instance of child element `<summary>`');
 	}
 
 	const preOpenAttribute = new PreOpen(thisElement);

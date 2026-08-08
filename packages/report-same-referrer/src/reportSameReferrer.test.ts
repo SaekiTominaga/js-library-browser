@@ -162,7 +162,7 @@ describe('validate', () => {
 							},
 						},
 					}),
-				).rejects.toThrow('An invalid value was specified for the argument `condition`.');
+				).rejects.toThrow('An invalid value was specified for the argument `condition`');
 			});
 		});
 	});

@@ -8,7 +8,7 @@ test('no attribute', () => {
 test('invalid URL', () => {
 	expect(() => {
 		new Url('xxx');
-	}).toThrow('The value of the `data-url` attribute must be a URL.');
+	}).toThrow('The value of the `data-url` attribute must be a URL');
 });
 
 test('text', () => {

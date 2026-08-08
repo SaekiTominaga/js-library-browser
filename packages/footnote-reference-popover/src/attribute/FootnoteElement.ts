@@ -9,17 +9,17 @@ export default class {
 	 */
 	constructor(value: string | null | undefined) {
 		if (value === null || value === undefined) {
-			throw new TypeError('The `href` attribute is not set.');
+			throw new TypeError('The `href` attribute is not set');
 		}
 
 		if (!URL.canParse(value)) {
-			throw new TypeError('The value of the `href` attribute must be a URL.');
+			throw new TypeError('The value of the `href` attribute must be a URL');
 		}
 
 		const url = new URL(value);
 
 		if (url.origin !== location.origin || url.pathname !== location.pathname) {
-			throw new TypeError('The `href` attribute must be in the same content.');
+			throw new TypeError('The `href` attribute must be in the same content');
 		}
 
 		const id = url.hash.substring(1);
