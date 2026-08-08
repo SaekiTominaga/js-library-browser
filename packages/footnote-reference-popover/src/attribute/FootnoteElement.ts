@@ -25,7 +25,7 @@ export default class {
 		const id = url.hash.substring(1);
 		const footnoteElement = document.getElementById(id);
 		if (footnoteElement === null) {
-			throw new Error(`Element \`#${id}\` not found.`);
+			throw new Error(`Element \`#${id}\` not found`);
 		}
 
 		this.#element = footnoteElement;

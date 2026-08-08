@@ -22,12 +22,12 @@ export default class {
 		if (value.id !== null && value.id !== undefined) {
 			const checkboxGroupElement = document.getElementById(value.id);
 			if (checkboxGroupElement === null) {
-				throw new Error(`Element \`#${value.id}\` not found.`);
+				throw new Error(`Element \`#${value.id}\` not found`);
 			}
 
 			const checkboxElements = [...checkboxGroupElement.querySelectorAll<HTMLInputElement>('input[type="checkbox"]')];
 			if (checkboxElements.length === 0) {
-				throw new Error(`Checkbox does not exist in descendants of the element \`#${value.id}\`.`);
+				throw new Error(`Checkbox does not exist in descendants of the element \`#${value.id}\``);
 			}
 
 			this.#elements = this.#elements.concat(checkboxElements);
@@ -36,10 +36,10 @@ export default class {
 		if (value.class !== null && value.class !== undefined) {
 			const elements = [...document.getElementsByClassName(value.class)];
 			if (elements.length === 0) {
-				throw new Error(`Element \`.${value.class}\` not found.`);
+				throw new Error(`Element \`.${value.class}\` not found`);
 			}
 			if (!elements.every((element) => element instanceof HTMLInputElement)) {
-				throw new TypeError(`Element \`.${value.class}\` is not a \`HTMLInputElement\`.`);
+				throw new TypeError(`Element \`.${value.class}\` is not a \`HTMLInputElement\``);
 			}
 
 			this.#elements = this.#elements.concat(elements);
@@ -48,10 +48,10 @@ export default class {
 		if (value.name !== null && value.name !== undefined) {
 			const elements = [...document.getElementsByName(value.name)];
 			if (elements.length === 0) {
-				throw new Error(`Element \`[name=${value.name}]\` not found.`);
+				throw new Error(`Element \`[name=${value.name}]\` not found`);
 			}
 			if (!elements.every((element) => element instanceof HTMLInputElement)) {
-				throw new TypeError(`Element \`[name=${value.name}]\` is not a \`HTMLInputElement\`.`);
+				throw new TypeError(`Element \`[name=${value.name}]\` is not a \`HTMLInputElement\``);
 			}
 
 			this.#elements = this.#elements.concat(elements);
