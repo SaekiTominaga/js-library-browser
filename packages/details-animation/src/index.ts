@@ -2,7 +2,7 @@ import detailsAnimation from './detailsAnimation.ts';
 
 const validate = (element: Element): HTMLDetailsElement => {
 	if (!(element instanceof HTMLDetailsElement)) {
-		throw new Error('Element must be a `HTMLDetailsElement`');
+		throw new TypeError('Element must be a `HTMLDetailsElement`');
 	}
 
 	return element;

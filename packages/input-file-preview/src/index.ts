@@ -3,10 +3,10 @@ import inputFilePreview from './inputFilePreview.ts';
 
 const validate = (element: Element): HTMLInputFileElement => {
 	if (!(element instanceof HTMLInputElement)) {
-		throw new Error('Element must be a `HTMLInputElement`');
+		throw new TypeError('Element must be a `HTMLInputElement`');
 	}
 	if (element.type !== 'file') {
-		throw new Error('Element must be a `<input type=file>`');
+		throw new TypeError('Element must be a `<input type=file>`');
 	}
 
 	return element as HTMLInputFileElement;

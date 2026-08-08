@@ -2,7 +2,7 @@ import inputIsbn from './inputIsbn.ts';
 
 const validate = (element: Element): HTMLInputElement => {
 	if (!(element instanceof HTMLInputElement)) {
-		throw new Error('Element must be a `HTMLInputElement`');
+		throw new TypeError('Element must be a `HTMLInputElement`');
 	}
 
 	return element;

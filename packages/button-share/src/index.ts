@@ -2,7 +2,7 @@ import buttonShare from './buttonShare.ts';
 
 const validate = (element: Element): HTMLButtonElement => {
 	if (!(element instanceof HTMLButtonElement)) {
-		throw new Error('Element must be a `HTMLButtonElement`');
+		throw new TypeError('Element must be a `HTMLButtonElement`');
 	}
 
 	return element;

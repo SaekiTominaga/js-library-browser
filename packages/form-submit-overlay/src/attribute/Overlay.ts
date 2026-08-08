@@ -17,7 +17,7 @@ export default class {
 			throw new Error(`Element \`#${value}\` not found.`);
 		}
 		if (!(element instanceof HTMLDialogElement)) {
-			throw new Error(`Element \`#${value}\` must be a \`<dialog>\` element.`);
+			throw new TypeError(`Element \`#${value}\` must be a \`<dialog>\` element.`);
 		}
 
 		this.#element = element;

@@ -2,7 +2,7 @@ import footnoteReferencePopover from './footnoteReferencePopover.ts';
 
 const validate = (element: Element): HTMLAnchorElement => {
 	if (!(element instanceof HTMLAnchorElement)) {
-		throw new Error('Element must be a `HTMLAnchorElement`');
+		throw new TypeError('Element must be a `HTMLAnchorElement`');
 	}
 
 	return element;
