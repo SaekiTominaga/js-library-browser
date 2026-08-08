@@ -25,7 +25,7 @@ describe('constructor - min attribute', () => {
 	test('no attribute', () => {
 		expect(() => {
 			new ValidationMessageMin(undefined, document.querySelector('input')!);
-		}).toThrow('The `data-validation-min` attribute is not set');
+		}).toThrow(new Error('The `data-validation-min` attribute is not set'));
 	});
 
 	test('valid string', () => {

@@ -7,6 +7,6 @@ describe('constructor', () => {
 
 		expect(() => {
 			new TableCellDitto(document.querySelector('.js-table-cell-ditto')!);
-		}).toThrow('Table body cell does not exist in the specified table');
+		}).toThrow(new Error('Table body cell does not exist in the specified table'));
 	});
 });

@@ -4,7 +4,7 @@ import Data from './Data.ts';
 test('no attribute', () => {
 	expect(() => {
 		new Data({});
-	}).toThrow('The `data-text` or `data-target` attribute is not set');
+	}).toThrow(new Error('The `data-text` or `data-target` attribute is not set'));
 });
 
 test('text', () => {
@@ -15,7 +15,7 @@ describe('target', () => {
 	test('no element', () => {
 		expect(() => {
 			new Data({ target: 'xxx' });
-		}).toThrow('Element `#xxx` not found');
+		}).toThrow(new Error('Element `#xxx` not found'));
 	});
 
 	test('exist element', () => {

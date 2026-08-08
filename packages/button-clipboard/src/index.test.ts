@@ -49,5 +49,5 @@ describe('argument type', () => {
 test('type mismatch', () => {
 	expect(() => {
 		index(document.querySelector('#target'));
-	}).toThrow('Element must be a `HTMLButtonElement`');
+	}).toThrow(new Error('Element must be a `HTMLButtonElement`'));
 });

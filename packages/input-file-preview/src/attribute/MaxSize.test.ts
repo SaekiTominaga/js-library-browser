@@ -8,13 +8,13 @@ test('no attribute', () => {
 test('not number', () => {
 	expect(() => {
 		new MaxSize('xxx');
-	}).toThrow('The value of the `data-max-size` attribute must be a number');
+	}).toThrow(new Error('The value of the `data-max-size` attribute must be a number'));
 });
 
 test('negative number', () => {
 	expect(() => {
 		new MaxSize('-1');
-	}).toThrow('The value of the `data-max-size` attribute must be a positive number');
+	}).toThrow(new Error('The value of the `data-max-size` attribute must be a positive number'));
 });
 
 test('zero', () => {

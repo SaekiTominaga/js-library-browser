@@ -37,7 +37,7 @@ test('application/x-www-form-urlencoded', async () => {
 		reportSameReferrer({
 			fetch: fetchOptionsTemp,
 		}),
-	).rejects.toThrow('`https://report.w0s.jp/report/referrer-sample` is 400 Bad Request'); // TODO: データ形式の正当性が確認できていない
+	).rejects.toThrow(new Error('`https://report.w0s.jp/report/referrer-sample` is 400 Bad Request')); // TODO: データ形式の正当性が確認できていない
 });
 
 describe('validate', () => {
@@ -162,7 +162,7 @@ describe('validate', () => {
 							},
 						},
 					}),
-				).rejects.toThrow('An invalid value was specified for the argument `condition`');
+				).rejects.toThrow(new Error('An invalid value was specified for the argument `condition`'));
 			});
 		});
 	});

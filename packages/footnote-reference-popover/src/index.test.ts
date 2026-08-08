@@ -72,5 +72,5 @@ describe('argument type', () => {
 test('type mismatch', () => {
 	expect(() => {
 		index(document.createElement('p'));
-	}).toThrow('Element must be a `HTMLAnchorElement`');
+	}).toThrow(new Error('Element must be a `HTMLAnchorElement`'));
 });

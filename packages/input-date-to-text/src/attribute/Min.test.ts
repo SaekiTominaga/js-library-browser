@@ -9,7 +9,7 @@ describe('constructor', () => {
 	test('invalid format', () => {
 		expect(() => {
 			new Min('20000101');
-		}).toThrow('The format of the `min` attribute must be `YYYY-MM-DD`');
+		}).toThrow(new Error('The format of the `min` attribute must be `YYYY-MM-DD`'));
 	});
 
 	test('valid', () => {

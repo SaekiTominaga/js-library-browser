@@ -8,7 +8,7 @@ test('no attribute', () => {
 test('no element', () => {
 	expect(() => {
 		new Feedback('xxx');
-	}).toThrow('Element `#xxx` not found');
+	}).toThrow(new Error('Element `#xxx` not found'));
 });
 
 test('exist element', () => {
