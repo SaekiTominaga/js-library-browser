@@ -39,7 +39,7 @@ export default class {
 				throw new Error(`Element \`.${value.class}\` not found.`);
 			}
 			if (!elements.every((element) => element instanceof HTMLInputElement)) {
-				throw new Error(`Element \`.${value.class}\` is not a \`HTMLInputElement\`.`);
+				throw new TypeError(`Element \`.${value.class}\` is not a \`HTMLInputElement\`.`);
 			}
 
 			this.#elements = this.#elements.concat(elements);
@@ -51,7 +51,7 @@ export default class {
 				throw new Error(`Element \`[name=${value.name}]\` not found.`);
 			}
 			if (!elements.every((element) => element instanceof HTMLInputElement)) {
-				throw new Error(`Element \`[name=${value.name}]\` is not a \`HTMLInputElement\`.`);
+				throw new TypeError(`Element \`[name=${value.name}]\` is not a \`HTMLInputElement\`.`);
 			}
 
 			this.#elements = this.#elements.concat(elements);
