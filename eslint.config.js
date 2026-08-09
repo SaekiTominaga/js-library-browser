@@ -2,7 +2,8 @@
 /* eslint-disable import/no-unresolved */
 
 import { defineConfig } from 'eslint/config';
-import playwright from 'eslint-plugin-playwright';
+import pluginJest from 'eslint-plugin-jest';
+import pluginPlaywright from 'eslint-plugin-playwright';
 import globals from 'globals';
 import w0sConfig from '@w0s/eslint-config';
 
@@ -33,7 +34,7 @@ export default defineConfig([
 	},
 	{
 		files: ['e2e/*.spec.ts'],
-		extends: [playwright.configs['flat/recommended']],
+		extends: [pluginPlaywright.configs['flat/recommended']],
 		rules: {
 			'playwright/no-skipped-test': 'off',
 			'playwright/prefer-to-have-count': 'off',
@@ -58,6 +59,8 @@ export default defineConfig([
 	},
 	{
 		files: ['packages/*/src/**/*.test.ts'],
+		plugins: { jest: pluginJest },
+		extends: [pluginJest.configs['flat/recommended']],
 		rules: {
 			'import/no-extraneous-dependencies': 'off', // Allow imports from `@jest/globals`
 		},

@@ -1,7 +1,7 @@
 import { describe, expect, test } from '@jest/globals';
 // eslint-disable-next-line import/no-unassigned-import
 import 'cross-fetch/polyfill';
-import { fetchOptions, options } from '../reportJsError.test.ts';
+import type { FetchOption, Option } from '../reportJsError.ts';
 import errorEvent from './error.ts';
 
 const errorEventInit: Readonly<ErrorEventInit> = {
@@ -12,6 +12,25 @@ const errorEventInit: Readonly<ErrorEventInit> = {
 };
 
 const testTimeout = 10000; // default=5000 <https://jestjs.io/docs/api#testname-fn-timeout>
+
+const fetchOptions: Readonly<FetchOption> = {
+	endpoint: new URL('https://report.w0s.jp/report/js-sample'),
+	param: {
+		documentURL: 'documentURL',
+		message: 'message',
+		filename: 'jsURL',
+		lineno: 'lineNumber',
+		colno: 'columnNumber',
+	},
+	contentType: 'application/json',
+	headers: {
+		origin: 'https://saekitominaga.github.io',
+	},
+};
+
+const options: Readonly<Option> = {
+	fetch: fetchOptions,
+};
 
 test(
 	'正常ケース',
