@@ -1,7 +1,7 @@
 import { describe, expect, jest, test } from '@jest/globals';
 import reportJsError, { type FetchOption, type Option } from './reportJsError.ts';
 
-export const fetchOptions: Readonly<FetchOption> = {
+const fetchOptions: Readonly<FetchOption> = {
 	endpoint: new URL('https://report.w0s.jp/report/js-sample'),
 	param: {
 		documentURL: 'documentURL',
@@ -15,7 +15,8 @@ export const fetchOptions: Readonly<FetchOption> = {
 		origin: 'https://saekitominaga.github.io',
 	},
 };
-export const options: Readonly<Option> = {
+
+const options: Readonly<Option> = {
 	fetch: fetchOptions,
 };
 
