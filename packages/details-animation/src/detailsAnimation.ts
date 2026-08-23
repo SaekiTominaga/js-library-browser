@@ -1,10 +1,10 @@
 import Duration from './attribute/Duration.ts';
 import Easing from './attribute/Easing.ts';
 import PreOpen from './attribute/PreOpen.ts';
-import detailsToggleEvent from './event/details/toggle.ts';
-import detailsContentAnimationFinishEvent from './event/details-content/animation-finish.ts';
-import summaryClickEvent from './event/summary/click.ts';
 import DetailsContentElement, { ANIMATION_FINISH_EVENT_TYPE, type AnimationFinishEventDetail } from './custom-element/DetailsContent.ts';
+import detailsContentAnimationFinishEvent from './event/details-content/animation-finish.ts';
+import detailsToggleEvent from './event/details/toggle.ts';
+import summaryClickEvent from './event/summary/click.ts';
 
 const DETAILS_CONTENT_ELEMENT_NAME = 'x-details-content';
 

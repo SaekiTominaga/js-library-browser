@@ -1,6 +1,6 @@
 import type { HTMLInputFileElement } from '../@types/lib.dom.ts';
-import Preview from './attribute/Preview.ts';
 import MaxSize from './attribute/MaxSize.ts';
+import Preview from './attribute/Preview.ts';
 import changeEvent from './event/change.ts';
 
 /**

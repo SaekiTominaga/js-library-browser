@@ -9,16 +9,12 @@
 	"bugs": {
 		"url": "https://github.com/SaekiTominaga/js-library-browser/issues"
 	},
+	"license": "MIT",
+	"author": "Saeki Tominaga",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/SaekiTominaga/js-library-browser.git"
 	},
-	"license": "MIT",
-	"author": "Saeki Tominaga",
-	"type": "module",
-	"main": "dist/index.js",
-	"module": "dist/index.js",
-	"types": "dist/index.d.ts",
 	"files": [
 		"dist/**/*.d.ts",
 		"!dist/**/*.test.d.ts",
@@ -29,6 +25,13 @@
 		"dist/**/*.js.map",
 		"!dist/**/*.test.js.map"
 	],
+	"type": "module",
+	"main": "dist/index.js",
+	"module": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"publishConfig": {
+		"access": "public"
+	},
 	"scripts": {
 		"dev": "conc \"http-server ../ -p 8080 -o report-same-referrer/demo -c-1\" \"tsc -w\"",
 		"prebuild": "rimraf dist/* -g",
@@ -36,8 +39,5 @@
 		"lint": "eslint src/**/*.ts",
 		"pretest": "npm run build",
 		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest dist/.+\\.test\\.js -c ../../jest.config.mjs --roots packages/report-same-referrer"
-	},
-	"publishConfig": {
-		"access": "public"
 	}
 }

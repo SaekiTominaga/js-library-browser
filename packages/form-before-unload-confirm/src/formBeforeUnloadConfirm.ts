@@ -1,6 +1,6 @@
 import formControlChangeEvent from './event/form-control/change.ts';
-import windowBeforeUnloadEvent from './event/window/beforeunload.ts';
 import submitEvent from './event/submit.ts';
+import windowBeforeUnloadEvent from './event/window/beforeunload.ts';
 
 export interface Status {
 	submitForm: boolean; // フォームが送信されたか

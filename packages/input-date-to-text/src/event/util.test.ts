@@ -1,9 +1,9 @@
 import { describe, expect, test } from '@jest/globals';
 import Max from '../attribute/Max.ts';
 import Min from '../attribute/Min.ts';
-import ValidationMessageNoExist from '../attribute/ValidationMessageNoExist.ts';
-import ValidationMessageMin from '../attribute/ValidationMessageMin.ts';
 import ValidationMessageMax from '../attribute/ValidationMessageMax.ts';
+import ValidationMessageMin from '../attribute/ValidationMessageMin.ts';
+import ValidationMessageNoExist from '../attribute/ValidationMessageNoExist.ts';
 import { convertValue, validate } from './util.ts';
 
 describe('convertValue', () => {

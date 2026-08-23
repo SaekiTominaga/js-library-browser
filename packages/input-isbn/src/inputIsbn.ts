@@ -1,6 +1,6 @@
 import ValidationMessageIsbnCheckdigit from './attribute/ValidationMessageIsbnCheckdigit.ts';
-import formSubmitEvent from './event/form/submit.ts';
 import changeEvent from './event/change.ts';
+import formSubmitEvent from './event/form/submit.ts';
 
 /**
  * ISBN input field

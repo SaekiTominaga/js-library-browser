@@ -1,11 +1,11 @@
 // @ts-check
 /* eslint-disable import/no-unresolved */
 
-import { defineConfig } from 'eslint/config';
+import w0sConfig from '@w0s/eslint-config';
 import pluginJest from 'eslint-plugin-jest';
 import pluginPlaywright from 'eslint-plugin-playwright';
+import { defineConfig } from 'eslint/config';
 import globals from 'globals';
-import w0sConfig from '@w0s/eslint-config';
 
 /** @type {import("eslint").Linter.Config[]} */
 export default defineConfig([

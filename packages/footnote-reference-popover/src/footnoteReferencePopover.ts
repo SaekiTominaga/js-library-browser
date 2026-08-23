@@ -6,12 +6,12 @@ import PopoverClassAttribute from './attribute/PopoverClass.ts';
 import PopoverHideAttribute from './attribute/PopoverHide.ts';
 import PopoverLabelAttribute from './attribute/PopoverLabel.ts';
 import PopoverElement, { type ToggleEventDetail } from './custom-element/Popover.ts';
-import popoverMouseenterEvent from './event/popover/mouseenter.ts';
-import popoverMouseleaveEvent from './event/popover/mouseleave.ts';
 import popoverHiddenButtonClickEvent from './event/popover-hidden-button/click.ts';
 import popoverTriggerClickEvent from './event/popover-trigger/click.ts';
 import popoverTriggerMouseenterEvent from './event/popover-trigger/mouseenter.ts';
 import popoverTriggerMouseleaveEvent from './event/popover-trigger/mouseleave.ts';
+import popoverMouseenterEvent from './event/popover/mouseenter.ts';
+import popoverMouseleaveEvent from './event/popover/mouseleave.ts';
 
 const POPOVER_ELEMENT_NAME = 'x-popover';
 
