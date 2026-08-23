@@ -1,6 +1,6 @@
 import Overlay from './attribute/Overlay.ts';
-import windowPagehideEvent from './event/window/pagehide.ts';
 import submitEvent from './event/submit.ts';
+import windowPagehideEvent from './event/window/pagehide.ts';
 
 /**
  * Cover the entire screen with an overlay when form submitting

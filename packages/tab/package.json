@@ -3,24 +3,20 @@
 	"version": "5.0.3",
 	"description": "Tabs UI component",
 	"keywords": [
-		"web-components",
 		"custom-elements",
-		"tab"
+		"tab",
+		"web-components"
 	],
 	"homepage": "https://github.com/SaekiTominaga/js-library-browser#readme",
 	"bugs": {
 		"url": "https://github.com/SaekiTominaga/js-library-browser/issues"
 	},
+	"license": "MIT",
+	"author": "Saeki Tominaga",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/SaekiTominaga/js-library-browser.git"
 	},
-	"license": "MIT",
-	"author": "Saeki Tominaga",
-	"type": "module",
-	"main": "dist/index.js",
-	"module": "dist/index.js",
-	"types": "dist/index.d.ts",
 	"files": [
 		"dist/**/*.d.ts",
 		"!dist/**/*.test.d.ts",
@@ -31,6 +27,13 @@
 		"dist/**/*.js.map",
 		"!dist/**/*.test.js.map"
 	],
+	"type": "module",
+	"main": "dist/index.js",
+	"module": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"publishConfig": {
+		"access": "public"
+	},
 	"scripts": {
 		"dev": "conc \"http-server ../ -p 8080 -o tab/demo -c-1\" \"tsc -w\"",
 		"prebuild": "rimraf dist/* -g",
@@ -40,8 +43,5 @@
 		"test": "npm run test:node & npm run test:playwright",
 		"test:node": "cross-env NODE_OPTIONS=--experimental-vm-modules jest dist/.+\\.test\\.js -c ../../jest.config.mjs --roots packages/tab",
 		"test:playwright": "playwright test tab.spec.ts -c ../../playwright.config.js"
-	},
-	"publishConfig": {
-		"access": "public"
 	}
 }

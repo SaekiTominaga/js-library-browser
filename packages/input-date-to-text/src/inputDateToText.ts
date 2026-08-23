@@ -4,8 +4,8 @@ import Title from './attribute/Title.ts';
 import ValidationMessageMax from './attribute/ValidationMessageMax.ts';
 import ValidationMessageMin from './attribute/ValidationMessageMin.ts';
 import ValidationMessageNoExist from './attribute/ValidationMessageNoExist.ts';
-import formSubmitEvent from './event/form/submit.ts';
 import changeEvent from './event/change.ts';
+import formSubmitEvent from './event/form/submit.ts';
 
 /**
  * Convert date control to `<input type=text>`

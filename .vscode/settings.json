@@ -1,6 +1,6 @@
 {
 	"css.validate": false,
-	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.defaultFormatter": "oxc.oxc-vscode",
 	"editor.formatOnSave": true,
 	"editor.renderControlCharacters": true,
 	"editor.renderWhitespace": "boundary",

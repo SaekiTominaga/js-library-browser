@@ -1,8 +1,8 @@
 import { MIMEType } from 'whatwg-mimetype';
 import type { HTMLInputFileElement } from '../../@types/lib.dom.ts';
-import { convert } from '../util/errorMessage.ts';
 import type MaxSize from '../attribute/MaxSize.ts';
 import type Preview from '../attribute/Preview.ts';
+import { convert } from '../util/errorMessage.ts';
 
 /**
  * `submit` event
