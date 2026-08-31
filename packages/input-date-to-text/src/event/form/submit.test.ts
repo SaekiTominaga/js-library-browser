@@ -28,10 +28,10 @@ test('valid', () => {
 		validationMessageMax,
 	});
 
+	preventDefaultSpy.mockRestore();
+
 	expect($input.validationMessage).toBe('');
 	expect(preventDefaultSpy).not.toHaveBeenCalled();
-
-	preventDefaultSpy.mockRestore();
 });
 
 test('invalid', () => {
@@ -59,8 +59,8 @@ test('invalid', () => {
 		validationMessageMax,
 	});
 
-	expect($input.validationMessage).toBe(VALIDATION_MESSAGE_NO_EXIST);
-	expect(preventDefaultSpy).toHaveBeenCalled();
-
 	preventDefaultSpy.mockRestore();
+
+	expect($input.validationMessage).toBe(VALIDATION_MESSAGE_NO_EXIST);
+	expect(preventDefaultSpy).toHaveBeenCalledWith();
 });

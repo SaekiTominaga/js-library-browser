@@ -9,6 +9,7 @@ describe('browser support popover', () => {
 		// @ts-expect-error: ts(2790)
 		delete HTMLElement.prototype.showPopover;
 	});
+
 	afterAll(() => {
 		HTMLElement.prototype.showPopover = tempShowPopover;
 	});
@@ -18,9 +19,9 @@ describe('browser support popover', () => {
 
 		index(null);
 
-		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support popover.');
-
 		consoleInfoSpy.mockRestore();
+
+		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support popover.');
 	});
 });
 

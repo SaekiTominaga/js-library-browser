@@ -76,7 +76,7 @@ test.describe('text-align', () => {
 
 		const cellTextWidth = await aboveCell.evaluate(getTextWidth);
 		const dittoMarkWidth = await targetCell.evaluate(getTextWidth);
-		const cellPadding = Number.parseInt(await aboveCell.evaluate(($element): string => getComputedStyle($element).paddingInlineStart), 10);
+		const cellPadding = Number(await aboveCell.evaluate(($element): string => getComputedStyle($element).paddingInlineStart.replace(/px$/v, '')));
 		const padding = (cellTextWidth - dittoMarkWidth) / 2 + cellPadding;
 
 		await Promise.all([
@@ -107,7 +107,7 @@ test.describe('text-align', () => {
 
 		const cellTextWidth = await aboveCell.evaluate(getTextWidth);
 		const dittoMarkWidth = await targetCell.evaluate(getTextWidth);
-		const cellPadding = Number.parseInt(await aboveCell.evaluate(($element): string => getComputedStyle($element).paddingInlineEnd), 10);
+		const cellPadding = Number(await aboveCell.evaluate(($element): string => getComputedStyle($element).paddingInlineEnd.replace(/px$/v, '')));
 		const padding = (cellTextWidth - dittoMarkWidth) / 2 + cellPadding;
 
 		await Promise.all([

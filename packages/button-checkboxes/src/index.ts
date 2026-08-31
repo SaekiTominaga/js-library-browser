@@ -16,7 +16,7 @@ export default (elementOrElements: NodeListOf<Element> | HTMLCollectionOf<Elemen
 	if (elementOrElements instanceof Element) {
 		buttonCheckboxes(validate(elementOrElements));
 	} else {
-		Array.from(elementOrElements).forEach((element) => {
+		[...elementOrElements].forEach((element) => {
 			buttonCheckboxes(validate(element));
 		});
 	}

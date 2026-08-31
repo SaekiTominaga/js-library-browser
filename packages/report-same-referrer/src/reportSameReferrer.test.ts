@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, test } from '@jest/globals';
-// eslint-disable-next-line import/no-unassigned-import
+// oxlint-disable-next-line import/no-unassigned-import
 import 'cross-fetch/polyfill';
 import reportSameReferrer, { type FetchOption } from './reportSameReferrer.ts';
 
@@ -30,8 +30,10 @@ test('正常ケース', async () => {
 });
 
 test('application/x-www-form-urlencoded', async () => {
-	const fetchOptionsTemp = { ...fetchOptions };
-	fetchOptionsTemp.contentType = 'application/x-www-form-urlencoded';
+	const fetchOptionsTemp: FetchOption = {
+		...fetchOptions,
+		contentType: 'application/x-www-form-urlencoded',
+	};
 
 	await expect(
 		reportSameReferrer({
@@ -45,11 +47,11 @@ describe('validate', () => {
 		test('no referrer', async () => {
 			Object.defineProperty(document, 'referrer', { value: '' });
 
-			expect(
-				await reportSameReferrer({
+			await expect(
+				reportSameReferrer({
 					fetch: fetchOptions,
 				}),
-			).toBeUndefined();
+			).resolves.toBeUndefined();
 		});
 
 		describe('sames', () => {
@@ -90,8 +92,8 @@ describe('validate', () => {
 			test('unmatch', async () => {
 				Object.defineProperty(document, 'referrer', { value: 'http://example.com/' });
 
-				expect(
-					await reportSameReferrer({
+				await expect(
+					reportSameReferrer({
 						fetch: fetchOptions,
 						validate: {
 							referrer: {
@@ -99,7 +101,7 @@ describe('validate', () => {
 							},
 						},
 					}),
-				).toBeUndefined();
+				).resolves.toBeUndefined();
 			});
 		});
 
@@ -107,8 +109,8 @@ describe('validate', () => {
 			test('origin', async () => {
 				Object.defineProperty(document, 'referrer', { value: 'https://localhost/' });
 
-				expect(
-					await reportSameReferrer({
+				await expect(
+					reportSameReferrer({
 						fetch: fetchOptions,
 						validate: {
 							referrer: {
@@ -116,14 +118,14 @@ describe('validate', () => {
 							},
 						},
 					}),
-				).toBeUndefined();
+				).resolves.toBeUndefined();
 			});
 
 			test('host', async () => {
 				Object.defineProperty(document, 'referrer', { value: 'http://localhost:999/' });
 
-				expect(
-					await reportSameReferrer({
+				await expect(
+					reportSameReferrer({
 						fetch: fetchOptions,
 						validate: {
 							referrer: {
@@ -131,14 +133,14 @@ describe('validate', () => {
 							},
 						},
 					}),
-				).toBeUndefined();
+				).resolves.toBeUndefined();
 			});
 
 			test('hostname', async () => {
 				Object.defineProperty(document, 'referrer', { value: 'http://example.com/' });
 
-				expect(
-					await reportSameReferrer({
+				await expect(
+					reportSameReferrer({
 						fetch: fetchOptions,
 						validate: {
 							referrer: {
@@ -146,7 +148,7 @@ describe('validate', () => {
 							},
 						},
 					}),
-				).toBeUndefined();
+				).resolves.toBeUndefined();
 			});
 
 			test('invalid', async () => {
@@ -169,25 +171,25 @@ describe('validate', () => {
 
 	describe('user agent', () => {
 		test('denys', async () => {
-			expect(
-				await reportSameReferrer({
+			await expect(
+				reportSameReferrer({
 					fetch: fetchOptions,
 					validate: {
 						ua: { denys: [/ jsdom\//v] },
 					},
 				}),
-			).toBeUndefined();
+			).resolves.toBeUndefined();
 		});
 
 		test('allows', async () => {
-			expect(
-				await reportSameReferrer({
+			await expect(
+				reportSameReferrer({
 					fetch: fetchOptions,
 					validate: {
 						ua: { allows: [/foo/v] },
 					},
 				}),
-			).toBeUndefined();
+			).resolves.toBeUndefined();
 		});
 	});
 });

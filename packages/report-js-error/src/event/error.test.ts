@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
-// eslint-disable-next-line import/no-unassigned-import
+// oxlint-disable-next-line import/no-unassigned-import
 import 'cross-fetch/polyfill';
 import type { FetchOption, Option } from '../reportJsError.ts';
 import errorEvent from './error.ts';
@@ -11,7 +11,7 @@ const errorEventInit: Readonly<ErrorEventInit> = {
 	colno: 2,
 };
 
-const testTimeout = 10000; // default=5000 <https://jestjs.io/docs/api#testname-fn-timeout>
+const testTimeout = 10_000; // default=5000 <https://jestjs.io/docs/api#testname-fn-timeout>
 
 const fetchOptions: Readonly<FetchOption> = {
 	endpoint: new URL('https://report.w0s.jp/report/js-sample'),
@@ -47,8 +47,10 @@ test(
 	async () => {
 		const event = new ErrorEvent('error', errorEventInit);
 
-		const fetchOptionsTemp = { ...options.fetch };
-		fetchOptionsTemp.contentType = 'application/x-www-form-urlencoded';
+		const fetchOptionsTemp: FetchOption = {
+			...options.fetch,
+			contentType: 'application/x-www-form-urlencoded',
+		};
 
 		await expect(
 			errorEvent(event, {
@@ -65,8 +67,10 @@ test(
 	async () => {
 		const event = new ErrorEvent('error', errorEventInit);
 
-		const fetchOptionsTemp = { ...options.fetch };
-		fetchOptionsTemp.endpoint = new URL('https://saekitominaga.github.io/js-library-browser/packages/report-js-error/');
+		const fetchOptionsTemp: FetchOption = {
+			...options.fetch,
+			endpoint: new URL('https://saekitominaga.github.io/js-library-browser/packages/report-js-error/'),
+		};
 
 		await expect(
 			errorEvent(event, {
@@ -83,12 +87,14 @@ describe('validate', () => {
 		test(
 			'YJApp-ANDROID',
 			async () => {
-				const errorEventInitTemp = { ...errorEventInit };
-				errorEventInitTemp.filename = '';
+				const errorEventInitTemp: ErrorEventInit = {
+					...errorEventInit,
+					filename: '',
+				};
 
 				const event = new ErrorEvent('error', errorEventInitTemp);
 
-				expect(await errorEvent(event, options)).toBeUndefined();
+				await expect(errorEvent(event, options)).resolves.toBeUndefined();
 			},
 			testTimeout,
 		);
@@ -97,12 +103,14 @@ describe('validate', () => {
 			test(
 				'invalid',
 				async () => {
-					const errorEventInitTemp = { ...errorEventInit };
-					errorEventInitTemp.filename = 'ftp://example.com/foo.js';
+					const errorEventInitTemp: ErrorEventInit = {
+						...errorEventInit,
+						filename: 'ftp://example.com/foo.js',
+					};
 
 					const event = new ErrorEvent('error', errorEventInitTemp);
 
-					expect(await errorEvent(event, options)).toBeUndefined();
+					await expect(errorEvent(event, options)).resolves.toBeUndefined();
 				},
 				testTimeout,
 			);
@@ -110,8 +118,10 @@ describe('validate', () => {
 			test(
 				'https',
 				async () => {
-					const errorEventInitTemp = { ...errorEventInit };
-					errorEventInitTemp.filename = 'https://example.com/foo.js';
+					const errorEventInitTemp: ErrorEventInit = {
+						...errorEventInit,
+						filename: 'https://example.com/foo.js',
+					};
 
 					const event = new ErrorEvent('error', errorEventInitTemp);
 
@@ -126,8 +136,8 @@ describe('validate', () => {
 			async () => {
 				const event = new ErrorEvent('error', errorEventInit);
 
-				expect(
-					await errorEvent(event, {
+				await expect(
+					errorEvent(event, {
 						fetch: fetchOptions,
 						validate: {
 							filename: {
@@ -135,7 +145,7 @@ describe('validate', () => {
 							},
 						},
 					}),
-				).toBeUndefined();
+				).resolves.toBeUndefined();
 			},
 			testTimeout,
 		);
@@ -145,8 +155,8 @@ describe('validate', () => {
 			async () => {
 				const event = new ErrorEvent('error', errorEventInit);
 
-				expect(
-					await errorEvent(event, {
+				await expect(
+					errorEvent(event, {
 						fetch: fetchOptions,
 						validate: {
 							filename: {
@@ -154,7 +164,7 @@ describe('validate', () => {
 							},
 						},
 					}),
-				).toBeUndefined();
+				).resolves.toBeUndefined();
 			},
 			testTimeout,
 		);

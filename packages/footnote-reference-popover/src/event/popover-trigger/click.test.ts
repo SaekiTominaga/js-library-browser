@@ -1,10 +1,12 @@
-import { expect, test } from '@jest/globals';
+import { beforeAll, expect, test } from '@jest/globals';
 import PopoverElement from '../../custom-element/Popover.ts';
 import clickEvent from './click.ts';
 
 const POPOVER_ELEMENT_NAME = 'x-popover';
 
-customElements.define(POPOVER_ELEMENT_NAME, PopoverElement);
+beforeAll(() => {
+	customElements.define(POPOVER_ELEMENT_NAME, PopoverElement);
+});
 
 test('popover status', () => {
 	const event = new MouseEvent('click');

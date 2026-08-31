@@ -22,8 +22,8 @@ export default class {
 			throw new TypeError('The `href` attribute must be in the same content');
 		}
 
-		const id = url.hash.substring(1);
-		const footnoteElement = document.getElementById(id);
+		const id = url.hash.slice(1);
+		const footnoteElement = document.querySelector<HTMLElement>(`#${id}`);
 		if (footnoteElement === null) {
 			throw new Error(`Element \`#${id}\` not found`);
 		}

@@ -27,7 +27,7 @@ export default (
 	}
 
 	/* 既存のプレビューをクリア */
-	Array.from(templateParentNode.querySelectorAll<HTMLElement>(':scope > [data-cloned="template"]')).forEach((element): void => {
+	[...templateParentNode.querySelectorAll<HTMLElement>(':scope > [data-cloned="template"]')].forEach((element): void => {
 		element.remove();
 	});
 
@@ -37,14 +37,14 @@ export default (
 		const templateElementClone = data.preview.template.content.cloneNode(true) as DocumentFragment;
 
 		/* 次の change イベント発生時に子要素を削除するために目印を付ける */
-		Array.from(templateElementClone.children).forEach((element) => {
+		[...templateElementClone.children].forEach((element) => {
 			(element as HTMLElement).dataset['cloned'] = 'template';
 		});
 
 		const outputElement = templateElementClone.querySelector('output');
 		outputElement?.replaceChildren();
 
-		fragment.appendChild(templateElementClone);
+		fragment.append(templateElementClone);
 
 		const { name: fileName, size: fileSize, type: fileType } = file;
 		const type = fileType !== '' ? new MIMEType(fileType).type : undefined;
@@ -85,14 +85,14 @@ export default (
 					mediaElement.textContent = fileName;
 					break;
 				}
-				default:
-					/* 文字列チェックを行っているのでここには来ない */
-					throw new Error();
+				default: {
+					throw new Error(`Invalid MIME type: ${type}`); // 文字列チェックを行っているのでここには来ない想定
+				}
 			}
 
-			outputElement?.appendChild(mediaElement);
+			outputElement?.append(mediaElement);
 		});
 	});
 
-	templateParentNode.insertBefore(fragment, data.preview.template);
+	data.preview.template.before(fragment);
 };

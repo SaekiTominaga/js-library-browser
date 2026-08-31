@@ -11,18 +11,19 @@ import type ValidationMessageNoExist from '../attribute/ValidationMessageNoExist
  *
  * @returns 空文字または YYYY-MM-DD 形式の文字列
  */
-export const convertValue = (inputValue: string): string => {
+const convertValue = (inputValue: string): string => {
 	const valueTrim = inputValue.trim();
 	if (valueTrim === '') {
 		return valueTrim;
 	}
 
 	/* 数字を半角化 */
-	const valueHankaku = valueTrim.replace(/[０-９－／]/gu, (str) => String.fromCharCode(str.charCodeAt(0) - 0xfee0));
+	// oxlint-disable-next-line unicorn/prefer-code-point unicorn/number-literal-case
+	const valueHankaku = valueTrim.replaceAll(/[０-９－／]/gu, (str) => String.fromCodePoint(str.charCodeAt(0) - 0xfe_e0));
 
 	if (/^[0-9]{8}$/u.test(valueHankaku)) {
 		/* e.g. 20000101 → 2000-01-01 */
-		return `${valueHankaku.substring(0, 4)}-${valueHankaku.substring(4, 6)}-${valueHankaku.substring(6)}`;
+		return `${valueHankaku.slice(0, 4)}-${valueHankaku.slice(4, 6)}-${valueHankaku.slice(6)}`;
 	}
 
 	/* e.g. 2000/1/1 → 2000-01-01, 2000-1-1 → 2000-01-01 */
@@ -61,9 +62,9 @@ const getValidityMessage = (
 		return undefined;
 	}
 
-	const valueYear = Number(convertedInputValue.substring(0, 4));
-	const valueMonth = Number(convertedInputValue.substring(5, 7)) - 1;
-	const valueDay = Number(convertedInputValue.substring(8, 10));
+	const valueYear = Number(convertedInputValue.slice(0, 4));
+	const valueMonth = Number(convertedInputValue.slice(5, 7)) - 1;
+	const valueDay = Number(convertedInputValue.slice(8, 10));
 	const valueDate = new Date(valueYear, valueMonth, valueDay);
 
 	if (valueDate.getFullYear() !== valueYear || valueDate.getMonth() !== valueMonth || valueDate.getDate() !== valueDay) {
@@ -97,7 +98,7 @@ const getValidityMessage = (
  *
  * @returns 検証結果に問題がなければ true
  */
-export const validate = (
+const validate = (
 	inputElement: HTMLInputElement,
 	data: Readonly<{
 		min: Min;
@@ -114,3 +115,5 @@ export const validate = (
 	inputElement.setCustomValidity(validityMessage ?? '');
 	return inputElement.reportValidity();
 };
+
+export { convertValue, validate };

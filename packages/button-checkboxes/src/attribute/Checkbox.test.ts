@@ -23,7 +23,7 @@ test('all attributes', () => {
 
 	const $checkboxes = new Checkbox({ id: 'checkboxes', class: 'checkbox-class', name: 'checkbox-name' }).elements;
 
-	expect($checkboxes.length).toBe(6);
+	expect($checkboxes).toHaveLength(6);
 	expect($checkboxes.at(0)?.id).toBe('checkbox1');
 	expect($checkboxes.at(1)?.id).toBe('checkbox2');
 	expect($checkboxes.at(2)?.id).toBe('checkbox5');
@@ -56,7 +56,7 @@ describe('id', () => {
 
 		const $checkboxes = new Checkbox({ id: 'checkboxes' }).elements;
 
-		expect($checkboxes.length).toBe(1);
+		expect($checkboxes).toHaveLength(1);
 		expect($checkboxes.at(0)?.id).toBe('checkbox1');
 	});
 });
@@ -81,7 +81,7 @@ describe('class', () => {
 
 		const $checkboxes = new Checkbox({ class: 'checkbox' }).elements;
 
-		expect($checkboxes.length).toBe(1);
+		expect($checkboxes).toHaveLength(1);
 		expect($checkboxes.at(0)?.id).toBe('checkbox1');
 	});
 });
@@ -108,7 +108,7 @@ describe('name', () => {
 
 		const $checkboxes = new Checkbox({ name: 'checkbox' }).elements;
 
-		expect($checkboxes.length).toBe(1);
+		expect($checkboxes).toHaveLength(1);
 		expect($checkboxes.at(0)?.id).toBe('checkbox1');
 	});
 });

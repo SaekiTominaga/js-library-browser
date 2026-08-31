@@ -10,7 +10,7 @@ import { getContent } from '../util/html.ts';
  * @param feedback - Feedback
  */
 export default async (_ev: MouseEvent, data: Data, feedback: Feedback): Promise<void> => {
-	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	// oxlint-disable-next-line typescript/no-non-null-assertion
 	const content = data.text ?? getContent(data.element!); // `data-text` と `data-target` が両方指定されている場合は前者を優先する
 
 	await navigator.clipboard.writeText(content);

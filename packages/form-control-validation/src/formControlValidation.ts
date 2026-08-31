@@ -3,6 +3,17 @@ import Title from './attribute/Title.ts';
 import changeEvent from './event/change.ts';
 import invalidEvent from './event/invalid.ts';
 
+const getFormControlElements = (targetElement: HTMLElement): (HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement)[] => {
+	if (targetElement instanceof HTMLInputElement || targetElement instanceof HTMLSelectElement || targetElement instanceof HTMLTextAreaElement) {
+		return [targetElement];
+	}
+	if (targetElement.getAttribute('role') === 'radiogroup') {
+		return [...targetElement.querySelectorAll<HTMLInputElement>('input[type="radio"]')];
+	}
+
+	throw new Error('The `formControlValidation` feature can only be specified for `<input>`, `<select>`, `<textarea>` or `<XXX role=radiogroup>`');
+};
+
 /**
  * Input validation of form control
  *
@@ -15,17 +26,6 @@ export default (thisElement: HTMLElement): void => {
 	const title = new Title(titleAttribute);
 	const errorMessage = new ErrorMessage(ariaErrormessageAttribute);
 	errorMessage.element.setAttribute('role', 'alert');
-
-	const getFormControlElements = (targetElement: HTMLElement): readonly (HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement)[] => {
-		if (targetElement instanceof HTMLInputElement || targetElement instanceof HTMLSelectElement || targetElement instanceof HTMLTextAreaElement) {
-			return [targetElement];
-		}
-		if (targetElement.getAttribute('role') === 'radiogroup') {
-			return [...targetElement.querySelectorAll<HTMLInputElement>('input[type="radio"]')];
-		}
-
-		throw new Error('The `formControlValidation` feature can only be specified for `<input>`, `<select>`, `<textarea>` or `<XXX role=radiogroup>`');
-	};
 
 	const formControlElements = getFormControlElements(thisElement); // フォームコントロール要素
 

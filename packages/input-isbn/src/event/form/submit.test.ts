@@ -16,10 +16,10 @@ test('valid', () => {
 		validationMessageIsbnCheckdigit,
 	});
 
+	preventDefaultSpy.mockRestore();
+
 	expect($input.validationMessage).toBe('');
 	expect(preventDefaultSpy).not.toHaveBeenCalled();
-
-	preventDefaultSpy.mockRestore();
 });
 
 test('invalid', () => {
@@ -39,8 +39,8 @@ test('invalid', () => {
 		validationMessageIsbnCheckdigit,
 	});
 
-	expect($input.validationMessage).toBe(VALIDATION_MESSAGE_ISBN_CHECKDIGIT);
-	expect(preventDefaultSpy).toHaveBeenCalled();
-
 	preventDefaultSpy.mockRestore();
+
+	expect($input.validationMessage).toBe(VALIDATION_MESSAGE_ISBN_CHECKDIGIT);
+	expect(preventDefaultSpy).toHaveBeenCalledWith();
 });

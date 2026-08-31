@@ -1,14 +1,17 @@
-import { expect, test } from '@jest/globals';
+import { beforeAll, expect, test } from '@jest/globals';
 import PopoverElement from '../../custom-element/Popover.ts';
 import mouseenterEvent from './mouseenter.ts';
 
 const POPOVER_ELEMENT_NAME = 'x-popover';
 
-customElements.define(POPOVER_ELEMENT_NAME, PopoverElement);
+beforeAll(() => {
+	customElements.define(POPOVER_ELEMENT_NAME, PopoverElement);
+});
 
 const sleep = (ms: number) =>
-	new Promise((callback) => {
-		setTimeout(callback, ms);
+	// oxlint-disable-next-line promise/avoid-new
+	new Promise((resolve) => {
+		setTimeout(resolve, ms);
 	});
 
 test('popover status', async () => {

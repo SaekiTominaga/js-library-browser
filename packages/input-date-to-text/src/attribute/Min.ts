@@ -16,7 +16,7 @@ export default class {
 			throw new TypeError('The format of the `min` attribute must be `YYYY-MM-DD`');
 		}
 
-		this.#value = new Date(Number(value.substring(0, 4)), Number(value.substring(5, 7)) - 1, Number(value.substring(8, 10)));
+		this.#value = new Date(Number(value.slice(0, 4)), Number(value.slice(5, 7)) - 1, Number(value.slice(8, 10)));
 	}
 
 	get value(): Date | undefined {

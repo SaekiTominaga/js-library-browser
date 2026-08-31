@@ -2,7 +2,7 @@ import Duration from './attribute/Duration.ts';
 import Easing from './attribute/Easing.ts';
 import PreOpen from './attribute/PreOpen.ts';
 import DetailsContentElement, { ANIMATION_FINISH_EVENT_TYPE, type AnimationFinishEventDetail } from './custom-element/DetailsContent.ts';
-import detailsContentAnimationFinishEvent from './event/details-content/animation-finish.ts';
+import detailsContentAnimationFinishEvent from './event/details-content/animationFinish.ts';
 import detailsToggleEvent from './event/details/toggle.ts';
 import summaryClickEvent from './event/summary/click.ts';
 
@@ -31,9 +31,8 @@ export default (thisElement: HTMLDetailsElement): void => {
 	/* <summary> を除くノードをラップする */
 	const fragment = document.createDocumentFragment();
 	let nextNode = summaryElement.nextSibling;
-	// eslint-disable-next-line functional/no-loop-statements
 	while (nextNode !== null) {
-		fragment.appendChild(nextNode);
+		fragment.append(nextNode);
 		nextNode = summaryElement.nextSibling;
 	}
 
@@ -44,8 +43,8 @@ export default (thisElement: HTMLDetailsElement): void => {
 	const detailsContentElement = document.createElement(DETAILS_CONTENT_ELEMENT_NAME) as DetailsContentElement;
 	detailsContentElement.duration = duration;
 	detailsContentElement.easing = easing;
-	detailsContentElement.appendChild(fragment);
-	summaryElement.insertAdjacentElement('afterend', detailsContentElement);
+	detailsContentElement.append(fragment);
+	summaryElement.after(detailsContentElement);
 
 	thisElement.addEventListener(
 		'toggle',

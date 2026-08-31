@@ -1,11 +1,11 @@
 import errorEvent from './event/error.ts';
 
-export interface Option {
+interface Option {
 	fetch: Readonly<FetchOption>;
 	validate?: Readonly<ValidateOption>;
 }
 
-export interface FetchOption {
+interface FetchOption {
 	endpoint: string | URL; // URL of the endpoint
 	param: Readonly<{
 		documentURL: string; // Field name when sending the URL of the document to an endpoint
@@ -18,7 +18,7 @@ export interface FetchOption {
 	headers?: HeadersInit; // Header to add to the `fetch()` request <https://fetch.spec.whatwg.org/#typedefdef-headersinit>
 }
 
-export interface ValidateOption {
+interface ValidateOption {
 	/* User agent string */
 	ua?: Readonly<{
 		denys?: readonly RegExp[]; // If matches this regular expression, do not send report
@@ -67,13 +67,13 @@ export default (options: Readonly<Option>): void => {
 		return;
 	}
 
-	window.addEventListener(
+	globalThis.addEventListener(
 		'error',
 		(ev: ErrorEvent) => {
-			errorEvent(ev, options).catch((e: unknown) => {
-				throw e;
-			});
+			void errorEvent(ev, options);
 		},
 		{ passive: true },
 	);
 };
+
+export type { Option, FetchOption, ValidateOption };

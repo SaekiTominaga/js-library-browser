@@ -25,9 +25,9 @@ describe('browser support adoptedStyleSheets', () => {
 
 		document.createElement(TAB_ELEMENT_NAME);
 
-		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support ShadowRoot: `adoptedStyleSheets`.');
-
 		consoleInfoSpy.mockRestore();
+
+		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support ShadowRoot: `adoptedStyleSheets`.');
 	});
 });
 
@@ -44,9 +44,9 @@ describe('connectedCallback', () => {
 
 			document.body.innerHTML = `<x-tab storage-key="x"></x-tab>`;
 
-			expect(consoleInfoSpy).toHaveBeenCalledWith('Element `#foo` not found.');
-
 			consoleInfoSpy.mockRestore();
+
+			expect(consoleInfoSpy).toHaveBeenCalledWith('Element `#foo` not found.');
 		});
 	});
 });

@@ -11,8 +11,9 @@ const getEmptyTextboxMessage = (browserName: string): string => {
 		case 'chromium': {
 			return 'Please fill out this field.';
 		}
-		default:
+		default: {
 			return '';
+		}
 	}
 };
 
@@ -27,8 +28,9 @@ const getEmptyRadiogroupMessage = (browserName: string): string => {
 		case 'chromium': {
 			return 'Please select one of these options.';
 		}
-		default:
+		default: {
 			return '';
+		}
 	}
 };
 
@@ -43,8 +45,9 @@ const getEmptyListboxMessage = (browserName: string): string => {
 		case 'chromium': {
 			return 'Please select an item in the list.';
 		}
-		default:
+		default: {
 			return '';
+		}
 	}
 };
 

@@ -1,9 +1,11 @@
-import { beforeEach, describe, expect, test } from '@jest/globals';
+import { beforeAll, beforeEach, describe, expect, test } from '@jest/globals';
 import DetailsContentElement from './DetailsContent.ts';
 
 const DETAILS_CONTENT_ELEMENT_NAME = 'x-details-content';
 
-customElements.define(DETAILS_CONTENT_ELEMENT_NAME, DetailsContentElement);
+beforeAll(() => {
+	customElements.define(DETAILS_CONTENT_ELEMENT_NAME, DetailsContentElement);
+});
 
 describe('attributes', () => {
 	describe('duration', () => {

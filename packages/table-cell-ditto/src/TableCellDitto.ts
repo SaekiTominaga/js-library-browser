@@ -41,7 +41,9 @@ export default class {
 	 */
 	convert(): void {
 		this.#thisElement.querySelectorAll(':scope > tbody').forEach((tbodyElement) => {
+			// oxlint-disable-next-line unicorn/no-new-array
 			const aboveCellText = new Array<string>(this.#col); // 直上行のセルの中身
+			// oxlint-disable-next-line unicorn/no-new-array
 			const aboveRowspans = new Array<number>(this.#col); //
 
 			tbodyElement.querySelectorAll(':scope > tr').forEach((trElement, trIndex) => {
@@ -49,12 +51,11 @@ export default class {
 
 				const tdElements = trElement.querySelectorAll<HTMLTableCellElement>(`:scope > ${this.#cellSelector}`);
 				tdElements.forEach((tdElement, tdIndex) => {
-					const text = tdElement.textContent?.trim();
+					const text = tdElement.textContent.trim();
 
 					let colIndex = tdIndex + skip;
 
 					let aboveRowspan = aboveRowspans[colIndex];
-					// eslint-disable-next-line functional/no-loop-statements
 					while (aboveRowspan !== undefined && aboveRowspan > 1) {
 						// @ts-expect-error: ts(2532)
 						aboveRowspans[colIndex] -= 1;
@@ -66,7 +67,7 @@ export default class {
 					const rowspan = tdElement.rowSpan;
 					aboveRowspans[colIndex] = rowspan;
 
-					if (trIndex >= 1 && text !== undefined && text !== '' && text === aboveCellText[colIndex]) {
+					if (trIndex >= 1 && text !== '' && text === aboveCellText[colIndex]) {
 						const cellTextWidth = getTextWidth(tdElement);
 
 						/* テキスト変換 */
@@ -93,10 +94,9 @@ export default class {
 						}
 					}
 
-					aboveCellText[colIndex] = text ?? '';
+					aboveCellText[colIndex] = text;
 				});
 
-				// eslint-disable-next-line functional/no-loop-statements
 				for (let colIndex = tdElements.length + skip; colIndex < this.#col; colIndex += 1) {
 					// @ts-expect-error: ts(2532)
 					aboveRowspans[colIndex] -= 1;
@@ -111,7 +111,7 @@ export default class {
 	unConvert(): void {
 		this.#thisElement.querySelectorAll<HTMLTableSectionElement>(`:scope > tbody > tr > ${this.#cellSelector}`).forEach((tdElement) => {
 			const text = tdElement.textContent;
-			if (text !== null && text === this.#dittoMark) {
+			if (text === this.#dittoMark) {
 				/* 表示位置戻す */
 				switch (getComputedStyle(tdElement, '').textAlign) {
 					case 'start': {

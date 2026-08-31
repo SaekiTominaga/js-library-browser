@@ -1,7 +1,7 @@
 import { describe, expect, test } from '@jest/globals';
-// eslint-disable-next-line import/no-unassigned-import
+// oxlint-disable-next-line import/no-unassigned-import
 import 'cross-fetch/polyfill';
-import closestHTMLPage, { fetchProcess } from './closestHTMLPage.ts';
+import closestHTMLPage, { fetchProcess } from './closestHtmlPage.ts';
 
 describe('validate', () => {
 	describe('maxFetchCount', () => {
@@ -23,7 +23,7 @@ describe('closestHTMLPage', () => {
 			'https://saekitominaga.github.io/js-library-browser/packages/closest-html-page/demo/dir1/dir2/file',
 		);
 
-		expect(fetchedResponses.length).toBe(2);
+		expect(fetchedResponses).toHaveLength(2);
 		expect(closestHTMLPageData?.url).toBe('https://saekitominaga.github.io/js-library-browser/packages/closest-html-page/demo/dir1/');
 		expect(closestHTMLPageData?.title).toBe('dummy');
 	});
@@ -33,12 +33,12 @@ describe('closestHTMLPage', () => {
 			maxFetchCount: 1,
 		});
 
-		expect(fetchedResponses.length).toBe(1);
+		expect(fetchedResponses).toHaveLength(1);
 	});
 });
 
 describe('fetchProcess', () => {
-	test('OGP', async () => {
+	test('oGP', async () => {
 		const { response, htmlPage, title } = await fetchProcess(new URL('https://saekitominaga.github.io/js-library-browser/packages/closest-html-page/demo/'));
 
 		expect(response.ok).toBeTruthy();

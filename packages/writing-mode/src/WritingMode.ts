@@ -18,8 +18,9 @@ export default class {
 				this.#writingMode = writingMode;
 				break;
 			}
-			default:
+			default: {
 				throw new Error(`Unexpected \`writing-mode\` value: ${writingMode}`);
+			}
 		}
 	}
 

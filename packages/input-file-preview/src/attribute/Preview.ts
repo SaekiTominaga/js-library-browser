@@ -14,7 +14,7 @@ export default class {
 			throw new TypeError('The `data-preview` attribute is not set');
 		}
 
-		const template = document.getElementById(value);
+		const template = document.querySelector(`#${value}`);
 		if (template === null) {
 			throw new Error(`Element \`#${value}\` not found`);
 		}
@@ -25,7 +25,7 @@ export default class {
 
 		const templateContent = template.content;
 		if (
-			Array.from(templateContent.childNodes).some((node) => {
+			[...templateContent.childNodes].some((node) => {
 				const { nodeType, nodeValue } = node;
 
 				if (([Node.ELEMENT_NODE, Node.COMMENT_NODE] as number[]).includes(nodeType)) {

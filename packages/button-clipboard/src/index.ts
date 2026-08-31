@@ -16,7 +16,7 @@ export default (elementOrElements: NodeListOf<Element> | HTMLCollectionOf<Elemen
 	if (elementOrElements instanceof Element) {
 		buttonClipboard(validate(elementOrElements));
 	} else {
-		Array.from(elementOrElements).forEach((element) => {
+		[...elementOrElements].forEach((element) => {
 			buttonClipboard(validate(element));
 		});
 	}

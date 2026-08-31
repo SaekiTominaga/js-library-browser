@@ -36,11 +36,10 @@
 		"dev": "conc \"http-server ../ -p 8080 -o input-file-preview/demo -c-1\" \"tsc -w\"",
 		"prebuild": "rimraf dist/* -g",
 		"build": "tsc",
-		"lint": "eslint src/**/*.ts",
 		"pretest": "npm run build",
 		"test": "npm run test:node & npm run test:playwright",
 		"test:node": "cross-env NODE_OPTIONS=--experimental-vm-modules jest dist/.+\\.test\\.js -c ../../jest.config.mjs --roots packages/input-file-preview",
-		"test:playwright": "playwright test input-file-preview.spec.ts -c ../../playwright.config.js"
+		"test:playwright": "playwright test inputFilePreview.spec.ts -c ../../playwright.config.js"
 	},
 	"dependencies": {
 		"@w0s/html-escape": "4.0.2",

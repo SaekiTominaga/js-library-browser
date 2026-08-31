@@ -20,14 +20,14 @@ const options: Readonly<Option> = {
 	fetch: fetchOptions,
 };
 
-const eventSpy = jest.spyOn(window, 'addEventListener');
+const eventSpy = jest.spyOn(globalThis, 'addEventListener');
 
 test('正常ケース', () => {
 	reportJsError(options);
 
-	expect(eventSpy).toHaveBeenCalledWith('error', expect.any(Function), { passive: true });
-
 	eventSpy.mockRestore();
+
+	expect(eventSpy).toHaveBeenCalledWith('error', expect.any(Function), { passive: true });
 });
 
 describe('validate', () => {
@@ -40,9 +40,9 @@ describe('validate', () => {
 				},
 			});
 
-			expect(eventSpy).toHaveBeenCalledTimes(0);
-
 			eventSpy.mockRestore();
+
+			expect(eventSpy).not.toHaveBeenCalled();
 		});
 
 		test('allows', () => {
@@ -53,9 +53,9 @@ describe('validate', () => {
 				},
 			});
 
-			expect(eventSpy).toHaveBeenCalledTimes(0);
-
 			eventSpy.mockRestore();
+
+			expect(eventSpy).not.toHaveBeenCalled();
 		});
 	});
 });

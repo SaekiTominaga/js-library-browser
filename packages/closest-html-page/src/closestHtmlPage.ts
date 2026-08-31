@@ -112,7 +112,7 @@ export default async (
 			};
 		}
 
-		return await getHtmlPageData(index + 1);
+		return getHtmlPageData(index + 1);
 	};
 	const htmlPageData = await getHtmlPageData();
 

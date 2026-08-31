@@ -33,10 +33,9 @@
 		"dev": "conc \"http-server ../ -p 8080 -o form-control-validation/demo -c-1\" \"tsc -w\"",
 		"prebuild": "rimraf dist/* -g",
 		"build": "tsc",
-		"lint": "eslint src/**/*.ts",
 		"pretest": "npm run build",
 		"test": "npm run test:node & npm run test:playwright",
 		"test:node": "cross-env NODE_OPTIONS=--experimental-vm-modules jest dist/.+\\.test\\.js -c ../../jest.config.mjs --roots packages/form-control-validation",
-		"test:playwright": "playwright test form-control-validation.spec.ts -c ../../playwright.config.js"
+		"test:playwright": "playwright test formControlValidation.spec.ts -c ../../playwright.config.js"
 	}
 }

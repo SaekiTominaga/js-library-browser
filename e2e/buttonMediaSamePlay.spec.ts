@@ -20,6 +20,7 @@ const setEnded = async ($video: HTMLMediaElement): Promise<void> => {
 	$video.currentTime = Math.floor($video.duration);
 	await $video.play();
 
+	// oxlint-disable-next-line promise/avoid-new
 	return new Promise((resolve) => {
 		$video.addEventListener(
 			'ended',

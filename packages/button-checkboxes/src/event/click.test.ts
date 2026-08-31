@@ -18,8 +18,8 @@ test('全選択', () => {
 	const checkbox = new Checkbox({ id: 'checkboxes' });
 
 	const $checkboxes = checkbox.elements;
-	expect($checkboxes.filter((element) => element.checked).length).toBe(1);
-	expect($checkboxes.filter((element) => !element.checked).length).toBe(1);
+	expect($checkboxes.filter((element) => element.checked)).toHaveLength(1);
+	expect($checkboxes.filter((element) => !element.checked)).toHaveLength(1);
 
 	clickEvent(event, course, checkbox);
 
@@ -32,8 +32,8 @@ test('全解除', () => {
 	const checkbox = new Checkbox({ id: 'checkboxes' });
 
 	const $checkboxes = checkbox.elements;
-	expect($checkboxes.filter((element) => element.checked).length).toBe(1);
-	expect($checkboxes.filter((element) => !element.checked).length).toBe(1);
+	expect($checkboxes.filter((element) => element.checked)).toHaveLength(1);
+	expect($checkboxes.filter((element) => !element.checked)).toHaveLength(1);
 
 	clickEvent(event, course, checkbox);
 

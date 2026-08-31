@@ -21,10 +21,10 @@ const POPOVER_ELEMENT_NAME = 'x-popover';
  * @param eventType - イベントの識別名
  * @param popover - PopoverElement
  */
-export const show = (eventType: string, popover: PopoverElement): void => {
+const show = (eventType: string, popover: PopoverElement): void => {
 	if (!popover.isConnected) {
 		/* 初回表示時はポップオーバーの挿入を行う */
-		document.body.appendChild(popover);
+		document.body.append(popover);
 	}
 
 	const triggerRect = popover.triggerElement?.getBoundingClientRect();
@@ -69,7 +69,7 @@ export const show = (eventType: string, popover: PopoverElement): void => {
  * @param eventType - イベントの識別名
  * @param popover - PopoverElement
  */
-export const hide = (eventType: string, popover: PopoverElement): void => {
+const hide = (eventType: string, popover: PopoverElement): void => {
 	const eventDetail: ToggleEventDetail = {
 		newState: 'closed',
 		eventType: eventType,
@@ -121,12 +121,14 @@ export default (thisElement: HTMLAnchorElement): void => {
 	if (popoverClass.name !== undefined) {
 		popoverElement.className = popoverClass.name;
 	}
-	popoverElement.ignoreSelectors = ignore.selectors ?? null;
-	popoverElement.ariaLabel = popoverLabel.text ?? null;
-	popoverElement.hideText = popoverHide.text ?? null;
-	popoverElement.hideImageSrc = popoverHide.imageSrc ?? null;
-	popoverElement.hideImageWidth = popoverHide.imageWidth ?? null;
-	popoverElement.hideImageHeight = popoverHide.imageHeight ?? null;
+	popoverElement.ignoreSelectors = ignore.selectors;
+	if (popoverLabel.text !== undefined) {
+		popoverElement.ariaLabel = popoverLabel.text;
+	}
+	popoverElement.hideText = popoverHide.text;
+	popoverElement.hideImageSrc = popoverHide.imageSrc;
+	popoverElement.hideImageWidth = popoverHide.imageWidth;
+	popoverElement.hideImageHeight = popoverHide.imageHeight;
 	popoverElement.triggerElement = thisElement;
 	popoverElement.insertAdjacentHTML(
 		'afterbegin',
@@ -191,3 +193,5 @@ export default (thisElement: HTMLAnchorElement): void => {
 		{ passive: true },
 	);
 };
+
+export { show, hide };

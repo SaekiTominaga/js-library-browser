@@ -16,11 +16,9 @@ export default (thisElement: HTMLButtonElement): void => {
 	thisElement.addEventListener(
 		'click',
 		(ev: MouseEvent) => {
-			clickEvent(ev, {
+			void clickEvent(ev, {
 				controls: controls,
 				status: status,
-			}).catch((e: unknown) => {
-				throw e;
 			});
 		},
 		{ passive: true },

@@ -18,7 +18,7 @@ export default (thisElement: HTMLFormElement): void => {
 		changeControl: false, // フォームコントロールが変更されたか
 	};
 
-	Array.from(thisElement.elements).forEach((formControlElement) => {
+	[...thisElement.elements].forEach((formControlElement) => {
 		formControlElement.addEventListener(
 			'change',
 			(ev: Event) => {

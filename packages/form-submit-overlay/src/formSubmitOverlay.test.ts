@@ -18,9 +18,9 @@ describe('event', () => {
 
 		$form.dispatchEvent(new Event('submit'));
 
-		expect(dialogShowModalSpy).toHaveBeenCalled();
-
 		dialogShowModalSpy.mockRestore();
+
+		expect(dialogShowModalSpy).toHaveBeenCalledWith();
 	});
 
 	test('pagehide', () => {
@@ -29,10 +29,10 @@ describe('event', () => {
 
 		const dialogCloseSpy = jest.spyOn($dialog, 'close');
 
-		window.dispatchEvent(new Event('pagehide'));
-
-		expect(dialogCloseSpy).toHaveBeenCalled();
+		globalThis.dispatchEvent(new Event('pagehide'));
 
 		dialogCloseSpy.mockRestore();
+
+		expect(dialogCloseSpy).toHaveBeenCalledWith();
 	});
 });

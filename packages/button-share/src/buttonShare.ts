@@ -9,7 +9,7 @@ import clickEvent from './event/click.ts';
  * @param thisElement - Target element
  */
 export default (thisElement: HTMLButtonElement): void => {
-	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+	// oxlint-disable-next-line typescript/no-unnecessary-condition
 	if (navigator.share === undefined) {
 		thisElement.disabled = true;
 		return;
@@ -24,12 +24,10 @@ export default (thisElement: HTMLButtonElement): void => {
 	thisElement.addEventListener(
 		'click',
 		(ev: MouseEvent) => {
-			clickEvent(ev, {
+			void clickEvent(ev, {
 				text: text,
 				title: title,
 				url: url,
-			}).catch((e: unknown) => {
-				throw e;
 			});
 		},
 		{ passive: true },

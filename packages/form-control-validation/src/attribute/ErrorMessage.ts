@@ -12,7 +12,7 @@ export default class {
 			throw new TypeError('The `aria-errormessage` attribute is not set');
 		}
 
-		const element = document.getElementById(value);
+		const element = document.querySelector<HTMLElement>(`#${value}`);
 		if (element === null) {
 			throw new Error(`Element \`#${value}\` not found`);
 		}

@@ -15,7 +15,7 @@ export default class extends HTMLElement {
 
 	readonly #lastFocusableElement: HTMLElement;
 
-	#ignoreSelectors: string | null = null;
+	#ignoreSelectors: string | undefined;
 
 	readonly #hideButtonElement: HTMLButtonElement;
 
@@ -76,7 +76,7 @@ export default class extends HTMLElement {
 
 		const shadow = this.attachShadow({ mode: 'open' });
 
-		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+		// oxlint-disable-next-line no-unused-expressions
 		'setHTMLUnsafe' in shadow ? shadow.setHTMLUnsafe(htmlString) : ((shadow as ShadowRoot).innerHTML = htmlString);
 
 		const css = new CSSStyleSheet();
@@ -87,8 +87,8 @@ export default class extends HTMLElement {
 		this.#hideButtonElement = shadow.querySelector('[part="hide-button"]')!;
 		this.#hideButtonTextElement = shadow.querySelector('[part="hide-button-text"]')!;
 		this.#hideButtonImageElement = shadow.querySelector('[part="hide-button-image"]')!;
-		this.#firstFocusableElement = shadow.getElementById('first-focusable')!;
-		this.#lastFocusableElement = shadow.getElementById('last-focusable')!;
+		this.#firstFocusableElement = shadow.querySelector('#first-focusable')!;
+		this.#lastFocusableElement = shadow.querySelector('#last-focusable')!;
 	}
 
 	connectedCallback(): void {
@@ -103,7 +103,7 @@ export default class extends HTMLElement {
 		});
 
 		/* 除外要素 */
-		if (this.#ignoreSelectors !== null) {
+		if (this.#ignoreSelectors !== undefined) {
 			hostElement?.querySelectorAll(this.#ignoreSelectors).forEach((element) => {
 				element.remove();
 			});
@@ -129,15 +129,15 @@ export default class extends HTMLElement {
 	attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null): void {
 		switch (name) {
 			case 'ignore-selectors': {
-				this.ignoreSelectors = newValue;
+				this.ignoreSelectors = newValue ?? undefined;
 				break;
 			}
 			case 'hide-text': {
-				this.hideText = newValue;
+				this.hideText = newValue ?? undefined;
 				break;
 			}
 			case 'hide-image-src': {
-				this.hideImageSrc = newValue;
+				this.hideImageSrc = newValue ?? undefined;
 				break;
 			}
 			case 'hide-image-width': {
@@ -152,19 +152,19 @@ export default class extends HTMLElement {
 		}
 	}
 
-	get ignoreSelectors(): string | null {
+	get ignoreSelectors(): string | undefined {
 		return this.#ignoreSelectors;
 	}
 
-	set ignoreSelectors(value: string | null) {
+	set ignoreSelectors(value: string | undefined) {
 		this.#ignoreSelectors = value;
 	}
 
-	get hideText(): string | null {
+	get hideText(): string | undefined {
 		return this.#hideText;
 	}
 
-	set hideText(value: string | null) {
+	set hideText(value: string | undefined) {
 		this.#hideText = value ?? this.#HIDE_TEXT_INITIAL_VALUE;
 
 		this.#hideButtonTextElement.textContent = this.#hideText;
@@ -175,8 +175,8 @@ export default class extends HTMLElement {
 		return this.#hideButtonImageElement.src;
 	}
 
-	set hideImageSrc(value: string | null) {
-		if (value === null) {
+	set hideImageSrc(value: string | undefined) {
+		if (value === undefined) {
 			this.#hideButtonTextElement.hidden = false;
 			this.#hideButtonImageElement.hidden = true;
 			return;
@@ -187,24 +187,24 @@ export default class extends HTMLElement {
 		this.#hideButtonImageElement.hidden = false;
 	}
 
-	get hideImageWidth(): number | null {
+	get hideImageWidth(): number | undefined {
 		return this.#hideButtonImageElement.width;
 	}
 
-	set hideImageWidth(value: number | null) {
-		if (value === null) {
+	set hideImageWidth(value: number | undefined) {
+		if (value === undefined) {
 			this.#hideButtonImageElement.removeAttribute('width');
 		}
 
 		this.#hideButtonImageElement.width = value ?? 0;
 	}
 
-	get hideImageHeight(): number | null {
+	get hideImageHeight(): number | undefined {
 		return this.#hideButtonImageElement.height;
 	}
 
-	set hideImageHeight(value: number | null) {
-		if (value === null) {
+	set hideImageHeight(value: number | undefined) {
+		if (value === undefined) {
 			this.#hideButtonImageElement.removeAttribute('height');
 		}
 

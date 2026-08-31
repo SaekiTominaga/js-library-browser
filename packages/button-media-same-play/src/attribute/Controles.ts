@@ -13,7 +13,7 @@ export default class {
 		}
 
 		value.split(' ').forEach((id) => {
-			const element = document.getElementById(id);
+			const element = document.querySelector(`#${id}`);
 			if (element === null) {
 				throw new Error(`Element \`#${id}\` not found`);
 			}
