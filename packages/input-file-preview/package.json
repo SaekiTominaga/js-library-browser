@@ -42,7 +42,7 @@
 		"test:playwright": "playwright test inputFilePreview.spec.ts -c ../../playwright.config.js"
 	},
 	"dependencies": {
-		"@w0s/html-escape": "4.0.2",
+		"@w0s/html-escape": "5.0.1",
 		"whatwg-mimetype": "5.0.0"
 	},
 	"devDependencies": {
