@@ -15,6 +15,7 @@ describe('browser support adoptedStyleSheets', () => {
 		// @ts-expect-error: ts(2790)
 		delete ShadowRoot.prototype.adoptedStyleSheets;
 	});
+
 	afterAll(() => {
 		ShadowRoot.prototype.adoptedStyleSheets = tempAdoptedStyleSheets;
 	});
@@ -24,9 +25,9 @@ describe('browser support adoptedStyleSheets', () => {
 
 		document.createElement(INPUT_SWITCH_ELEMENT_NAME);
 
-		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support ShadowRoot: `adoptedStyleSheets`.');
-
 		consoleInfoSpy.mockRestore();
+
+		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support ShadowRoot: `adoptedStyleSheets`.');
 	});
 });
 

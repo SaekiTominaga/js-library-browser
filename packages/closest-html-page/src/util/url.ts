@@ -5,7 +5,7 @@
  *
  * @returns Parent page URL
  */
-export const getParentUrl = (baseUrl: URL): URL | undefined => {
+const getParentUrl = (baseUrl: URL): URL | undefined => {
 	if (baseUrl.pathname === '/') {
 		return undefined;
 	}
@@ -20,7 +20,7 @@ export const getParentUrl = (baseUrl: URL): URL | undefined => {
  *
  * @returns All ancestor pages URL
  */
-export const getAncestorUrls = (baseUrl: URL): URL[] => {
+const getAncestorUrls = (baseUrl: URL): URL[] => {
 	const walk = (currentUrl: URL, accumulator: URL[] = []): URL[] => {
 		const parentUrl = getParentUrl(currentUrl);
 		if (parentUrl === undefined) {
@@ -31,3 +31,5 @@ export const getAncestorUrls = (baseUrl: URL): URL[] => {
 
 	return walk(baseUrl);
 };
+
+export { getParentUrl, getAncestorUrls };

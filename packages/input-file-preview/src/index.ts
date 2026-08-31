@@ -20,7 +20,7 @@ export default (elementOrElements: NodeListOf<Element> | HTMLCollectionOf<Elemen
 	if (elementOrElements instanceof Element) {
 		inputFilePreview(validate(elementOrElements));
 	} else {
-		Array.from(elementOrElements).forEach((element) => {
+		[...elementOrElements].forEach((element) => {
 			inputFilePreview(validate(element));
 		});
 	}

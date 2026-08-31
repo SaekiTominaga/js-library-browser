@@ -20,11 +20,13 @@ const validate = (ev: ErrorEvent, options?: Readonly<Pick<ValidateOption, 'filen
 
 	switch (new URL(filename).protocol) {
 		case 'https:':
-		case 'http:':
+		case 'http:': {
 			break;
-		default:
+		}
+		default: {
 			console.error('A JavaScript error has occurred in a non-HTTP protocol (This may be due to a browser extension).');
 			return false;
+		}
 	}
 
 	if (options?.filename !== undefined) {
@@ -72,12 +74,10 @@ export default async (ev: ErrorEvent, options: Readonly<Option>): Promise<Respon
 		[param.colno]: colno,
 	};
 
-	let body: BodyInit;
-	if (contentType === 'application/json') {
-		body = JSON.stringify(bodyObject);
-	} else {
-		body = new URLSearchParams(Object.fromEntries(Object.entries(bodyObject).map(([key, value]) => [key, String(value)])));
-	}
+	const body =
+		contentType === 'application/json'
+			? JSON.stringify(bodyObject)
+			: new URLSearchParams(Object.fromEntries(Object.entries(bodyObject).map(([key, value]) => [key, String(value)])));
 
 	const response = await fetch(endpoint, {
 		method: 'POST',

@@ -27,7 +27,7 @@ describe('getAncestorUrls()', () => {
 	test('slash end', () => {
 		const ancestorUrls = getAncestorUrls(new URL('http://example.com/path/to/'));
 
-		expect(ancestorUrls.length).toBe(2);
+		expect(ancestorUrls).toHaveLength(2);
 		expect(ancestorUrls.at(0)?.toString()).toBe('http://example.com/path/');
 		expect(ancestorUrls.at(1)?.toString()).toBe('http://example.com/');
 	});
@@ -35,7 +35,7 @@ describe('getAncestorUrls()', () => {
 	test('no slash end', () => {
 		const ancestorUrls = getAncestorUrls(new URL('http://example.com/path/to'));
 
-		expect(ancestorUrls.length).toBe(2);
+		expect(ancestorUrls).toHaveLength(2);
 		expect(ancestorUrls.at(0)?.toString()).toBe('http://example.com/path/');
 		expect(ancestorUrls.at(1)?.toString()).toBe('http://example.com/');
 	});
@@ -43,6 +43,6 @@ describe('getAncestorUrls()', () => {
 	test('top page', () => {
 		const ancestorUrls = getAncestorUrls(new URL('http://example.com/'));
 
-		expect(ancestorUrls.length).toBe(0);
+		expect(ancestorUrls).toHaveLength(0);
 	});
 });

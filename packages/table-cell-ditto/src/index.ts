@@ -1,3 +1,1 @@
-import TableCellDitto from './TableCellDitto.ts';
-
-export default TableCellDitto;
+export { default } from './TableCellDitto.ts';

@@ -2,7 +2,7 @@
  * Tabs UI component
  */
 export default class Tab extends HTMLElement {
-	readonly #mySessionStorage: Storage | null = null;
+	readonly #mySessionStorage: Storage | undefined;
 
 	readonly #tablistElement: HTMLElement | undefined;
 
@@ -61,7 +61,7 @@ export default class Tab extends HTMLElement {
 		`;
 
 		const shadow = this.attachShadow({ mode: 'open' });
-		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+		// oxlint-disable-next-line no-unused-expressions
 		'setHTMLUnsafe' in shadow ? shadow.setHTMLUnsafe(htmlString) : ((shadow as ShadowRoot).innerHTML = htmlString);
 
 		const css = new CSSStyleSheet();
@@ -90,8 +90,8 @@ export default class Tab extends HTMLElement {
 				throw new Error('The `href` attribute does not contain hash');
 			}
 
-			const tabpanelElementId = decodeURIComponent(hash.substring(1));
-			const tabpanelElement = document.getElementById(tabpanelElementId);
+			const tabpanelElementId = decodeURIComponent(hash.slice(1));
+			const tabpanelElement = document.querySelector<HTMLElement>(`#${tabpanelElementId}`);
 			if (tabpanelElement === null) {
 				throw new Error(`Element \`#${tabpanelElementId}\` not found`);
 			}
@@ -111,17 +111,15 @@ export default class Tab extends HTMLElement {
 			tabpanelElement.addEventListener('keydown', this.#tabpanelKeydownEvent);
 		});
 
-		if (this.#mySessionStorage !== null) {
-			const { storageKey } = this;
-			if (storageKey !== null) {
-				const initialSelectTabpanelId = this.#mySessionStorage.getItem(storageKey); // 前回選択したタブ ID
-				if (initialSelectTabpanelId !== null) {
-					const initialSelectTabpanelElement = document.getElementById(initialSelectTabpanelId);
-					if (initialSelectTabpanelElement === null) {
-						console.info(`Element \`#${initialSelectTabpanelId}\` not found.`);
-					} else {
-						this.#selectedTabNo = this.#tabpanelElements.indexOf(initialSelectTabpanelElement);
-					}
+		const { storageKey } = this;
+		if (storageKey !== null) {
+			const initialSelectTabpanelId = this.#mySessionStorage?.getItem(storageKey); // 前回選択したタブ ID
+			if (initialSelectTabpanelId !== null && initialSelectTabpanelId !== undefined) {
+				const initialSelectTabpanelElement = document.querySelector<HTMLElement>(`#${initialSelectTabpanelId}`);
+				if (initialSelectTabpanelElement === null) {
+					console.info(`Element \`#${initialSelectTabpanelId}\` not found.`);
+				} else {
+					this.#selectedTabNo = this.#tabpanelElements.indexOf(initialSelectTabpanelElement);
 				}
 			}
 		}
@@ -290,10 +288,10 @@ export default class Tab extends HTMLElement {
 		this.#tabElements[tabNo]?.focus();
 
 		/* 現在選択中のタブ情報をストレージに保管する */
-		if (this.#mySessionStorage !== null && this.storageKey !== null) {
+		if (this.storageKey !== null) {
 			const tabpanelElement = this.#tabpanelElements[tabNo];
 			if (tabpanelElement !== undefined) {
-				this.#mySessionStorage.setItem(this.storageKey, tabpanelElement.id);
+				this.#mySessionStorage?.setItem(this.storageKey, tabpanelElement.id);
 			}
 		}
 	}

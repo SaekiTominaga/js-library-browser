@@ -12,7 +12,7 @@ export default class {
 			throw new TypeError('The `data-overlayed-by` attribute is not set');
 		}
 
-		const element = document.getElementById(value);
+		const element = document.querySelector(`#${value}`);
 		if (element === null) {
 			throw new Error(`Element \`#${value}\` not found`);
 		}

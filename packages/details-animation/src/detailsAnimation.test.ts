@@ -2,22 +2,25 @@ import { beforeAll, describe, expect, jest, test } from '@jest/globals';
 import { mockAnimationsApi } from 'jsdom-testing-mocks';
 import detailsAnimation from './detailsAnimation.ts';
 
-mockAnimationsApi();
+beforeAll(() => {
+	mockAnimationsApi();
 
-Object.defineProperty(window, 'matchMedia', {
-	value: jest.fn().mockImplementation((query) => ({
-		matches: false,
-		media: query,
-		onchange: null,
-		addEventListener: jest.fn(),
-		removeEventListener: jest.fn(),
-		dispatchEvent: jest.fn(),
-	})),
-}); // https://jestjs.io/docs/manual-mocks#mocking-methods-which-are-not-implemented-in-jsdom
+	Object.defineProperty(globalThis, 'matchMedia', {
+		value: jest.fn().mockImplementation((query) => ({
+			matches: false,
+			media: query,
+			onchange: null,
+			addEventListener: jest.fn(),
+			removeEventListener: jest.fn(),
+			dispatchEvent: jest.fn(),
+		})),
+	}); // https://jestjs.io/docs/manual-mocks#mocking-methods-which-are-not-implemented-in-jsdom
+});
 
 const sleep = (ms: number) =>
-	new Promise((callback) => {
-		setTimeout(callback, ms);
+	// oxlint-disable-next-line promise/avoid-new
+	new Promise((resolve) => {
+		setTimeout(resolve, ms);
 	});
 
 test('no <summary>', () => {

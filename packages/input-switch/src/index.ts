@@ -1,3 +1,1 @@
-import InputSwitch from './custom-element/InputSwitch.ts';
-
-export default InputSwitch;
+export { default } from './custom-element/InputSwitch.ts';

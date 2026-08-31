@@ -1,14 +1,16 @@
-import { describe, expect, jest, test } from '@jest/globals';
+import { beforeAll, describe, expect, jest, test } from '@jest/globals';
 import Data from '../attribute/Data.ts';
 import Feedback from '../attribute/Feedback.ts';
 import clickEvent from './click.ts';
 
-Object.assign(navigator, {
-	clipboard: {
-		writeText: () => {
-			/**/
+beforeAll(() => {
+	Object.assign(navigator, {
+		clipboard: {
+			writeText: () => {
+				/**/
+			},
 		},
-	},
+	});
 });
 
 describe('data', () => {
@@ -22,10 +24,11 @@ describe('data', () => {
 
 		await clickEvent(event, data, feedback);
 
-		expect(clipboardWriteTextSpy).toHaveBeenCalledWith('Text');
-		expect(consoleInfoSpy).toHaveBeenCalledWith('Clipboard write successfully', 'Text');
 		clipboardWriteTextSpy.mockRestore();
 		consoleInfoSpy.mockRestore();
+
+		expect(clipboardWriteTextSpy).toHaveBeenCalledWith('Text');
+		expect(consoleInfoSpy).toHaveBeenCalledWith('Clipboard write successfully', 'Text');
 	});
 
 	test('target', async () => {
@@ -40,10 +43,11 @@ describe('data', () => {
 
 		await clickEvent(event, data, feedback);
 
-		expect(clipboardWriteTextSpy).toHaveBeenCalledWith('Text');
-		expect(consoleInfoSpy).toHaveBeenCalledWith('Clipboard write successfully', 'Text');
 		clipboardWriteTextSpy.mockRestore();
 		consoleInfoSpy.mockRestore();
+
+		expect(clipboardWriteTextSpy).toHaveBeenCalledWith('Text');
+		expect(consoleInfoSpy).toHaveBeenCalledWith('Clipboard write successfully', 'Text');
 	});
 });
 
@@ -58,7 +62,8 @@ test('feedback', async () => {
 
 	await clickEvent(event, data, feedback);
 
+	clipboardWriteTextSpy.mockRestore();
+
 	expect(clipboardWriteTextSpy).toHaveBeenCalledWith('Text');
 	expect(feedback.element?.hidden).toBeFalsy();
-	clipboardWriteTextSpy.mockRestore();
 });

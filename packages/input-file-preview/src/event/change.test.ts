@@ -99,8 +99,8 @@ describe('<output> element', () => {
 			result: FILE_READER_RESULT,
 		};
 
-		// @ts-expect-error: ts(2739)
-		global.FileReader = jest.fn(() => mockFileReader);
+		// @ts-expect-error: ts(2345)
+		jest.spyOn(globalThis, 'FileReader').mockReturnValue(mockFileReader);
 	});
 
 	test('file types', () => {
@@ -136,7 +136,7 @@ describe('<output> element', () => {
 
 		const $outputs = document.querySelectorAll('output');
 
-		expect($outputs.length).toBe(6);
+		expect($outputs).toHaveLength(6);
 		expect($outputs.item(0).innerHTML).toBe(`<img src="${FILE_READER_RESULT}" alt="test1.png">`);
 		expect($outputs.item(1).innerHTML).toBe(`<audio src="${FILE_READER_RESULT}" controls="">test2.mp3</audio>`);
 		expect($outputs.item(2).innerHTML).toBe(`<video src="${FILE_READER_RESULT}" controls="">test3.mp4</video>`);

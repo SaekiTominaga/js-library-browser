@@ -1,21 +1,24 @@
-import { expect, test } from '@jest/globals';
+import { beforeAll, expect, test } from '@jest/globals';
 import PopoverElement from '../../custom-element/Popover.ts';
 import mouseleaveEvent from './mouseleave.ts';
 
 const POPOVER_ELEMENT_NAME = 'x-popover';
 
-customElements.define(POPOVER_ELEMENT_NAME, PopoverElement);
+beforeAll(() => {
+	customElements.define(POPOVER_ELEMENT_NAME, PopoverElement);
+});
 
 const sleep = (ms: number) =>
-	new Promise((callback) => {
-		setTimeout(callback, ms);
+	// oxlint-disable-next-line promise/avoid-new
+	new Promise((resolve) => {
+		setTimeout(resolve, ms);
 	});
 
 test('popover status', async () => {
 	const event = new MouseEvent('mouseleave');
 
 	const $popover = document.createElement(POPOVER_ELEMENT_NAME) as PopoverElement;
-	document.body.appendChild($popover);
+	document.body.append($popover);
 
 	const delay = 100;
 

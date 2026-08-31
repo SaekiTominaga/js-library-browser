@@ -1,8 +1,9 @@
 import { expect, test } from '@playwright/test';
 
 const sleep = (ms: number): Promise<void> =>
-	new Promise((callback) => {
-		setTimeout(callback, ms);
+	// oxlint-disable-next-line promise/avoid-new
+	new Promise((resolve) => {
+		setTimeout(resolve, ms);
 	});
 
 test.beforeEach(async ({ page }) => {
@@ -35,15 +36,15 @@ test.describe('show & hide', () => {
 		const trigger = section.getByRole('button', { name: '[1]' });
 		const popover = page.locator('x-popover').nth(0);
 
-		expect(await popover.count()).toBe(0);
+		await expect(popover).toHaveCount(0);
 
 		await trigger.focus();
 
-		expect(await popover.count()).toBe(0);
+		await expect(popover).toHaveCount(0);
 
 		await trigger.click();
 
-		expect(await popover.count()).toBe(1);
+		await expect(popover).toHaveCount(1);
 		await expect(popover).toBeVisible();
 	});
 
@@ -52,15 +53,15 @@ test.describe('show & hide', () => {
 		const trigger = section.getByRole('button', { name: '[1]' });
 		const popover = page.locator('x-popover').nth(0);
 
-		expect(await popover.count()).toBe(0);
+		await expect(popover).toHaveCount(0);
 
 		await trigger.hover();
 
-		expect(await popover.count()).toBe(0);
+		await expect(popover).toHaveCount(0);
 
 		await sleep(250);
 
-		expect(await popover.count()).toBe(1);
+		await expect(popover).toHaveCount(1);
 		await expect(popover).toBeVisible();
 
 		await section.hover();
@@ -77,19 +78,19 @@ test.describe('show & hide', () => {
 		const trigger = section.getByRole('button', { name: '[2]' });
 		const popover = page.locator('x-popover').nth(0);
 
-		expect(await popover.count()).toBe(0);
+		await expect(popover).toHaveCount(0);
 
 		await trigger.hover();
 
-		expect(await popover.count()).toBe(0);
+		await expect(popover).toHaveCount(0);
 
 		await sleep(250);
 
-		expect(await popover.count()).toBe(0);
+		await expect(popover).toHaveCount(0);
 
 		await sleep(1000 - 250);
 
-		expect(await popover.count()).toBe(1);
+		await expect(popover).toHaveCount(1);
 		await expect(popover).toBeVisible();
 
 		await section.hover();
@@ -116,7 +117,7 @@ test.describe('show & hide', () => {
 		await popover.hover(); // トリガー要素からカーソルを離してすぐにポップオーバーへ移動する
 		await sleep(250);
 
-		expect(await popover.count()).toBe(1);
+		await expect(popover).toHaveCount(1);
 		await expect(popover).toBeVisible();
 
 		await section.hover();
@@ -136,7 +137,7 @@ test.describe('show & hide', () => {
 		await trigger.click();
 		await popover.getByRole('button', { name: 'Close' }).click();
 
-		expect(await popover.count()).toBe(1);
+		await expect(popover).toHaveCount(1);
 		await expect(popover).toBeHidden();
 	});
 
@@ -149,12 +150,12 @@ test.describe('show & hide', () => {
 
 		await page.keyboard.press('1');
 
-		expect(await popover.count()).toBe(1);
+		await expect(popover).toHaveCount(1);
 		await expect(popover).toBeVisible();
 
 		await page.keyboard.press('Escape');
 
-		expect(await popover.count()).toBe(1);
+		await expect(popover).toHaveCount(1);
 		await expect(popover).toBeHidden();
 	});
 });

@@ -3,7 +3,9 @@ import PopoverElement from './Popover.ts';
 
 const POPOVER_ELEMENT_NAME = 'x-popover';
 
-customElements.define(POPOVER_ELEMENT_NAME, PopoverElement);
+beforeAll(() => {
+	customElements.define(POPOVER_ELEMENT_NAME, PopoverElement);
+});
 
 describe('slot', () => {
 	test('ID remove', () => {
@@ -46,7 +48,7 @@ describe('attributes', () => {
 			const $hideButtonText = $popover.shadowRoot?.querySelector<HTMLElement>('[part=hide-button-text]');
 			const $hideButtonImage = $popover.shadowRoot?.querySelector<HTMLElement>('[part=hide-button-image]');
 
-			$popover.hideText = null;
+			$popover.hideText = undefined;
 
 			expect($popover.hideText).toBe('Close');
 			expect($hideButtonText?.innerHTML).toBe('Close');
@@ -77,7 +79,7 @@ describe('attributes', () => {
 			const $popover = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME)!;
 			const $hideButtonImage = $popover.shadowRoot?.querySelector<HTMLElement>('[part=hide-button-image]');
 
-			$popover.hideImageWidth = null;
+			$popover.hideImageWidth = undefined;
 
 			expect($popover.hideImageWidth).toBe(0);
 			expect($hideButtonImage?.outerHTML).toBe('<img part="hide-button-image" alt="hide" src="hide.svg" height="20" width="0">');
@@ -87,7 +89,7 @@ describe('attributes', () => {
 			const $popover = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME)!;
 			const $hideButtonImage = $popover.shadowRoot?.querySelector<HTMLElement>('[part=hide-button-image]');
 
-			$popover.hideImageHeight = null;
+			$popover.hideImageHeight = undefined;
 
 			expect($popover.hideImageHeight).toBe(0);
 			expect($hideButtonImage?.outerHTML).toBe('<img part="hide-button-image" alt="hide" src="hide.svg" width="0" height="0">');
@@ -98,7 +100,7 @@ describe('attributes', () => {
 			const $hideButtonText = $popover.shadowRoot?.querySelector<HTMLElement>('[part=hide-button-text]');
 			const $hideButtonImage = $popover.shadowRoot?.querySelector<HTMLElement>('[part=hide-button-image]');
 
-			$popover.hideImageSrc = null;
+			$popover.hideImageSrc = undefined;
 
 			expect($hideButtonText?.hidden).toBeFalsy();
 			expect($hideButtonImage?.hidden).toBeTruthy();
@@ -127,12 +129,12 @@ describe('properties', () => {
 	});
 
 	test('triggerElement', () => {
-		const $trigger = document.querySelector('a');
+		const $trigger = document.querySelector('a')!;
 		const $popover = document.querySelector<PopoverElement>(POPOVER_ELEMENT_NAME)!;
 
 		expect($popover.triggerElement).toBeUndefined();
 
-		$popover.triggerElement = $trigger ?? undefined;
+		$popover.triggerElement = $trigger;
 
 		expect($popover.triggerElement instanceof HTMLAnchorElement).toBeTruthy();
 	});

@@ -1,6 +1,6 @@
 import { expect, test } from '@jest/globals';
 import { ANIMATION_FINISH_EVENT_TYPE, type AnimationFinishEventDetail } from '../../custom-element/DetailsContent.ts';
-import animationFinishEvent from './animation-finish.ts';
+import animationFinishEvent from './animationFinish.ts';
 
 test('close → open', () => {
 	const event = new CustomEvent<AnimationFinishEventDetail>(ANIMATION_FINISH_EVENT_TYPE, {

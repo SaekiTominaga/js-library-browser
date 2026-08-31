@@ -40,4 +40,9 @@ export default defineConfig({
 
 	/* FullConfig */
 	maxFailures: process.env.CI ? 1 : 0,
+
+	/* Expect Options */
+	expect: {
+		timeout: 10_000,
+	},
 });

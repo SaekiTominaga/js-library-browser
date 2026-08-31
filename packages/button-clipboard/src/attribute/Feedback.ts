@@ -12,7 +12,7 @@ export default class {
 			return;
 		}
 
-		const feedbackElement = document.getElementById(value);
+		const feedbackElement = document.querySelector<HTMLElement>(`#${value}`);
 		if (feedbackElement === null) {
 			throw new Error(`Element \`#${value}\` not found`);
 		}

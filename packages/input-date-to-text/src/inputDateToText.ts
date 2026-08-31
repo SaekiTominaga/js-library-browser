@@ -42,9 +42,10 @@ export default (thisElement: HTMLInputElement): void => {
 	/* 日付コントロールを `<input type="text">` に置換 */
 	thisElement.type = 'text';
 	thisElement.minLength = 8;
-	thisElement.pattern = '([0-9０-９]{8})|([0-9０-９]{4}[\\-\\/－／][0-9０-９]{1,2}[\\-\\/－／][0-9０-９]{1,2})';
+	thisElement.pattern = String.raw`([0-9０-９]{8})|([0-9０-９]{4}[\-\/－／][0-9０-９]{1,2}[\-\/－／][0-9０-９]{1,2})`;
 	thisElement.placeholder = 'YYYY-MM-DD';
 	if (title.value !== undefined) {
+		// oxlint-disable-next-line unicorn/prefer-dom-node-dataset
 		thisElement.removeAttribute('data-title');
 		thisElement.title = title.value;
 	}

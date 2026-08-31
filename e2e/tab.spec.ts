@@ -232,7 +232,7 @@ test.describe('storage', () => {
 	test('cookie disabled', async ({ browser }) => {
 		const context = await browser.newContext();
 		await context.addInitScript(() => {
-			Object.defineProperty(window, 'sessionStorage', {
+			Object.defineProperty(globalThis, 'sessionStorage', {
 				get: () => {
 					throw new DOMException('The operation is insecure.', 'SecurityError');
 				},

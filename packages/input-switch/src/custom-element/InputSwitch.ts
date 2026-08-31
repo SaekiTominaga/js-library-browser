@@ -104,7 +104,7 @@ export default class InputSwitch extends HTMLElement {
 		`;
 
 		const shadow = this.attachShadow({ mode: 'open' });
-		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+		// oxlint-disable-next-line no-unused-expressions
 		'setHTMLUnsafe' in shadow ? shadow.setHTMLUnsafe(htmlString) : ((shadow as ShadowRoot).innerHTML = htmlString);
 
 		const css = new CSSStyleSheet();
@@ -135,6 +135,7 @@ export default class InputSwitch extends HTMLElement {
 			}
 		}
 
+		// oxlint-disable-next-line unicorn/no-null
 		this.#internals?.setFormValue(this.checked ? this.value : null);
 		this.#initilalChecked = checked;
 		this.tabIndex = disabled ? -1 : 0;
@@ -271,6 +272,7 @@ export default class InputSwitch extends HTMLElement {
 
 		this.checked = !checked;
 
+		// oxlint-disable-next-line unicorn/no-null
 		this.#internals?.setFormValue(this.checked ? this.value : null);
 
 		if (storageKey !== null && storageKey !== '') {

@@ -34,10 +34,9 @@
 		"dev": "conc \"http-server ../ -p 8080 -o button-media-same-play/demo -c-1\" \"tsc -w\"",
 		"prebuild": "rimraf dist/* -g",
 		"build": "tsc",
-		"lint": "eslint src/**/*.ts",
 		"pretest": "npm run build",
 		"test": "npm run test:node & npm run test:playwright",
 		"test:node": "cross-env NODE_OPTIONS=--experimental-vm-modules jest dist/.+\\.test\\.js -c ../../jest.config.mjs --roots packages/button-media-same-play",
-		"test:playwright": "playwright test button-media-same-play.spec.ts -c ../../playwright.config.js"
+		"test:playwright": "playwright test buttonMediaSamePlay.spec.ts -c ../../playwright.config.js"
 	}
 }

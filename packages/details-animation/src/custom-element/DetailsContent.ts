@@ -44,7 +44,7 @@ export default class CustomElementDetailsContent extends HTMLElement {
 
 		const shadow = this.attachShadow({ mode: 'open' });
 
-		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+		// oxlint-disable-next-line no-unused-expressions
 		'setHTMLUnsafe' in shadow ? shadow.setHTMLUnsafe(htmlString) : ((shadow as ShadowRoot).innerHTML = htmlString);
 
 		const css = new CSSStyleSheet();
@@ -154,7 +154,7 @@ export default class CustomElementDetailsContent extends HTMLElement {
 			endSize: number | undefined;
 		}>,
 	): void {
-		if (window.matchMedia('(prefers-reduced-motion:reduce)').matches || animation.startSize === undefined || animation.endSize === undefined) {
+		if (globalThis.matchMedia('(prefers-reduced-motion:reduce)').matches || animation.startSize === undefined || animation.endSize === undefined) {
 			this.#duration = undefined;
 		}
 

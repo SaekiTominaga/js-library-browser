@@ -16,7 +16,7 @@ test.describe('init', () => {
 		await Promise.all([
 			expect(input).toHaveAttribute('type', 'text'),
 			expect(input).toHaveAttribute('minlength', '8'),
-			expect(input).toHaveAttribute('pattern', '([0-9０-９]{8})|([0-9０-９]{4}[\\-\\/－／][0-9０-９]{1,2}[\\-\\/－／][0-9０-９]{1,2})'),
+			expect(input).toHaveAttribute('pattern', String.raw`([0-9０-９]{8})|([0-9０-９]{4}[\-\/－／][0-9０-９]{1,2}[\-\/－／][0-9０-９]{1,2})`),
 			expect(input).toHaveAttribute('placeholder', 'YYYY-MM-DD'),
 		]);
 	});
@@ -35,14 +35,14 @@ test.describe('init', () => {
 		const section = page.locator('section').filter({ hasText: 'min, data-validation-min attribute' });
 		const input = section.getByRole('textbox');
 
-		await Promise.all([expect(input).not.toHaveAttribute('min')]);
+		await expect(input).not.toHaveAttribute('min');
 	});
 
 	test('max attribute', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'max, data-validation-max attribute' });
 		const input = section.getByRole('textbox');
 
-		await Promise.all([expect(input).not.toHaveAttribute('max')]);
+		await expect(input).not.toHaveAttribute('max');
 	});
 });
 

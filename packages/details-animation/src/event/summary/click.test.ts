@@ -1,4 +1,4 @@
-import { expect, jest, test } from '@jest/globals';
+import { beforeAll, expect, jest, test } from '@jest/globals';
 import { mockAnimationsApi } from 'jsdom-testing-mocks';
 import PreOpen from '../../attribute/PreOpen.ts';
 import DetailsContentElement from '../../custom-element/DetailsContent.ts';
@@ -6,20 +6,22 @@ import clickEvent from './click.ts';
 
 const DETAILS_CONTENT_ELEMENT_NAME = 'x-details-content';
 
-customElements.define(DETAILS_CONTENT_ELEMENT_NAME, DetailsContentElement);
+beforeAll(() => {
+	customElements.define(DETAILS_CONTENT_ELEMENT_NAME, DetailsContentElement);
 
-mockAnimationsApi();
+	mockAnimationsApi();
 
-Object.defineProperty(window, 'matchMedia', {
-	value: jest.fn().mockImplementation((query) => ({
-		matches: false,
-		media: query,
-		onchange: null,
-		addEventListener: jest.fn(),
-		removeEventListener: jest.fn(),
-		dispatchEvent: jest.fn(),
-	})),
-}); // https://jestjs.io/docs/manual-mocks#mocking-methods-which-are-not-implemented-in-jsdom
+	Object.defineProperty(globalThis, 'matchMedia', {
+		value: jest.fn().mockImplementation((query) => ({
+			matches: false,
+			media: query,
+			onchange: null,
+			addEventListener: jest.fn(),
+			removeEventListener: jest.fn(),
+			dispatchEvent: jest.fn(),
+		})),
+	}); // https://jestjs.io/docs/manual-mocks#mocking-methods-which-are-not-implemented-in-jsdom
+});
 
 test('close → open', () => {
 	const event = new MouseEvent('click');

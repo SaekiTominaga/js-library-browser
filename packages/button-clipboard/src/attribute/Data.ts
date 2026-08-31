@@ -21,7 +21,7 @@ export default class {
 		}
 
 		if (value.target !== null && value.target !== undefined) {
-			const targetElement = document.getElementById(value.target);
+			const targetElement = document.querySelector<HTMLElement>(`#${value.target}`);
 			if (targetElement === null) {
 				throw new Error(`Element \`#${value.target}\` not found`);
 			}

@@ -39,7 +39,7 @@ test.describe('pattern', () => {
 
 		await Promise.all([expect(switchCtrl).toHaveAttribute('aria-checked', 'false'), expect(switchCtrl).not.toHaveAttribute('checked')]);
 
-		// eslint-disable-next-line playwright/no-force-option
+		// oxlint-disable-next-line playwright/no-force-option
 		await switchCtrl.click({ force: true });
 
 		await Promise.all([expect(switchCtrl).toHaveAttribute('aria-checked', 'false'), expect(switchCtrl).not.toHaveAttribute('checked')]);
@@ -51,7 +51,7 @@ test.describe('pattern', () => {
 
 		await Promise.all([expect(switchCtrl).toHaveAttribute('aria-checked', 'true'), expect(switchCtrl).toHaveAttribute('checked', '')]);
 
-		// eslint-disable-next-line playwright/no-force-option
+		// oxlint-disable-next-line playwright/no-force-option
 		await switchCtrl.click({ force: true });
 
 		await Promise.all([expect(switchCtrl).toHaveAttribute('aria-checked', 'true'), expect(switchCtrl).toHaveAttribute('checked', '')]);
@@ -181,7 +181,7 @@ test.describe('storage', () => {
 	test('cookie disabled', async ({ browser }) => {
 		const context = await browser.newContext();
 		await context.addInitScript(() => {
-			Object.defineProperty(window, 'localStorage', {
+			Object.defineProperty(globalThis, 'localStorage', {
 				get: () => {
 					throw new DOMException('The operation is insecure.', 'SecurityError');
 				},

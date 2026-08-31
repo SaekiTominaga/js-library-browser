@@ -1,3 +1,1 @@
-import reportSameReferrer from './reportSameReferrer.ts';
-
-export default reportSameReferrer;
+export { default } from './reportSameReferrer.ts';

@@ -1,11 +1,11 @@
 type URLPart = 'origin' | 'host' | 'hostname';
 
-export interface Option {
+interface Option {
 	fetch: Readonly<FetchOption>;
 	validate?: Readonly<ValidateOption>;
 }
 
-export interface FetchOption {
+interface FetchOption {
 	endpoint: string | URL; // URL of the endpoint
 	param: Readonly<{
 		documentURL: string; // Field name when sending the URL of the document to an endpoint
@@ -15,7 +15,7 @@ export interface FetchOption {
 	headers?: HeadersInit; // Header to add to the `fetch()` request <https://fetch.spec.whatwg.org/#typedefdef-headersinit>
 }
 
-export interface ValidateOption {
+interface ValidateOption {
 	/* Referrer */
 	referrer?: Readonly<{
 		comparePart?: URLPart; // Which parts of the referrer to check (default: `origin`)
@@ -57,8 +57,9 @@ const validate = (options?: Readonly<ValidateOption>): boolean => {
 			case 'hostname': {
 				return { referrer: referrerUrl.hostname, location: location.hostname };
 			}
-			default:
+			default: {
 				throw new Error('An invalid value was specified for the argument `condition`');
+			}
 		}
 	};
 
@@ -110,12 +111,7 @@ export default async (options: Readonly<Option>): Promise<Response | undefined> 
 		[param.referrer]: document.referrer,
 	};
 
-	let body: BodyInit;
-	if (contentType === 'application/json') {
-		body = JSON.stringify(bodyObject);
-	} else {
-		body = new URLSearchParams(bodyObject);
-	}
+	const body = contentType === 'application/json' ? JSON.stringify(bodyObject) : new URLSearchParams(bodyObject);
 
 	const response = await fetch(endpoint, {
 		method: 'POST',
@@ -129,3 +125,5 @@ export default async (options: Readonly<Option>): Promise<Response | undefined> 
 
 	return response;
 };
+
+export type { Option, FetchOption, ValidateOption };
