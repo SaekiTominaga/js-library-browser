@@ -93,7 +93,6 @@ export default defineConfig({
 				'jest/prefer-expect-assertions': 'off',
 				'jest/prefer-lowercase-title': 'off',
 				'jest/require-top-level-describe': 'off',
-				'safely-storage/try-catch': 'off', // TODO: oxlint-config@1.0.5 で解消
 			},
 		},
 		{
