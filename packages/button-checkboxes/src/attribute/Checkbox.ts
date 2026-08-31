@@ -46,12 +46,12 @@ export default class {
 		}
 
 		if (value.name !== null && value.name !== undefined) {
-			const elements = [...document.querySelectorAll(`[name=${value.name}]`)];
+			const elements = [...document.querySelectorAll(`[name="${value.name}"]`)];
 			if (elements.length === 0) {
-				throw new Error(`Element \`[name=${value.name}]\` not found`);
+				throw new Error(`Element \`[name="${value.name}"]\` not found`);
 			}
 			if (!elements.every((element) => element instanceof HTMLInputElement)) {
-				throw new TypeError(`Element \`[name=${value.name}]\` is not a \`HTMLInputElement\``);
+				throw new TypeError(`Element \`[name="${value.name}"]\` is not a \`HTMLInputElement\``);
 			}
 
 			this.#elements = [...this.#elements, ...elements];
