@@ -5,20 +5,34 @@ export default {
 	extends: ['@w0s/markuplint-config'],
 	rules: {
 		'no-empty-palpable-content': false,
-		'character-reference': false,
 	},
-	nodeRules: [
-		{
-			selector: 'div',
+	overrideMode: 'merge',
+	overrides: {
+		'packages/button-clipboard/demo/index.html': {
+			nodeRules: [
+				{
+					selector: 'textarea',
+					rules: {
+						'require-accessible-name': false,
+					},
+				},
+			],
+		},
+		'packages/form-control-validation/demo/index.html': {
+			nodeRules: [
+				{
+					selector: 'option[label]',
+					rules: {
+						'permitted-contents': false,
+						'require-accessible-name': false,
+					},
+				},
+			],
+		},
+		'packages/input-switch/demo/index.html': {
 			rules: {
-				'required-attr': false,
+				'label-for-references-labelable': false,
 			},
 		},
-		{
-			selector: 'table, input, select, textarea',
-			rules: {
-				'require-accessible-name': false,
-			},
-		},
-	],
+	},
 };
