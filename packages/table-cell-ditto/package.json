@@ -31,7 +31,7 @@
 	},
 	"scripts": {
 		"dev": "conc \"http-server ../ -p 8080 -o table-cell-ditto/demo -c-1\" \"tsc -w\"",
-		"prebuild": "rimraf dist/* -g",
+		"prebuild": "rimraf dist",
 		"build": "tsc",
 		"pretest": "npm run build",
 		"test": "npm run test:node & npm run test:playwright",
