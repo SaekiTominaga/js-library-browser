@@ -31,7 +31,7 @@
 	},
 	"scripts": {
 		"dev": "conc \"http-server ../ -p 8080 -o writing-mode/demo -c-1\" \"tsc -w\"",
-		"prebuild": "rimraf dist/* -g",
+		"prebuild": "rimraf dist",
 		"build": "tsc",
 		"pretest": "npm run build",
 		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest dist/.+\\.test\\.js -c ../../jest.config.mjs --roots packages/writing-mode"
