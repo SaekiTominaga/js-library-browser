@@ -2,9 +2,9 @@ import { beforeAll, describe, expect, jest, test } from '@jest/globals';
 import { mockAnimationsApi } from 'jsdom-testing-mocks';
 import detailsAnimation from './detailsAnimation.ts';
 
-beforeAll(() => {
-	mockAnimationsApi();
+mockAnimationsApi();
 
+beforeAll(() => {
 	Object.defineProperty(globalThis, 'matchMedia', {
 		value: jest.fn().mockImplementation((query) => ({
 			matches: false,

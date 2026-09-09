@@ -1,4 +1,5 @@
-import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, jest, test } from '@jest/globals';
+import type { SpiedFunction } from 'jest-mock';
 import InputSwitch from './InputSwitch.ts';
 
 const INPUT_SWITCH_ELEMENT_NAME = 'x-input-switch';
@@ -9,6 +10,7 @@ beforeAll(() => {
 
 describe('browser support adoptedStyleSheets', () => {
 	let tempAdoptedStyleSheets: CSSStyleSheet[];
+	let consoleInfoSpy: SpiedFunction;
 
 	beforeAll(() => {
 		tempAdoptedStyleSheets = ShadowRoot.prototype.adoptedStyleSheets;
@@ -16,16 +18,20 @@ describe('browser support adoptedStyleSheets', () => {
 		delete ShadowRoot.prototype.adoptedStyleSheets;
 	});
 
+	beforeEach(() => {
+		consoleInfoSpy = jest.spyOn(console, 'info');
+	});
+
+	afterEach(() => {
+		consoleInfoSpy.mockRestore();
+	});
+
 	afterAll(() => {
 		ShadowRoot.prototype.adoptedStyleSheets = tempAdoptedStyleSheets;
 	});
 
 	test('not support', () => {
-		const consoleInfoSpy = jest.spyOn(console, 'info');
-
 		document.createElement(INPUT_SWITCH_ELEMENT_NAME);
-
-		consoleInfoSpy.mockRestore();
 
 		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support ShadowRoot: `adoptedStyleSheets`.');
 	});

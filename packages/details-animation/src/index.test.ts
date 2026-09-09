@@ -1,8 +1,11 @@
-import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, jest, test } from '@jest/globals';
+import type { SpiedFunction } from 'jest-mock';
 import index from './index.ts';
 
 describe('browser support adoptedStyleSheets', () => {
 	let tempAdoptedStyleSheets: CSSStyleSheet[];
+
+	let consoleInfoSpy: SpiedFunction;
 
 	beforeAll(() => {
 		tempAdoptedStyleSheets = ShadowRoot.prototype.adoptedStyleSheets;
@@ -10,16 +13,20 @@ describe('browser support adoptedStyleSheets', () => {
 		delete ShadowRoot.prototype.adoptedStyleSheets;
 	});
 
+	beforeEach(() => {
+		consoleInfoSpy = jest.spyOn(console, 'info');
+	});
+
+	afterEach(() => {
+		consoleInfoSpy.mockRestore();
+	});
+
 	afterAll(() => {
 		ShadowRoot.prototype.adoptedStyleSheets = tempAdoptedStyleSheets;
 	});
 
 	test('not support', () => {
-		const consoleInfoSpy = jest.spyOn(console, 'info');
-
 		index(null);
-
-		consoleInfoSpy.mockRestore();
 
 		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support ShadowRoot: `adoptedStyleSheets`.');
 	});

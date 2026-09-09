@@ -1,6 +1,13 @@
-import { expect, jest, test } from '@jest/globals';
+import { afterEach, expect, jest, test } from '@jest/globals';
+import type { SpiedFunction } from 'jest-mock';
 import ValidationMessageIsbnCheckdigit from '../../attribute/ValidationMessageIsbnCheckdigit.ts';
 import submitEvent from './submit.ts';
+
+let preventDefaultSpy: SpiedFunction;
+
+afterEach(() => {
+	preventDefaultSpy.mockRestore();
+});
 
 test('valid', () => {
 	const $input = document.createElement('input');
@@ -9,14 +16,12 @@ test('valid', () => {
 
 	const event = new Event('submit') as SubmitEvent;
 
-	const preventDefaultSpy = jest.spyOn(event, 'preventDefault');
+	preventDefaultSpy = jest.spyOn(event, 'preventDefault');
 
 	submitEvent(event, {
 		inputElement: $input,
 		validationMessageIsbnCheckdigit,
 	});
-
-	preventDefaultSpy.mockRestore();
 
 	expect($input.validationMessage).toBe('');
 	expect(preventDefaultSpy).not.toHaveBeenCalled();
@@ -32,14 +37,12 @@ test('invalid', () => {
 
 	const event = new Event('submit') as SubmitEvent;
 
-	const preventDefaultSpy = jest.spyOn(event, 'preventDefault');
+	preventDefaultSpy = jest.spyOn(event, 'preventDefault');
 
 	submitEvent(event, {
 		inputElement: $input,
 		validationMessageIsbnCheckdigit,
 	});
-
-	preventDefaultSpy.mockRestore();
 
 	expect($input.validationMessage).toBe(VALIDATION_MESSAGE_ISBN_CHECKDIGIT);
 	expect(preventDefaultSpy).toHaveBeenCalledWith();

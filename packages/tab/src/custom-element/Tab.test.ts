@@ -1,4 +1,5 @@
-import { afterAll, afterEach, beforeAll, describe, expect, jest, test } from '@jest/globals';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, jest, test } from '@jest/globals';
+import type { SpiedFunction } from 'jest-mock';
 import Tab from './Tab.ts';
 
 const TAB_ELEMENT_NAME = 'x-tab';
@@ -9,6 +10,7 @@ beforeAll(() => {
 
 describe('browser support adoptedStyleSheets', () => {
 	let tempAdoptedStyleSheets: CSSStyleSheet[];
+	let consoleInfoSpy: SpiedFunction;
 
 	beforeAll(() => {
 		tempAdoptedStyleSheets = ShadowRoot.prototype.adoptedStyleSheets;
@@ -16,16 +18,20 @@ describe('browser support adoptedStyleSheets', () => {
 		delete ShadowRoot.prototype.adoptedStyleSheets;
 	});
 
+	beforeEach(() => {
+		consoleInfoSpy = jest.spyOn(console, 'info');
+	});
+
+	afterEach(() => {
+		consoleInfoSpy.mockRestore();
+	});
+
 	afterAll(() => {
 		ShadowRoot.prototype.adoptedStyleSheets = tempAdoptedStyleSheets;
 	});
 
 	test('not support', () => {
-		const consoleInfoSpy = jest.spyOn(console, 'info');
-
 		document.createElement(TAB_ELEMENT_NAME);
-
-		consoleInfoSpy.mockRestore();
 
 		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support ShadowRoot: `adoptedStyleSheets`.');
 	});
@@ -33,18 +39,21 @@ describe('browser support adoptedStyleSheets', () => {
 
 describe('connectedCallback', () => {
 	describe('storage', () => {
+		let consoleInfoSpy: SpiedFunction;
+
+		beforeEach(() => {
+			consoleInfoSpy = jest.spyOn(console, 'info');
+		});
+
 		afterEach(() => {
 			sessionStorage.clear();
+			consoleInfoSpy.mockRestore();
 		});
 
 		test('no exist id', () => {
-			const consoleInfoSpy = jest.spyOn(console, 'info');
-
 			sessionStorage.setItem('x', 'foo');
 
 			document.body.innerHTML = `<x-tab storage-key="x"></x-tab>`;
-
-			consoleInfoSpy.mockRestore();
 
 			expect(consoleInfoSpy).toHaveBeenCalledWith('Element `#foo` not found.');
 		});

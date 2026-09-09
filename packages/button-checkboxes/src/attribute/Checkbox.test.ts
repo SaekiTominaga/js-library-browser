@@ -92,7 +92,7 @@ describe('name', () => {
 
 		expect(() => {
 			new Checkbox({ name: 'xxx' });
-		}).toThrow(new Error('Element `[name=xxx]` not found'));
+		}).toThrow(new Error('Element `[name="xxx"]` not found'));
 	});
 
 	test('not input', () => {
@@ -100,7 +100,7 @@ describe('name', () => {
 
 		expect(() => {
 			new Checkbox({ name: 'checkbox' });
-		}).toThrow(new Error('Element `[name=checkbox]` is not a `HTMLInputElement`'));
+		}).toThrow(new Error('Element `[name="checkbox"]` is not a `HTMLInputElement`'));
 	});
 
 	test('exist checkboxes', () => {

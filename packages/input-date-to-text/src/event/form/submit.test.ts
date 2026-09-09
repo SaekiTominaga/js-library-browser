@@ -1,10 +1,17 @@
-import { expect, jest, test } from '@jest/globals';
+import { afterEach, expect, jest, test } from '@jest/globals';
+import type { SpiedFunction } from 'jest-mock';
 import Max from '../../attribute/Max.ts';
 import Min from '../../attribute/Min.ts';
 import ValidationMessageMax from '../../attribute/ValidationMessageMax.ts';
 import ValidationMessageMin from '../../attribute/ValidationMessageMin.ts';
 import ValidationMessageNoExist from '../../attribute/ValidationMessageNoExist.ts';
 import submitEvent from './submit.ts';
+
+let preventDefaultSpy: SpiedFunction;
+
+afterEach(() => {
+	preventDefaultSpy.mockRestore();
+});
 
 test('valid', () => {
 	const $input = document.createElement('input');
@@ -17,7 +24,7 @@ test('valid', () => {
 
 	const event = new Event('submit') as SubmitEvent;
 
-	const preventDefaultSpy = jest.spyOn(event, 'preventDefault');
+	preventDefaultSpy = jest.spyOn(event, 'preventDefault');
 
 	submitEvent(event, {
 		inputElement: $input,
@@ -27,8 +34,6 @@ test('valid', () => {
 		validationMessageMin,
 		validationMessageMax,
 	});
-
-	preventDefaultSpy.mockRestore();
 
 	expect($input.validationMessage).toBe('');
 	expect(preventDefaultSpy).not.toHaveBeenCalled();
@@ -48,7 +53,7 @@ test('invalid', () => {
 
 	const event = new Event('submit') as SubmitEvent;
 
-	const preventDefaultSpy = jest.spyOn(event, 'preventDefault');
+	preventDefaultSpy = jest.spyOn(event, 'preventDefault');
 
 	submitEvent(event, {
 		inputElement: $input,
@@ -58,8 +63,6 @@ test('invalid', () => {
 		validationMessageMin,
 		validationMessageMax,
 	});
-
-	preventDefaultSpy.mockRestore();
 
 	expect($input.validationMessage).toBe(VALIDATION_MESSAGE_NO_EXIST);
 	expect(preventDefaultSpy).toHaveBeenCalledWith();

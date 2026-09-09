@@ -1,4 +1,5 @@
-import { describe, expect, jest, test } from '@jest/globals';
+import { afterEach, beforeEach, describe, expect, jest, test } from '@jest/globals';
+import type { SpiedFunction } from 'jest-mock';
 import reportJsError, { type FetchOption, type Option } from './reportJsError.ts';
 
 const fetchOptions: Readonly<FetchOption> = {
@@ -20,12 +21,18 @@ const options: Readonly<Option> = {
 	fetch: fetchOptions,
 };
 
-const eventSpy = jest.spyOn(globalThis, 'addEventListener');
+let eventSpy: SpiedFunction;
+
+beforeEach(() => {
+	eventSpy = jest.spyOn(globalThis, 'addEventListener');
+});
+
+afterEach(() => {
+	eventSpy.mockRestore();
+});
 
 test('正常ケース', () => {
 	reportJsError(options);
-
-	eventSpy.mockRestore();
 
 	expect(eventSpy).toHaveBeenCalledWith('error', expect.any(Function), { passive: true });
 });
@@ -40,8 +47,6 @@ describe('validate', () => {
 				},
 			});
 
-			eventSpy.mockRestore();
-
 			expect(eventSpy).not.toHaveBeenCalled();
 		});
 
@@ -52,8 +57,6 @@ describe('validate', () => {
 					ua: { allows: [/foo/v] },
 				},
 			});
-
-			eventSpy.mockRestore();
 
 			expect(eventSpy).not.toHaveBeenCalled();
 		});

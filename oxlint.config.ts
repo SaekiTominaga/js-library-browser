@@ -92,6 +92,12 @@ export default defineConfig({
 				'jest/no-hooks': 'off',
 				'jest/prefer-expect-assertions': 'off',
 				'jest/prefer-lowercase-title': 'off',
+				'jest/require-hook': [
+					'error',
+					{
+						allowedFunctionCalls: ['mockAnimationsApi'],
+					},
+				],
 				'jest/require-top-level-describe': 'off',
 			},
 		},
