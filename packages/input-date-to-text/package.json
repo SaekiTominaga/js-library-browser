@@ -35,7 +35,7 @@
 		"prebuild": "rimraf dist",
 		"build": "tsc",
 		"pretest": "npm run build",
-		"test": "npm run test:node & npm run test:playwright",
+		"test": "conc \"npm run test:node\" \"npm run test:playwright\"",
 		"test:node": "cross-env NODE_OPTIONS=--experimental-vm-modules jest dist/.+\\.test\\.js -c ../../jest.config.mjs --roots packages/input-date-to-text",
 		"test:playwright": "playwright test inputDateToText.spec.ts -c ../../playwright.config.js"
 	}
