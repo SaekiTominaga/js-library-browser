@@ -1,4 +1,5 @@
-import { beforeAll, describe, expect, jest, test } from '@jest/globals';
+import { afterEach, beforeAll, beforeEach, describe, expect, jest, test } from '@jest/globals';
+import type { SpiedFunction } from 'jest-mock';
 import Data from '../attribute/Data.ts';
 import Feedback from '../attribute/Feedback.ts';
 import clickEvent from './click.ts';
@@ -14,27 +15,31 @@ beforeAll(() => {
 });
 
 describe('data', () => {
-	test('text', async () => {
-		const clipboardWriteTextSpy = jest.spyOn(navigator.clipboard, 'writeText');
-		const consoleInfoSpy = jest.spyOn(console, 'info');
+	let clipboardWriteTextSpy: SpiedFunction<(data: string) => Promise<void>>;
+	let consoleInfoSpy: SpiedFunction;
 
+	beforeEach(() => {
+		clipboardWriteTextSpy = jest.spyOn(navigator.clipboard, 'writeText');
+		consoleInfoSpy = jest.spyOn(console, 'info');
+	});
+
+	afterEach(() => {
+		clipboardWriteTextSpy.mockRestore();
+		consoleInfoSpy.mockRestore();
+	});
+
+	test('text', async () => {
 		const event = new MouseEvent('click');
 		const data = new Data({ text: 'Text' });
 		const feedback = new Feedback();
 
 		await clickEvent(event, data, feedback);
 
-		clipboardWriteTextSpy.mockRestore();
-		consoleInfoSpy.mockRestore();
-
 		expect(clipboardWriteTextSpy).toHaveBeenCalledWith('Text');
 		expect(consoleInfoSpy).toHaveBeenCalledWith('Clipboard write successfully', 'Text');
 	});
 
 	test('target', async () => {
-		const clipboardWriteTextSpy = jest.spyOn(navigator.clipboard, 'writeText');
-		const consoleInfoSpy = jest.spyOn(console, 'info');
-
 		document.body.innerHTML = `<p id="target">Text</p>`;
 
 		const event = new MouseEvent('click');
@@ -43,27 +48,34 @@ describe('data', () => {
 
 		await clickEvent(event, data, feedback);
 
-		clipboardWriteTextSpy.mockRestore();
-		consoleInfoSpy.mockRestore();
-
 		expect(clipboardWriteTextSpy).toHaveBeenCalledWith('Text');
 		expect(consoleInfoSpy).toHaveBeenCalledWith('Clipboard write successfully', 'Text');
 	});
 });
 
-test('feedback', async () => {
-	const clipboardWriteTextSpy = jest.spyOn(navigator.clipboard, 'writeText');
+describe('feedback', () => {
+	let clipboardWriteTextSpy: SpiedFunction<(data: string) => Promise<void>>;
 
-	document.body.innerHTML = `<p id="feedback" hidden="">Success</p>`;
+	beforeAll(() => {
+		document.body.innerHTML = `<p id="feedback" hidden="">Success</p>`;
+	});
 
-	const event = new MouseEvent('click');
-	const data = new Data({ text: 'Text' });
-	const feedback = new Feedback('feedback');
+	beforeEach(() => {
+		clipboardWriteTextSpy = jest.spyOn(navigator.clipboard, 'writeText');
+	});
 
-	await clickEvent(event, data, feedback);
+	afterEach(() => {
+		clipboardWriteTextSpy.mockRestore();
+	});
 
-	clipboardWriteTextSpy.mockRestore();
+	test('text', async () => {
+		const event = new MouseEvent('click');
+		const data = new Data({ text: 'Text' });
+		const feedback = new Feedback('feedback');
 
-	expect(clipboardWriteTextSpy).toHaveBeenCalledWith('Text');
-	expect(feedback.element?.hidden).toBeFalsy();
+		await clickEvent(event, data, feedback);
+
+		expect(clipboardWriteTextSpy).toHaveBeenCalledWith('Text');
+		expect(feedback.element?.hidden).toBeFalsy();
+	});
 });

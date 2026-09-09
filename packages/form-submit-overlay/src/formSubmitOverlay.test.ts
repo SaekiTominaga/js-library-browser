@@ -1,7 +1,10 @@
-import { beforeAll, describe, expect, jest, test } from '@jest/globals';
+import { afterEach, beforeAll, describe, expect, jest, test } from '@jest/globals';
+import type { SpiedFunction } from 'jest-mock';
 import formSubmitOverlay from './formSubmitOverlay.ts';
 
 describe('event', () => {
+	let dialogShowModalSpy: SpiedFunction;
+
 	beforeAll(() => {
 		document.body.innerHTML = `
 <form data-overlayed-by="overlay"></form>
@@ -10,15 +13,17 @@ describe('event', () => {
 		formSubmitOverlay(document.querySelector('form')!);
 	});
 
+	afterEach(() => {
+		dialogShowModalSpy.mockRestore();
+	});
+
 	test('submit', () => {
 		const $form = document.querySelector('form')!;
 		const $dialog = document.querySelector('dialog')!;
 
-		const dialogShowModalSpy = jest.spyOn($dialog, 'showModal');
+		dialogShowModalSpy = jest.spyOn($dialog, 'showModal');
 
 		$form.dispatchEvent(new Event('submit'));
-
-		dialogShowModalSpy.mockRestore();
 
 		expect(dialogShowModalSpy).toHaveBeenCalledWith();
 	});
@@ -30,8 +35,6 @@ describe('event', () => {
 		const dialogCloseSpy = jest.spyOn($dialog, 'close');
 
 		globalThis.dispatchEvent(new Event('pagehide'));
-
-		dialogCloseSpy.mockRestore();
 
 		expect(dialogCloseSpy).toHaveBeenCalledWith();
 	});

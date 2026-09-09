@@ -1,8 +1,10 @@
-import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, jest, test } from '@jest/globals';
+import type { SpiedFunction } from 'jest-mock';
 import index from './index.ts';
 
 describe('browser support popover', () => {
 	let tempShowPopover: () => void;
+	let consoleInfoSpy: SpiedFunction;
 
 	beforeAll(() => {
 		tempShowPopover = HTMLElement.prototype.showPopover.bind(HTMLElement);
@@ -10,16 +12,20 @@ describe('browser support popover', () => {
 		delete HTMLElement.prototype.showPopover;
 	});
 
+	beforeEach(() => {
+		consoleInfoSpy = jest.spyOn(console, 'info');
+	});
+
+	afterEach(() => {
+		consoleInfoSpy.mockRestore();
+	});
+
 	afterAll(() => {
 		HTMLElement.prototype.showPopover = tempShowPopover;
 	});
 
 	test('not support', () => {
-		const consoleInfoSpy = jest.spyOn(console, 'info');
-
 		index(null);
-
-		consoleInfoSpy.mockRestore();
 
 		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support popover.');
 	});

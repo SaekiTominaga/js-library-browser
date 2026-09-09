@@ -6,10 +6,10 @@ import clickEvent from './click.ts';
 
 const DETAILS_CONTENT_ELEMENT_NAME = 'x-details-content';
 
+mockAnimationsApi();
+
 beforeAll(() => {
 	customElements.define(DETAILS_CONTENT_ELEMENT_NAME, DetailsContentElement);
-
-	mockAnimationsApi();
 
 	Object.defineProperty(globalThis, 'matchMedia', {
 		value: jest.fn().mockImplementation((query) => ({
