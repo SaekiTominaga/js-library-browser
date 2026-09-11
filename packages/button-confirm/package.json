@@ -38,7 +38,7 @@
 		"build": "tsc",
 		"pretest": "npm run build",
 		"test": "conc \"npm run test:node\" \"npm run test:playwright\"",
-		"test:node": "cross-env NODE_OPTIONS=--experimental-vm-modules jest dist/.+\\.test\\.js -c ../../jest.config.mjs --roots packages/button-confirm",
+		"test:node": "cross-env NODE_OPTIONS=--experimental-vm-modules jest \"dist/.+\\.test\\.js\" -c ../../jest.config.mjs --roots packages/button-confirm",
 		"test:playwright": "playwright test buttonConfirm.spec.ts -c ../../playwright.config.js"
 	}
 }

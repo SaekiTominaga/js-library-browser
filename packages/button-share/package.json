@@ -38,6 +38,6 @@
 		"prebuild": "rimraf dist",
 		"build": "tsc",
 		"pretest": "npm run build",
-		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest dist/.+\\.test\\.js -c ../../jest.config.mjs --roots packages/button-share"
+		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest \"dist/.+\\.test\\.js\" -c ../../jest.config.mjs --roots packages/button-share"
 	}
 }

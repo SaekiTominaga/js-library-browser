@@ -37,7 +37,7 @@
 		"prebuild": "rimraf dist",
 		"build": "tsc",
 		"pretest": "npm run build",
-		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest dist/.+\\.test\\.js -c ../../jest.config.mjs --roots packages/details-animation"
+		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest \"dist/.+\\.test\\.js\" -c ../../jest.config.mjs --roots packages/details-animation"
 	},
 	"dependencies": {
 		"@w0s/writing-mode": "1.1.2"
