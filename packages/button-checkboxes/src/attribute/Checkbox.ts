@@ -20,7 +20,7 @@ export default class {
 		}
 
 		if (value.id !== null && value.id !== undefined) {
-			const checkboxGroupElement = document.querySelector(`#${value.id}`);
+			const checkboxGroupElement = document.querySelector(`#${CSS.escape(value.id)}`);
 			if (checkboxGroupElement === null) {
 				throw new Error(`Element \`#${value.id}\` not found`);
 			}
@@ -34,7 +34,7 @@ export default class {
 		}
 
 		if (value.class !== null && value.class !== undefined) {
-			const elements = [...document.querySelectorAll(`.${value.class}`)];
+			const elements = [...document.querySelectorAll(`.${CSS.escape(value.class)}`)];
 			if (elements.length === 0) {
 				throw new Error(`Element \`.${value.class}\` not found`);
 			}
