@@ -2,7 +2,7 @@
  * `aria-controls` attribute
  */
 export default class {
-	readonly #elements: HTMLMediaElement[] = [];
+	readonly #elements: HTMLMediaElement[];
 
 	/**
 	 * @param value - Attribute value
@@ -12,8 +12,8 @@ export default class {
 			throw new TypeError('The `aria-controls` attribute is not set');
 		}
 
-		value.split(' ').forEach((id) => {
-			const element = document.querySelector(`#${id}`);
+		this.#elements = value.split(' ').map((id): HTMLMediaElement => {
+			const element = document.querySelector(`#${CSS.escape(id)}`);
 			if (element === null) {
 				throw new Error(`Element \`#${id}\` not found`);
 			}
@@ -21,7 +21,7 @@ export default class {
 				throw new TypeError(`Element \`#${id}\` is not a \`HTMLMediaElement\``);
 			}
 
-			this.#elements.push(element);
+			return element;
 		});
 	}
 

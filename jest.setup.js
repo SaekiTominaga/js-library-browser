@@ -1,3 +1,7 @@
+/* CSS: escape() <https://github.com/jsdom/jsdom/releases/tag/v30.0.0> */
+globalThis.CSS = {};
+CSS.escape = (ident) => ident;
+
 /* CSSStyleSheet: replaceSync() <https://github.com/jsdom/jsdom/issues/3766> */
 CSSStyleSheet.prototype.replaceSync = () => {};
 

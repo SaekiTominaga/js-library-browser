@@ -14,7 +14,7 @@ export default class {
 			throw new TypeError('The `data-preview` attribute is not set');
 		}
 
-		const template = document.querySelector(`#${value}`);
+		const template = document.querySelector(`#${CSS.escape(value)}`);
 		if (template === null) {
 			throw new Error(`Element \`#${value}\` not found`);
 		}
