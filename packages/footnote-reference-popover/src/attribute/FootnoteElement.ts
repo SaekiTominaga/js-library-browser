@@ -23,7 +23,7 @@ export default class {
 		}
 
 		const id = url.hash.slice(1);
-		const footnoteElement = document.querySelector<HTMLElement>(`#${id}`);
+		const footnoteElement = document.querySelector<HTMLElement>(`#${CSS.escape(id)}`);
 		if (footnoteElement === null) {
 			throw new Error(`Element \`#${id}\` not found`);
 		}
