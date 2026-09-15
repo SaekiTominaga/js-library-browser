@@ -37,7 +37,7 @@
 ## Functions
 
 ```TypeScript
-closestHTMLPage(baseUrl = location.toString(), options?: Readonly<Option>): Promise<{
+closestHTMLPage(baseUrl = location.toString(), options?: Option): Promise<{
   fetchedResponses: Response[]; // `Response` data resulting from the execution of `fetch()`
   closestHTMLPageData: {
     url: string; // URL of the HTML page
@@ -51,7 +51,7 @@ closestHTMLPage(baseUrl = location.toString(), options?: Readonly<Option>): Prom
 <dl>
 <dt><code>baseUrl = location.toString()</code></dt>
 <dd>Base URL</dd>
-<dt><code>options?: Readonly&lt;Option&gt;</code></dt>
+<dt><code>options?: Option</code></dt>
 <dd>Options for accessing web content.</dd>
 </dl>
 
@@ -61,7 +61,7 @@ closestHTMLPage(baseUrl = location.toString(), options?: Readonly<Option>): Prom
 interface Option {
   maxFetchCount?: number;
   fetchOptions?: RequestInit;
-  mimeTypes?: readonly DOMParserSupportedType[];
+  mimeTypes?: DOMParserSupportedType[];
 }
 ```
 
