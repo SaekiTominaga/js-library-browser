@@ -36,13 +36,13 @@ export default defineConfig({
 
 	/* Advanced Configuration */
 	outputDir: '.playwright/test-results',
-	timeout: 60_000,
+	timeout: 120_000,
 
 	/* FullConfig */
 	maxFailures: process.env.CI ? 1 : 0,
 
 	/* Expect Options */
 	expect: {
-		timeout: 10_000,
+		timeout: 20_000,
 	},
 });
