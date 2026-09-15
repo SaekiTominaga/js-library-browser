@@ -53,38 +53,38 @@ As a practical use case, this script put this script in error pages like 403, 40
 ## Default function
 
 ```TypeScript
-async (options: Readonly<Option>): Promise<Response | undefined>
+async (options: Option): Promise<Response | undefined>
 ```
 
 ### Option
 
 ```TypeScript
 export interface Option {
-  fetch: Readonly<FetchOption>;
-  validate?: Readonly<ValidateOption>;
+  fetch: FetchOption;
+  validate?: ValidateOption;
 }
 
 export interface FetchOption {
   endpoint: string | URL; // URL of the endpoint
-  param: Readonly<{
+  param: {
     documentURL: string; // Field name when sending the URL of the document to an endpoint
     referrer: string; // Field name when sending `document.referrer` to an endpoint
-  }>;
+  };
   contentType?: 'application/x-www-form-urlencoded' | 'application/json'; // `Content-Type` header to be set in `fetch()` request
   headers?: HeadersInit; // Header to add to the `fetch()` request <https://fetch.spec.whatwg.org/#typedefdef-headersinit>
 }
 
 export interface ValidateOption {
   /* Referrer */
-  referrer?: Readonly<{
+  referrer?: {
     comparePart?: 'origin' | 'host' | 'hostname'; // Which parts of the referrer to check (default: `origin`)
-    sames?: readonly string[]; // Domain information treated as the same site
-  }>;
+    sames?: string[]; // Domain information treated as the same site
+  };
 
   /* User agent string */
-  ua?: Readonly<{
-    denys?: readonly RegExp[]; // If matches this regular expression, do not send report
-    allows?: readonly RegExp[]; // If matches this regular expression, send report
-  }>;
+  ua?: {
+    denys?: RegExp[]; // If matches this regular expression, do not send report
+    allows?: RegExp[]; // If matches this regular expression, send report
+  };
 }
 ```

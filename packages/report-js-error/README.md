@@ -54,40 +54,40 @@ Detects the `error` event of the `window` object and sends error information to 
 ## Default function
 
 ```TypeScript
-reportJsError(options: Readonly<Option>): void
+reportJsError(options: Option): void
 ```
 
 ### Option
 
 ```TypeScript
 interface Option {
-  fetch: Readonly<FetchOption>;
-  validate?: Readonly<ValidateOption>;
+  fetch: FetchOption;
+  validate?: ValidateOption;
 }
 
 interface FetchOption {
   endpoint: string | URL; // URL of the endpoint
-  param: Readonly<{
+  param: {
     documentURL: string; // Field name when sending the URL of the document to an endpoint
     message: string; // Field name when sending `ErrorEvent.message` to an endpoint
     filename: string; // Field name when sending `ErrorEvent.filename` to an endpoint
     lineno: string; // Field name when sending `ErrorEvent.lineno` to an endpoint
     colno: string; // Field name when sending `ErrorEvent.colno` to an endpoint
-  }>;
+  };
   contentType?: 'application/x-www-form-urlencoded' | 'application/json';
   headers?: HeadersInit; // Header to add to the `fetch()` request <https://fetch.spec.whatwg.org/#typedefdef-headersinit>
 }
 
 interface ValidateOption {
   /* User agent string */
-  ua?: Readonly<{
-    denys?: readonly RegExp[]; // If matches this regular expression, do not send report
-    allows?: readonly RegExp[]; // If matches this regular expression, send report
-  }>;
+  ua?: {
+    denys?: RegExp[]; // If matches this regular expression, do not send report
+    allows?: RegExp[]; // If matches this regular expression, send report
+  };
   /* `ErrorEvent.filename` */
-  filename?: Readonly<{
-    denys?: readonly RegExp[]; // If matches this regular expression, do not send report
-    allows?: readonly RegExp[]; // If matches this regular expression, send report
-  }>;
+  filename?: {
+    denys?: RegExp[]; // If matches this regular expression, do not send report
+    allows?: RegExp[]; // If matches this regular expression, send report
+  };
 }
 ```
