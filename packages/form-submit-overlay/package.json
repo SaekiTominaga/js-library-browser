@@ -23,9 +23,12 @@
 		"!dist/**/*.test.js.map"
 	],
 	"type": "module",
-	"main": "dist/index.js",
-	"module": "dist/index.js",
-	"types": "dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		}
+	},
 	"publishConfig": {
 		"access": "public"
 	},
