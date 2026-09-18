@@ -45,6 +45,6 @@
 		"test:playwright": "playwright test inputIsbn.spec.ts -c ../../playwright.config.js"
 	},
 	"dependencies": {
-		"@w0s/isbn-verify": "4.0.1"
+		"@w0s/isbn-verify": "4.0.2"
 	}
 }
