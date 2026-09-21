@@ -3,7 +3,7 @@ import type { SpiedFunction } from 'jest-mock';
 import reportJsError, { type FetchOption, type Option } from './reportJsError.ts';
 
 const fetchOptions: Readonly<FetchOption> = {
-	endpoint: new URL('https://report.w0s.jp/report/js-sample'),
+	endpoint: new URL('https://api.w0s.jp/report/js-sample'),
 	param: {
 		documentURL: 'documentURL',
 		message: 'message',

@@ -14,7 +14,7 @@ const errorEventInit: Readonly<ErrorEventInit> = {
 const testTimeout = 10_000; // default=5000 <https://jestjs.io/docs/api#testname-fn-timeout>
 
 const fetchOptions: Readonly<FetchOption> = {
-	endpoint: new URL('https://report.w0s.jp/report/js-sample'),
+	endpoint: new URL('https://api.w0s.jp/report/js-sample'),
 	param: {
 		documentURL: 'documentURL',
 		message: 'message',
@@ -57,7 +57,7 @@ test(
 				fetch: fetchOptionsTemp,
 				validate: { ...options.validate },
 			}),
-		).rejects.toThrow(new Error('`https://report.w0s.jp/report/js-sample` is 400 Bad Request')); // TODO: データ形式の正当性が確認できていない
+		).rejects.toThrow(new Error('`https://api.w0s.jp/report/js-sample` is 400 Bad Request')); // TODO: データ形式の正当性が確認できていない
 	},
 	testTimeout,
 );
