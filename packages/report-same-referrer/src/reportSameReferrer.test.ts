@@ -4,7 +4,7 @@ import 'cross-fetch/polyfill';
 import reportSameReferrer, { type FetchOption } from './reportSameReferrer.ts';
 
 const fetchOptions: Readonly<FetchOption> = {
-	endpoint: new URL('https://report.w0s.jp/report/referrer-sample'),
+	endpoint: new URL('https://api.w0s.jp/report/referrer-sample'),
 	param: {
 		documentURL: 'documentURL',
 		referrer: 'referrer',
@@ -39,7 +39,7 @@ test('application/x-www-form-urlencoded', async () => {
 		reportSameReferrer({
 			fetch: fetchOptionsTemp,
 		}),
-	).rejects.toThrow(new Error('`https://report.w0s.jp/report/referrer-sample` is 400 Bad Request')); // TODO: データ形式の正当性が確認できていない
+	).rejects.toThrow(new Error('`https://api.w0s.jp/report/referrer-sample` is 400 Bad Request')); // TODO: データ形式の正当性が確認できていない
 });
 
 describe('validate', () => {
