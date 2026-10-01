@@ -45,7 +45,7 @@
 		"stylelint-attribute-case-sensitivity": "3.1.0",
 		"stylelint-config-concentric-order": "5.5.0",
 		"stylelint-config-standard": "40.0.0",
-		"stylelint-no-default-viewport": "2.0.1",
+		"stylelint-no-default-viewport": "2.0.3",
 		"stylelint-root-colors": "3.0.3",
 		"typescript": "7.0.2"
 	}
