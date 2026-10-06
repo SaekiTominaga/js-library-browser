@@ -11,7 +11,7 @@ import { getContent } from '../util/html.ts';
  */
 export default async (_ev: MouseEvent, data: Data, feedback: Feedback): Promise<void> => {
 	// oxlint-disable-next-line typescript/no-non-null-assertion
-	const content = data.text ?? getContent(data.$element); // `data-text` と `data-target` が両方指定されている場合は前者を優先する
+	const content = data.text ?? getContent(data.$element!); // `data-text` と `data-target` が両方指定されている場合は前者を優先する
 
 	await navigator.clipboard.writeText(content);
 
