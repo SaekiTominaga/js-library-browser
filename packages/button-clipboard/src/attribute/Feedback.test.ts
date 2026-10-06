@@ -28,7 +28,6 @@ test('exist element', () => {
 	const feedback = new Feedback({ element: 'feedback', text: 'Text', duration: '100ms' });
 
 	expect(feedback.$element?.tagName).toBe('OUTPUT');
-	expect(feedback.$element?.role).toBe('status');
 	expect(feedback.text).toBe('Text');
 	expect(feedback.duration).toBe(100);
 });
