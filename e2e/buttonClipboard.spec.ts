@@ -1,5 +1,11 @@
 import { expect, test } from '@playwright/test';
 
+const sleep = (ms: number) =>
+	// oxlint-disable-next-line promise/avoid-new
+	new Promise((resolve) => {
+		setTimeout(resolve, ms);
+	});
+
 test.describe.configure({ mode: 'serial' });
 
 test.beforeEach(async ({ browserName, context, page }) => {
@@ -47,7 +53,7 @@ test.describe('data-target', () => {
 
 		await section.getByRole('button', { name: 'Copy' }).click();
 
-		expect(await page.evaluate('navigator.clipboard.readText()')).toMatch(/^ {2}Text 2-2\r?\n {4}Text 2-2$/v);
+		expect(await page.evaluate('navigator.clipboard.readText()')).toMatch(/^\t{1}Text 2-2\r?\n\t{2}Text 2-2$/v);
 	});
 
 	test('<meta> element', async ({ page }) => {
@@ -67,18 +73,22 @@ test.describe('data-target', () => {
 
 		await section.getByRole('button', { name: 'Copy' }).click();
 
-		expect(await page.evaluate('navigator.clipboard.readText()')).toMatch(/^ {2}Text 2-4\r?\n {4}Text 2-4$/v);
+		expect(await page.evaluate('navigator.clipboard.readText()')).toMatch(/^\t{1}Text 2-4\r?\n\t{2}Text 2-4$/v);
 	});
 });
 
-test('data-feedback', async ({ page }) => {
-	const section = page.locator('section').filter({ hasText: 'data-feedback attribute' });
+test('Feedback', async ({ page }) => {
+	const section = page.locator('section').filter({ hasText: 'Feedback' });
 
 	expect(await page.evaluate('navigator.clipboard.readText()')).toBe('');
-	await expect(section.getByText('✔ Clipboard write successful!', { exact: true })).toBeHidden();
+	await expect(section.getByRole('status')).not.toHaveText('✔ Copied to clipboard!');
 
 	await section.getByRole('button', { name: 'Copy' }).click();
 
 	expect(await page.evaluate('navigator.clipboard.readText()')).toBe('Text 3');
-	await expect(section.getByText('✔ Clipboard write successful!', { exact: true })).toBeVisible();
+	await expect(section.getByRole('status')).toHaveText('✔ Copied to clipboard!');
+
+	await sleep(100);
+
+	await expect(section.getByRole('status')).not.toHaveText('✔ Copied to clipboard!');
 });

@@ -7,6 +7,11 @@
 			button {
 				padding: 0.5em;
 			}
+
+			pre,
+			textarea {
+				tab-size: 2;
+			}
 		</style>
 		<script type="importmap">
 			{
@@ -50,14 +55,14 @@
 			<section>
 				<h3>Form controls (such as <code>&lt;textarea&gt;</code> element)</h3>
 
-				<pre><code>&lt;p&gt;&lt;textarea id="clipboard-target2-2"&gt;  Text 2-2
-    Text 2-2&lt;/textarea&gt;&lt;/p&gt;
+				<pre><code>&lt;p&gt;&lt;textarea id="clipboard-target2-2"&gt;	Text 2-2
+		Text 2-2&lt;/textarea&gt;&lt;/p&gt;
 &lt;button type="button" class="js-button-clipboard" data-target="clipboard-target2-2"&gt;Copy&lt;/button&gt;</code></pre>
 
 				<p>
 					<textarea id="clipboard-target2-2">
-  Text 2-2
-    Text 2-2</textarea>
+	Text 2-2
+		Text 2-2</textarea>
 				</p>
 				<p>
 					<button type="button" class="js-button-clipboard" data-target="clipboard-target2-2">Copy</button>
@@ -79,13 +84,13 @@
 			<section>
 				<h3><code>&lt;pre&gt;</code> element (keep line breaks and spaces)</h3>
 
-				<pre><code>&lt;pre id="clipboard-target2-4"&gt;  Text 2-4
-    Text 2-4&lt;/pre&gt;
+				<pre><code>&lt;pre id="clipboard-target2-4"&gt;	Text 2-4
+		Text 2-4&lt;/pre&gt;
 &lt;button type="button" class="js-button-clipboard" data-target="clipboard-target2-4"&gt;Copy&lt;/button&gt;</code></pre>
 
 				<pre id="clipboard-target2-4">
-  Text 2-4
-    Text 2-4</pre>
+	Text 2-4
+		Text 2-4</pre>
 				<p>
 					<button type="button" class="js-button-clipboard" data-target="clipboard-target2-4">Copy</button>
 				</p>
@@ -93,14 +98,32 @@
 		</section>
 
 		<section>
-			<h2><code>data-feedback</code> attribute</h2>
+			<h2>Feedback</h2>
 
-			<pre><code>&lt;button type="button" class="js-button-clipboard" data-text="Text 3" data-feedback="clipboard-feedback"&gt;Copy&lt;/button&gt;
-&lt;p id="clipboard-feedback3" hidden=""&gt;✔ Clipboard write successful!&lt;/p&gt;</code></pre>
+			<pre><code>&lt;button
+	type="button"
+	class="js-button-clipboard"
+	data-text="Text 3"
+	data-feedbacked-by="clipboard-feedback3"
+	data-feedback-text="✔ Copied to clipboard!"
+	data-feedback-duration="3s"
+&gt;
+	Copy
+&lt;/button&gt;
+&lt;output id="clipboard-feedback3"&gt;&lt;/output&gt;</code></pre>
 
 			<p>
-				<button type="button" class="js-button-clipboard" data-text="Text 3" data-feedback="clipboard-feedback3">Copy</button>
-				<span id="clipboard-feedback3" hidden="">✔ Clipboard write successful!</span>
+				<button
+					type="button"
+					class="js-button-clipboard"
+					data-text="Text 3"
+					data-feedbacked-by="clipboard-feedback3"
+					data-feedback-text="✔ Copied to clipboard!"
+					data-feedback-duration="3s"
+				>
+					Copy
+				</button>
+				<output id="clipboard-feedback3"></output>
 			</p>
 		</section>
 	</body>

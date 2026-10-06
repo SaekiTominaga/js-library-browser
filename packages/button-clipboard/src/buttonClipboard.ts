@@ -8,10 +8,20 @@ import clickEvent from './event/click.ts';
  * @param thisElement - Target element
  */
 export default (thisElement: HTMLButtonElement): void => {
-	const { text: textAttribute, target: targetAttribute, feedback: feedbackAttribute } = thisElement.dataset;
+	const {
+		text: textAttribute,
+		target: targetAttribute,
+		feedbackText: feedbackTextAttribute,
+		feedbackedBy: feedbackedByAttribute,
+		feedbackDuration: feedbackDurationAttribute,
+	} = thisElement.dataset;
 
-	const data = new Data({ text: textAttribute, target: targetAttribute });
-	const feedback = new Feedback(feedbackAttribute);
+	const data = new Data({ text: textAttribute, element: targetAttribute });
+	const feedback = new Feedback({
+		text: feedbackTextAttribute,
+		element: feedbackedByAttribute,
+		duration: feedbackDurationAttribute,
+	});
 
 	thisElement.addEventListener(
 		'click',

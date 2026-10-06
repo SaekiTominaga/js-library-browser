@@ -4,29 +4,27 @@
 export default class {
 	readonly #text: string | undefined;
 
-	readonly #element: HTMLElement | undefined;
+	readonly #$element: HTMLElement | undefined;
 
 	/**
 	 * @param value - Attribute value
 	 * @param value.text - `data-text`
-	 * @param value.target - `data-target`
+	 * @param value.element - `data-target`
 	 */
-	constructor(value: Readonly<{ text?: string | null | undefined; target?: string | null | undefined }>) {
-		if ((value.text === null || value.text === undefined) && (value.target === null || value.target === undefined)) {
+	constructor(value: Readonly<{ text?: string | undefined; element?: string | undefined }>) {
+		if (value.text === undefined && value.element === undefined) {
 			throw new TypeError('The `data-text` or `data-target` attribute is not set');
 		}
 
-		if (value.text !== null && value.text !== undefined) {
-			this.#text = value.text;
-		}
+		this.#text = value.text;
 
-		if (value.target !== null && value.target !== undefined) {
-			const targetElement = document.querySelector<HTMLElement>(`#${value.target}`);
-			if (targetElement === null) {
-				throw new Error(`Element \`#${value.target}\` not found`);
+		if (value.element !== undefined) {
+			const $target = document.querySelector<HTMLElement>(`#${value.element}`);
+			if ($target === null) {
+				throw new Error(`Element \`#${value.element}\` not found`);
 			}
 
-			this.#element = targetElement;
+			this.#$element = $target;
 		}
 	}
 
@@ -34,7 +32,7 @@ export default class {
 		return this.#text;
 	}
 
-	get element(): HTMLElement | undefined {
-		return this.#element;
+	get $element(): HTMLElement | undefined {
+		return this.#$element;
 	}
 }

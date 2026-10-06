@@ -4,6 +4,12 @@ import Data from '../attribute/Data.ts';
 import Feedback from '../attribute/Feedback.ts';
 import clickEvent from './click.ts';
 
+const sleep = (ms: number) =>
+	// oxlint-disable-next-line promise/avoid-new
+	new Promise((resolve) => {
+		setTimeout(resolve, ms);
+	});
+
 beforeAll(() => {
 	Object.assign(navigator, {
 		clipboard: {
@@ -31,25 +37,25 @@ describe('data', () => {
 	test('text', async () => {
 		const event = new MouseEvent('click');
 		const data = new Data({ text: 'Text' });
-		const feedback = new Feedback();
+		const feedback = new Feedback({});
 
 		await clickEvent(event, data, feedback);
 
 		expect(clipboardWriteTextSpy).toHaveBeenCalledWith('Text');
-		expect(consoleInfoSpy).toHaveBeenCalledWith('Clipboard write successfully', 'Text');
+		expect(consoleInfoSpy).toHaveBeenCalledWith('Copied to clipboard!: Text');
 	});
 
 	test('target', async () => {
-		document.body.innerHTML = `<p id="target">Text</p>`;
+		document.body.innerHTML = `<output id="target">Text</output>`;
 
 		const event = new MouseEvent('click');
-		const data = new Data({ target: 'target' });
-		const feedback = new Feedback();
+		const data = new Data({ element: 'target' });
+		const feedback = new Feedback({});
 
 		await clickEvent(event, data, feedback);
 
 		expect(clipboardWriteTextSpy).toHaveBeenCalledWith('Text');
-		expect(consoleInfoSpy).toHaveBeenCalledWith('Clipboard write successfully', 'Text');
+		expect(consoleInfoSpy).toHaveBeenCalledWith('Copied to clipboard!: Text');
 	});
 });
 
@@ -57,7 +63,7 @@ describe('feedback', () => {
 	let clipboardWriteTextSpy: SpiedFunction<(data: string) => Promise<void>>;
 
 	beforeAll(() => {
-		document.body.innerHTML = `<p id="feedback" hidden="">Success</p>`;
+		document.body.innerHTML = `<output id="feedback">default text</output>`;
 	});
 
 	beforeEach(() => {
@@ -68,14 +74,34 @@ describe('feedback', () => {
 		clipboardWriteTextSpy.mockRestore();
 	});
 
-	test('text', async () => {
+	test('no duration', async () => {
 		const event = new MouseEvent('click');
 		const data = new Data({ text: 'Text' });
-		const feedback = new Feedback('feedback');
+		const feedback = new Feedback({ element: 'feedback', text: 'Success' });
+
+		expect(feedback.$element?.textContent).toBe('default text');
 
 		await clickEvent(event, data, feedback);
 
 		expect(clipboardWriteTextSpy).toHaveBeenCalledWith('Text');
-		expect(feedback.element?.hidden).toBeFalsy();
+		expect(feedback.$element?.textContent).toBe('Success');
+
+		await sleep(100);
+
+		expect(feedback.$element?.textContent).toBe('Success');
+	});
+
+	test('set duration', async () => {
+		const event = new MouseEvent('click');
+		const data = new Data({ text: 'Text' });
+		const feedback = new Feedback({ element: 'feedback', text: 'Success', duration: '100ms' });
+
+		await clickEvent(event, data, feedback);
+
+		expect(feedback.$element?.textContent).toBe('Success');
+
+		await sleep(100);
+
+		expect(feedback.$element?.textContent).toBe('default text');
 	});
 });
