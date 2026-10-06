@@ -28,7 +28,6 @@ export default class {
 		if (!($feedback instanceof HTMLOutputElement)) {
 			throw new TypeError(`Element \`#${value.element}\` must be a \`HTMLOutputElement\``);
 		}
-		$feedback.role = 'status';
 
 		this.#$element = $feedback;
 		this.#text = value.text;

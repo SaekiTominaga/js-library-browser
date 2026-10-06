@@ -58,7 +58,7 @@
 	</div>
 	<div>
 		<dt><code>data-feedbacked-by</code> [optional]</dt>
-		<dd>Feedback element ID displayed when writing to the clipboard is done. This element must be a <code>&lt;output&gt;</code> element. This element is automatically assigned <code>role=status</code>. If omitted, feedback will be displayed in <code>console</code>.</dd>
+		<dd>Feedback element ID displayed when writing to the clipboard is done. This element must be a <code>&lt;output&gt;</code> element. If omitted, feedback will be displayed in <code>console</code>.</dd>
 	</div>
 	<div>
 		<dt><code>data-feedback-text</code> [conditionally required]</dt>
