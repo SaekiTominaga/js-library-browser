@@ -14,13 +14,13 @@ test('text', () => {
 describe('target', () => {
 	test('no element', () => {
 		expect(() => {
-			new Data({ target: 'xxx' });
+			new Data({ element: 'xxx' });
 		}).toThrow(new Error('Element `#xxx` not found'));
 	});
 
 	test('exist element', () => {
 		document.body.innerHTML = `<p id="target">Text</p>`;
 
-		expect(new Data({ target: 'target' }).element?.textContent).toBe('Text');
+		expect(new Data({ element: 'target' }).$element?.textContent).toBe('Text');
 	});
 });
