@@ -104,4 +104,25 @@ describe('feedback', () => {
 
 		expect(feedback.$element?.textContent).toBe('default text');
 	});
+
+	test('repeated pressing', async () => {
+		const event = new MouseEvent('click');
+		const data = new Data({ text: 'Text' });
+		const feedback = new Feedback({ element: 'feedback', text: 'Success', duration: '100ms' });
+
+		await clickEvent(event, data, feedback);
+
+		expect(feedback.$element?.textContent).toBe('Success');
+
+		await sleep(50);
+		await clickEvent(event, data, feedback); // 非表示になる前に再度ボタン押下
+
+		await sleep(90); // 最初のボタン押下から100ms以上経過、ただし2回目のボタン押下からは100ms経っていない
+
+		expect(feedback.$element?.textContent).toBe('Success');
+
+		await sleep(10); // 2回目のボタン押下から100ms経過
+
+		expect(feedback.$element?.textContent).toBe('default text');
+	});
 });

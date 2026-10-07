@@ -20,9 +20,18 @@ export default async (_ev: MouseEvent, data: Data, feedback: Feedback): Promise<
 		$element.value = text;
 
 		if (duration !== undefined) {
-			setTimeout(() => {
+			const existingTimeoutId = $element.dataset['timeoutId'];
+			if (existingTimeoutId !== undefined) {
+				clearTimeout(existingTimeoutId);
+			}
+
+			const timeoutId = setTimeout(() => {
 				$element.value = $element.defaultValue;
+				delete $element.dataset['timeoutId'];
 			}, duration);
+
+			// oxlint-disable-next-line typescript/no-base-to-string
+			$element.dataset['timeoutId'] = String(timeoutId);
 		}
 	} else {
 		console.info(`Copied to clipboard!: ${content}`);
