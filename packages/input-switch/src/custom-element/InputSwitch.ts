@@ -15,16 +15,13 @@ export default class InputSwitch extends HTMLElement {
 	constructor() {
 		super();
 
-		if (!('adoptedStyleSheets' in ShadowRoot.prototype)) {
-			console.info('This browser does not support ShadowRoot: `adoptedStyleSheets`.');
+		if (typeof ElementInternals === 'undefined' || !('states' in ElementInternals.prototype)) {
+			/* Firefox 125-, Safari 17.3-, Chrome 89-, Edge 89- <https://caniuse.com/mdn-api_customstateset> */
+			console.info('This browser does not support `CustomStateSet`.');
 			return;
 		}
 
-		try {
-			this.#internals = this.attachInternals();
-		} catch {
-			/* Safari 16.3- https://caniuse.com/mdn-api_htmlelement_attachinternals */
-		}
+		this.#internals = this.attachInternals();
 
 		try {
 			this.#myLocalStorage = localStorage;
