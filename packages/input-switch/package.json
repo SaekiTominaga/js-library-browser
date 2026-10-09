@@ -1,6 +1,6 @@
 {
 	"name": "@w0s/input-switch",
-	"version": "6.0.3",
+	"version": "6.0.4",
 	"description": "Implement something like `<input type=checkbox switch>`",
 	"keywords": [
 		"custom-elements",
