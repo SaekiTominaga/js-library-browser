@@ -8,14 +8,14 @@ beforeAll(() => {
 	customElements.define(INPUT_SWITCH_ELEMENT_NAME, InputSwitch);
 });
 
-describe('browser support adoptedStyleSheets', () => {
-	let tempAdoptedStyleSheets: CSSStyleSheet[];
+describe('browser support CustomStateSet', () => {
+	let tempCustomStateSet: CustomStateSet;
 	let consoleInfoSpy: SpiedFunction;
 
 	beforeAll(() => {
-		tempAdoptedStyleSheets = ShadowRoot.prototype.adoptedStyleSheets;
+		tempCustomStateSet = ElementInternals.prototype.states;
 		// @ts-expect-error: ts(2790)
-		delete ShadowRoot.prototype.adoptedStyleSheets;
+		delete ElementInternals.prototype.states;
 	});
 
 	beforeEach(() => {
@@ -27,13 +27,14 @@ describe('browser support adoptedStyleSheets', () => {
 	});
 
 	afterAll(() => {
-		ShadowRoot.prototype.adoptedStyleSheets = tempAdoptedStyleSheets;
+		// @ts-expect-error: ts(2540)
+		ElementInternals.prototype.states = tempCustomStateSet;
 	});
 
 	test('not support', () => {
 		document.createElement(INPUT_SWITCH_ELEMENT_NAME);
 
-		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support ShadowRoot: `adoptedStyleSheets`.');
+		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support `CustomStateSet`.');
 	});
 });
 

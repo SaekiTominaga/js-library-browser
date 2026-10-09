@@ -5,12 +5,12 @@
 
 ## Browser support
 
-Using the ShadowRoot: `adoptedStyleSheets`. ([Can I use...](https://caniuse.com/mdn-api_shadowroot_adoptedstylesheets))
+Using the `CustomStateSet`. ([Can I use...](https://caniuse.com/mdn-api_customstateset))
 
-- Firefox 101+
-- Safari 16.4+
-- Chrome 73+
-- Edge 79+
+- Firefox 126+
+- Safari 17.4+
+- Chrome 90+
+- Edge 90+
 
 ## Demo
 
