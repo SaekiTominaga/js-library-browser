@@ -1,3 +1,5 @@
+import { allowAlertRole } from '../util/element.ts';
+
 /**
  * `aria-errormessage` attribute
  */
@@ -15,6 +17,10 @@ export default class {
 		const element = document.querySelector<HTMLElement>(`#${value}`);
 		if (element === null) {
 			throw new Error(`Element \`#${value}\` not found`);
+		}
+
+		if (!allowAlertRole(element)) {
+			throw new TypeError(`Element \`#${value}\` cannot set \`role=alert\` or cannot set a error message using \`textContent\` property`);
 		}
 
 		this.#element = element;
