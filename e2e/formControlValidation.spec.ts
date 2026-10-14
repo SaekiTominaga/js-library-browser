@@ -81,7 +81,7 @@ test.describe('input text', () => {
 		await input.fill('abc');
 		await button.click();
 
-		await Promise.all([expect(alert).toBeVisible(), expect(alert).toHaveText('Phone numbers is numbers and hyphens only.')]);
+		await Promise.all([expect(alert).toBeVisible(), expect(alert).toHaveText('Only numbers and hyphens can be used.')]);
 	});
 
 	test('invalid → valid', async ({ page }) => {

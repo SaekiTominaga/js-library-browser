@@ -9,6 +9,11 @@ const validate = (element: Element): HTMLElement => {
 };
 
 export default (elementOrElements: NodeListOf<Element> | HTMLCollectionOf<Element> | Element | null): void => {
+	if (!('ariaLabelledByElements' in Element.prototype)) {
+		console.info('This browser does not support `ariaLabelledByElements` property.');
+		return;
+	}
+
 	if (elementOrElements === null) {
 		return;
 	}

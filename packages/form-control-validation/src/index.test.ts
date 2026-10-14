@@ -1,4 +1,5 @@
-import { beforeAll, describe, expect, test } from '@jest/globals';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, jest, test } from '@jest/globals';
+import type { SpiedFunction } from 'jest-mock';
 import index from './index.ts';
 
 beforeAll(() => {
@@ -6,6 +7,36 @@ beforeAll(() => {
 <input id="input" class="input" aria-errormessage="message">
 <p id="message"></p>
 `;
+});
+
+describe('browser support ariaLabelledByElements', () => {
+	let tempAriaLabelledByElements: readonly Element[] | null;
+
+	let consoleInfoSpy: SpiedFunction;
+
+	beforeAll(() => {
+		tempAriaLabelledByElements = Element.prototype.ariaLabelledByElements;
+		// @ts-expect-error: ts(2790)
+		delete Element.prototype.ariaLabelledByElements;
+	});
+
+	beforeEach(() => {
+		consoleInfoSpy = jest.spyOn(console, 'info');
+	});
+
+	afterEach(() => {
+		consoleInfoSpy.mockRestore();
+	});
+
+	afterAll(() => {
+		Element.prototype.ariaLabelledByElements = tempAriaLabelledByElements;
+	});
+
+	test('not support', () => {
+		index(null);
+
+		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support `ariaLabelledByElements` property.');
+	});
 });
 
 describe('argument type', () => {
