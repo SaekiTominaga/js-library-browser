@@ -5,32 +5,18 @@ import clickEvent from './event/click.ts';
 /**
  * Button to check / uncheck checkboxes group
  *
- * @param thisElement - Target element
+ * @param $this - Target element
  */
-export default (thisElement: HTMLButtonElement): void => {
-	const {
-		course: courseAttribute,
-		control: controlAttribute,
-		controlsClass: controlsClassAttribute,
-		controlsName: controlsNameAttribute,
-	} = thisElement.dataset;
+export default ($this: HTMLButtonElement): void => {
+	const { course: courseAttribute, control: controlAttribute, controlsClass: controlsClassAttribute, controlsName: controlsNameAttribute } = $this.dataset;
 
 	const course = new Course(courseAttribute);
 	const checkbox = new Checkbox({ id: controlAttribute, class: controlsClassAttribute, name: controlsNameAttribute });
 
-	/* `aria-controls` の設定 */
-	if (thisElement.getAttribute('aria-controls') === null) {
-		const checkboxIds = checkbox.elements.map((checkboxElement): string => {
-			if (checkboxElement.id === '') {
-				checkboxElement.id = crypto.randomUUID(); // チェックボックスの ID が指定されていない場合はランダム生成
-			}
-			return checkboxElement.id;
-		});
+	/* `aria-controls` */
+	$this.ariaControlsElements ??= checkbox.elements;
 
-		thisElement.setAttribute('aria-controls', checkboxIds.join(' '));
-	}
-
-	thisElement.addEventListener(
+	$this.addEventListener(
 		'click',
 		(ev: MouseEvent) => {
 			clickEvent(ev, course, checkbox);

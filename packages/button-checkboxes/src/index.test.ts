@@ -1,4 +1,5 @@
-import { beforeAll, describe, expect, test } from '@jest/globals';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, jest, test } from '@jest/globals';
+import type { SpiedFunction } from 'jest-mock';
 import index from './index.ts';
 
 beforeAll(() => {
@@ -9,6 +10,36 @@ beforeAll(() => {
 <input type="checkbox" id="checkbox1" />
 </span>
 `;
+});
+
+describe('browser support ariaControlsElements', () => {
+	let tempariaControlsElements: readonly Element[] | null;
+
+	let consoleInfoSpy: SpiedFunction;
+
+	beforeAll(() => {
+		tempariaControlsElements = Element.prototype.ariaControlsElements;
+		// @ts-expect-error: ts(2790)
+		delete Element.prototype.ariaControlsElements;
+	});
+
+	beforeEach(() => {
+		consoleInfoSpy = jest.spyOn(console, 'info');
+	});
+
+	afterEach(() => {
+		consoleInfoSpy.mockRestore();
+	});
+
+	afterAll(() => {
+		Element.prototype.ariaControlsElements = tempariaControlsElements;
+	});
+
+	test('not support', () => {
+		index(null);
+
+		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support `ariaControlsElements` property.');
+	});
 });
 
 describe('argument type', () => {
