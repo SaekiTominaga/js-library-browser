@@ -9,6 +9,11 @@ const validate = (element: Element): HTMLButtonElement => {
 };
 
 export default (elementOrElements: NodeListOf<Element> | HTMLCollectionOf<Element> | Element | null): void => {
+	if (!('ariaControlsElements' in Element.prototype)) {
+		console.info('This browser does not support `ariaControlsElements` property.');
+		return;
+	}
+
 	if (elementOrElements === null) {
 		return;
 	}

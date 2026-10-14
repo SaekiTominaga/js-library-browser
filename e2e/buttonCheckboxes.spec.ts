@@ -9,47 +9,37 @@ test.afterEach(async ({ page }) => {
 });
 
 test.describe('aria-controls', () => {
-	test('UUID auto set', async ({ page }) => {
+	test('auto set', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'Specified by group ID' });
 
-		await Promise.all([
-			expect(section.getByRole('button', { name: 'Check all' }).first()).toHaveAttribute(
-				'aria-controls',
-				/^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12} [a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12} [a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/v,
+		const checkButton = section.getByRole('button', { name: 'Check all' }).first();
+		const uncheckButton = section.getByRole('button', { name: 'Uncheck all' }).first();
+
+		const [checkbox1Handle, checkbox2Handle, checkbox3Handle] = await Promise.all([
+			section.getByRole('checkbox', { name: '1' }).elementHandle(),
+			section.getByRole('checkbox', { name: '2' }).elementHandle(),
+			section.getByRole('checkbox', { name: '3' }).elementHandle(),
+		]);
+
+		expect(
+			await checkButton.evaluate(
+				(button, [checkbox1, checkbox2, checkbox3]) => {
+					const els = button.ariaControlsElements;
+					return els?.length === 3 && els[0] === checkbox1 && els[1] === checkbox2 && els[2] === checkbox3;
+				},
+				[checkbox1Handle, checkbox2Handle, checkbox3Handle],
 			),
-			expect(section.getByRole('button', { name: 'Uncheck all' }).first()).toHaveAttribute(
-				'aria-controls',
-				/^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12} [a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12} [a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/v,
+		).toBeTruthy();
+
+		expect(
+			await uncheckButton.evaluate(
+				(button, [checkbox1, checkbox2, checkbox3]) => {
+					const els = button.ariaControlsElements;
+					return els?.length === 3 && els[0] === checkbox1 && els[1] === checkbox2 && els[2] === checkbox3;
+				},
+				[checkbox1Handle, checkbox2Handle, checkbox3Handle],
 			),
-
-			expect(section.getByRole('checkbox', { name: '1' })).toHaveAttribute('id', /^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/v),
-			expect(section.getByRole('checkbox', { name: '2' })).toHaveAttribute('id', /^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/v),
-			expect(section.getByRole('checkbox', { name: '3' })).toHaveAttribute('id', /^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/v),
-		]);
-	});
-
-	test('already aria-controls set', async ({ page }) => {
-		await page.goto('/button-checkboxes/demo/e2e.html');
-
-		const section = page.locator('section').filter({ hasText: 'aria-controls attribute' });
-
-		await Promise.all([
-			expect(section.getByRole('button', { name: 'Check all' }).first()).toHaveAttribute('aria-controls', 'checkbox4-1'),
-
-			expect(section.getByRole('checkbox', { name: '1' })).toHaveAttribute('id', 'checkbox4-1'),
-		]);
-	});
-
-	test('already checkbox id set', async ({ page }) => {
-		await page.goto('/button-checkboxes/demo/e2e.html');
-
-		const section = page.locator('section').filter({ hasText: 'checkbox id attribute' });
-
-		await Promise.all([
-			expect(section.getByRole('button', { name: 'Check all' }).first()).toHaveAttribute('aria-controls', 'checkbox5-1'),
-
-			expect(section.getByRole('checkbox', { name: '1' })).toHaveAttribute('id', 'checkbox5-1'),
-		]);
+		).toBeTruthy();
 	});
 });
 
