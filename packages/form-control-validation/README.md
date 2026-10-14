@@ -64,7 +64,7 @@ Using the `ariaLabelledByElements` property. ([Can I use...](https://caniuse.com
 
 <dl>
 <dt><code>aria-errormessage</code> [required]</dt>
-<dd>ID of the element that displays the validation message. See <a href="https://www.w3.org/TR/wai-aria-1.2/#aria-errormessage">WAI-ARIA 1.2</a> for details.</dd>
+<dd>ID of the element that displays the validation message. The element referenced by this ID are limited to those for which <code>role=alert</code> is permitted in <a href="https://www.w3.org/TR/html-aria/#docconformance">ARIA in HTML</a> and content model allows <a href="https://html.spec.whatwg.org/multipage/dom.html#text-content">Text</a>. For example, must not specify the ID of the <code>&lt;table&gt;</code> element.</dd>
 <dt><code>title</code> [optional]</dt>
 <dd>Message displayed when the value does not match the <code>pattern</code> attribute value. <a href="https://html.spec.whatwg.org/multipage/input.html#the-pattern-attribute">HTML spec</a> says, <q cite="https://html.spec.whatwg.org/multipage/input.html#the-pattern-attribute">When an <code>input</code> element has a <code>pattern</code> attribute specified, authors should include a <code>title</code> attribute to give a description of the pattern.</q></dd>
 </dl>
