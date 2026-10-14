@@ -3,6 +3,15 @@
 [![npm version](https://badge.fury.io/js/%40w0s%2Fform-control-validation.svg)](https://www.npmjs.com/package/@w0s/form-control-validation)
 [![CI status](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/ci.yml/badge.svg)](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/ci.yml)
 
+## Browser support
+
+Using the `ariaLabelledByElements` property. ([Can I use...](https://caniuse.com/mdn-api_element_arialabelledbyelements))
+
+- Firefox 136+
+- Safari 16.4+
+- Chrome 135+
+- Edge 135+
+
 ## Demo
 
 - [Demo page](https://saekitominaga.github.io/js-library-browser/packages/form-control-validation/demo/)
@@ -13,7 +22,7 @@
 <script type="importmap">
   {
     "imports": {
-      "@w0s/form-before-unload-confirm": "..."
+      "@w0s/form-control-validation": "..."
     }
   }
 </script>
@@ -28,14 +37,14 @@
   aria-errormessage="validation-input"
   title="Only alphanumeric characters can be used."
 /></p>
-<p hidden="" id="validation-input"></p>
+<p><output id="validation-input"></output></p>
 
 <!-- radio buttons -->
 <p role="radiogroup" class="js-form-control-validation" aria-errormessage="validation-radio">
 <label><input type="radio" required="" />Radio 1</label>
 <label><input type="radio" required="" />Radio 2</label>
 </p>
-<p hidden="" id="validation-radio"></p>
+<p><output id="validation-radio"></output></p>
 
 <!-- select -->
 <p><select class="js-form-control-validation" required="" aria-errormessage="validation-select">
@@ -43,12 +52,12 @@
 <option value="1">Select 1</option>
 <option value="2">Select 2</option>
 </select></p>
-<p hidden="" id="validation-select"></p>
+<p><output id="validation-select"></output></p>
 
 <!-- textarea -->
 <p><textarea class="js-form-control-validation"
   aria-errormessage="validation-textarea"></textarea></p>
-<p hidden="" id="validation-textarea"></p>
+<p><output id="validation-textarea"></output></p>
 ```
 
 ## HTML Attributes

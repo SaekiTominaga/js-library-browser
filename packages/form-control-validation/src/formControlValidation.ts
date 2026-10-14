@@ -3,48 +3,72 @@ import Title from './attribute/Title.ts';
 import changeEvent from './event/change.ts';
 import invalidEvent from './event/invalid.ts';
 
-const getFormControlElements = (targetElement: HTMLElement): (HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement)[] => {
-	if (targetElement instanceof HTMLInputElement || targetElement instanceof HTMLSelectElement || targetElement instanceof HTMLTextAreaElement) {
-		return [targetElement];
+const getFormControlElements = ($target: HTMLElement): readonly (HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement)[] => {
+	if ($target instanceof HTMLInputElement || $target instanceof HTMLSelectElement || $target instanceof HTMLTextAreaElement) {
+		return [$target];
 	}
-	if (targetElement.getAttribute('role') === 'radiogroup') {
-		return [...targetElement.querySelectorAll<HTMLInputElement>('input[type="radio"]')];
+	if ($target.getAttribute('role') === 'radiogroup') {
+		return [...$target.querySelectorAll<HTMLInputElement>('input[type="radio"]')];
 	}
 
 	throw new Error('The `formControlValidation` feature can only be specified for `<input>`, `<select>`, `<textarea>` or `<XXX role=radiogroup>`');
 };
 
+const getLabels = ($target: HTMLElement): readonly Element[] | undefined => {
+	const { ariaLabelledByElements } = $target;
+	if (ariaLabelledByElements !== null) {
+		return ariaLabelledByElements;
+	}
+
+	if ($target instanceof HTMLInputElement) {
+		return $target.labels !== null ? [...$target.labels] : undefined;
+	}
+	if ($target instanceof HTMLSelectElement || $target instanceof HTMLTextAreaElement) {
+		return [...$target.labels];
+	}
+
+	return undefined;
+};
+
 /**
  * Input validation of form control
  *
- * @param thisElement - Target element
+ * @param $this - Target element
  */
-export default (thisElement: HTMLElement): void => {
-	const titleAttribute = thisElement.getAttribute('title');
-	const ariaErrormessageAttribute = thisElement.getAttribute('aria-errormessage');
+export default ($this: HTMLElement): void => {
+	const titleAttribute = $this.getAttribute('title');
+	const ariaErrormessageAttribute = $this.getAttribute('aria-errormessage');
 
 	const title = new Title(titleAttribute);
 	const errorMessage = new ErrorMessage(ariaErrormessageAttribute);
-	errorMessage.element.setAttribute('role', 'alert');
 
-	const formControlElements = getFormControlElements(thisElement); // フォームコントロール要素
+	const $$labels = getLabels($this);
 
-	formControlElements.forEach((formControlElement) => {
-		formControlElement.addEventListener(
+	const $errorMessage = errorMessage.element;
+	$errorMessage.hidden = true;
+	$errorMessage.role = 'alert';
+	if ($$labels !== undefined) {
+		$errorMessage.ariaLabelledByElements = [...$$labels, $errorMessage];
+	}
+
+	const $$formControls = getFormControlElements($this); // フォームコントロール要素
+
+	$$formControls.forEach(($formControl) => {
+		$formControl.addEventListener(
 			'change',
 			(ev: Event) => {
 				changeEvent(ev, {
-					targetElement: thisElement,
-					formControlElements: formControlElements,
+					targetElement: $this,
+					formControlElements: $$formControls,
 					errorMessage: errorMessage,
 				});
 			},
 			{ passive: true },
 		);
-		formControlElement.addEventListener('invalid', (ev: Event) => {
+		$formControl.addEventListener('invalid', (ev: Event) => {
 			invalidEvent(ev, {
-				targetElement: thisElement,
-				formControlElements: formControlElements,
+				targetElement: $this,
+				formControlElements: $$formControls,
 				errorMessage: errorMessage,
 				title: title,
 			});

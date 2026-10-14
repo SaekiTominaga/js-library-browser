@@ -4,6 +4,10 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1" />
 		<title>`form-control-validation` Demo</title>
 		<style>
+			p {
+				margin-block: unset;
+			}
+
 			input,
 			select,
 			textarea {
@@ -43,13 +47,15 @@
 			}
 
 			.validation {
-				margin: 0.25em 0 0;
-				background-color: #fff;
-				color: #e00;
+				&:not(:empty) {
+					margin-block-start: 0.25em;
+					background-color: #fff;
+					color: #e00;
 
-				&::before {
-					margin-inline-end: 0.25em;
-					content: '⚠';
+					&::before {
+						margin-inline-end: 0.25em;
+						content: '⚠';
+					}
 				}
 			}
 		</style>
@@ -81,9 +87,9 @@
 							required=""
 							pattern="[0-9\-]+"
 							aria-errormessage="validation-tel"
-							title="Phone numbers is numbers and hyphens only."
+							title="Only numbers and hyphens can be used."
 						/>
-						<p hidden="" class="validation" id="validation-tel"></p>
+						<p><output class="validation" id="validation-tel"></output></p>
 					</div>
 				</div>
 				<div class="fieldset">
@@ -94,7 +100,7 @@
 							<label><input type="radio" name="sex" required="" />Female</label>
 							<label><input type="radio" name="sex" required="" />Neither</label>
 						</div>
-						<p hidden="" class="validation" id="validation-sex"></p>
+						<p><output class="validation" id="validation-sex"></output></p>
 					</div>
 				</div>
 				<div class="fieldset">
@@ -114,14 +120,14 @@
 							<option>90–99</option>
 							<option>100–</option>
 						</select>
-						<p hidden="" class="validation" id="validation-age"></p>
+						<p><output class="validation" id="validation-age"></output></p>
 					</div>
 				</div>
 				<div class="fieldset">
 					<span class="legend"><label for="textarea-message">Message (required)</label></span>
 					<div class="contents">
 						<textarea class="js-form-control-validation" id="textarea-message" required="" aria-errormessage="validation-message"></textarea>
-						<p hidden="" class="validation" id="validation-message"></p>
+						<p><output class="validation" id="validation-message"></output></p>
 					</div>
 				</div>
 			</div>
