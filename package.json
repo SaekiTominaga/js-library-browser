@@ -19,7 +19,6 @@
 	},
 	"devDependencies": {
 		"@playwright/test": "1.62.1",
-		"@types/jsdom": "30.0.0",
 		"@types/node": "26.1.2",
 		"@w0s/markuplint-config": "4.0.1",
 		"@w0s/oxlint-config": "1.0.7",
@@ -33,7 +32,6 @@
 		"http-server": "14.1.1",
 		"jest": "30.5.1",
 		"jest-environment-jsdom": "30.5.2",
-		"jsdom": "30.1.3",
 		"jsdom-testing-mocks": "1.16.0",
 		"markuplint": "5.0.0",
 		"oxfmt": "0.72.0",
@@ -50,10 +48,5 @@
 		"stylelint-no-default-viewport": "2.0.3",
 		"stylelint-root-colors": "3.0.3",
 		"typescript": "7.0.2"
-	},
-	"overrides": {
-		"jest-environment-jsdom": {
-			"jsdom": "$jsdom"
-		}
 	}
 }

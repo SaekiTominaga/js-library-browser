@@ -15,15 +15,16 @@ const sleep = (ms: number) =>
 	});
 
 test('popover status', async () => {
-	const event = new PointerEvent('pointerenter', {
-		pointerType: 'mouse',
-	});
+	const event = new MouseEvent('pointerenter'); // TODO: 本来は PointerEvent <https://github.com/jestjs/jest/issues/16000>
+	// @ts-expect-error: ts(2339)
+	event.pointerType = 'mouse';
 
 	const $popover = document.createElement(POPOVER_ELEMENT_NAME) as PopoverElement;
 	document.body.append($popover);
 
 	const delay = 100;
 
+	// @ts-expect-error: ts(2345)
 	pointerleaveEvent(event, {
 		popoverElement: $popover,
 		delay: delay,
