@@ -9,7 +9,9 @@ beforeAll(() => {
 });
 
 test('popover status', () => {
-	const event = new MouseEvent('click');
+	const event = new PointerEvent('click', {
+		pointerType: '',
+	});
 
 	const $popover = document.createElement(POPOVER_ELEMENT_NAME) as PopoverElement;
 

@@ -4,12 +4,12 @@ import { show } from '../../footnoteReferencePopover.ts';
 /**
  * `click` event
  *
- * @param ev - MouseEvent
+ * @param ev - Event
  * @param data - Elements, attributes and another data
  * @param data.popoverElement - PopoverElement
  */
 export default (
-	ev: MouseEvent,
+	ev: PointerEvent,
 	data: Readonly<{
 		popoverElement: PopoverElement;
 	}>,

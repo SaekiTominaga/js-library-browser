@@ -1,6 +1,6 @@
 import { beforeAll, expect, test } from '@jest/globals';
 import PopoverElement from '../../custom-element/Popover.ts';
-import mouseleaveEvent from './mouseleave.ts';
+import pointerenterEvent from './pointerenter.ts';
 
 const POPOVER_ELEMENT_NAME = 'x-popover';
 
@@ -15,22 +15,25 @@ const sleep = (ms: number) =>
 	});
 
 test('popover status', async () => {
-	const event = new MouseEvent('mouseleave');
+	const event = new PointerEvent('pointerenter', {
+		pointerType: 'mouse',
+	});
 
 	const $popover = document.createElement(POPOVER_ELEMENT_NAME) as PopoverElement;
-	document.body.append($popover);
 
 	const delay = 100;
 
-	Object.defineProperty(event, 'currentTarget', { value: $popover });
-	mouseleaveEvent(event, {
+	pointerenterEvent(event, {
+		popoverElement: $popover,
 		delay: delay,
+		preloadImageSrc: 'foo.svg',
 	});
 
+	expect($popover.isConnected).toBeFalsy();
 	expect($popover.state).toBeUndefined();
 
 	await sleep(delay);
 
 	expect($popover.isConnected).toBeTruthy();
-	expect($popover.state).toBe('closed');
+	expect($popover.state).toBe('open');
 });

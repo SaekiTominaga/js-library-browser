@@ -48,7 +48,7 @@ test.describe('show & hide', () => {
 		await expect(popover).toBeVisible();
 	});
 
-	test('mouseenter → mouseleave', async ({ page }) => {
+	test('pointerenter → pointerleave', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'Required attributes only' });
 		const trigger = section.getByRole('button', { name: '[1]' });
 		const popover = page.locator('x-popover').nth(0);
@@ -73,7 +73,7 @@ test.describe('show & hide', () => {
 		await expect(popover).toBeHidden();
 	});
 
-	test('mouseenter → mouseleave (delay)', async ({ page }) => {
+	test('pointerenter → pointerleave (delay)', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'All attributes & Style customization' });
 		const trigger = section.getByRole('button', { name: '[2]' });
 		const popover = page.locator('x-popover').nth(0);
@@ -106,7 +106,7 @@ test.describe('show & hide', () => {
 		await expect(popover).toBeHidden();
 	});
 
-	test('mouseleave → popover mouseenter → popover mouseleave', async ({ page }) => {
+	test('pointerleave → popover pointerenter → popover pointerleave', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'Required attributes only' });
 		const trigger = section.getByRole('button', { name: '[1]' });
 		const popover = page.locator('x-popover').nth(0);

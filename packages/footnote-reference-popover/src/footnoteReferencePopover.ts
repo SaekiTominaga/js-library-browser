@@ -8,10 +8,10 @@ import PopoverLabelAttribute from './attribute/PopoverLabel.ts';
 import PopoverElement, { type ToggleEventDetail } from './custom-element/Popover.ts';
 import popoverHiddenButtonClickEvent from './event/popover-hidden-button/click.ts';
 import popoverTriggerClickEvent from './event/popover-trigger/click.ts';
-import popoverTriggerMouseenterEvent from './event/popover-trigger/mouseenter.ts';
-import popoverTriggerMouseleaveEvent from './event/popover-trigger/mouseleave.ts';
-import popoverMouseenterEvent from './event/popover/mouseenter.ts';
-import popoverMouseleaveEvent from './event/popover/mouseleave.ts';
+import popoverTriggerPointerenterEvent from './event/popover-trigger/pointerenter.ts';
+import popoverTriggerPointerleaveEvent from './event/popover-trigger/pointerleave.ts';
+import popoverPointerenterEvent from './event/popover/pointerenter.ts';
+import popoverPointerleaveEvent from './event/popover/pointerleave.ts';
 
 const POPOVER_ELEMENT_NAME = 'x-popover';
 
@@ -137,15 +137,15 @@ export default (thisElement: HTMLAnchorElement): void => {
 
 	thisElement.setAttribute('role', 'button');
 
-	thisElement.addEventListener('click', (ev: MouseEvent) => {
+	thisElement.addEventListener('click', (ev: PointerEvent) => {
 		popoverTriggerClickEvent(ev, {
 			popoverElement: popoverElement,
 		});
 	});
 	thisElement.addEventListener(
-		'mouseenter',
-		(ev: MouseEvent) => {
-			popoverTriggerMouseenterEvent(ev, {
+		'pointerenter',
+		(ev: PointerEvent) => {
+			popoverTriggerPointerenterEvent(ev, {
 				popoverElement: popoverElement,
 				delay: mouseenter.delay,
 				preloadImageSrc: popoverHide.imageSrc,
@@ -154,9 +154,9 @@ export default (thisElement: HTMLAnchorElement): void => {
 		{ passive: true },
 	);
 	thisElement.addEventListener(
-		'mouseleave',
-		(ev: MouseEvent) => {
-			popoverTriggerMouseleaveEvent(ev, {
+		'pointerleave',
+		(ev: PointerEvent) => {
+			popoverTriggerPointerleaveEvent(ev, {
 				popoverElement: popoverElement,
 				delay: mouseleave.delay,
 			});
@@ -165,18 +165,18 @@ export default (thisElement: HTMLAnchorElement): void => {
 	);
 
 	popoverElement.addEventListener(
-		'mouseenter',
-		(ev: MouseEvent) => {
-			popoverMouseenterEvent(ev, {
+		'pointerenter',
+		(ev: PointerEvent) => {
+			popoverPointerenterEvent(ev, {
 				delay: mouseenter.delay,
 			});
 		},
 		{ passive: true },
 	);
 	popoverElement.addEventListener(
-		'mouseleave',
-		(ev: MouseEvent) => {
-			popoverMouseleaveEvent(ev, {
+		'pointerleave',
+		(ev: PointerEvent) => {
+			popoverPointerleaveEvent(ev, {
 				delay: mouseenter.delay,
 			});
 		},
@@ -185,7 +185,7 @@ export default (thisElement: HTMLAnchorElement): void => {
 
 	popoverElement.hideButtonElement.addEventListener(
 		'click',
-		(ev: MouseEvent) => {
+		(ev: PointerEvent) => {
 			popoverHiddenButtonClickEvent(ev, {
 				popoverElement: popoverElement,
 			});

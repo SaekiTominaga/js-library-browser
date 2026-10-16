@@ -2,19 +2,23 @@ import type PopoverElement from '../../custom-element/Popover.ts';
 import { hide } from '../../footnoteReferencePopover.ts';
 
 /**
- * `mouseleave` event
+ * `pointerleave` event
  *
- * @param ev - MouseEvent
+ * @param ev - Event
  * @param data - Elements, attributes and another data
  * @param data.popoverElement - PopoverElement
  */
 export default (
-	ev: MouseEvent,
+	ev: PointerEvent,
 	data: Readonly<{
 		popoverElement: PopoverElement;
 		delay: number;
 	}>,
 ): void => {
+	if (ev.pointerType !== 'mouse') {
+		return;
+	}
+
 	clearTimeout(data.popoverElement.mouseenterTimeoutId);
 
 	data.popoverElement.mouseleaveTimeoutId = setTimeout((): void => {
