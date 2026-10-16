@@ -15,22 +15,26 @@ const preload = (imageSrc: string | undefined): void => {
 };
 
 /**
- * `mouseenter` event
+ * `pointerenter` event
  *
- * @param ev - MouseEvent
+ * @param ev - Event
  * @param data - Elements, attributes and another data
  * @param data.popoverElement - PopoverElement
  * @param data.delay - Delay time between mouse cursor moved within the trigger element and showing the popover (milliseconds)
  * @param data.preloadImageSrc - Image path for preload
  */
 export default (
-	ev: MouseEvent,
+	ev: PointerEvent,
 	data: Readonly<{
 		popoverElement: PopoverElement;
 		delay: number;
 		preloadImageSrc: string | undefined;
 	}>,
 ): void => {
+	if (ev.pointerType !== 'mouse') {
+		return;
+	}
+
 	clearTimeout(data.popoverElement.mouseleaveTimeoutId);
 
 	preload(data.preloadImageSrc);
