@@ -10,19 +10,24 @@ import { getContent } from '../util/html.ts';
  * @param feedback - Feedback
  */
 export default async (_ev: MouseEvent, data: Data, feedback: Feedback): Promise<void> => {
-	// oxlint-disable-next-line typescript/no-non-null-assertion
-	const content = data.text ?? getContent(data.$element!); // `data-text` と `data-target` が両方指定されている場合は前者を優先する
+	const content = data.text ?? getContent(data.$element); // `data-text` と `data-target` が両方指定されている場合は前者を優先する
+	if (content === undefined) {
+		return; // 到達不可
+	}
 
 	await navigator.clipboard.writeText(content);
 
 	if (feedback.$element !== undefined && feedback.text !== undefined) {
 		const { $element, text, duration } = feedback;
+
+		$element.value = '';
+		$element.getBoundingClientRect(); // レイアウト再計算のテクニック
 		$element.value = text;
 
 		if (duration !== undefined) {
 			const existingTimeoutId = $element.dataset['timeoutId'];
 			if (existingTimeoutId !== undefined) {
-				clearTimeout(existingTimeoutId);
+				clearTimeout(Number(existingTimeoutId));
 			}
 
 			const timeoutId = setTimeout(() => {
@@ -30,8 +35,7 @@ export default async (_ev: MouseEvent, data: Data, feedback: Feedback): Promise<
 				delete $element.dataset['timeoutId'];
 			}, duration);
 
-			// oxlint-disable-next-line typescript/no-base-to-string
-			$element.dataset['timeoutId'] = String(timeoutId);
+			$element.dataset['timeoutId'] = String(Number(timeoutId));
 		}
 	} else {
 		console.info(`Copied to clipboard!: ${content}`);
