@@ -6,6 +6,16 @@
 		<title>`button-clipboard` Demo</title>
 
 		<style>
+			@keyframes clipboard-fb {
+				from {
+					opacity: 1;
+				}
+
+				to {
+					opacity: 0;
+				}
+			}
+
 			button {
 				padding: 0.5em;
 			}
@@ -13,6 +23,15 @@
 			pre,
 			textarea {
 				tab-size: 2;
+			}
+
+			output {
+				&:not(:empty) {
+					animation-name: clipboard-fb;
+					animation-duration: 1s;
+					animation-delay: 1s;
+					animation-fill-mode: forwards;
+				}
 			}
 		</style>
 
@@ -130,6 +149,8 @@
 				</button>
 				<output id="clipboard-feedback3"></output>
 			</p>
+
+			<p>Note: The animation when the feedback disappears is implemented using CSS.</p>
 		</section>
 	</body>
 </html>

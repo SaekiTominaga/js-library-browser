@@ -5,7 +5,7 @@
  *
  * @returns Content of a HTMLElement
  */
-const getContent = (element: HTMLElement): string => {
+const getContent = (element?: HTMLElement): string | undefined => {
 	if (element instanceof HTMLAreaElement || element instanceof HTMLImageElement) {
 		return element.alt;
 	}
@@ -28,7 +28,7 @@ const getContent = (element: HTMLElement): string => {
 		return element.textContent;
 	}
 
-	return element.textContent.trim();
+	return element?.textContent.trim();
 };
 
 export { getContent };
