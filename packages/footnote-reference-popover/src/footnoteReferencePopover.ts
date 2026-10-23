@@ -12,7 +12,7 @@ import popoverTriggerPointerenterEvent from './event/popover-trigger/pointerente
 import popoverTriggerPointerleaveEvent from './event/popover-trigger/pointerleave.ts';
 import popoverPointerenterEvent from './event/popover/pointerenter.ts';
 import popoverPointerleaveEvent from './event/popover/pointerleave.ts';
-import { getAnchorName } from './util/element.ts';
+import { getUniqueCSSAnchorName } from './util/element.ts';
 
 const POPOVER_ELEMENT_NAME = 'x-popover';
 
@@ -90,7 +90,7 @@ export default ($this: HTMLAnchorElement): void => {
 	const mouseenter = new MouseenterAttribute({ delay: mouseenterDelayAttributeValue ?? '250' });
 	const mouseleave = new MouseleaveAttribute({ delay: mouseleaveDelayAttributeValue ?? '250' });
 
-	const anchorName = getAnchorName('fnref-');
+	const cssAnchorName = getUniqueCSSAnchorName('fnref-');
 
 	if (customElements.get(POPOVER_ELEMENT_NAME) === undefined) {
 		customElements.define(POPOVER_ELEMENT_NAME, PopoverElement);
@@ -113,10 +113,10 @@ export default ($this: HTMLAnchorElement): void => {
 		'afterbegin',
 		'getHTML' in footnoteElement.element ? footnoteElement.element.getHTML() : (footnoteElement.element as HTMLElement).innerHTML,
 	);
-	popoverElement.style.setProperty('position-anchor', anchorName);
+	popoverElement.style.setProperty('position-anchor', cssAnchorName);
 
 	$this.role = 'button';
-	$this.style.setProperty('anchor-name', anchorName);
+	$this.style.setProperty('anchor-name', cssAnchorName);
 
 	$this.addEventListener('click', (ev: PointerEvent) => {
 		popoverTriggerClickEvent(ev, {
