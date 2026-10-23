@@ -2,14 +2,11 @@ import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, jest, tes
 import type { SpiedFunction } from 'jest-mock';
 import index from './index.ts';
 
-describe('browser support popover', () => {
-	let tempShowPopover: () => void;
+describe('browser support CSS anchor positioning', () => {
 	let consoleInfoSpy: SpiedFunction;
 
 	beforeAll(() => {
-		tempShowPopover = HTMLElement.prototype.showPopover.bind(HTMLElement);
-		// @ts-expect-error: ts(2790)
-		delete HTMLElement.prototype.showPopover;
+		CSS.supports = () => false;
 	});
 
 	beforeEach(() => {
@@ -21,13 +18,13 @@ describe('browser support popover', () => {
 	});
 
 	afterAll(() => {
-		HTMLElement.prototype.showPopover = tempShowPopover;
+		CSS.supports = () => true;
 	});
 
 	test('not support', () => {
 		index(null);
 
-		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support popover.');
+		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support CSS anchor positioning.');
 	});
 });
 
