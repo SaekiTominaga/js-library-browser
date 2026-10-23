@@ -5,12 +5,12 @@
 
 ## Browser support
 
-Using the ShadowRoot: `adoptedStyleSheets`. ([Can I use...](https://caniuse.com/mdn-api_shadowroot_adoptedstylesheets))
+Using the `ariaControlsElements` property. ([Can I use...](https://caniuse.com/mdn-api_element_ariacontrolselements))
 
-- Firefox 101+
+- Firefox 136+
 - Safari 16.4+
-- Chrome 73+
-- Edge 79+
+- Chrome 135+
+- Edge 135+
 
 ## Demo
 

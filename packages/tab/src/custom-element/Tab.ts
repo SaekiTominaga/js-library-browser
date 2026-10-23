@@ -21,8 +21,8 @@ export default class Tab extends HTMLElement {
 	constructor() {
 		super();
 
-		if (!('adoptedStyleSheets' in ShadowRoot.prototype)) {
-			console.info('This browser does not support ShadowRoot: `adoptedStyleSheets`.');
+		if (!('ariaControlsElements' in Element.prototype)) {
+			console.info('This browser does not support `ariaControlsElements` property.');
 			return;
 		}
 
@@ -75,8 +75,8 @@ export default class Tab extends HTMLElement {
 
 	connectedCallback(): void {
 		const { tablistLabel } = this;
-		if (tablistLabel !== null) {
-			this.#tablistElement?.setAttribute('aria-label', tablistLabel);
+		if (this.#tablistElement !== undefined) {
+			this.#tablistElement.ariaLabel = tablistLabel;
 		}
 
 		this.#tabElements.forEach((tabElement): void => {
@@ -96,15 +96,12 @@ export default class Tab extends HTMLElement {
 				throw new Error(`Element \`#${tabpanelElementId}\` not found`);
 			}
 
-			const tabElementId = crypto.randomUUID();
-
 			tabElement.removeAttribute('href');
-			tabElement.id = tabElementId;
-			tabElement.setAttribute('role', 'tab');
-			tabElement.setAttribute('aria-controls', tabpanelElementId);
+			tabElement.role = 'tab';
+			tabElement.ariaControlsElements = [tabpanelElement];
 
-			tabpanelElement.setAttribute('role', 'tabpanel');
-			tabpanelElement.setAttribute('aria-labelledby', tabElementId);
+			tabpanelElement.role = 'tabpanel';
+			tabpanelElement.ariaLabelledByElements = [tabElement];
 
 			tabElement.addEventListener('click', this.#tabClickEvent, { passive: true });
 			tabElement.addEventListener('keydown', this.#tabKeydownEvent);
@@ -141,10 +138,8 @@ export default class Tab extends HTMLElement {
 	attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null): void {
 		switch (name) {
 			case 'tablist-label': {
-				if (newValue === null) {
-					this.#tablistElement?.removeAttribute('aria-label');
-				} else {
-					this.#tablistElement?.setAttribute('aria-label', newValue);
+				if (this.#tablistElement !== undefined) {
+					this.#tablistElement.ariaLabel = newValue;
 				}
 
 				break;
@@ -264,7 +259,7 @@ export default class Tab extends HTMLElement {
 			const select = index === tabNo; // 選択されたタブかどうか
 
 			tabElement.tabIndex = select ? 0 : -1;
-			tabElement.setAttribute('aria-selected', String(select));
+			tabElement.ariaSelected = String(select);
 
 			const tabpanelClasslist = this.#tabpanelElements[index]?.classList;
 			if (select) {

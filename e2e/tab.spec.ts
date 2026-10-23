@@ -21,9 +21,7 @@ test.describe('init', () => {
 
 		await Promise.all([
 			expect(tab1).not.toHaveAttribute('href'),
-			expect(tab1).toHaveAttribute('id', /^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/v),
 			expect(tab1).toHaveAttribute('role', 'tab'),
-			expect(tab1).toHaveAttribute('aria-controls', 'tabpanel1-1'),
 
 			expect(tab1).toHaveAttribute('tabindex', '0'),
 			expect(tab1).toHaveAttribute('aria-selected', 'true'),
@@ -31,11 +29,27 @@ test.describe('init', () => {
 			expect(tab2).toHaveAttribute('aria-selected', 'false'),
 
 			expect(tabpanel1).toHaveAttribute('role', 'tabpanel'),
-			expect(tabpanel1).toHaveAttribute('aria-labelledby', /^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/v),
-
 			expect(tabpanel1).not.toHaveAttribute('class'),
 			expect(tabpanel2).toHaveAttribute('class', 'is-hidden'),
 		]);
+	});
+
+	test('AX tree', async ({ browserName, page }) => {
+		test.skip(browserName !== 'chromium');
+
+		const client = await page.context().newCDPSession(page);
+		await client.send('Accessibility.enable');
+		const { nodes } = await client.send('Accessibility.getFullAXTree');
+
+		const tab1 = nodes.find((node) => node.role?.value === 'tab' && node.name?.value === 'Tab 1-1');
+		const tab1controlsRelatedNodes = tab1?.properties?.find((property) => property.name === 'controls')?.value.relatedNodes;
+
+		expect(tab1controlsRelatedNodes).toHaveLength(1);
+		expect(tab1controlsRelatedNodes?.at(0)?.idref).toBe('tabpanel1-1');
+
+		const tabpanels = nodes.filter((node) => node.role?.value === 'tabpanel');
+
+		expect(tabpanels.at(0)?.name?.value).toBe('Tab 1-1');
 	});
 
 	test('tablist-label attribute', async ({ page }) => {
