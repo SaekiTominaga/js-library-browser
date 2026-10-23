@@ -9,13 +9,14 @@ beforeAll(() => {
 });
 
 describe('browser support adoptedStyleSheets', () => {
-	let tempAdoptedStyleSheets: CSSStyleSheet[];
+	let tempariaControlsElements: readonly Element[] | null;
+
 	let consoleInfoSpy: SpiedFunction;
 
 	beforeAll(() => {
-		tempAdoptedStyleSheets = ShadowRoot.prototype.adoptedStyleSheets;
+		tempariaControlsElements = Element.prototype.ariaControlsElements;
 		// @ts-expect-error: ts(2790)
-		delete ShadowRoot.prototype.adoptedStyleSheets;
+		delete Element.prototype.ariaControlsElements;
 	});
 
 	beforeEach(() => {
@@ -27,13 +28,13 @@ describe('browser support adoptedStyleSheets', () => {
 	});
 
 	afterAll(() => {
-		ShadowRoot.prototype.adoptedStyleSheets = tempAdoptedStyleSheets;
+		Element.prototype.ariaControlsElements = tempariaControlsElements;
 	});
 
 	test('not support', () => {
 		document.createElement(TAB_ELEMENT_NAME);
 
-		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support ShadowRoot: `adoptedStyleSheets`.');
+		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support `ariaControlsElements` property.');
 	});
 });
 
@@ -70,15 +71,15 @@ describe('attributeChangedCallback', () => {
 		const $tablist = $tab.shadowRoot?.querySelector<HTMLElement>('[part=tablist]');
 
 		expect($tab.tablistLabel).toBeNull();
-		expect($tablist?.getAttribute('aria-label')).toBeNull();
+		expect($tablist?.ariaLabel).toBeNull();
 
 		$tab.tablistLabel = 'label';
 		expect($tab.tablistLabel).toBe('label');
-		expect($tablist?.getAttribute('aria-label')).toBe('label');
+		expect($tablist?.ariaLabel).toBe('label');
 
 		$tab.tablistLabel = null;
 		expect($tab.tablistLabel).toBeNull();
-		expect($tablist?.getAttribute('aria-label')).toBeNull();
+		expect($tablist?.ariaLabel).toBeNull();
 	});
 
 	test('storage-key', () => {
