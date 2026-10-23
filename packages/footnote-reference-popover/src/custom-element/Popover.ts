@@ -58,10 +58,7 @@ export default class extends HTMLElement {
 			:host {
 				position: absolute;
 				position-area: block-end span-inline-end;
-				position-try:
-					flip-inline,
-					flip-block,
-					flip-inline flip-block; /* Using the shorthand notation because \`position-try-fallbacks\` is not supported in Chrome 125-127 */
+				position-try: flip-inline;
 				container-type: anchored;
 				margin: unset;
 				border: unset;
