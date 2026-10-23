@@ -1,3 +1,3 @@
-const getAnchorName = (): string => `--${crypto.randomUUID().replaceAll('-', '')}`;
+const getAnchorName = (prefix = ''): string => `--${prefix}${crypto.randomUUID().replaceAll('-', '')}`;
 
 export { getAnchorName };

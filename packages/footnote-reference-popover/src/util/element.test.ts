@@ -1,6 +1,12 @@
-import { expect, test } from '@jest/globals';
+import { describe, expect, test } from '@jest/globals';
 import { getAnchorName } from './element.ts';
 
-test('getAnchorName', () => {
-	expect(getAnchorName()).toMatch(/--[0-9a-z]{32}/u);
+describe('getAnchorName', () => {
+	test('no prefix', () => {
+		expect(getAnchorName()).toMatch(/--[0-9a-z]{32}/u);
+	});
+
+	test('prefix', () => {
+		expect(getAnchorName('foo-')).toMatch(/--foo-[0-9a-z]{32}/u);
+	});
 });

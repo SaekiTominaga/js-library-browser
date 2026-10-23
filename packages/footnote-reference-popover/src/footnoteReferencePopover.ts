@@ -90,7 +90,7 @@ export default ($this: HTMLAnchorElement): void => {
 	const mouseenter = new MouseenterAttribute({ delay: mouseenterDelayAttributeValue ?? '250' });
 	const mouseleave = new MouseleaveAttribute({ delay: mouseleaveDelayAttributeValue ?? '250' });
 
-	const anchorName = getAnchorName();
+	const anchorName = getAnchorName('fnref-');
 
 	if (customElements.get(POPOVER_ELEMENT_NAME) === undefined) {
 		customElements.define(POPOVER_ELEMENT_NAME, PopoverElement);
