@@ -12,6 +12,7 @@ import popoverTriggerPointerenterEvent from './event/popover-trigger/pointerente
 import popoverTriggerPointerleaveEvent from './event/popover-trigger/pointerleave.ts';
 import popoverPointerenterEvent from './event/popover/pointerenter.ts';
 import popoverPointerleaveEvent from './event/popover/pointerleave.ts';
+import { getAnchorName } from './util/element.ts';
 
 const POPOVER_ELEMENT_NAME = 'x-popover';
 
@@ -27,16 +28,6 @@ const show = (eventType: string, popover: PopoverElement): void => {
 		document.body.append(popover);
 	}
 
-	const triggerRect = popover.triggerElement?.getBoundingClientRect();
-
-	if (triggerRect !== undefined) {
-		/* ポップオーバーの上位置を設定（トリガー要素の下端を基準にする） */
-		popover.style.width = 'auto';
-		popover.style.top = `${String(Math.round(triggerRect.bottom) + window.scrollY)}px`;
-		popover.style.right = 'auto';
-		popover.style.left = 'auto';
-	}
-
 	/* ポップオーバーを表示 */
 	const eventDetail: ToggleEventDetail = {
 		newState: 'open',
@@ -47,20 +38,6 @@ const show = (eventType: string, popover: PopoverElement): void => {
 			detail: eventDetail,
 		}),
 	);
-
-	if (triggerRect !== undefined) {
-		/* ポップオーバーの左右位置を設定（トリガー要素の左端を基準にする） */
-		const documentWidth = document.documentElement.offsetWidth;
-		const popoverWidth = popover.width;
-		const triggerRectLeft = triggerRect.left;
-
-		popover.style.width = `${String(popoverWidth)}px`;
-		if (documentWidth - triggerRectLeft < popoverWidth) {
-			popover.style.right = '0';
-		} else {
-			popover.style.left = `${String(triggerRectLeft)}px`;
-		}
-	}
 };
 
 /**
@@ -84,10 +61,10 @@ const hide = (eventType: string, popover: PopoverElement): void => {
 /**
  * Footnote reference popover
  *
- * @param thisElement - Target element
+ * @param $this - Target element
  */
-export default (thisElement: HTMLAnchorElement): void => {
-	const { href: hrefAttributeValue } = thisElement;
+export default ($this: HTMLAnchorElement): void => {
+	const { href: hrefAttributeValue } = $this;
 	const {
 		ignore: ignoreAttributeValue,
 		popoverLabel: popoverLabelAttributeValue,
@@ -98,7 +75,7 @@ export default (thisElement: HTMLAnchorElement): void => {
 		popoverHideImageHeight: popoverHideImageHeightAttributeValue,
 		mouseenterDelay: mouseenterDelayAttributeValue,
 		mouseleaveDelay: mouseleaveDelayAttributeValue,
-	} = thisElement.dataset;
+	} = $this.dataset;
 
 	const footnoteElement = new FootnoteElementAttribute(hrefAttributeValue);
 	const ignore = new IgnoreAttribute(ignoreAttributeValue);
@@ -112,6 +89,8 @@ export default (thisElement: HTMLAnchorElement): void => {
 	});
 	const mouseenter = new MouseenterAttribute({ delay: mouseenterDelayAttributeValue ?? '250' });
 	const mouseleave = new MouseleaveAttribute({ delay: mouseleaveDelayAttributeValue ?? '250' });
+
+	const anchorName = getAnchorName();
 
 	if (customElements.get(POPOVER_ELEMENT_NAME) === undefined) {
 		customElements.define(POPOVER_ELEMENT_NAME, PopoverElement);
@@ -129,20 +108,22 @@ export default (thisElement: HTMLAnchorElement): void => {
 	popoverElement.hideImageSrc = popoverHide.imageSrc;
 	popoverElement.hideImageWidth = popoverHide.imageWidth;
 	popoverElement.hideImageHeight = popoverHide.imageHeight;
-	popoverElement.triggerElement = thisElement;
+	popoverElement.triggerElement = $this;
 	popoverElement.insertAdjacentHTML(
 		'afterbegin',
 		'getHTML' in footnoteElement.element ? footnoteElement.element.getHTML() : (footnoteElement.element as HTMLElement).innerHTML,
 	);
+	popoverElement.style.setProperty('position-anchor', anchorName);
 
-	thisElement.setAttribute('role', 'button');
+	$this.role = 'button';
+	$this.style.setProperty('anchor-name', anchorName);
 
-	thisElement.addEventListener('click', (ev: PointerEvent) => {
+	$this.addEventListener('click', (ev: PointerEvent) => {
 		popoverTriggerClickEvent(ev, {
 			popoverElement: popoverElement,
 		});
 	});
-	thisElement.addEventListener(
+	$this.addEventListener(
 		'pointerenter',
 		(ev: PointerEvent) => {
 			popoverTriggerPointerenterEvent(ev, {
@@ -153,7 +134,7 @@ export default (thisElement: HTMLAnchorElement): void => {
 		},
 		{ passive: true },
 	);
-	thisElement.addEventListener(
+	$this.addEventListener(
 		'pointerleave',
 		(ev: PointerEvent) => {
 			popoverTriggerPointerleaveEvent(ev, {

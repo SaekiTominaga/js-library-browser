@@ -159,33 +159,3 @@ test.describe('show & hide', () => {
 		await expect(popover).toBeHidden();
 	});
 });
-
-test.describe('position', () => {
-	test('left base', async ({ page }) => {
-		const section = page.locator('section').filter({ hasText: 'Required attributes only' });
-		const trigger = section.getByRole('button', { name: '[1]' });
-		const popover = page.locator('x-popover').nth(0);
-
-		await trigger.click();
-
-		const triggerBox = (await trigger.boundingBox())!;
-		const popoverBox = (await popover.boundingBox())!;
-		expect(popoverBox.x).toBe(triggerBox.x);
-		expect(popoverBox.y).toBe(Math.round(triggerBox.y) + triggerBox.height);
-	});
-
-	test('right base', async ({ page }) => {
-		await page.setViewportSize({ width: 200, height: 200 });
-
-		const section = page.locator('section').filter({ hasText: 'Required attributes only' });
-		const trigger = section.getByRole('button', { name: '[1]' });
-		const popover = page.locator('x-popover').nth(0);
-
-		await trigger.click();
-
-		const triggerBox = (await trigger.boundingBox())!;
-		const popoverBox = (await popover.boundingBox())!;
-		expect(popoverBox.x).toBe(200 - popoverBox.width);
-		expect(popoverBox.y).toBe(Math.round(triggerBox.y) + triggerBox.height);
-	});
-});

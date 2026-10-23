@@ -57,16 +57,20 @@ export default class extends HTMLElement {
 		const cssString = `
 			:host {
 				position: absolute;
-				contain: layout;
-				margin: 0;
-				border: none;
-				padding: 0;
-				overflow: visible;
+				position-area: block-end span-inline-end;
+				position-try-fallbacks:
+					flip-inline,
+					flip-block,
+					flip-inline flip-block;
+				margin: unset;
+				border: unset;
+				padding: unset;
 			}
 
 			:host::part(content) {
 				border: solid;
 				padding: 0.25em;
+				contain: layout;
 			}
 
 			:host::part(hide-button) {

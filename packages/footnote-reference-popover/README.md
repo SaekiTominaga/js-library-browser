@@ -15,12 +15,12 @@
 
 ## Browser support
 
-Using the Popover feature. ([Can I use...](https://caniuse.com/wf-popover))
+Using the CSS anchor positioning. ([Can I use...](https://caniuse.com/css-anchor-positioning))
 
-- Firefox 125+
-- Safari 17.0+
-- Chrome 116+
-- Edge 116+
+- Firefox 147+
+- Safari 26.0+
+- Chrome 125+
+- Edge 125+
 
 ## Demo
 
