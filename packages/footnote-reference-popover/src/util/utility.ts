@@ -14,7 +14,7 @@ const getFootnote = (
 	}>,
 ): HTMLElement => {
 	if ($anchor === null) {
-		throw new Error('Element not found');
+		throw new Error('Anchor element not found');
 	}
 
 	if (!($anchor instanceof HTMLAnchorElement)) {

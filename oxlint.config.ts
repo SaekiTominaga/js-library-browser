@@ -115,7 +115,11 @@ export default defineConfig({
 		},
 		{
 			/* Custom elements */
-			files: ['packages/input-file-preview/src/custom-element/InputFilePreview.ts', 'packages/tab/src/custom-element/Tab.ts'],
+			files: [
+				'packages/footnote-reference-popover/src/custom-element/FootnoteReferencePopover.ts',
+				'packages/input-file-preview/src/custom-element/InputFilePreview.ts',
+				'packages/tab/src/custom-element/Tab.ts',
+			],
 			rules: {
 				'typescript/no-non-null-assertion': 'off',
 			},

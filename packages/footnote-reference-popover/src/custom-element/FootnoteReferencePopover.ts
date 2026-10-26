@@ -15,7 +15,7 @@ export default class extends HTMLElement {
 	#popoverDelayMouseleave: string | undefined;
 
 	/* etc */
-	readonly #shadow: ShadowRoot | undefined;
+	readonly #shadow: ShadowRoot;
 	#popoverTimeoutId?: NodeJS.Timeout; // ポップオーバーを表示する際のタイマーの識別 ID（`clearTimeout()` で使用）
 
 	static get observedAttributes(): string[] {
@@ -24,11 +24,6 @@ export default class extends HTMLElement {
 
 	constructor() {
 		super();
-
-		if (!CSS.supports('anchor-name: --x')) {
-			console.info('This browser does not support CSS anchor positioning.');
-			return;
-		}
 
 		const cssString = `
 			[part~="anchor"] {
@@ -66,27 +61,24 @@ export default class extends HTMLElement {
 			</div>
 		`; // `ignore` 属性を取得するため `connectedCallback` 内で組み立てる
 
-		this.#shadow?.setHTMLUnsafe(htmlString);
+		this.#shadow.setHTMLUnsafe(htmlString);
 
-		this.#$anchor = this.#shadow?.querySelector<HTMLSlotElement>('slot[part~="anchor"]')?.assignedNodes({ flatten: true }).at(0) as HTMLAnchorElement;
-		this.#$popover = this.#shadow?.querySelector('[part~="popover"]') ?? undefined;
+		this.#$anchor = this.#shadow.querySelector<HTMLSlotElement>('slot[part~="anchor"]')!.assignedNodes({ flatten: true }).at(0) as HTMLAnchorElement;
+		this.#$popover = this.#shadow.querySelector('[part~="popover"]')!;
 
 		this.#$anchor.role = 'button';
-
-		if (this.#$popover !== undefined) {
-			const { width, height } = this.#$anchor.getBoundingClientRect();
-
-			this.#$popover.dataset['anchorWidth'] = String(Number(width.toFixed(3)));
-			this.#$popover.dataset['anchorHeight'] = String(Number(height.toFixed(3)));
-		}
 
 		this.#$anchor.addEventListener('click', this.#anchorClickEvent);
 		this.#$anchor.addEventListener('pointerenter', this.#anchorPointerenterEvent, { passive: true });
 		this.#$anchor.addEventListener('pointerleave', this.#anchorPointerleaveEvent, { passive: true });
 
-		this.#$popover?.addEventListener('pointerenter', this.#popoverPointerenterEvent, { passive: true });
-		this.#$popover?.addEventListener('pointerleave', this.#popoverPointerleaveEvent, { passive: true });
-		this.#$popover?.addEventListener('click', this.#popoverClickEvent, { passive: true });
+		const { width, height } = this.#$anchor.getBoundingClientRect();
+		this.#$popover.dataset['anchorWidth'] = String(Number(width.toFixed(3)));
+		this.#$popover.dataset['anchorHeight'] = String(Number(height.toFixed(3)));
+
+		this.#$popover.addEventListener('pointerenter', this.#popoverPointerenterEvent, { passive: true });
+		this.#$popover.addEventListener('pointerleave', this.#popoverPointerleaveEvent, { passive: true });
+		this.#$popover.addEventListener('click', this.#popoverClickEvent, { passive: true });
 	}
 
 	disconnectedCallback(): void {

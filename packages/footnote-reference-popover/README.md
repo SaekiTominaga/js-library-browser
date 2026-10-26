@@ -35,9 +35,9 @@ Using the CSS anchor positioning. ([Can I use...](https://caniuse.com/css-anchor
   }
 </script>
 <script type="module">
-  import FootnoteReferencePopover from '@w0s/footnote-reference-popover';
+  import footnoteReferencePopover from '@w0s/footnote-reference-popover';
 
-  customElements.define('fn-ref', FootnoteReferencePopover);
+  footnoteReferencePopover('fn-ref'); // Specify the name of a custom element
 </script>
 
 <fn-ref>
