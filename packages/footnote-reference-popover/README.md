@@ -44,7 +44,7 @@ Using the CSS anchor positioning. ([Can I use...](https://caniuse.com/css-anchor
   <a href="#fn-1" slot="anchor">[1]</a>
 </fn-ref>
 
-<fn-ref ignore=".backref" popover-delay-mouseenter="500ms" popover-delay-mouseleave="1s">
+<fn-ref ignore=".backref" popover-delay-mouseenter="200ms" popover-delay-mouseleave="1s">
   <a href="#fn-2" id="fnref-2" slot="anchor">[Note2]</a>
   <template slot="popover__hide">
     <img src="popover-close.svg" alt="Close" width="18" height="18" />
@@ -65,11 +65,11 @@ Using the CSS anchor positioning. ([Can I use...](https://caniuse.com/css-anchor
   </div>
   <div>
     <dt><code>popover-delay-mouseenter</code> [optional]</dt>
-    <dd>Delay time between mouse cursor moved within the anchor element and showing the popover. If omitted, the default value is '250ms'.</dd>
+    <dd>Delay time between mouse cursor moved within the anchor element and showing the popover. If omitted, the default value is '100ms'.</dd>
   </div>
   <div>
     <dt><code>popover-delay-mouseleave</code> [optional]</dt>
-    <dd>Delay time between mouse cursor moved out of the anchor element or popover and closing the popover. If omitted, the default value is '250ms'.</dd>
+    <dd>Delay time between mouse cursor moved out of the anchor element or popover and closing the popover. If omitted, the default value is '500ms'.</dd>
   </div>
 </dl>
 

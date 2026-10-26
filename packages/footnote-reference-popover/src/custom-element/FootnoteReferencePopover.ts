@@ -1,8 +1,8 @@
 import { parseDuration } from '../util/cssUnits.ts';
 import { getFootnote } from '../util/utility.ts';
 
-const popoverDelayMouseenterDefault = '250ms';
-const popoverDelayMouseleaveDefault = '250ms';
+const popoverDelayMouseenterDefault = '100ms';
+const popoverDelayMouseleaveDefault = '500ms';
 
 export default class extends HTMLElement {
 	/* Elements */
