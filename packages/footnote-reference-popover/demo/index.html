@@ -37,11 +37,11 @@
 						content: url('tail.svg');
 
 						@container anchored(fallback: none) {
-							inset-inline-start: calc(var(--tail-inline-start) - var(--tail-inline-size) / 2 + attr(data-anchor-inline-size px) / 2);
+							inset-inline-start: calc(var(--tail-inline-start) - var(--tail-inline-size) / 2 + attr(data-anchor-width px) / 2);
 						}
 
 						@container anchored(fallback: flip-inline) {
-							inset-inline-end: calc(var(--tail-inline-start) - var(--tail-inline-size) / 2 + attr(data-anchor-inline-size px) / 2);
+							inset-inline-end: calc(var(--tail-inline-start) - var(--tail-inline-size) / 2 + attr(data-anchor-width px) / 2);
 						}
 					}
 				}

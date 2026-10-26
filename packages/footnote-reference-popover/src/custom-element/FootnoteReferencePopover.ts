@@ -80,7 +80,10 @@ export default class extends HTMLElement {
 		this.#$popover = this.#shadow?.querySelector('[part="popover"]') ?? undefined;
 
 		if (this.#$popover !== undefined) {
-			this.#$popover.dataset['anchorInlineSize'] = String(this.#$anchor.getBoundingClientRect().width);
+			const { width, height } = this.#$anchor.getBoundingClientRect();
+
+			this.#$popover.dataset['anchorWidth'] = String(Number(width.toFixed(3)));
+			this.#$popover.dataset['anchorHeight'] = String(Number(height.toFixed(3)));
 		}
 
 		this.#$anchor.addEventListener('click', this.#anchorClickEvent);
