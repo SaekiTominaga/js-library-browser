@@ -47,9 +47,6 @@ export default class extends HTMLElement {
 					position-try-order: most-inline-size;
 				}
 			}
-
-			[part~="popover__hide"] {
-			}
 		`;
 
 		const shadow = this.attachShadow({ mode: 'open' });

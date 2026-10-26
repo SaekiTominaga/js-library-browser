@@ -31,7 +31,8 @@
 				&::part(popover)::before {
 					@supports (container-type: anchored) {
 						position: absolute;
-						position-anchor: --footnote-reference;
+						block-size: var(--tail-block-size);
+						inline-size: var(--tail-inline-size);
 						line-height: 0;
 						content: url('tail.svg');
 
@@ -71,6 +72,10 @@
 				&::part(popover__hide):hover {
 					background-color: oklch(calc(100% - 100% / 8) 0 0deg / 50%);
 				}
+			}
+
+			pre {
+				overflow-inline: auto;
 			}
 
 			code {
