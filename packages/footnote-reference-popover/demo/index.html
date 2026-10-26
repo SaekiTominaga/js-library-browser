@@ -6,6 +6,19 @@
 		<title>`footnote-reference-popover` Demo</title>
 
 		<style>
+			pre {
+				overflow-inline: auto;
+			}
+
+			code {
+				tab-size: 2;
+			}
+
+			[slot='anchor'] {
+				vertical-align: super;
+				font-size: 80%;
+			}
+
 			.my-fnref {
 				&::part(popover) {
 					--tail-block-size: 9px;
@@ -74,14 +87,6 @@
 				}
 			}
 
-			pre {
-				overflow-inline: auto;
-			}
-
-			code {
-				tab-size: 2;
-			}
-
 			.footnotes {
 				display: block grid;
 				grid-template-columns: auto 1fr;
@@ -124,13 +129,13 @@
 			<h2>Required attributes, elements only</h2>
 
 			<pre><code>&lt;fn-ref&gt;
-	&lt;sup slot="anchor"&gt;&lt;a href="#fn-1"&gt;[1]&lt;/a&gt;&lt;/sup&gt;
+	&lt;a href="#fn-1" slot="anchor"&gt;[1]&lt;/a&gt;
 &lt;/fn-ref&gt;</code></pre>
 
 			<p>
 				text text text text text text text text text text text text text text text text
 				<fn-ref>
-					<sup slot="anchor"><a href="#fn-1">[1]</a></sup>
+					<a href="#fn-1" slot="anchor">[1]</a>
 				</fn-ref>
 				text
 			</p>
@@ -140,7 +145,7 @@
 			<h2>All attributes, elements &amp; Style customization</h2>
 
 			<pre><code>&lt;fn-ref ignore=".backref" popover-delay-mouseenter="500ms" popover-delay-mouseleave="1s" class="my-fnref"&gt;
-	&lt;sup slot="anchor"&gt;&lt;a href="#fn-2" id="fnref-2"&gt;[Note2]&lt;/a&gt;&lt;/sup&gt;
+	&lt;a href="#fn-2" id="fnref-2" slot="anchor"&gt;[Note2]&lt;/a&gt;
 	&lt;template slot="popover__hide"&gt;
 		&lt;img src="popover-close.svg" alt="Close" width="18" height="18" /&gt;
 	&lt;/template&gt;
@@ -149,7 +154,7 @@
 			<p>
 				text text text text text text text text text text text text text text text text
 				<fn-ref ignore=".backref" popover-delay-mouseenter="500ms" popover-delay-mouseleave="1s" class="my-fnref">
-					<sup slot="anchor"><a href="#fn-2" id="fnref-2">[Note2]</a></sup>
+					<a href="#fn-2" id="fnref-2" slot="anchor">[Note2]</a>
 					<template slot="popover__hide">
 						<img src="popover-close.svg" alt="Close" width="12" height="12" />
 					</template>

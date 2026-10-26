@@ -2,11 +2,27 @@ import { describe, expect, test } from '@jest/globals';
 import { getFootnote } from './utility.ts';
 
 describe('getFootnote', () => {
+	test('no element', () => {
+		document.body.innerHTML = ``;
+
+		expect(() => {
+			getFootnote(document.querySelector('a'));
+		}).toThrow(new Error('Anchor element not found'));
+	});
+
+	test('mismatch element name', () => {
+		document.body.innerHTML = `<p></p>`;
+
+		expect(() => {
+			getFootnote(document.querySelector('p'));
+		}).toThrow(new TypeError('The element must be a `<a>` element'));
+	});
+
 	test('no href', () => {
 		document.body.innerHTML = `<a></a>`;
 
 		expect(() => {
-			getFootnote(document.querySelector('a')!);
+			getFootnote(document.querySelector('a'));
 		}).toThrow(new TypeError('The `href` attribute is not set'));
 	});
 
@@ -14,7 +30,7 @@ describe('getFootnote', () => {
 		document.body.innerHTML = `<a href="http://example.com/"></a>`;
 
 		expect(() => {
-			getFootnote(document.querySelector('a')!);
+			getFootnote(document.querySelector('a'));
 		}).toThrow(new TypeError('The `href` attribute must be in the same content'));
 	});
 
@@ -22,7 +38,7 @@ describe('getFootnote', () => {
 		document.body.innerHTML = `<a href="foo"></a>`;
 
 		expect(() => {
-			getFootnote(document.querySelector('a')!);
+			getFootnote(document.querySelector('a'));
 		}).toThrow(new TypeError('The `href` attribute must be in the same content'));
 	});
 
@@ -30,7 +46,7 @@ describe('getFootnote', () => {
 		document.body.innerHTML = `<a href="#foo"></a>`;
 
 		expect(() => {
-			getFootnote(document.querySelector('a')!);
+			getFootnote(document.querySelector('a'));
 		}).toThrow(new Error('Element `#foo` not found'));
 	});
 
@@ -40,7 +56,7 @@ describe('getFootnote', () => {
 <p id="footnote">Footnote</p>
 		`;
 
-		expect(getFootnote(document.querySelector('a')!).innerHTML).toBe('Footnote');
+		expect(getFootnote(document.querySelector('a')).innerHTML).toBe('Footnote');
 	});
 
 	test('ignore', () => {
@@ -49,6 +65,6 @@ describe('getFootnote', () => {
 <p id="footnote">Footnote <span class="ignore">ignore</span> <span>text</span></p>
 		`;
 
-		expect(getFootnote(document.querySelector('a')!, { ignoreSelectors: '.ignore' }).innerHTML).toBe('Footnote  <span>text</span>');
+		expect(getFootnote(document.querySelector('a'), { ignoreSelectors: '.ignore' }).innerHTML).toBe('Footnote  <span>text</span>');
 	});
 });

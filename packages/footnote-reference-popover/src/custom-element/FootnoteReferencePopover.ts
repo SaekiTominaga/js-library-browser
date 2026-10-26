@@ -31,7 +31,7 @@ export default class extends HTMLElement {
 		}
 
 		const cssString = `
-			[part~="anchor-wrapper"] {
+			[part~="anchor"] {
 				anchor-name: --footnote-reference;
 				display: unset;
 			}
@@ -58,26 +58,20 @@ export default class extends HTMLElement {
 	}
 
 	connectedCallback(): void {
-		const $anchor = this.querySelector<HTMLAnchorElement>('[slot="anchor"] > a');
-		if ($anchor === null) {
-			throw new Error(`Element \`slot="anchor"\` containing \`<a>\` element not found`);
-		}
-		$anchor.role = 'button';
-		this.#$anchor = $anchor;
-
-		const $popoverHideTemplate = this.querySelector<HTMLTemplateElement>('template[slot="popover__hide"]');
-
 		const htmlString = `
-			<slot name="anchor" part="anchor-wrapper"></slot>
+			<slot name="anchor" part="anchor"></slot>
 			<div popover="" id="popover" part="popover">
-				<div part="popover__content">${getFootnote($anchor, { ignoreSelectors: this.#ignoreSelectors }).innerHTML}</div>
-				<button type="button" popoverTarget="popover" popovertargetaction="hide" part="popover__hide">${$popoverHideTemplate?.innerHTML ?? 'Close'}</button>
+				<div part="popover__content">${getFootnote(this.querySelector('[slot="anchor"]'), { ignoreSelectors: this.#ignoreSelectors }).innerHTML}</div>
+				<button type="button" popoverTarget="popover" popovertargetaction="hide" part="popover__hide">${this.querySelector('[slot="popover__hide"]')?.innerHTML ?? 'Close'}</button>
 			</div>
-		`;
+		`; // `ignore` 属性を取得するため `connectedCallback` 内で組み立てる
 
 		this.#shadow?.setHTMLUnsafe(htmlString);
 
-		this.#$popover = this.#shadow?.querySelector('[part="popover"]') ?? undefined;
+		this.#$anchor = this.#shadow?.querySelector<HTMLSlotElement>('slot[part~="anchor"]')?.assignedNodes({ flatten: true }).at(0) as HTMLAnchorElement;
+		this.#$popover = this.#shadow?.querySelector('[part~="popover"]') ?? undefined;
+
+		this.#$anchor.role = 'button';
 
 		if (this.#$popover !== undefined) {
 			const { width, height } = this.#$anchor.getBoundingClientRect();

@@ -41,11 +41,11 @@ Using the CSS anchor positioning. ([Can I use...](https://caniuse.com/css-anchor
 </script>
 
 <fn-ref>
-  <sup slot="anchor"><a href="#fn-1">[1]</a></sup>
+  <a href="#fn-1" slot="anchor">[1]</a>
 </fn-ref>
 
 <fn-ref ignore=".backref" popover-delay-mouseenter="500ms" popover-delay-mouseleave="1s">
-  <sup slot="anchor"><a href="#fn-2" id="fnref-2">[Note2]</a></sup>
+  <a href="#fn-2" id="fnref-2" slot="anchor">[Note2]</a>
   <template slot="popover__hide">
     <img src="popover-close.svg" alt="Close" width="18" height="18" />
   </template>
@@ -78,7 +78,7 @@ Using the CSS anchor positioning. ([Can I use...](https://caniuse.com/css-anchor
 <dl>
   <div>
     <dt><code>slot=anchor</code> [required]</dt>
-    <dd>An element that contains an anchor element that references a footnote.</dd>
+    <dd>An anchor element that references a footnote.</dd>
   </div>
   <div>
     <dt><code>slot=popover__hide</code> [optional]</dt>
@@ -92,7 +92,7 @@ The popover markup looks like this.
 
 ```html
 <fn-ref>
-  <sup slot="anchor"><a href="#fn">[1]</a></sup>
+  <a href="#fn" slot="anchor">[1]</a>
   <template slot="popover__hide">
     <img src="popover-close.svg" alt="Close" width="18" height="18" />
   </template>
@@ -102,10 +102,12 @@ The popover markup looks like this.
 
 <fn-ref>
   #shadow-root (open)
-  <slot part="anchor-wrapper"> </slot>
-  <div id="popover" popover="" part="popover">
-    <div part="popover__content"></div>
-    <button type="button" popovertarget="popover" popovertargetaction="hide" part="popover__hide"></button>
+  <sup><slot name="anchor" part="anchor"></slot></sup>
+  <div popover="" id="popover" part="popover">
+    <div part="popover__content">...</div>
+    <button type="button" popovertarget="popover" popovertargetaction="hide" part="popover__hide">
+      <img src="popover-close.svg" alt="Close" width="18" height="18" />
+    </button>
   </div>
 </fn-ref>
 ```
@@ -114,7 +116,7 @@ Therefore, you can customize the style using [`::part`](https://developer.mozill
 
 ```css
 .my-fnref {
-  &::part(anchor-wrapper) {
+  &::part(anchor) {
     ...
   }
 
