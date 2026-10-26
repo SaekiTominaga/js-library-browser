@@ -6,7 +6,7 @@ const popoverDelayMouseleaveDefault = '500ms';
 
 export default class extends HTMLElement {
 	/* Elements */
-	#$anchor: HTMLAnchorElement | undefined;
+	#$anchor: HTMLElement | undefined;
 	#$popover: HTMLElement | undefined;
 
 	/* Attributes */
@@ -63,8 +63,8 @@ export default class extends HTMLElement {
 
 		this.#shadow.setHTMLUnsafe(htmlString);
 
-		this.#$anchor = this.#shadow.querySelector<HTMLSlotElement>('slot[part~="anchor"]')!.assignedNodes({ flatten: true }).at(0) as HTMLAnchorElement;
-		this.#$popover = this.#shadow.querySelector('[part~="popover"]')!;
+		this.#$anchor = this.#shadow.querySelector<HTMLSlotElement>('slot[name="anchor"]')!.assignedNodes().at(0) as HTMLElement;
+		this.#$popover = this.#shadow.querySelector('#popover')!;
 
 		this.#$anchor.role = 'button';
 
