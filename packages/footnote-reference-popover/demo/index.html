@@ -6,41 +6,86 @@
 		<title>`footnote-reference-popover` Demo</title>
 
 		<style>
-			.my-popover {
-				--popover-hide-button-image-size: 18px;
-				--popover-hide-button-padding: 10px;
+			.my-fnref {
+				--tail-block-size: 9px;
+				--tail-inline-size: 16px;
+				--tail-src: url('tail.svg');
+				--tail-inline-start: 0.75em;
+				--hide-image-size: 18px;
+				--hide-padding: 10px;
 
-				&::part(content) {
+				&::part(popover) {
+					margin: unset;
+					border: unset;
+					background-color: unset;
+					padding: unset;
+					max-inline-size: min(20em, 100%);
+					overflow: unset;
+					color: unset;
+
+					@supports (container-type: anchored) {
+						inset-inline-start: calc(0px - var(--tail-inline-start));
+					}
+				}
+
+				&::part(popover)::before {
+					@supports (container-type: anchored) {
+						position: absolute;
+						position-anchor: --footnote-reference;
+						z-index: 1;
+						line-height: 0;
+						content: var(--tail-src);
+
+						@container anchored(fallback: none) {
+							inset-inline-start: calc(var(--tail-inline-start) - var(--tail-inline-size) / 2 + attr(data-anchor-inline-size px) / 2);
+						}
+
+						@container anchored(fallback: flip-inline) {
+							inset-inline-end: calc(var(--tail-inline-start) - var(--tail-inline-size) / 2 + attr(data-anchor-inline-size px) / 2);
+						}
+					}
+				}
+
+				&::part(popover__content) {
+					contain: layout;
+					margin-block-start: 0.125em;
 					border: 1px solid #666;
 					border-radius: 0.25em;
 					box-shadow: 0 0 5px #ccc;
 					background-color: #fff;
 					padding: 10px;
-					max-inline-size: min(20em, 100%);
 					color: #000;
+
+					@supports (container-type: anchored) {
+						margin-block-start: calc(var(--tail-block-size) - 1px);
+					}
 				}
 
-				&::part(content)::before {
+				&::part(popover__content)::before {
 					display: block flow;
 					float: inline-end;
-					block-size: calc(var(--popover-hide-button-image-size) + var(--popover-hide-button-padding) * 2);
-					inline-size: calc(var(--popover-hide-button-image-size) + var(--popover-hide-button-padding) * 2);
+					block-size: calc(var(--hide-image-size) + var(--hide-padding) * 2);
+					inline-size: calc(var(--hide-image-size) + var(--hide-padding) * 2);
 					content: '';
 				}
 
-				&::part(hide-button) {
+				&::part(popover__hide-button) {
 					position: absolute;
 					inset-block-start: 1px;
 					inset-inline-end: 1px;
 					border: none;
 					border-radius: 0.25em;
 					background-color: transparent;
-					padding: var(--popover-hide-button-padding);
+					padding: var(--hide-padding);
 				}
 
-				&::part(hide-button):hover {
+				&::part(popover__hide-button):hover {
 					background-color: #eee;
 				}
+			}
+
+			code {
+				tab-size: 2;
 			}
 
 			.footnotes {
@@ -73,61 +118,48 @@
 			}
 		</script>
 		<script type="module">
-			import footnoteReferencePopover from '@w0s/footnote-reference-popover';
+			import FootnoteReferencePopover from '@w0s/footnote-reference-popover';
 
-			footnoteReferencePopover(document.querySelectorAll('.js-footnote-reference-popover'));
+			customElements.define('fn-ref', FootnoteReferencePopover);
 		</script>
 	</head>
 	<body>
 		<h1><code>footnote-reference-popover</code> Demo</h1>
 
 		<section>
-			<h2>Required attributes only</h2>
+			<h2>Required attributes, elements only</h2>
 
-			<pre><code>&lt;a class="js-footnote-reference-popover" href="#fn-1"&gt;[1]&lt;/a&gt;</code></pre>
+			<pre><code>&lt;fn-ref&gt;
+	&lt;sup slot="anchor__wrapper"&gt;&lt;a href="#fn-1"&gt;[1]&lt;/a&gt;&lt;/sup&gt;
+&lt;/fn-ref&gt;</code></pre>
 
 			<p>
-				text text <sup><a class="js-footnote-reference-popover" href="#fn-1">[1]</a></sup> text
+				text text text text text text text text text text text text text text text text
+				<fn-ref>
+					<sup slot="anchor__wrapper"><a href="#fn-1">[1]</a></sup>
+				</fn-ref>
+				text
 			</p>
 		</section>
 
 		<section>
-			<h2>All attributes &amp; Style customization</h2>
+			<h2>All attributes, elements &amp; Style customization</h2>
 
-			<pre><code>&lt;a
-	class="js-footnote-reference-popover"
-	id="fnref-2"
-	href="#fn-2"
-	data-ignore=".backref"
-	data-popover-label="Note"
-	data-popover-class="my-popover"
-	data-popover-hide-text="Popover Close"
-	data-popover-hide-image-src="./popover-close.svg"
-	data-popover-hide-image-width="18"
-	data-popover-hide-image-height="18"
-	data-mouseenter-delay="1000"
-	data-mouseleave-delay="1000"
-&gt;[2]&lt;/a&gt;</code></pre>
+			<pre><code>&lt;fn-ref ignore=".backref" popover-delay-mouseenter="500ms" popover-delay-mouseleave="1s" class="my-fnref"&gt;
+	&lt;sup slot="anchor__wrapper"&gt;&lt;a href="#fn-2" id="fnref-2"&gt;[Note2]&lt;/a&gt;&lt;/sup&gt;
+	&lt;template slot="popover__hide"&gt;
+		&lt;img src="popover-close.svg" alt="Close" width="18" height="18" /&gt;
+	&lt;/template&gt;
+&lt;/fn-ref&gt;</code></pre>
 
 			<p>
-				text text
-				<sup
-					><a
-						class="js-footnote-reference-popover"
-						id="fnref-2"
-						href="#fn-2"
-						data-ignore=".backref"
-						data-popover-label="Note"
-						data-popover-class="my-popover"
-						data-popover-hide-text="Popover Close"
-						data-popover-hide-image-src="./popover-close.svg"
-						data-popover-hide-image-width="18"
-						data-popover-hide-image-height="18"
-						data-mouseenter-delay="1000"
-						data-mouseleave-delay="1000"
-						>[2]</a
-					></sup
-				>
+				text text text text text text text text text text text text text text text text
+				<fn-ref ignore=".backref" popover-delay-mouseenter="500ms" popover-delay-mouseleave="1s" class="my-fnref">
+					<sup slot="anchor__wrapper"><a href="#fn-2" id="fnref-2">[Note2]</a></sup>
+					<template slot="popover__hide">
+						<img src="popover-close.svg" alt="Close" width="18" height="18" />
+					</template>
+				</fn-ref>
 				text
 			</p>
 		</section>
@@ -140,8 +172,8 @@
 			<div class="footnote">
 				<span class="footnote__no">2.</span>
 				<p id="fn-2">
-					Footnote2 <a href="https://example.com/1" id="footnote2-link1">Link1</a> text text text text text text text text text text text text text text text
-					text text text text text text text text text text text text text text text.
+					Footnote2 <a href="https://example.com/1">link</a> text text text text text text text text text text text text text text text text text text text text
+					text text text text text text text text text text.
 					<a href="#fnref-2" class="backref">↩ Back</a>
 				</p>
 			</div>

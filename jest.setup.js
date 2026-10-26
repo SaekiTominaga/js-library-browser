@@ -22,6 +22,14 @@ HTMLDialogElement.prototype.close = () => {};
 HTMLDialogElement.prototype.show = () => {};
 HTMLDialogElement.prototype.showModal = () => {};
 
+/* Element / ShadowRoot: setHTMLUnsafe() */
+Element.prototype.setHTMLUnsafe = function setHTMLUnsafe(html) {
+	this.innerHTML = html;
+};
+ShadowRoot.prototype.setHTMLUnsafe = function setHTMLUnsafe(html) {
+	this.innerHTML = html;
+};
+
 /* ShadowRoot: adoptedStyleSheets <https://github.com/jsdom/jsdom/issues/3444> */
 Object.defineProperty(ShadowRoot.prototype, 'adoptedStyleSheets', {
 	get() {
