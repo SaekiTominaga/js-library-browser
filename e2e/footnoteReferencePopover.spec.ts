@@ -48,7 +48,7 @@ test.describe('show & hide', () => {
 
 		await expect(popover).toBeHidden();
 
-		await sleep(250);
+		await sleep(100);
 
 		await expect(popover).toBeVisible();
 
@@ -56,7 +56,7 @@ test.describe('show & hide', () => {
 
 		await expect(popover).toBeVisible();
 
-		await sleep(250);
+		await sleep(500);
 
 		await expect(popover).toBeHidden();
 	});
@@ -67,11 +67,11 @@ test.describe('show & hide', () => {
 		const popover = section.locator('fn-ref [popover]').nth(0);
 
 		await anchor.hover();
-		await sleep(250);
+		await sleep(100);
 
 		await expect(popover).toBeHidden();
 
-		await sleep(500 - 250);
+		await sleep(200 - 100);
 
 		await expect(popover).toBeVisible();
 
@@ -79,11 +79,11 @@ test.describe('show & hide', () => {
 
 		await expect(popover).toBeVisible();
 
-		await sleep(250);
+		await sleep(500);
 
 		await expect(popover).toBeVisible();
 
-		await sleep(1000 - 250);
+		await sleep(1000 - 500);
 
 		await expect(popover).toBeHidden();
 	});
@@ -95,9 +95,9 @@ test.describe('show & hide', () => {
 
 		await anchor.click();
 		await anchor.hover();
-		await sleep(125);
-		await popover.hover(); // トリガー要素からカーソルを離してすぐにポップオーバーへ移動する
-		await sleep(250);
+		await sleep(50);
+		await popover.hover(); // アンカー要素からカーソルを離してすぐにポップオーバーへ移動する
+		await sleep(100);
 
 		await expect(popover).toBeVisible();
 
@@ -105,7 +105,7 @@ test.describe('show & hide', () => {
 
 		await expect(popover).toBeVisible();
 
-		await sleep(250);
+		await sleep(500);
 
 		await expect(popover).toBeHidden();
 	});
