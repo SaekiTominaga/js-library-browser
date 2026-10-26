@@ -1,1 +1,1 @@
-export { default } from './custom-element/AnchorPopover.ts';
+export { default } from './custom-element/FootnoteReferencePopover.ts';

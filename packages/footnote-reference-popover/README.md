@@ -41,11 +41,11 @@ Using the CSS anchor positioning. ([Can I use...](https://caniuse.com/css-anchor
 </script>
 
 <fn-ref>
-  <sup slot="anchor__wrapper"><a href="#fn-1">[1]</a></sup>
+  <sup slot="anchor"><a href="#fn-1">[1]</a></sup>
 </fn-ref>
 
-<fn-ref ignore=".backref" popover-delay-mouseenter="500ms" popover-delay-mouseleave="1s" class="my-fnref">
-  <sup slot="anchor__wrapper"><a href="#fn-2" id="fnref-2">[Note2]</a></sup>
+<fn-ref ignore=".backref" popover-delay-mouseenter="500ms" popover-delay-mouseleave="1s">
+  <sup slot="anchor"><a href="#fn-2" id="fnref-2">[Note2]</a></sup>
   <template slot="popover__hide">
     <img src="popover-close.svg" alt="Close" width="18" height="18" />
   </template>
@@ -75,20 +75,13 @@ Using the CSS anchor positioning. ([Can I use...](https://caniuse.com/css-anchor
 
 ## Slots in custom elements
 
-<fn-ref ignore=".backref" popover-delay-mouseenter="500ms" popover-delay-mouseleave="1s" class="my-fnref">
-  <sup slot="anchor__wrapper"><a href="#fn-2" id="fnref-2">[Note2]</a></sup>
-  <template slot="popover__hide">
-    <img src="popover-close.svg" alt="Close" width="18" height="18" />
-  </template>
-</fn-ref>
-
 <dl>
   <div>
-    <dt><code>anchor__wrapper</code> [required]</dt>
+    <dt><code>slot=anchor</code> [required]</dt>
     <dd>An element that contains an anchor element that references a footnote.</dd>
   </div>
   <div>
-    <dt><code>popover__hide</code> [optional]</dt>
+    <dt><code>slot=popover__hide</code> [optional]</dt>
     <dd>A <code>&lt;template&gt;</code> element that contains elements representing the interior of the popover's close button. If omitted, it becomes a text labeled 'Close'.</dd>
   </div>
 </dl>
@@ -99,7 +92,7 @@ The popover markup looks like this.
 
 ```html
 <fn-ref>
-  <sup slot="anchor__wrapper"><a href="#fn">[1]</a></sup>
+  <sup slot="anchor"><a href="#fn">[1]</a></sup>
   <template slot="popover__hide">
     <img src="popover-close.svg" alt="Close" width="18" height="18" />
   </template>
@@ -109,20 +102,11 @@ The popover markup looks like this.
 
 <fn-ref>
   #shadow-root (open)
-  <span part="anchor-wrapper">
-    <slot name="anchor__wrapper"></slot>
-  </span>
-  <fn-popover part="popover" exportparts="content:popover__content, hide-button:popover__hide-button" popover="">
-    #shadow-root (open)
-    <span id="first-focusable" tabindex="0"></span>
-    <div tabindex="-1" part="content">
-      <slot name="content"></slot>
-      <button type="button" popovertargetaction="hide" part="hide-button" popovertarget="">
-        <slot name="hide-button"></slot>
-      </button>
-    </div>
-    <span id="last-focusable" tabindex="0"></span>
-  </fn-popover>
+  <slot part="anchor-wrapper"> </slot>
+  <div id="popover" popover="" part="popover">
+    <div part="popover__content"></div>
+    <button type="button" popovertarget="popover" popovertargetaction="hide" part="popover__hide"></button>
+  </div>
 </fn-ref>
 ```
 
@@ -142,7 +126,7 @@ Therefore, you can customize the style using [`::part`](https://developer.mozill
     ...
   }
 
-  &::part(popover__hide-button) {
+  &::part(popover__hide) {
     ...
   }
 }

@@ -1,11 +1,11 @@
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, jest, test } from '@jest/globals';
 import type { SpiedFunction } from 'jest-mock';
-import AnchorPopover from './AnchorPopover.ts';
+import FootnoteReferencePopover from './FootnoteReferencePopover.ts';
 
-const ANCHOR_POPOVER_ELEMENT_NAME = 'fn-ref';
+const FOOTNOTE_REFERENCE_POPOVER_ELEMENT_NAME = 'fn-ref';
 
 beforeAll(() => {
-	customElements.define(ANCHOR_POPOVER_ELEMENT_NAME, AnchorPopover);
+	customElements.define(FOOTNOTE_REFERENCE_POPOVER_ELEMENT_NAME, FootnoteReferencePopover);
 });
 
 describe('browser support CSS anchor positioning', () => {
@@ -28,7 +28,7 @@ describe('browser support CSS anchor positioning', () => {
 	});
 
 	test('not support', () => {
-		document.createElement(ANCHOR_POPOVER_ELEMENT_NAME);
+		document.createElement(FOOTNOTE_REFERENCE_POPOVER_ELEMENT_NAME);
 
 		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support CSS anchor positioning.');
 	});

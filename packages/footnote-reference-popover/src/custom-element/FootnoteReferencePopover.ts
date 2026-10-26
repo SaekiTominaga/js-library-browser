@@ -1,5 +1,5 @@
 import { parseDuration } from '../util/cssUnits.ts';
-import PopoverElement, { type ToggleEventDetail } from './Popover.ts';
+import { getFootnote } from '../util/utility.ts';
 
 const popoverDelayMouseenterDefault = '250ms';
 const popoverDelayMouseleaveDefault = '250ms';
@@ -7,10 +7,10 @@ const popoverDelayMouseleaveDefault = '250ms';
 export default class extends HTMLElement {
 	/* Elements */
 	#$anchor: HTMLAnchorElement | undefined;
-	#$popover: PopoverElement | undefined;
+	#$popover: HTMLElement | undefined;
 
 	/* Attributes */
-	#ignore: string | undefined;
+	#ignoreSelectors: string | undefined;
 	#popoverDelayMouseenter: string | undefined;
 	#popoverDelayMouseleave: string | undefined;
 
@@ -47,6 +47,9 @@ export default class extends HTMLElement {
 					position-try-order: most-inline-size;
 				}
 			}
+
+			[part~="popover__hide"] {
+			}
 		`;
 
 		const shadow = this.attachShadow({ mode: 'open' });
@@ -55,16 +58,12 @@ export default class extends HTMLElement {
 		const css = new CSSStyleSheet();
 		css.replaceSync(cssString);
 		shadow.adoptedStyleSheets.push(css);
-
-		if (customElements.get('fn-popover') === undefined) {
-			customElements.define('fn-popover', PopoverElement);
-		}
 	}
 
 	connectedCallback(): void {
-		const $anchor = this.querySelector<HTMLAnchorElement>('[slot="anchor__wrapper"] > a');
+		const $anchor = this.querySelector<HTMLAnchorElement>('[slot="anchor"] > a');
 		if ($anchor === null) {
-			throw new Error(`Elements with \`slot="anchor__wrapper"\` must contain a \`<a>\` element`);
+			throw new Error(`Element \`slot="anchor"\` containing \`<a>\` element not found`);
 		}
 		$anchor.role = 'button';
 		this.#$anchor = $anchor;
@@ -72,13 +71,11 @@ export default class extends HTMLElement {
 		const $popoverHideTemplate = this.querySelector<HTMLTemplateElement>('template[slot="popover__hide"]');
 
 		const htmlString = `
-			<span part="anchor-wrapper">
-				<slot name="anchor__wrapper"></slot>
-			</span>
-			<fn-popover part="popover" exportparts="content:popover__content, hide-button:popover__hide-button">
-				<div slot="content">${this.#getFootnote($anchor).innerHTML}</div>
-				<span name="popover__hide" slot="hide-button">${$popoverHideTemplate?.innerHTML ?? 'Close'}</span>
-			</fn-popover>
+			<slot name="anchor" part="anchor-wrapper"></slot>
+			<div popover="" id="popover" part="popover">
+				<div part="popover__content">${getFootnote($anchor, { ignoreSelectors: this.#ignoreSelectors }).innerHTML}</div>
+				<button type="button" popoverTarget="popover" popovertargetaction="hide" part="popover__hide">${$popoverHideTemplate?.innerHTML ?? 'Close'}</button>
+			</div>
 		`;
 
 		this.#shadow?.setHTMLUnsafe(htmlString);
@@ -111,7 +108,7 @@ export default class extends HTMLElement {
 	attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null): void {
 		switch (name) {
 			case 'ignore': {
-				this.#ignore = newValue ?? undefined;
+				this.#ignoreSelectors = newValue ?? undefined;
 				break;
 			}
 			case 'popover-delay-mouseenter': {
@@ -127,11 +124,11 @@ export default class extends HTMLElement {
 	}
 
 	get ignore(): string | undefined {
-		return this.#ignore;
+		return this.#ignoreSelectors;
 	}
 
 	set ignore(value: string | undefined) {
-		this.#ignore = value;
+		this.#ignoreSelectors = value;
 	}
 
 	get popoverDelayMouseenter(): string | undefined {
@@ -150,88 +147,44 @@ export default class extends HTMLElement {
 		this.#popoverDelayMouseleave = value;
 	}
 
-	readonly #getFootnote = ($anchor: HTMLAnchorElement): HTMLElement => {
-		if (!URL.canParse($anchor.href)) {
-			throw new TypeError('The value of the `href` attribute must be a URL');
-		}
-
-		const anchorUrl = new URL($anchor.href);
-		if (anchorUrl.origin !== location.origin || anchorUrl.pathname !== location.pathname) {
-			throw new TypeError('The `href` attribute must be in the same content');
-		}
-
-		const id = anchorUrl.hash.slice(1);
-		const $footnote = document.querySelector<HTMLElement>(`#${CSS.escape(id)}`);
-		if ($footnote === null) {
-			throw new Error(`Element \`#${id}\` not found`);
-		}
-
-		const $footnoteClone = $footnote.cloneNode(true) as HTMLElement;
-
-		/* 除外要素 */
-		if (this.#ignore !== undefined) {
-			$footnoteClone.querySelectorAll(this.#ignore).forEach(($ignore) => {
-				$ignore.remove();
-			});
-		}
-
-		return $footnoteClone;
-	};
-
 	/**
 	 * ポップオーバーを表示する
 	 *
-	 * @param eventType - イベントの識別名
+	 * @param _eventType - イベントの識別名
 	 */
-	readonly #show = (eventType: string): void => {
-		const eventDetail: ToggleEventDetail = {
-			newState: 'open',
-			eventType: eventType,
-		};
-		this.#$popover?.dispatchEvent(
-			new CustomEvent('my-toggle', {
-				detail: eventDetail,
-			}),
-		);
+	readonly #showPopover = (_eventType: string): void => {
+		this.#$popover?.showPopover();
 	};
 
 	/**
 	 * ポップオーバーを非表示にする
 	 *
-	 * @param eventType - イベントの識別名
+	 * @param _eventType - イベントの識別名
 	 */
-	readonly #hide = (eventType: string): void => {
-		const eventDetail: ToggleEventDetail = {
-			newState: 'closed',
-			eventType: eventType,
-		};
-		// this.#$popover?.dispatchEvent(
-		// 	new CustomEvent('my-toggle', {
-		// 		detail: eventDetail,
-		// 	}),
-		// );
+	readonly #hidePopover = (_eventType: string): void => {
+		this.#$popover?.hidePopover();
 	};
 
 	/**
 	 * アンカーを click したときの処理
 	 *
-	 * @param ev - Event
+	 * @param event - Event
 	 */
-	readonly #anchorClickEvent = (ev: PointerEvent): void => {
-		ev.preventDefault();
+	readonly #anchorClickEvent = (event: PointerEvent): void => {
+		event.preventDefault();
 
 		clearTimeout(this.#popoverTimeoutId);
 
-		this.#show(ev.type);
+		this.#showPopover(event.type);
 	};
 
 	/**
 	 * アンカーを pointerenter したときの処理
 	 *
-	 * @param ev - Event
+	 * @param event - Event
 	 */
-	readonly #anchorPointerenterEvent = (ev: PointerEvent): void => {
-		if (ev.pointerType !== 'mouse') {
+	readonly #anchorPointerenterEvent = (event: PointerEvent): void => {
+		if (event.pointerType !== 'mouse') {
 			return;
 		}
 
@@ -239,7 +192,7 @@ export default class extends HTMLElement {
 
 		this.#popoverTimeoutId = setTimeout(
 			(): void => {
-				this.#show(ev.type);
+				this.#showPopover(event.type);
 			},
 			parseDuration(this.#popoverDelayMouseenter ?? popoverDelayMouseenterDefault),
 		);
@@ -248,10 +201,10 @@ export default class extends HTMLElement {
 	/**
 	 * アンカーを pointerleave したときの処理
 	 *
-	 * @param ev - Event
+	 * @param event - Event
 	 */
-	readonly #anchorPointerleaveEvent = (ev: PointerEvent): void => {
-		if (ev.pointerType !== 'mouse') {
+	readonly #anchorPointerleaveEvent = (event: PointerEvent): void => {
+		if (event.pointerType !== 'mouse') {
 			return;
 		}
 
@@ -259,7 +212,7 @@ export default class extends HTMLElement {
 
 		this.#popoverTimeoutId = setTimeout(
 			(): void => {
-				this.#hide(ev.type);
+				this.#hidePopover(event.type);
 			},
 			parseDuration(this.#popoverDelayMouseleave ?? popoverDelayMouseleaveDefault),
 		);
@@ -268,10 +221,10 @@ export default class extends HTMLElement {
 	/**
 	 * ポップオーバーを pointerenter したときの処理
 	 *
-	 * @param ev - Event
+	 * @param event - Event
 	 */
-	readonly #popoverPointerenterEvent = (ev: PointerEvent): void => {
-		if (ev.pointerType !== 'mouse') {
+	readonly #popoverPointerenterEvent = (event: PointerEvent): void => {
+		if (event.pointerType !== 'mouse') {
 			return;
 		}
 
@@ -279,7 +232,7 @@ export default class extends HTMLElement {
 
 		this.#popoverTimeoutId = setTimeout(
 			(): void => {
-				this.#show(ev.type);
+				this.#showPopover(event.type);
 			},
 			parseDuration(this.#popoverDelayMouseenter ?? popoverDelayMouseenterDefault),
 		);
@@ -288,10 +241,10 @@ export default class extends HTMLElement {
 	/**
 	 * ポップオーバーを pointerleave したときの処理
 	 *
-	 * @param ev - Event
+	 * @param event - Event
 	 */
-	readonly #popoverPointerleaveEvent = (ev: PointerEvent): void => {
-		if (ev.pointerType !== 'mouse') {
+	readonly #popoverPointerleaveEvent = (event: PointerEvent): void => {
+		if (event.pointerType !== 'mouse') {
 			return;
 		}
 
@@ -299,7 +252,7 @@ export default class extends HTMLElement {
 
 		this.#popoverTimeoutId = setTimeout(
 			(): void => {
-				this.#hide(ev.type);
+				this.#hidePopover(event.type);
 			},
 			parseDuration(this.#popoverDelayMouseleave ?? popoverDelayMouseleaveDefault),
 		);
@@ -308,9 +261,9 @@ export default class extends HTMLElement {
 	/**
 	 * ポップオーバーを click したときの処理
 	 *
-	 * @param _ev - Event
+	 * @param _event - Event
 	 */
-	readonly #popoverClickEvent = (_ev: PointerEvent): void => {
+	readonly #popoverClickEvent = (_event: PointerEvent): void => {
 		clearTimeout(this.#popoverTimeoutId); // タッチデバイスで閉じるボタンをタップした際に `pointerenter` イベントの発火により表示処理が遅延実行されるのを防ぐ
 	};
 }

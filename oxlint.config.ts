@@ -115,12 +115,7 @@ export default defineConfig({
 		},
 		{
 			/* Custom elements */
-			files: [
-				'packages/footnote-reference-popover/src/custom-element/AnchorPopover.ts',
-				'packages/footnote-reference-popover/src/custom-element/Popover.ts',
-				'packages/input-file-preview/src/custom-element/InputFilePreview.ts',
-				'packages/tab/src/custom-element/Tab.ts',
-			],
+			files: ['packages/input-file-preview/src/custom-element/InputFilePreview.ts', 'packages/tab/src/custom-element/Tab.ts'],
 			rules: {
 				'typescript/no-non-null-assertion': 'off',
 			},
