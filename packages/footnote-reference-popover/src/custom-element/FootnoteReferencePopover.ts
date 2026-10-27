@@ -42,6 +42,7 @@ export default class extends HTMLElement {
 		const cssString = `
 			slot[name="anchor"]::slotted(:any-link) {
 				anchor-name: --footnote-reference;
+				cursor: default;
 			}
 
 			[part~="popover"] {

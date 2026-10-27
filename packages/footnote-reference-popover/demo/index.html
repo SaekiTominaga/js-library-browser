@@ -14,9 +14,15 @@
 				tab-size: 2;
 			}
 
-			[slot='anchor'] {
+			fn-ref > [slot='anchor'] {
 				vertical-align: super;
 				font-size: 80%;
+
+				&[role='button' i] {
+					&[aria-expanded='true' i] {
+						text-decoration-line: none;
+					}
+				}
 			}
 
 			.my-fnref {
