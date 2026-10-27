@@ -19,6 +19,16 @@
 				font-size: 80%;
 
 				&[role='button' i] {
+					&:link {
+						color: LinkText;
+						color: -webkit-link;
+					} /* Override `:active` color */
+
+					&:visited {
+						color: VisitedText;
+						color: -webkit-link;
+					} /* Override `:active` color */
+
 					&[aria-expanded='true' i] {
 						text-decoration-line: none;
 					}
