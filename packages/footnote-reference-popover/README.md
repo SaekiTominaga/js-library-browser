@@ -5,8 +5,7 @@
 
 ## Features
 
-- The overall behavior is similar to [Wikipedia footnotes](https://en.wikipedia.org/wiki/Help:Footnotes).
-- Automatically copies the HTML of footnotes on the page and displays them as popovers.
+- Automatically clones the HTML of footnotes in the web page and displays them as popovers.
   - Markup such as `<a href>` and `<code>` can be used in popovers. In other words, this is different from a tooltip.
 - A popover is displayed on hovering or clicking the anchor element.
 - Customizable delay time for showing and hiding for mouse operations.
