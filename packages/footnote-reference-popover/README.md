@@ -122,10 +122,6 @@ Therefore, you can customize the style using [`::part`](https://developer.mozill
 
 ```css
 .my-fnref {
-  &::part(anchor) {
-    ...
-  }
-
   &::part(popover) {
     ...
   }

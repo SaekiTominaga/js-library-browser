@@ -30,7 +30,7 @@ export default class extends HTMLElement {
 		super();
 
 		const htmlString = `
-			<slot name="anchor" part="anchor"></slot>
+			<slot name="anchor"></slot>
 			<div popover="" id="popover" part="popover">
 				<div part="popover__content"></div>
 				<button type="button" popovertarget="popover" popovertargetaction="hide" part="popover__hide">
@@ -40,7 +40,7 @@ export default class extends HTMLElement {
 		`;
 
 		const cssString = `
-			[part~="anchor"]::slotted(:any-link) {
+			slot[name="anchor"]::slotted(:any-link) {
 				anchor-name: --footnote-reference;
 			}
 
