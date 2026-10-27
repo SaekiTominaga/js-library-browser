@@ -1,4 +1,4 @@
-# Footnote reference popover
+# Display footnotes in a popover
 
 [![npm version](https://badge.fury.io/js/%40w0s%2Ffootnote-reference-popover.svg)](https://www.npmjs.com/package/@w0s/footnote-reference-popover)
 [![CI status](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/ci.yml/badge.svg)](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/ci.yml)
