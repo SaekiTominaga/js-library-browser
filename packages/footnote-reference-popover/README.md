@@ -10,6 +10,8 @@
   - Markup such as `<a href>` and `<code>` can be used in popovers. In other words, this is different from a tooltip.
 - A popover is displayed on hovering or clicking the anchor element.
 - Customizable delay time for showing and hiding for mouse operations.
+- This script using the concept of progressive enhancement.
+  - If JavaScript is not working (e.g., in older, unsupported browsers), the popover simply won't appear, but the links to the footnotes will still work thanks to the functionality of the HTML `<a>` element.
 
 ## Browser support
 
