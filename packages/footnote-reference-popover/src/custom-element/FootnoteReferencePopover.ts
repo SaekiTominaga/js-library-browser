@@ -10,6 +10,7 @@ export default class extends HTMLElement {
 	readonly #$popover: HTMLElement;
 	readonly #$popoverContent: HTMLElement;
 	readonly #$popoverHideButton: HTMLButtonElement;
+	readonly #$popoverHideButtonSlot: HTMLSlotElement;
 	#$anchor: HTMLAnchorElement | undefined;
 
 	/* Attributes */
@@ -32,7 +33,9 @@ export default class extends HTMLElement {
 			<slot name="anchor" part="anchor"></slot>
 			<div popover="" id="popover" part="popover">
 				<div part="popover__content"></div>
-				<button type="button" popovertarget="popover" popovertargetaction="hide" part="popover__hide"></button>
+				<button type="button" popovertarget="popover" popovertargetaction="hide" part="popover__hide">
+					<slot name="popover__hide">Close</slot>
+				</button>
 			</div>
 		`;
 
@@ -64,19 +67,21 @@ export default class extends HTMLElement {
 
 		this.#$anchorSlot = shadow.querySelector<HTMLSlotElement>('slot[name="anchor"]')!;
 		this.#$popover = shadow.querySelector<HTMLElement>('#popover')!;
-		this.#$popoverContent = shadow.querySelector<HTMLElement>('[part~=popover__content]')!;
-		this.#$popoverHideButton = shadow.querySelector<HTMLButtonElement>('[part~=popover__hide]')!;
+		this.#$popoverContent = shadow.querySelector<HTMLElement>('[part~="popover__content"]')!;
+		this.#$popoverHideButton = shadow.querySelector<HTMLButtonElement>('[part~="popover__hide"]')!;
+		this.#$popoverHideButtonSlot = shadow.querySelector<HTMLSlotElement>('slot[name="popover__hide"]')!;
 	}
 
 	connectedCallback(): void {
+		const $anchor = this.#$anchorSlot.assignedNodes().at(0);
+		if ($anchor === undefined) {
+			throw new Error('Element `[slot=anchor]` not found');
+		}
+		if (!($anchor instanceof HTMLAnchorElement)) {
+			throw new TypeError('Element `[slot=anchor]` must be a `<a>` element');
+		}
+
 		{
-			const $anchor = this.#$anchorSlot.assignedNodes().at(0);
-			if ($anchor === undefined) {
-				throw new Error('Element `[slot=anchor]` not found');
-			}
-			if (!($anchor instanceof HTMLAnchorElement)) {
-				throw new TypeError('Element `[slot=anchor]` must be a `<a>` element');
-			}
 			$anchor.role = 'button';
 			$anchor.ariaExpanded = 'false'; // popovertarget's mapping <https://www.w3.org/TR/html-aam-1.0/#att-popovertarget>
 			this.#$anchor = $anchor;
@@ -102,16 +107,22 @@ export default class extends HTMLElement {
 		}
 
 		{
-			this.#$popoverContent.setHTMLUnsafe(getFootnote(this.querySelector('[slot="anchor"]'), { ignoreSelectors: this.#ignoreSelectors }).innerHTML);
+			const $footnote = getFootnote($anchor, {
+				ignoreSelectors: this.#ignoreSelectors,
+			});
+
+			this.#$popoverContent.append(...$footnote.childNodes);
 		}
 
 		{
-			const $popoverHideButton = this.querySelector('[slot="popover__hide"]');
-			if ($popoverHideButton !== null && !($popoverHideButton instanceof HTMLTemplateElement)) {
-				throw new TypeError('Element `[slot=popover__hide]` must be a `<template>` element');
-			}
+			const $popoverHideButton = this.#$popoverHideButtonSlot.assignedNodes().at(0);
+			if ($popoverHideButton !== undefined) {
+				if (!($popoverHideButton instanceof HTMLTemplateElement)) {
+					throw new TypeError('Element `[slot=popover__hide]` must be a `<template>` element');
+				}
 
-			this.#$popoverHideButton.append($popoverHideButton?.content ?? 'Close');
+				this.#$popoverHideButton.append($popoverHideButton.content);
+			}
 		}
 	}
 

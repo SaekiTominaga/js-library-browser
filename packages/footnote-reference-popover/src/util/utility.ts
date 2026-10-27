@@ -8,19 +8,11 @@
  * @returns Footnote element
  */
 const getFootnote = (
-	$anchor: HTMLElement | null,
+	$anchor: HTMLAnchorElement,
 	option?: Readonly<{
 		ignoreSelectors?: string | undefined;
 	}>,
 ): HTMLElement => {
-	if ($anchor === null) {
-		throw new Error('Anchor element not found');
-	}
-
-	if (!($anchor instanceof HTMLAnchorElement)) {
-		throw new TypeError('The element must be a `<a>` element');
-	}
-
 	if ($anchor.href === '') {
 		throw new TypeError('The `href` attribute is not set');
 	}

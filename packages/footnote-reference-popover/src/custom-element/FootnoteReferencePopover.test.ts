@@ -115,7 +115,7 @@ describe('popover hide button', () => {
 
 		const $popoverHideButton = document.querySelector('fn-ref')!.shadowRoot?.querySelector<HTMLButtonElement>('[part~=popover__hide]');
 
-		expect($popoverHideButton?.innerHTML).toBe('Close');
+		expect($popoverHideButton?.innerHTML.trim()).toBe('<slot name="popover__hide">Close</slot>');
 	});
 
 	test('element name mismatch', () => {
@@ -156,6 +156,8 @@ describe('popover hide button', () => {
 
 		const $popoverHideButton = document.querySelector('fn-ref')!.shadowRoot?.querySelector<HTMLButtonElement>('[part~=popover__hide]');
 
-		expect($popoverHideButton?.innerHTML.trim()).toBe('<img src="popover-close.svg" alt="Close" width="12" height="12">');
+		expect($popoverHideButton?.innerHTML.trim()).toMatch(
+			/<slot name="popover__hide">Close<\/slot>\n\t+\n\t+<img src="popover-close.svg" alt="Close" width="12" height="12">/u,
+		);
 	});
 });
