@@ -67,7 +67,7 @@ export default class extends HTMLElement {
 		{
 			const $anchor = this.#shadow.querySelector<HTMLSlotElement>('slot[name="anchor"]')!.assignedNodes().at(0);
 			if (!($anchor instanceof HTMLAnchorElement)) {
-				throw new TypeError('');
+				throw new TypeError('The element with `slot=anchor` set must be a `<a>` element');
 			}
 			this.#$anchor = $anchor;
 
