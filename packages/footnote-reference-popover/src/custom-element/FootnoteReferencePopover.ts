@@ -40,9 +40,8 @@ export default class extends HTMLElement {
 		`;
 
 		const cssString = `
-			[part~="anchor"] {
+			[part~="anchor"]::slotted(:any-link) {
 				anchor-name: --footnote-reference;
-				display: unset;
 			}
 
 			[part~="popover"] {
