@@ -44,7 +44,7 @@ Using the CSS anchor positioning. ([Can I use...](https://caniuse.com/css-anchor
   <a href="#fn-1" slot="anchor">[1]</a>
 </fn-ref>
 
-<fn-ref ignore=".backref" popover-delay-mouseenter="200ms" popover-delay-mouseleave="1s">
+<fn-ref ignore=".backref" popover-label="Footnote content" popover-delay-mouseenter="200ms" popover-delay-mouseleave="1s">
   <a href="#fn-2" id="fnref-2" slot="anchor">[Note2]</a>
   <template slot="popover__hide">
     <img src="popover-close.svg" alt="Close" width="18" height="18" />
@@ -62,6 +62,10 @@ Using the CSS anchor positioning. ([Can I use...](https://caniuse.com/css-anchor
   <div>
     <dt><code>ignore</code> [optional]</dt>
     <dd>Selectors string for elements to ignore from the popover. For example, if a footnote contains a “Back” link, it should not be displayed in the popover.</dd>
+  </div>
+  <div>
+    <dt><code>popover-label</code> [optional]</dt>
+    <dd>Label to be set on popover (<code>aria-label</code> attribute value).</dd>
   </div>
   <div>
     <dt><code>popover-delay-mouseenter</code> [optional]</dt>

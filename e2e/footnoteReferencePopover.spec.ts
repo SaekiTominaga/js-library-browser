@@ -15,8 +15,33 @@ test.afterEach(async ({ page }) => {
 });
 
 test.describe('init', () => {
-	test('anchor element role', async ({ page }) => {
-		await expect(page.getByRole('button', { name: '[1]' })).toHaveAttribute('role', 'button');
+	test('anchor element attributes', async ({ page }) => {
+		const anchor = page.getByRole('button', { name: '[1]' });
+
+		await Promise.all([expect(anchor).toHaveAttribute('role', 'button'), expect(anchor).toHaveAttribute('aria-expanded', 'false')]);
+	});
+
+	test('popover element no aria-label', async ({ page }) => {
+		const section = page.locator('section').filter({ hasText: 'Required attributes, elements only' });
+		const popover = section.locator('fn-ref [popover]').nth(0);
+
+		await expect(popover).not.toHaveAttribute('aria-label');
+	});
+
+	test('popover element aria-label', async ({ page }) => {
+		const section = page.locator('section').filter({ hasText: 'All attributes, elements & Style customization' });
+		const popover = section.locator('fn-ref [popover]').nth(0);
+
+		await expect(popover).toHaveAttribute('aria-label', 'Footnote content');
+	});
+
+	test('popover element data-*', async ({ page }) => {
+		const popover = page.locator('fn-ref [popover]').nth(0);
+
+		await Promise.all([
+			expect(popover).toHaveAttribute('data-anchor-width', /[0-9]+(\.[0-9]{1,3})?/u),
+			expect(popover).toHaveAttribute('data-anchor-height', /[0-9]+(\.[0-9]{1,3})?/u),
+		]);
 	});
 });
 
@@ -26,15 +51,15 @@ test.describe('show & hide', () => {
 		const anchor = section.getByRole('button', { name: '[1]' });
 		const popover = section.locator('fn-ref [popover]').nth(0);
 
-		await expect(popover).toBeHidden();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'false'), expect(popover).toBeHidden()]);
 
 		await anchor.focus();
 
-		await expect(popover).toBeHidden();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'false'), expect(popover).toBeHidden()]);
 
 		await anchor.click();
 
-		await expect(popover).toBeVisible();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'true'), expect(popover).toBeVisible()]);
 	});
 
 	test('pointerenter → pointerleave', async ({ page }) => {
@@ -42,23 +67,23 @@ test.describe('show & hide', () => {
 		const anchor = section.getByRole('button', { name: '[1]' });
 		const popover = section.locator('fn-ref [popover]').nth(0);
 
-		await expect(popover).toBeHidden();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'false'), expect(popover).toBeHidden()]);
 
 		await anchor.hover();
 
-		await expect(popover).toBeHidden();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'false'), expect(popover).toBeHidden()]);
 
 		await sleep(100);
 
-		await expect(popover).toBeVisible();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'true'), expect(popover).toBeVisible()]);
 
 		await section.hover();
 
-		await expect(popover).toBeVisible();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'true'), expect(popover).toBeVisible()]);
 
 		await sleep(500);
 
-		await expect(popover).toBeHidden();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'false'), expect(popover).toBeHidden()]);
 	});
 
 	test('pointerenter → pointerleave (delay)', async ({ page }) => {
@@ -69,23 +94,23 @@ test.describe('show & hide', () => {
 		await anchor.hover();
 		await sleep(100);
 
-		await expect(popover).toBeHidden();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'false'), expect(popover).toBeHidden()]);
 
 		await sleep(200 - 100);
 
-		await expect(popover).toBeVisible();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'true'), expect(popover).toBeVisible()]);
 
 		await section.hover();
 
-		await expect(popover).toBeVisible();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'true'), expect(popover).toBeVisible()]);
 
 		await sleep(500);
 
-		await expect(popover).toBeVisible();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'true'), expect(popover).toBeVisible()]);
 
 		await sleep(1000 - 500);
 
-		await expect(popover).toBeHidden();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'false'), expect(popover).toBeHidden()]);
 	});
 
 	test('pointerleave → popover pointerenter → popover pointerleave', async ({ page }) => {
@@ -99,15 +124,15 @@ test.describe('show & hide', () => {
 		await popover.hover(); // アンカー要素からカーソルを離してすぐにポップオーバーへ移動する
 		await sleep(100);
 
-		await expect(popover).toBeVisible();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'true'), expect(popover).toBeVisible()]);
 
 		await section.hover();
 
-		await expect(popover).toBeVisible();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'true'), expect(popover).toBeVisible()]);
 
 		await sleep(500);
 
-		await expect(popover).toBeHidden();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'false'), expect(popover).toBeHidden()]);
 	});
 
 	test('hide button', async ({ page }) => {
@@ -118,7 +143,7 @@ test.describe('show & hide', () => {
 		await anchor.click();
 		await popover.getByRole('button', { name: 'Close' }).click();
 
-		await expect(popover).toBeHidden();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'false'), expect(popover).toBeHidden()]);
 	});
 
 	test('Esc', async ({ page }) => {
@@ -130,10 +155,10 @@ test.describe('show & hide', () => {
 
 		await page.keyboard.press('1');
 
-		await expect(popover).toBeVisible();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'true'), expect(popover).toBeVisible()]);
 
 		await page.keyboard.press('Escape');
 
-		await expect(popover).toBeHidden();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'false'), expect(popover).toBeHidden()]);
 	});
 });
