@@ -36,7 +36,7 @@ describe('attributeChangedCallback', () => {
 
 	test('tablist-label', () => {
 		const $tab = document.querySelector<Tab>('my-tab')!;
-		const $tablist = $tab.shadowRoot?.querySelector<HTMLElement>('[part=tablist]');
+		const $tablist = $tab.shadowRoot?.querySelector<HTMLElement>('[part~="tablist"]');
 
 		expect($tab.tablistLabel).toBeNull();
 		expect($tablist?.ariaLabel).toBeNull();
