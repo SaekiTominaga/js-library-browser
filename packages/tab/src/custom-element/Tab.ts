@@ -4,7 +4,7 @@
 export default class Tab extends HTMLElement {
 	readonly #mySessionStorage: Storage | undefined;
 
-	readonly #tablistElement: HTMLElement | undefined;
+	readonly #tablistElement: HTMLElement;
 
 	readonly #tabElements: readonly HTMLAnchorElement[] = [];
 
@@ -20,11 +20,6 @@ export default class Tab extends HTMLElement {
 
 	constructor() {
 		super();
-
-		if (!('ariaControlsElements' in Element.prototype)) {
-			console.info('This browser does not support `ariaControlsElements` property.');
-			return;
-		}
 
 		try {
 			this.#mySessionStorage = sessionStorage;
@@ -46,7 +41,7 @@ export default class Tab extends HTMLElement {
 				display: block flow;
 			}
 
-			:host::part(tablist) {
+			[part~="tablist"] {
 				display: block flex;
 				align-items: flex-end;
 			}
@@ -75,9 +70,7 @@ export default class Tab extends HTMLElement {
 
 	connectedCallback(): void {
 		const { tablistLabel } = this;
-		if (this.#tablistElement !== undefined) {
-			this.#tablistElement.ariaLabel = tablistLabel;
-		}
+		this.#tablistElement.ariaLabel = tablistLabel;
 
 		this.#tabElements.forEach((tabElement): void => {
 			const { href } = tabElement;
@@ -138,10 +131,7 @@ export default class Tab extends HTMLElement {
 	attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null): void {
 		switch (name) {
 			case 'tablist-label': {
-				if (this.#tablistElement !== undefined) {
-					this.#tablistElement.ariaLabel = newValue;
-				}
-
+				this.#tablistElement.ariaLabel = newValue;
 				break;
 			}
 			case 'storage-key': {

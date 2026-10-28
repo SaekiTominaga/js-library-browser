@@ -6,7 +6,7 @@
 		<title>`tab` Demo</title>
 
 		<style>
-			x-tab {
+			my-tab {
 				--tab-border-width: 1px;
 				--tab-border-color: #ccc;
 				--tab-bgcolor: #f8f8f8;
@@ -60,9 +60,9 @@
 			}
 		</script>
 		<script type="module">
-			import Tab from '@w0s/tab';
+			import tab from '@w0s/tab';
 
-			customElements.define('x-tab', Tab);
+			tab('my-tab');
 		</script>
 	</head>
 	<body>
@@ -78,7 +78,7 @@
 		<section>
 			<h2>no attribute</h2>
 
-			<pre><code>&lt;x-tab&gt;
+			<pre><code>&lt;my-tab&gt;
   &lt;a href="#tabpanel1-1" slot="tab"&gt;Tab 1-1&lt;/a&gt;
   &lt;a href="#tabpanel1-2" slot="tab"&gt;Tab 1-2&lt;/a&gt;
   &lt;a href="#tabpanel1-3" slot="tab"&gt;Tab 1-3&lt;/a&gt;
@@ -91,22 +91,22 @@
   &lt;div slot="tabpanel" id="tabpanel1-3"&gt;
     Contents of tabpanel 1-3 &lt;button type="button"&gt;Focusable element&lt;/button&gt;
   &lt;/div&gt;
-&lt;/x-tab&gt;</code></pre>
+&lt;/my-tab&gt;</code></pre>
 
-			<x-tab>
+			<my-tab>
 				<a href="#tabpanel1-1" slot="tab">Tab 1-1</a>
 				<a href="#tabpanel1-2" slot="tab">Tab 1-2</a>
 				<a href="#tabpanel1-3" slot="tab">Tab 1-3</a>
 				<div slot="tabpanel" id="tabpanel1-1">Contents of tabpanel 1-1 <button type="button">Focusable element</button></div>
 				<div slot="tabpanel" id="tabpanel1-2">Contents of tabpanel 1-2 <button type="button">Focusable element</button></div>
 				<div slot="tabpanel" id="tabpanel1-3">Contents of tabpanel 1-3 <button type="button">Focusable element</button></div>
-			</x-tab>
+			</my-tab>
 		</section>
 
 		<section>
 			<h2><code>tablist-label</code> attribute</h2>
 
-			<pre><code>&lt;x-tab tablist-label="Tab label"&gt;
+			<pre><code>&lt;my-tab tablist-label="Tab label"&gt;
   &lt;a href="#tabpanel2-1" slot="tab"&gt;Tab 2-1&lt;/a&gt;
   &lt;a href="#tabpanel2-2" slot="tab"&gt;Tab 2-2&lt;/a&gt;
   &lt;a href="#tabpanel2-3" slot="tab"&gt;Tab 2-3&lt;/a&gt;
@@ -119,22 +119,22 @@
   &lt;div slot="tabpanel" id="tabpanel2-3"&gt;
     Contents of tabpanel 2-3
   &lt;/div&gt;
-&lt;/x-tab&gt;</code></pre>
+&lt;/my-tab&gt;</code></pre>
 
-			<x-tab tablist-label="Tab label">
+			<my-tab tablist-label="Tab label">
 				<a href="#tabpanel2-1" slot="tab">Tab 2-1</a>
 				<a href="#tabpanel2-2" slot="tab">Tab 2-2</a>
 				<a href="#tabpanel2-3" slot="tab">Tab 2-3</a>
 				<div slot="tabpanel" id="tabpanel2-1">Contents of tabpanel 2-1</div>
 				<div slot="tabpanel" id="tabpanel2-2">Contents of tabpanel 2-2</div>
 				<div slot="tabpanel" id="tabpanel2-3">Contents of tabpanel 2-3</div>
-			</x-tab>
+			</my-tab>
 		</section>
 
 		<section>
 			<h2><code>storage-key</code> attribute</h2>
 
-			<pre><code>&lt;x-tab storage-key="tab3"&gt;
+			<pre><code>&lt;my-tab storage-key="tab3"&gt;
   &lt;a href="#tabpanel3-1" slot="tab"&gt;Tab 3-1&lt;/a&gt;
   &lt;a href="#tabpanel3-2" slot="tab"&gt;Tab 3-2&lt;/a&gt;
   &lt;a href="#tabpanel3-3" slot="tab"&gt;Tab 3-3&lt;/a&gt;
@@ -147,16 +147,16 @@
   &lt;div slot="tabpanel" id="tabpanel3-3"&gt;
     Contents of tabpanel 3-3
   &lt;/div&gt;
-&lt;/x-tab&gt;</code></pre>
+&lt;/my-tab&gt;</code></pre>
 
-			<x-tab storage-key="tab3">
+			<my-tab storage-key="tab3">
 				<a href="#tabpanel3-1" slot="tab">Tab 3-1</a>
 				<a href="#tabpanel3-2" slot="tab">Tab 3-2</a>
 				<a href="#tabpanel3-3" slot="tab">Tab 3-3</a>
 				<div slot="tabpanel" id="tabpanel3-1">Contents of tabpanel 3-1</div>
 				<div slot="tabpanel" id="tabpanel3-2">Contents of tabpanel 3-2</div>
 				<div slot="tabpanel" id="tabpanel3-3">Contents of tabpanel 3-3</div>
-			</x-tab>
+			</my-tab>
 		</section>
 	</body>
 </html>
