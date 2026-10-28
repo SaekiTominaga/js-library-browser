@@ -2,14 +2,11 @@ import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, jest, tes
 import type { SpiedFunction } from 'jest-mock';
 import index from './index.ts';
 
-describe('browser support popover', () => {
-	let tempShowPopover: () => void;
+describe('browser support CSS anchor positioning', () => {
 	let consoleInfoSpy: SpiedFunction;
 
 	beforeAll(() => {
-		tempShowPopover = HTMLElement.prototype.showPopover.bind(HTMLElement);
-		// @ts-expect-error: ts(2790)
-		delete HTMLElement.prototype.showPopover;
+		CSS.supports = () => false;
 	});
 
 	beforeEach(() => {
@@ -21,63 +18,12 @@ describe('browser support popover', () => {
 	});
 
 	afterAll(() => {
-		HTMLElement.prototype.showPopover = tempShowPopover;
+		CSS.supports = () => true;
 	});
 
 	test('not support', () => {
-		index(null);
+		index('');
 
-		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support popover.');
+		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support CSS anchor positioning.');
 	});
-});
-
-describe('argument type', () => {
-	beforeAll(() => {
-		document.body.innerHTML = `
-<a href="#footnote" class="footnote-reference-popover" id="footnote-reference-popover"></a>
-<p id="footnote"></p>
-`;
-	});
-
-	test('getElementById', () => {
-		expect(() => {
-			index(document.getElementById('footnote-reference-popover'));
-		}).not.toThrow();
-	});
-
-	test('getElementsByClassName', () => {
-		expect(() => {
-			index(document.getElementsByClassName('footnote-reference-popover'));
-		}).not.toThrow();
-	});
-
-	test('getElementsByTagName', () => {
-		expect(() => {
-			index(document.getElementsByTagName('a'));
-		}).not.toThrow();
-	});
-
-	test('querySelector', () => {
-		expect(() => {
-			index(document.querySelector('#footnote-reference-popover'));
-		}).not.toThrow();
-	});
-
-	test('querySelectorAll', () => {
-		expect(() => {
-			index(document.querySelectorAll('.footnote-reference-popover'));
-		}).not.toThrow();
-	});
-
-	test('null', () => {
-		expect(() => {
-			index(document.querySelector('.foo'));
-		}).not.toThrow();
-	});
-});
-
-test('type mismatch', () => {
-	expect(() => {
-		index(document.createElement('p'));
-	}).toThrow(new Error('Element must be a `HTMLAnchorElement`'));
 });

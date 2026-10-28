@@ -1,6 +1,7 @@
-/* CSS: escape() <https://github.com/jsdom/jsdom/releases/tag/v30.0.0> */
+/* CSS: escape() / supports() <https://github.com/jsdom/jsdom/releases/tag/v30.0.0> */
 globalThis.CSS = {};
-CSS.escape = (ident) => ident;
+CSS.escape = (str) => str;
+CSS.supports = () => true;
 
 /* CSSStyleSheet: replaceSync() <https://github.com/jsdom/jsdom/issues/3766> */
 CSSStyleSheet.prototype.replaceSync = () => {};
@@ -20,6 +21,14 @@ HTMLElement.prototype.showPopover = () => {};
 HTMLDialogElement.prototype.close = () => {};
 HTMLDialogElement.prototype.show = () => {};
 HTMLDialogElement.prototype.showModal = () => {};
+
+/* Element / ShadowRoot: setHTMLUnsafe() */
+Element.prototype.setHTMLUnsafe = function setHTMLUnsafe(html) {
+	this.innerHTML = html;
+};
+ShadowRoot.prototype.setHTMLUnsafe = function setHTMLUnsafe(html) {
+	this.innerHTML = html;
+};
 
 /* ShadowRoot: adoptedStyleSheets <https://github.com/jsdom/jsdom/issues/3444> */
 Object.defineProperty(ShadowRoot.prototype, 'adoptedStyleSheets', {

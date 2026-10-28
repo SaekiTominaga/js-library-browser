@@ -1,26 +1,25 @@
-# Footnote reference popover
+# Display footnotes in a popover
 
 [![npm version](https://badge.fury.io/js/%40w0s%2Ffootnote-reference-popover.svg)](https://www.npmjs.com/package/@w0s/footnote-reference-popover)
 [![CI status](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/ci.yml/badge.svg)](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/ci.yml)
 
 ## Features
 
-- The overall behavior is similar to [Wikipedia footnotes](https://en.wikipedia.org/wiki/Help:Footnotes).
-- Automatically copies the HTML of footnotes on the page and displays them as popovers.
-  - Markup such as `<a href>` and `<code>` can be used in popovers.
-  - However, `id` attributes inside footnote are removed. This is to prevent duplicate IDs from existing in the document.
-- A popover is displayed on hovering or clicking the trigger element.
-  - The popover is generated the first time a request is made to display the popover, not when the web page loads. This minimizes DOM processing at load time when a large number of popovers are embedded in the page.
+- Automatically clones the HTML of footnotes in the web page and displays them as popovers.
+  - Markup such as `<a href>` and `<code>` can be used in popovers. In other words, this is different from a tooltip.
+- A popover is displayed on hovering or clicking the anchor element.
 - Customizable delay time for showing and hiding for mouse operations.
+- This script using the concept of progressive enhancement.
+  - If JavaScript is not working (e.g., in older, unsupported browsers), the popover simply won't appear, but the links to the footnotes will still work thanks to the functionality of the HTML `<a>` element.
 
 ## Browser support
 
-Using the Popover feature. ([Can I use...](https://caniuse.com/wf-popover))
+Using the CSS anchor positioning. ([Can I use...](https://caniuse.com/css-anchor-positioning))
 
-- Firefox 125+
-- Safari 17.0+
-- Chrome 116+
-- Edge 116+
+- Firefox 147+
+- Safari 26.0+
+- Chrome 125+
+- Edge 125+
 
 ## Demo
 
@@ -39,57 +38,57 @@ Using the Popover feature. ([Can I use...](https://caniuse.com/wf-popover))
 <script type="module">
   import footnoteReferencePopover from '@w0s/footnote-reference-popover';
 
-  footnoteReferencePopover(document.querySelectorAll('.js-footnote-reference-popover')); // `getElementById()` or `getElementsByClassName()` or `getElementsByTagName()` or `querySelector()` or `querySelectorAll()`
+  footnoteReferencePopover('fn-ref'); // Specify the name of a custom element
 </script>
 
-<a class="js-footnote-reference-popover" href="#fn-1">[1]</a>
+<fn-ref>
+  <a href="#fn-1" slot="anchor">[1]</a>
+</fn-ref>
 
-<a
-  class="js-footnote-reference-popover"
-  id="fnref-2"
-  href="#fn-2"
-  data-ignore=".backref"
-  data-popover-label="Note"
-  data-popover-class="my-popover"
-  data-popover-hide-text="Popover Close"
-  data-popover-hide-image-src="./popover-close.svg"
-  data-popover-hide-image-width="18"
-  data-popover-hide-image-height="18"
-  data-mouseenter-delay="1000"
-  data-mouseleave-delay="1000"
-  >[2]</a
->
+<fn-ref ignore=".backref" popover-label="Footnote content" popover-delay-mouseenter="200ms" popover-delay-mouseleave="1s">
+  <a href="#fn-2" id="fnref-2" slot="anchor">[Note2]</a>
+  <template slot="popover__hide">
+    <img src="popover-close.svg" alt="Close" width="18" height="18" />
+  </template>
+</fn-ref>
 
 <p id="fn-1">Footnote1 text.</p>
 
 <p id="fn-2">Footnote2 <a href="#">link</a> text. <a href="#fnref-2" class="backref">↩ Back</a></p>
 ```
 
-\* **`@w0s/shadow-append-css` is no longer required since version 7.3**
-
 ## HTML attributes
 
 <dl>
-<dt><code>href</code> [required]</dt>
-<dd>URL hash value of the element that contains the content to be displayed in the popover. (e.g. <code>#fn-1</code> )</dd>
-<dt><code>data-ignore</code> [optional]</dt>
-<dd>Selectors string for elements to ignore from the popover. For example, if a footnote contains a “Back” link, it should not be displayed in the popover.</dd>
-<dt><code>data-popover-label</code> [optional]</dt>
-<dd>Label to be set on popover (<code>aria-label</code> attribute value).</dd>
-<dt><code>data-popover-class</code> [optional]</dt>
-<dd>Set the class name (<code>class</code> attribute value) on the popover element. It is mainly used to customize the appearance with CSS.</dd>
-<dt><code>data-popover-hide-text</code> [optional]</dt>
-<dd>The text of the close button in the popover. If omitted, the default value is 'Close'.</dd>
-<dt><code>data-popover-hide-image-src</code> [optional]</dt>
-<dd>The address of the image resource for the close button in the popover.</dd>
-<dt><code>data-popover-hide-image-width</code> [optional]</dt>
-<dd>The width of the image resource for the close button in the popover.</dd>
-<dt><code>data-popover-hide-image-height</code> [optional]</dt>
-<dd>The height of the image resource for the close button in the popover.</dd>
-<dt><code>data-mouseenter-delay</code> [optional]</dt>
-<dd>Delay time between mouse cursor moved within the trigger element and showing the popover (milliseconds). If omitted, the default value is '250'.</dd>
-<dt><code>data-mouseleave-delay</code> [optional]</dt>
-<dd>Delay time between mouse cursor moved out of the trigger element or popover and closing the popover (milliseconds). If omitted, the default value is '250'.</dd>
+  <div>
+    <dt><code>ignore</code> [optional]</dt>
+    <dd>Selectors string for elements to ignore from the popover. For example, if a footnote contains a “Back” link, it should not be displayed in the popover.</dd>
+  </div>
+  <div>
+    <dt><code>popover-label</code> [optional]</dt>
+    <dd>Label to be set on popover (<code>aria-label</code> attribute value).</dd>
+  </div>
+  <div>
+    <dt><code>popover-delay-mouseenter</code> [optional]</dt>
+    <dd>Delay time between mouse cursor moved within the anchor element and showing the popover. If omitted, the default value is '100ms'.</dd>
+  </div>
+  <div>
+    <dt><code>popover-delay-mouseleave</code> [optional]</dt>
+    <dd>Delay time between mouse cursor moved out of the anchor element or popover and closing the popover. If omitted, the default value is '500ms'.</dd>
+  </div>
+</dl>
+
+## Slots in custom elements
+
+<dl>
+  <div>
+    <dt><code>slot=anchor</code> [required]</dt>
+    <dd>An anchor element that references a footnote.</dd>
+  </div>
+  <div>
+    <dt><code>slot=popover__hide</code> [optional]</dt>
+    <dd>A <code>&lt;template&gt;</code> element that contains elements representing the interior of the popover's close button. If omitted, it becomes a text labeled 'Close'.</dd>
+  </div>
 </dl>
 
 ## Style customization
@@ -97,44 +96,40 @@ Using the Popover feature. ([Can I use...](https://caniuse.com/wf-popover))
 The popover markup looks like this.
 
 ```html
-<a
-  class="js-footnote-reference-popover"
-  href="#fn"
-  data-popover-label="Note"
-  data-popover-class="my-popover"
-  data-popover-hide-text="Popover Close"
-  data-popover-hide-image-src="./popover-close.svg"
-  data-popover-hide-image-width="18"
-  data-popover-hide-image-height="18"
-  >[1]</a
->
+<fn-ref>
+  <a href="#fn" slot="anchor">[1]</a>
+  <template slot="popover__hide">
+    <img src="popover-close.svg" alt="Close" width="18" height="18" />
+  </template>
+</fn-ref>
 
-<x-popover popover="" aria-label="Note" class="my-popover">
+↓
+
+<fn-ref>
   #shadow-root (open)
-  <span id="first-focusable" tabindex="0"></span>
-
-  <div tabindex="-1" part="content">
-    <slot>...</slot>
-
-    <button type="button" popovertarget="" popovertargetaction="hide" part="hide-button">
-      <span part="hide-button-text" hidden="">Popover Close</span>
-      <img part="hide-button-image" src="./popover-close.svg" alt="Popover Close" width="18" height="18" />
+  <sup><slot name="anchor" part="anchor"></slot></sup>
+  <div popover="" id="popover" part="popover">
+    <div part="popover__content">...</div>
+    <button type="button" popovertarget="popover" popovertargetaction="hide" part="popover__hide">
+      <img src="popover-close.svg" alt="Close" width="18" height="18" />
     </button>
   </div>
-
-  <span id="last-focusable" tabindex="0"></span>
-</x-popover>
+</fn-ref>
 ```
 
 Therefore, you can customize the style using [`::part`](https://developer.mozilla.org/en-US/docs/Web/CSS/::part) CSS pseudo-element.
 
 ```css
-.my-popover {
-  &::part(content) {
+.my-fnref {
+  &::part(popover) {
     ...
   }
 
-  &::part(hide-button) {
+  &::part(popover__content) {
+    ...
+  }
+
+  &::part(popover__hide) {
     ...
   }
 }

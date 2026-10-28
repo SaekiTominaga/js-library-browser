@@ -6,40 +6,100 @@
 		<title>`footnote-reference-popover` Demo</title>
 
 		<style>
-			.my-popover {
-				--popover-hide-button-image-size: 18px;
-				--popover-hide-button-padding: 10px;
+			pre {
+				overflow-inline: auto;
+			}
 
-				&::part(content) {
-					border: 1px solid #666;
-					border-radius: 0.25em;
-					box-shadow: 0 0 5px #ccc;
-					background-color: #fff;
-					padding: 10px;
+			code {
+				tab-size: 2;
+			}
+
+			fn-ref > [slot='anchor'] {
+				vertical-align: super;
+				font-size: 80%;
+
+				&[role='button' i] {
+					&:link {
+						color: LinkText;
+						color: -webkit-link;
+					} /* Override `:active` color */
+
+					&:visited {
+						color: VisitedText;
+						color: -webkit-link;
+					} /* Override `:active` color */
+
+					&[aria-expanded='true' i] {
+						text-decoration-line: none;
+					}
+				}
+			}
+
+			.my-fnref {
+				&::part(popover) {
+					--tail-block-size: 9px;
+					--tail-inline-size: 16px;
+					--tail-inline-start: 0.5em;
+					--content-inset: 0.5em;
+
+					margin: unset;
+					border: unset;
+					background-color: unset;
+					padding: unset;
 					max-inline-size: min(20em, 100%);
-					color: #000;
+					overflow: unset;
+					color: unset;
+
+					@supports (container-type: anchored) {
+						--content-inset: calc(var(--tail-block-size) - 1px);
+
+						inset-inline-start: calc(0px - var(--tail-inline-start));
+					}
 				}
 
-				&::part(content)::before {
-					display: block flow;
-					float: inline-end;
-					block-size: calc(var(--popover-hide-button-image-size) + var(--popover-hide-button-padding) * 2);
-					inline-size: calc(var(--popover-hide-button-image-size) + var(--popover-hide-button-padding) * 2);
-					content: '';
+				&::part(popover)::before {
+					@supports (container-type: anchored) {
+						position: absolute;
+						block-size: var(--tail-block-size);
+						inline-size: var(--tail-inline-size);
+						line-height: 0;
+						content: url('tail.svg');
+
+						@container anchored(fallback: none) {
+							inset-inline-start: calc(var(--tail-inline-start) - var(--tail-inline-size) / 2 + attr(data-anchor-width px) / 2);
+						}
+
+						@container anchored(fallback: flip-inline) {
+							inset-inline-end: calc(var(--tail-inline-start) - var(--tail-inline-size) / 2 + attr(data-anchor-width px) / 2);
+						}
+					}
 				}
 
-				&::part(hide-button) {
+				&::part(popover__content) {
+					margin-block-start: var(--content-inset);
+					border: 1px solid oklch(calc(100% - 100% / 2) 0 0deg);
+					border-radius: 0.25em;
+					box-shadow: 0 0 5px oklch(calc(100% - 100% / 8) 0 0deg);
+					background-color: oklch(100% 0 0deg);
+					padding: 18px;
+					color: oklch(0% 0 0deg);
+				}
+
+				&::part(popover__hide) {
+					display: inline flex;
 					position: absolute;
 					inset-block-start: 1px;
 					inset-inline-end: 1px;
+					flex-wrap: wrap;
+					margin-block-start: var(--content-inset);
 					border: none;
 					border-radius: 0.25em;
 					background-color: transparent;
-					padding: var(--popover-hide-button-padding);
+					padding: 6px;
 				}
 
-				&::part(hide-button):hover {
-					background-color: #eee;
+				&::part(popover__hide):hover {
+					background-color: oklch(calc(100% - 100% / 8) 0 0deg / 50%);
 				}
 			}
 
@@ -48,7 +108,7 @@
 				grid-template-columns: auto 1fr;
 				gap: 1em 0.5em;
 				margin-block-start: 5em;
-				border-block-start: 1px solid #ccc;
+				border-block-start: 1px solid oklch(calc(100% - 100% / 4) 0 0deg);
 				padding-block-start: 1em;
 			}
 
@@ -75,59 +135,46 @@
 		<script type="module">
 			import footnoteReferencePopover from '@w0s/footnote-reference-popover';
 
-			footnoteReferencePopover(document.querySelectorAll('.js-footnote-reference-popover'));
+			footnoteReferencePopover('fn-ref');
 		</script>
 	</head>
 	<body>
 		<h1><code>footnote-reference-popover</code> Demo</h1>
 
 		<section>
-			<h2>Required attributes only</h2>
+			<h2>Required attributes, elements only</h2>
 
-			<pre><code>&lt;a class="js-footnote-reference-popover" href="#fn-1"&gt;[1]&lt;/a&gt;</code></pre>
+			<pre><code>&lt;fn-ref&gt;
+	&lt;a href="#fn-1" slot="anchor"&gt;[1]&lt;/a&gt;
+&lt;/fn-ref&gt;</code></pre>
 
 			<p>
-				text text <sup><a class="js-footnote-reference-popover" href="#fn-1">[1]</a></sup> text
+				text text text text text text text text text text text text text text text text
+				<fn-ref>
+					<a href="#fn-1" slot="anchor">[1]</a>
+				</fn-ref>
+				text
 			</p>
 		</section>
 
 		<section>
-			<h2>All attributes &amp; Style customization</h2>
+			<h2>All attributes, elements &amp; Style customization</h2>
 
-			<pre><code>&lt;a
-	class="js-footnote-reference-popover"
-	id="fnref-2"
-	href="#fn-2"
-	data-ignore=".backref"
-	data-popover-label="Note"
-	data-popover-class="my-popover"
-	data-popover-hide-text="Popover Close"
-	data-popover-hide-image-src="./popover-close.svg"
-	data-popover-hide-image-width="18"
-	data-popover-hide-image-height="18"
-	data-mouseenter-delay="1000"
-	data-mouseleave-delay="1000"
-&gt;[2]&lt;/a&gt;</code></pre>
+			<pre><code>&lt;fn-ref ignore=".backref" popover-label="Footnote content" popover-delay-mouseenter="200ms" popover-delay-mouseleave="1s" class="my-fnref"&gt;
+	&lt;a href="#fn-2" id="fnref-2" slot="anchor"&gt;[Note2]&lt;/a&gt;
+	&lt;template slot="popover__hide"&gt;
+		&lt;img src="popover-close.svg" alt="Close" width="18" height="18" /&gt;
+	&lt;/template&gt;
+&lt;/fn-ref&gt;</code></pre>
 
 			<p>
-				text text
-				<sup
-					><a
-						class="js-footnote-reference-popover"
-						id="fnref-2"
-						href="#fn-2"
-						data-ignore=".backref"
-						data-popover-label="Note"
-						data-popover-class="my-popover"
-						data-popover-hide-text="Popover Close"
-						data-popover-hide-image-src="./popover-close.svg"
-						data-popover-hide-image-width="18"
-						data-popover-hide-image-height="18"
-						data-mouseenter-delay="1000"
-						data-mouseleave-delay="1000"
-						>[2]</a
-					></sup
-				>
+				text text text text text text text text text text text text text text text text
+				<fn-ref ignore=".backref" popover-label="Footnote content" popover-delay-mouseenter="200ms" popover-delay-mouseleave="1s" class="my-fnref">
+					<a href="#fn-2" id="fnref-2" slot="anchor">[Note2]</a>
+					<template slot="popover__hide">
+						<img src="popover-close.svg" alt="Close" width="12" height="12" />
+					</template>
+				</fn-ref>
 				text
 			</p>
 		</section>
@@ -140,8 +187,8 @@
 			<div class="footnote">
 				<span class="footnote__no">2.</span>
 				<p id="fn-2">
-					Footnote2 <a href="https://example.com/1" id="footnote2-link1">Link1</a> text text text text text text text text text text text text text text text
-					text text text text text text text text text text text text text text text.
+					Footnote2 <a href="https://example.com/1">link</a> text text text text text text text text text text text text text text text text text text text text
+					text text text text text text text text text text.
 					<a href="#fnref-2" class="backref">↩ Back</a>
 				</p>
 			</div>

@@ -15,177 +15,150 @@ test.afterEach(async ({ page }) => {
 });
 
 test.describe('init', () => {
-	test('trriger role', async ({ page }) => {
-		await expect(page.getByRole('button', { name: '[1]' })).toHaveAttribute('role', 'button');
+	test('anchor element attributes', async ({ page }) => {
+		const anchor = page.getByRole('button', { name: '[1]' });
+
+		await Promise.all([expect(anchor).toHaveAttribute('role', 'button'), expect(anchor).toHaveAttribute('aria-expanded', 'false')]);
 	});
 
-	test('popover attributes', async ({ page }) => {
-		await page.getByRole('button', { name: '[2]' }).click();
+	test('popover element no aria-label', async ({ page }) => {
+		const section = page.locator('section').filter({ hasText: 'Required attributes, elements only' });
+		const popover = section.locator('fn-ref [popover]').nth(0);
 
-		const popover = page.locator('x-popover');
+		await expect(popover).not.toHaveAttribute('aria-label');
+	});
 
-		await expect(popover).toHaveAttribute('popover', '');
-		await expect(popover).toHaveAttribute('class', 'my-popover');
-		await expect(popover).toHaveAttribute('aria-label', 'Note');
+	test('popover element aria-label', async ({ page }) => {
+		const section = page.locator('section').filter({ hasText: 'All attributes, elements & Style customization' });
+		const popover = section.locator('fn-ref [popover]').nth(0);
+
+		await expect(popover).toHaveAttribute('aria-label', 'Footnote content');
+	});
+
+	test('popover element data-*', async ({ page }) => {
+		const popover = page.locator('fn-ref [popover]').nth(0);
+
+		await Promise.all([
+			expect(popover).toHaveAttribute('data-anchor-width', /[0-9]+(\.[0-9]{1,3})?/u),
+			expect(popover).toHaveAttribute('data-anchor-height', /[0-9]+(\.[0-9]{1,3})?/u),
+		]);
 	});
 });
 
 test.describe('show & hide', () => {
 	test('click', async ({ page }) => {
-		const section = page.locator('section').filter({ hasText: 'Required attributes only' });
-		const trigger = section.getByRole('button', { name: '[1]' });
-		const popover = page.locator('x-popover').nth(0);
+		const section = page.locator('section').filter({ hasText: 'Required attributes, elements only' });
+		const anchor = section.getByRole('button', { name: '[1]' });
+		const popover = section.locator('fn-ref [popover]').nth(0);
 
-		await expect(popover).toHaveCount(0);
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'false'), expect(popover).toBeHidden()]);
 
-		await trigger.focus();
+		await anchor.focus();
 
-		await expect(popover).toHaveCount(0);
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'false'), expect(popover).toBeHidden()]);
 
-		await trigger.click();
+		await anchor.click();
 
-		await expect(popover).toHaveCount(1);
-		await expect(popover).toBeVisible();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'true'), expect(popover).toBeVisible()]);
 	});
 
 	test('pointerenter → pointerleave', async ({ page }) => {
-		const section = page.locator('section').filter({ hasText: 'Required attributes only' });
-		const trigger = section.getByRole('button', { name: '[1]' });
-		const popover = page.locator('x-popover').nth(0);
+		const section = page.locator('section').filter({ hasText: 'Required attributes, elements only' });
+		const anchor = section.getByRole('button', { name: '[1]' });
+		const popover = section.locator('fn-ref [popover]').nth(0);
 
-		await expect(popover).toHaveCount(0);
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'false'), expect(popover).toBeHidden()]);
 
-		await trigger.hover();
+		await anchor.hover();
 
-		await expect(popover).toHaveCount(0);
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'false'), expect(popover).toBeHidden()]);
 
-		await sleep(250);
+		await sleep(100);
 
-		await expect(popover).toHaveCount(1);
-		await expect(popover).toBeVisible();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'true'), expect(popover).toBeVisible()]);
 
 		await section.hover();
 
-		await expect(popover).toBeVisible();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'true'), expect(popover).toBeVisible()]);
 
-		await sleep(250);
+		await sleep(500);
 
-		await expect(popover).toBeHidden();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'false'), expect(popover).toBeHidden()]);
 	});
 
 	test('pointerenter → pointerleave (delay)', async ({ page }) => {
-		const section = page.locator('section').filter({ hasText: 'All attributes & Style customization' });
-		const trigger = section.getByRole('button', { name: '[2]' });
-		const popover = page.locator('x-popover').nth(0);
+		const section = page.locator('section').filter({ hasText: 'All attributes, elements & Style customization' });
+		const anchor = section.getByRole('button', { name: '[note2]' });
+		const popover = section.locator('fn-ref [popover]').nth(0);
 
-		await expect(popover).toHaveCount(0);
+		await anchor.hover();
+		await sleep(100);
 
-		await trigger.hover();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'false'), expect(popover).toBeHidden()]);
 
-		await expect(popover).toHaveCount(0);
+		await sleep(200 - 100);
 
-		await sleep(250);
-
-		await expect(popover).toHaveCount(0);
-
-		await sleep(1000 - 250);
-
-		await expect(popover).toHaveCount(1);
-		await expect(popover).toBeVisible();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'true'), expect(popover).toBeVisible()]);
 
 		await section.hover();
 
-		await expect(popover).toBeVisible();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'true'), expect(popover).toBeVisible()]);
 
-		await sleep(250);
+		await sleep(500);
 
-		await expect(popover).toBeVisible();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'true'), expect(popover).toBeVisible()]);
 
-		await sleep(1000 - 250);
+		await sleep(1000 - 500);
 
-		await expect(popover).toBeHidden();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'false'), expect(popover).toBeHidden()]);
 	});
 
 	test('pointerleave → popover pointerenter → popover pointerleave', async ({ page }) => {
-		const section = page.locator('section').filter({ hasText: 'Required attributes only' });
-		const trigger = section.getByRole('button', { name: '[1]' });
-		const popover = page.locator('x-popover').nth(0);
+		const section = page.locator('section').filter({ hasText: 'Required attributes, elements only' });
+		const anchor = section.getByRole('button', { name: '[1]' });
+		const popover = section.locator('fn-ref [popover]').nth(0);
 
-		await trigger.click();
-		await trigger.hover();
-		await sleep(125);
-		await popover.hover(); // トリガー要素からカーソルを離してすぐにポップオーバーへ移動する
-		await sleep(250);
+		await anchor.click();
+		await anchor.hover();
+		await sleep(50);
+		await popover.hover(); // アンカー要素からカーソルを離してすぐにポップオーバーへ移動する
+		await sleep(100);
 
-		await expect(popover).toHaveCount(1);
-		await expect(popover).toBeVisible();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'true'), expect(popover).toBeVisible()]);
 
 		await section.hover();
 
-		await expect(popover).toBeVisible();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'true'), expect(popover).toBeVisible()]);
 
-		await sleep(250);
+		await sleep(500);
 
-		await expect(popover).toBeHidden();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'false'), expect(popover).toBeHidden()]);
 	});
 
 	test('hide button', async ({ page }) => {
-		const section = page.locator('section').filter({ hasText: 'Required attributes only' });
-		const trigger = section.getByRole('button', { name: '[1]' });
-		const popover = page.locator('x-popover').nth(0);
+		const section = page.locator('section').filter({ hasText: 'Required attributes, elements only' });
+		const anchor = section.getByRole('button', { name: '[1]' });
+		const popover = section.locator('fn-ref [popover]').nth(0);
 
-		await trigger.click();
+		await anchor.click();
 		await popover.getByRole('button', { name: 'Close' }).click();
 
-		await expect(popover).toHaveCount(1);
-		await expect(popover).toBeHidden();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'false'), expect(popover).toBeHidden()]);
 	});
 
 	test('Esc', async ({ page }) => {
-		const section = page.locator('section').filter({ hasText: 'Required attributes only' });
-		const trigger = section.getByRole('button', { name: '[1]' });
-		const popover = page.locator('x-popover').nth(0);
+		const section = page.locator('section').filter({ hasText: 'Required attributes, elements only' });
+		const anchor = section.getByRole('button', { name: '[1]' });
+		const popover = section.locator('fn-ref [popover]').nth(0);
 
-		await trigger.click();
+		await anchor.click();
 
 		await page.keyboard.press('1');
 
-		await expect(popover).toHaveCount(1);
-		await expect(popover).toBeVisible();
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'true'), expect(popover).toBeVisible()]);
 
 		await page.keyboard.press('Escape');
 
-		await expect(popover).toHaveCount(1);
-		await expect(popover).toBeHidden();
-	});
-});
-
-test.describe('position', () => {
-	test('left base', async ({ page }) => {
-		const section = page.locator('section').filter({ hasText: 'Required attributes only' });
-		const trigger = section.getByRole('button', { name: '[1]' });
-		const popover = page.locator('x-popover').nth(0);
-
-		await trigger.click();
-
-		const triggerBox = (await trigger.boundingBox())!;
-		const popoverBox = (await popover.boundingBox())!;
-		expect(popoverBox.x).toBe(triggerBox.x);
-		expect(popoverBox.y).toBe(Math.round(triggerBox.y) + triggerBox.height);
-	});
-
-	test('right base', async ({ page }) => {
-		await page.setViewportSize({ width: 200, height: 200 });
-
-		const section = page.locator('section').filter({ hasText: 'Required attributes only' });
-		const trigger = section.getByRole('button', { name: '[1]' });
-		const popover = page.locator('x-popover').nth(0);
-
-		await trigger.click();
-
-		const triggerBox = (await trigger.boundingBox())!;
-		const popoverBox = (await popover.boundingBox())!;
-		expect(popoverBox.x).toBe(200 - popoverBox.width);
-		expect(popoverBox.y).toBe(Math.round(triggerBox.y) + triggerBox.height);
+		await Promise.all([expect(anchor).toHaveAttribute('aria-expanded', 'false'), expect(popover).toBeHidden()]);
 	});
 });

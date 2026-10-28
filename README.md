@@ -36,7 +36,7 @@ These package programs can be used in the browser. It does not depend on any spe
 
 - [Tabs UI component](packages/tab)
 - [Animating the `<details>` element](packages/details-animation)
-- [Footnote reference popover](packages/footnote-reference-popover)
+- [Display footnotes in a popover](packages/footnote-reference-popover)
 
 ## CSS
 

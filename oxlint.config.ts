@@ -116,7 +116,7 @@ export default defineConfig({
 		{
 			/* Custom elements */
 			files: [
-				'packages/footnote-reference-popover/src/custom-element/Popover.ts',
+				'packages/footnote-reference-popover/src/custom-element/FootnoteReferencePopover.ts',
 				'packages/input-file-preview/src/custom-element/InputFilePreview.ts',
 				'packages/tab/src/custom-element/Tab.ts',
 			],
