@@ -41,6 +41,10 @@ export default class extends HTMLElement {
 		`;
 
 		const cssString = `
+			:host {
+				display: inline flow-root;
+			}
+
 			slot[name="anchor"]::slotted(:any-link) {
 				anchor-name: --footnote-reference;
 				cursor: default;
