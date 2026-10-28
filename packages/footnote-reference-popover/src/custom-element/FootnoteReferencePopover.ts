@@ -51,14 +51,24 @@ export default class extends HTMLElement {
 			}
 
 			[part~="popover"] {
+				all: initial;
 				position: absolute;
 				position-anchor: --footnote-reference;
 				position-area: block-end span-inline-end;
 				position-try: flip-inline;
 				container-type: anchored;
+				border: solid;
+				background-color: Canvas;
+				padding: 0.25em;
+				overflow: auto;
+				color: CanvasText;
 
 				@supports not (container-type: anchored) {
 					position-try-order: most-inline-size;
+				}
+
+				&:not(:popover-open) {
+					display: none;
 				}
 			}
 		`;
