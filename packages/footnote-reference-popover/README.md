@@ -107,11 +107,11 @@ The popover markup looks like this.
 
 <fn-ref>
   #shadow-root (open)
-  <sup><slot name="anchor" part="anchor"></slot></sup>
+  <slot name="anchor"></slot>
   <div popover="" id="popover" part="popover">
     <div part="popover__content">...</div>
     <button type="button" popovertarget="popover" popovertargetaction="hide" part="popover__hide">
-      <img src="popover-close.svg" alt="Close" width="18" height="18" />
+      <slot name="popover__hide">Close</slot>
     </button>
   </div>
 </fn-ref>
@@ -120,7 +120,7 @@ The popover markup looks like this.
 Therefore, you can customize the style using [`::part`](https://developer.mozilla.org/en-US/docs/Web/CSS/::part) CSS pseudo-element.
 
 ```css
-.my-fnref {
+fn-ref {
   &::part(popover) {
     ...
   }
