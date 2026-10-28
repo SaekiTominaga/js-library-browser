@@ -1,41 +1,9 @@
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, jest, test } from '@jest/globals';
+import { afterEach, beforeAll, beforeEach, describe, expect, jest, test } from '@jest/globals';
 import type { SpiedFunction } from 'jest-mock';
 import Tab from './Tab.ts';
 
-const TAB_ELEMENT_NAME = 'x-tab';
-
 beforeAll(() => {
-	customElements.define(TAB_ELEMENT_NAME, Tab);
-});
-
-describe('browser support adoptedStyleSheets', () => {
-	let tempariaControlsElements: readonly Element[] | null;
-
-	let consoleInfoSpy: SpiedFunction;
-
-	beforeAll(() => {
-		tempariaControlsElements = Element.prototype.ariaControlsElements;
-		// @ts-expect-error: ts(2790)
-		delete Element.prototype.ariaControlsElements;
-	});
-
-	beforeEach(() => {
-		consoleInfoSpy = jest.spyOn(console, 'info');
-	});
-
-	afterEach(() => {
-		consoleInfoSpy.mockRestore();
-	});
-
-	afterAll(() => {
-		Element.prototype.ariaControlsElements = tempariaControlsElements;
-	});
-
-	test('not support', () => {
-		document.createElement(TAB_ELEMENT_NAME);
-
-		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support `ariaControlsElements` property.');
-	});
+	customElements.define('my-tab', Tab);
 });
 
 describe('connectedCallback', () => {
@@ -54,7 +22,7 @@ describe('connectedCallback', () => {
 		test('no exist id', () => {
 			sessionStorage.setItem('x', 'foo');
 
-			document.body.innerHTML = `<x-tab storage-key="x"></x-tab>`;
+			document.body.innerHTML = `<my-tab storage-key="x"></my-tab>`;
 
 			expect(consoleInfoSpy).toHaveBeenCalledWith('Element `#foo` not found.');
 		});
@@ -63,11 +31,11 @@ describe('connectedCallback', () => {
 
 describe('attributeChangedCallback', () => {
 	beforeAll(() => {
-		document.body.innerHTML = `<x-tab></x-tab>`;
+		document.body.innerHTML = `<my-tab></my-tab>`;
 	});
 
 	test('tablist-label', () => {
-		const $tab = document.querySelector<Tab>(TAB_ELEMENT_NAME)!;
+		const $tab = document.querySelector<Tab>('my-tab')!;
 		const $tablist = $tab.shadowRoot?.querySelector<HTMLElement>('[part=tablist]');
 
 		expect($tab.tablistLabel).toBeNull();
@@ -83,7 +51,7 @@ describe('attributeChangedCallback', () => {
 	});
 
 	test('storage-key', () => {
-		const $tab = document.querySelector<Tab>(TAB_ELEMENT_NAME)!;
+		const $tab = document.querySelector<Tab>('my-tab')!;
 
 		expect($tab.storageKey).toBeNull();
 

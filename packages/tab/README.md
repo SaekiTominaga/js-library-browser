@@ -27,12 +27,12 @@ Using the `ariaControlsElements` property. ([Can I use...](https://caniuse.com/m
   }
 </script>
 <script type="module">
-  import Tab from '@w0s/tab';
+  import tab from '@w0s/tab';
 
-  customElements.define('x-tab', Tab);
+  tab('my-tab'); // Specify the name of a custom element
 </script>
 
-<x-tab
+<my-tab
   tablist-label="Tab label"
   storage-key="tab1"
 >
@@ -40,12 +40,8 @@ Using the `ariaControlsElements` property. ([Can I use...](https://caniuse.com/m
   <a href="#tabpanel2" slot="tab">Tab 2</a>
   <div slot="tabpanel" id="tabpanel1">Contents of tabpanel 1</div>
   <div slot="tabpanel" id="tabpanel2">Contents of tabpanel 2</div>
-</x-tab>
+</my-tab>
 ```
-
-\* **`@w0s/shadow-append-css` is no longer required since version 5.0**
-
-\* **`uuid` is no longer required since version 3.1**
 
 ## HTML attributes
 
@@ -63,7 +59,7 @@ Using the `ariaControlsElements` property. ([Can I use...](https://caniuse.com/m
 The tab markup looks like this.
 
 ```html
-<x-tab class="my-tab">
+<my-tab>
   #shadow-root (open)
   <div part="tablist" role="tablist">
     <slot name="tab"></slot>
@@ -71,7 +67,7 @@ The tab markup looks like this.
   <div part="tabpanels">
     <slot name="tabpanel"></slot>
   </div>
-</x-tab>
+</my-tab>
 ```
 
 Therefore, you can customize the style using [`::part`](https://developer.mozilla.org/en-US/docs/Web/CSS/::part) CSS pseudo-element.
@@ -93,31 +89,31 @@ Therefore, you can customize the style using [`::part`](https://developer.mozill
 Elements using the `slot` attribute will have the following attributes added by applying the custom element.
 
 ```html
-<x-tab class="my-tab">
+<my-tab>
   <a href="#tabpanel1" slot="tab">Tab 1</a>
   <a href="#tabpanel2" slot="tab">Tab 2</a>
 
   <div slot="tabpanel" id="tabpanel1">Contents of tabpanel 1</div>
   <div slot="tabpanel" id="tabpanel2">Contents of tabpanel 2</div>
-</x-tab>
+</my-tab>
 ```
 
 ↓
 
 ```html
-<x-tab class="my-tab">
+<my-tab>
   <a slot="tab" id="..." role="tab" aria-controls="tabpanel1" tabindex="0" aria-selected="true">Tab 1</a>
   <a slot="tab" id="..." role="tab" aria-controls="tabpanel2" tabindex="-1" aria-selected="false">Tab 2</a>
 
   <div slot="tabpanel" id="tabpanel1" role="tabpanel" aria-labelledby="...">Contents of tabpanel 1</div>
   <div slot="tabpanel" id="tabpanel2" role="tabpanel" aria-labelledby="..." class="is-hidden">Contents of tabpanel 2</div>
-</x-tab>
+</my-tab>
 ```
 
 Therefore, you can customize the style using `role` attribute.
 
 ```css
-.my-tab {
+my-tab {
   & > [role='tab'] {
     ...
     /* This style does not applicable in environments where JavaScript is disabled */
