@@ -68,7 +68,7 @@ export default class Tab extends HTMLElement {
 		css.replaceSync(cssString);
 		shadow.adoptedStyleSheets.push(css);
 
-		this.#tablistElement = shadow.querySelector<HTMLElement>('[part="tablist"]')!;
+		this.#tablistElement = shadow.querySelector<HTMLElement>('[part~="tablist"]')!;
 		this.#tabElements = shadow.querySelector<HTMLSlotElement>('slot[name="tab"]')!.assignedNodes({ flatten: true }) as HTMLAnchorElement[];
 		this.#tabpanelElements = shadow.querySelector<HTMLSlotElement>('slot[name="tabpanel"]')!.assignedNodes({ flatten: true }) as HTMLElement[];
 	}
