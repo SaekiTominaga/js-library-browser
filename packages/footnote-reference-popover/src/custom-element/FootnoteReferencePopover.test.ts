@@ -98,7 +98,7 @@ describe('popover content', () => {
 			<p id="foo"><em>Footnote</em></p>
 `;
 
-		const $popoverContent = document.querySelector('fn-ref')!.shadowRoot?.querySelector<HTMLElement>('[part~=popover__content]');
+		const $popoverContent = document.querySelector('fn-ref > [slot="popover__content"]');
 
 		expect($popoverContent?.innerHTML).toBe('<em>Footnote</em>');
 	});
@@ -113,7 +113,7 @@ describe('popover hide button', () => {
 			<p id="foo"></p>
 `;
 
-		const $popoverHideButton = document.querySelector('fn-ref')!.shadowRoot?.querySelector<HTMLButtonElement>('[part~=popover__hide]');
+		const $popoverHideButton = document.querySelector('fn-ref')!.shadowRoot?.querySelector<HTMLButtonElement>('[part~="popover__hide"]');
 
 		expect($popoverHideButton?.innerHTML.trim()).toBe('<slot name="popover__hide">Close</slot>');
 	});
@@ -154,7 +154,7 @@ describe('popover hide button', () => {
 			<p id="foo"></p>
 `;
 
-		const $popoverHideButton = document.querySelector('fn-ref')!.shadowRoot?.querySelector<HTMLButtonElement>('[part~=popover__hide]');
+		const $popoverHideButton = document.querySelector('fn-ref')!.shadowRoot?.querySelector<HTMLButtonElement>('[part~="popover__hide"]');
 
 		expect($popoverHideButton?.innerHTML.trim()).toMatch(
 			/<slot name="popover__hide">Close<\/slot>\n\t+\n\t+<img src="popover-close.svg" alt="Close" width="12" height="12">/u,

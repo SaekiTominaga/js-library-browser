@@ -8,7 +8,6 @@ export default class extends HTMLElement {
 	/* Elements */
 	readonly #$anchorSlot: HTMLSlotElement;
 	readonly #$popover: HTMLElement;
-	readonly #$popoverContent: HTMLElement;
 	readonly #$popoverHideButton: HTMLButtonElement;
 	readonly #$popoverHideButtonSlot: HTMLSlotElement;
 	#$anchor: HTMLAnchorElement | undefined;
@@ -32,7 +31,9 @@ export default class extends HTMLElement {
 		const htmlString = `
 			<slot name="anchor"></slot>
 			<div popover="" id="popover" part="popover">
-				<div part="popover__content"></div>
+				<div part="popover__content">
+					<slot name="popover__content"></slot>
+				</div>
 				<button type="button" popovertarget="popover" popovertargetaction="hide" part="popover__hide">
 					<slot name="popover__hide">Close</slot>
 				</button>
@@ -67,7 +68,6 @@ export default class extends HTMLElement {
 
 		this.#$anchorSlot = shadow.querySelector<HTMLSlotElement>('slot[name="anchor"]')!;
 		this.#$popover = shadow.querySelector<HTMLElement>('#popover')!;
-		this.#$popoverContent = shadow.querySelector<HTMLElement>('[part~="popover__content"]')!;
 		this.#$popoverHideButton = shadow.querySelector<HTMLButtonElement>('[part~="popover__hide"]')!;
 		this.#$popoverHideButtonSlot = shadow.querySelector<HTMLSlotElement>('slot[name="popover__hide"]')!;
 	}
@@ -107,11 +107,14 @@ export default class extends HTMLElement {
 		}
 
 		{
-			const $footnote = getFootnote($anchor, {
+			const $footnoteClone = getFootnote($anchor, {
 				ignoreSelectors: this.#ignoreSelectors,
 			});
 
-			this.#$popoverContent.append(...$footnote.childNodes);
+			const $popoverContentSlotted = document.createElement('div');
+			$popoverContentSlotted.slot = 'popover__content';
+			$popoverContentSlotted.append(...$footnoteClone.childNodes);
+			this.append($popoverContentSlotted);
 		}
 
 		{
