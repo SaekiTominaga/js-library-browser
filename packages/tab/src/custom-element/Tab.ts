@@ -27,7 +27,7 @@ export default class Tab extends HTMLElement {
 		try {
 			this.#storage = sessionStorage;
 		} catch {
-			console.info('Storage access blocked.');
+			console.info('[@w0s/tab] Storage access blocked.');
 		}
 
 		const htmlString = `
@@ -173,7 +173,7 @@ export default class Tab extends HTMLElement {
 
 			const $rabpanel = this.querySelector<HTMLElement>(`#${CSS.escape(tabpanelId)}`);
 			if ($rabpanel === null) {
-				console.info(`[tab] Element \`#${tabpanelId}\` not found.`);
+				console.info(`[@w0s/tab] Element \`#${tabpanelId}\` not found.`);
 				return undefined;
 			}
 

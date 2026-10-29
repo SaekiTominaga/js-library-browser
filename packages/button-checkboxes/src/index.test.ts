@@ -15,7 +15,7 @@ beforeAll(() => {
 describe('browser support ariaControlsElements', () => {
 	let tempariaControlsElements: readonly Element[] | null;
 
-	let consoleInfoSpy: SpiedFunction;
+	let consoleWarnSpy: SpiedFunction;
 
 	beforeAll(() => {
 		tempariaControlsElements = Element.prototype.ariaControlsElements;
@@ -24,11 +24,11 @@ describe('browser support ariaControlsElements', () => {
 	});
 
 	beforeEach(() => {
-		consoleInfoSpy = jest.spyOn(console, 'info');
+		consoleWarnSpy = jest.spyOn(console, 'warn');
 	});
 
 	afterEach(() => {
-		consoleInfoSpy.mockRestore();
+		consoleWarnSpy.mockRestore();
 	});
 
 	afterAll(() => {
@@ -38,7 +38,7 @@ describe('browser support ariaControlsElements', () => {
 	test('not support', () => {
 		index(null);
 
-		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support `ariaControlsElements` property.');
+		expect(consoleWarnSpy).toHaveBeenCalledWith('[@w0s/button-checkboxes] This browser does not support `ariaControlsElements` property.');
 	});
 });
 

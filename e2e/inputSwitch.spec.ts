@@ -196,7 +196,7 @@ test.describe('storage', () => {
 
 		await page.goto('/input-switch/demo/');
 
-		expect(consoleMessages).toContain('Storage access blocked.');
+		expect(consoleMessages).toContain('[@w0s/input-switch] Storage access blocked.');
 
 		const section = page.locator('section').filter({ hasText: 'storage-key attribute' });
 		const switchCtrl = section.locator('x-input-switch').nth(0);

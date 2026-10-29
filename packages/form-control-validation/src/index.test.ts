@@ -12,7 +12,7 @@ beforeAll(() => {
 describe('browser support ariaLabelledByElements', () => {
 	let tempAriaLabelledByElements: readonly Element[] | null;
 
-	let consoleInfoSpy: SpiedFunction;
+	let consoleWarnSpy: SpiedFunction;
 
 	beforeAll(() => {
 		tempAriaLabelledByElements = Element.prototype.ariaLabelledByElements;
@@ -21,11 +21,11 @@ describe('browser support ariaLabelledByElements', () => {
 	});
 
 	beforeEach(() => {
-		consoleInfoSpy = jest.spyOn(console, 'info');
+		consoleWarnSpy = jest.spyOn(console, 'warn');
 	});
 
 	afterEach(() => {
-		consoleInfoSpy.mockRestore();
+		consoleWarnSpy.mockRestore();
 	});
 
 	afterAll(() => {
@@ -35,7 +35,7 @@ describe('browser support ariaLabelledByElements', () => {
 	test('not support', () => {
 		index(null);
 
-		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support `ariaLabelledByElements` property.');
+		expect(consoleWarnSpy).toHaveBeenCalledWith('[@w0s/form-control-validation] This browser does not support `ariaLabelledByElements` property.');
 	});
 });
 

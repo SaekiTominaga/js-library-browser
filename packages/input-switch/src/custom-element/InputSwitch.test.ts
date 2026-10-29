@@ -10,7 +10,7 @@ beforeAll(() => {
 
 describe('browser support CustomStateSet', () => {
 	let tempCustomStateSet: CustomStateSet;
-	let consoleInfoSpy: SpiedFunction;
+	let consoleWarnSpy: SpiedFunction;
 
 	beforeAll(() => {
 		tempCustomStateSet = ElementInternals.prototype.states;
@@ -19,11 +19,11 @@ describe('browser support CustomStateSet', () => {
 	});
 
 	beforeEach(() => {
-		consoleInfoSpy = jest.spyOn(console, 'info');
+		consoleWarnSpy = jest.spyOn(console, 'warn');
 	});
 
 	afterEach(() => {
-		consoleInfoSpy.mockRestore();
+		consoleWarnSpy.mockRestore();
 	});
 
 	afterAll(() => {
@@ -34,7 +34,7 @@ describe('browser support CustomStateSet', () => {
 	test('not support', () => {
 		document.createElement(INPUT_SWITCH_ELEMENT_NAME);
 
-		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support `CustomStateSet`.');
+		expect(consoleWarnSpy).toHaveBeenCalledWith('[@w0s/input-switch] This browser does not support `CustomStateSet`.');
 	});
 });
 

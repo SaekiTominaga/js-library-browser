@@ -5,7 +5,7 @@ import index from './index.ts';
 describe('browser support adoptedStyleSheets', () => {
 	let tempariaControlsElements: readonly Element[] | null;
 
-	let consoleInfoSpy: SpiedFunction;
+	let consoleWarnSpy: SpiedFunction;
 
 	beforeAll(() => {
 		tempariaControlsElements = Element.prototype.ariaControlsElements;
@@ -14,11 +14,11 @@ describe('browser support adoptedStyleSheets', () => {
 	});
 
 	beforeEach(() => {
-		consoleInfoSpy = jest.spyOn(console, 'info');
+		consoleWarnSpy = jest.spyOn(console, 'warn');
 	});
 
 	afterEach(() => {
-		consoleInfoSpy.mockRestore();
+		consoleWarnSpy.mockRestore();
 	});
 
 	afterAll(() => {
@@ -28,6 +28,6 @@ describe('browser support adoptedStyleSheets', () => {
 	test('not support', () => {
 		index('');
 
-		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support `ariaControlsElements` property.');
+		expect(consoleWarnSpy).toHaveBeenCalledWith('[@w0s/tab] This browser does not support `ariaControlsElements` property.');
 	});
 });

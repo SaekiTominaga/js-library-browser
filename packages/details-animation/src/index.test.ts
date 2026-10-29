@@ -5,7 +5,7 @@ import index from './index.ts';
 describe('browser support adoptedStyleSheets', () => {
 	let tempAdoptedStyleSheets: CSSStyleSheet[];
 
-	let consoleInfoSpy: SpiedFunction;
+	let consoleWarnSpy: SpiedFunction;
 
 	beforeAll(() => {
 		tempAdoptedStyleSheets = ShadowRoot.prototype.adoptedStyleSheets;
@@ -14,11 +14,11 @@ describe('browser support adoptedStyleSheets', () => {
 	});
 
 	beforeEach(() => {
-		consoleInfoSpy = jest.spyOn(console, 'info');
+		consoleWarnSpy = jest.spyOn(console, 'warn');
 	});
 
 	afterEach(() => {
-		consoleInfoSpy.mockRestore();
+		consoleWarnSpy.mockRestore();
 	});
 
 	afterAll(() => {
@@ -28,7 +28,7 @@ describe('browser support adoptedStyleSheets', () => {
 	test('not support', () => {
 		index(null);
 
-		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support ShadowRoot: `adoptedStyleSheets`.');
+		expect(consoleWarnSpy).toHaveBeenCalledWith('[@w0s/details-animation] This browser does not support ShadowRoot: `adoptedStyleSheets`.');
 	});
 });
 
