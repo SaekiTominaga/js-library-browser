@@ -27,15 +27,156 @@ describe('Storage', () => {
 	});
 });
 
+describe('tab', () => {
+	test('mismatch element name', () => {
+		const errors: Error[] = [];
+		const onError = (event: ErrorEvent) => {
+			event.preventDefault();
+			errors.push(event.error as Error);
+		};
+		globalThis.addEventListener('error', onError);
+
+		try {
+			document.body.innerHTML = `
+				<my-tab>
+					<p slot="tab"></p>
+				</my-tab>
+`;
+		} finally {
+			globalThis.removeEventListener('error', onError);
+		}
+
+		expect(errors).toHaveLength(1);
+		expect(errors[0]).toBeInstanceOf(TypeError);
+		expect(errors[0]?.message).toBe('Element `[slot=tab]` must be a `<a>` element');
+	});
+
+	test('no href', () => {
+		const errors: Error[] = [];
+		const onError = (event: ErrorEvent) => {
+			event.preventDefault();
+			errors.push(event.error as Error);
+		};
+		globalThis.addEventListener('error', onError);
+
+		try {
+			document.body.innerHTML = `
+				<my-tab>
+					<a slot="tab"></a>
+				</my-tab>
+`;
+		} finally {
+			globalThis.removeEventListener('error', onError);
+		}
+
+		expect(errors).toHaveLength(1);
+		expect(errors[0]).toBeInstanceOf(Error);
+		expect(errors[0]?.message).toBe('The `href` attribute of element `a[slot=tab]` does not contain a hash');
+	});
+
+	test('no hash', () => {
+		const errors: Error[] = [];
+		const onError = (event: ErrorEvent) => {
+			event.preventDefault();
+			errors.push(event.error as Error);
+		};
+		globalThis.addEventListener('error', onError);
+
+		try {
+			document.body.innerHTML = `
+				<my-tab>
+					<a href="foo" slot="tab"></a>
+				</my-tab>
+`;
+		} finally {
+			globalThis.removeEventListener('error', onError);
+		}
+
+		expect(errors).toHaveLength(1);
+		expect(errors[0]).toBeInstanceOf(Error);
+		expect(errors[0]?.message).toBe('The `href` attribute of element `a[slot=tab]` does not contain a hash');
+	});
+
+	test('empty hash', () => {
+		const errors: Error[] = [];
+		const onError = (event: ErrorEvent) => {
+			event.preventDefault();
+			errors.push(event.error as Error);
+		};
+		globalThis.addEventListener('error', onError);
+
+		try {
+			document.body.innerHTML = `
+				<my-tab>
+					<a href="#" slot="tab"></a>
+				</my-tab>
+`;
+		} finally {
+			globalThis.removeEventListener('error', onError);
+		}
+
+		expect(errors).toHaveLength(1);
+		expect(errors[0]).toBeInstanceOf(Error);
+		expect(errors[0]?.message).toBe('The `href` attribute of element `a[slot=tab]` does not contain a hash');
+	});
+
+	test('no tabpanel', () => {
+		const errors: Error[] = [];
+		const onError = (event: ErrorEvent) => {
+			event.preventDefault();
+			errors.push(event.error as Error);
+		};
+		globalThis.addEventListener('error', onError);
+
+		try {
+			document.body.innerHTML = `
+				<my-tab>
+					<a href="#foo" slot="tab"></a>
+				</my-tab>
+`;
+		} finally {
+			globalThis.removeEventListener('error', onError);
+		}
+
+		expect(errors).toHaveLength(1);
+		expect(errors[0]).toBeInstanceOf(Error);
+		expect(errors[0]?.message).toBe('Element `#foo` not found');
+	});
+
+	test('mismatch tabpanel slot', () => {
+		const errors: Error[] = [];
+		const onError = (event: ErrorEvent) => {
+			event.preventDefault();
+			errors.push(event.error as Error);
+		};
+		globalThis.addEventListener('error', onError);
+
+		try {
+			document.body.innerHTML = `
+				<my-tab>
+					<a href="#foo" slot="tab"></a>
+					<div slot="bar" id="foo"></div>
+				</my-tab>
+`;
+		} finally {
+			globalThis.removeEventListener('error', onError);
+		}
+
+		expect(errors).toHaveLength(1);
+		expect(errors[0]).toBeInstanceOf(Error);
+		expect(errors[0]?.message).toBe('Element `#foo` does not have the appropriate `slot` attribute set');
+	});
+});
+
 describe('attributes', () => {
 	beforeAll(() => {
 		document.body.innerHTML = `
-<my-tab>
-	<a href="#tabpanel1" slot="tab"></a>
-	<a href="#tabpanel2" slot="tab"></a>
-	<div id="tabpanel1" slot="tabpanel"></div>
-	<div id="tabpanel2" slot="tabpanel"></div>
-</my-tab>
+			<my-tab>
+				<a href="#tabpanel1" slot="tab"></a>
+				<a href="#tabpanel2" slot="tab"></a>
+				<div id="tabpanel1" slot="tabpanel"></div>
+				<div id="tabpanel2" slot="tabpanel"></div>
+			</my-tab>
 		`;
 
 		sessionStorage.setItem('test-attributes', 'tabpanel2');
