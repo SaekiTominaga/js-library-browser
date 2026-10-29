@@ -1,7 +1,11 @@
 import { expect, test } from '@playwright/test';
 
+let supportFocusgrouop: boolean;
+
 test.beforeEach(async ({ page }) => {
 	await page.goto('/tab/demo/');
+
+	supportFocusgrouop = await page.evaluate(() => 'focusGroup' in HTMLElement.prototype);
 });
 
 test.afterEach(async ({ page }) => {
@@ -25,7 +29,7 @@ test.describe('init', () => {
 
 			expect(tab1).toHaveAttribute('tabindex', '0'),
 			expect(tab1).toHaveAttribute('aria-selected', 'true'),
-			expect(tab2).toHaveAttribute('tabindex', '-1'),
+			expect(tab2).toHaveAttribute('tabindex', supportFocusgrouop ? '0' : '-1'),
 			expect(tab2).toHaveAttribute('aria-selected', 'false'),
 
 			expect(tabpanel1).toHaveAttribute('role', 'tabpanel'),
@@ -75,11 +79,11 @@ test.describe('tab event', () => {
 		await tab2.click();
 
 		await Promise.all([
-			expect(tab1).toHaveAttribute('tabindex', '-1'),
+			expect(tab1).toHaveAttribute('tabindex', supportFocusgrouop ? '0' : '-1'),
 			expect(tab1).toHaveAttribute('aria-selected', 'false'),
 			expect(tab2).toHaveAttribute('tabindex', '0'),
 			expect(tab2).toHaveAttribute('aria-selected', 'true'),
-			expect(tab3).toHaveAttribute('tabindex', '-1'),
+			expect(tab3).toHaveAttribute('tabindex', supportFocusgrouop ? '0' : '-1'),
 			expect(tab3).toHaveAttribute('aria-selected', 'false'),
 
 			expect(tabpanel1).toHaveAttribute('class', 'is-hidden'),
@@ -88,7 +92,7 @@ test.describe('tab event', () => {
 		]);
 	});
 
-	test('←↑→↓', async ({ page }) => {
+	test('←→', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'no attribute' });
 		const tabs = section.locator('[slot="tab"]');
 		const tabpanels = section.locator('[slot="tabpanel"]');
@@ -104,9 +108,9 @@ test.describe('tab event', () => {
 		await page.keyboard.press('ArrowLeft');
 
 		await Promise.all([
-			expect(tab1).toHaveAttribute('tabindex', '-1'),
+			expect(tab1).toHaveAttribute('tabindex', supportFocusgrouop ? '0' : '-1'),
 			expect(tab1).toHaveAttribute('aria-selected', 'false'),
-			expect(tab2).toHaveAttribute('tabindex', '-1'),
+			expect(tab2).toHaveAttribute('tabindex', supportFocusgrouop ? '0' : '-1'),
 			expect(tab2).toHaveAttribute('aria-selected', 'false'),
 			expect(tab3).toHaveAttribute('tabindex', '0'),
 			expect(tab3).toHaveAttribute('aria-selected', 'true'),
@@ -116,14 +120,14 @@ test.describe('tab event', () => {
 			expect(tabpanel3).toHaveAttribute('class', ''),
 		]);
 
-		await page.keyboard.press('ArrowDown');
+		await page.keyboard.press('ArrowRight');
 
 		await Promise.all([
 			expect(tab1).toHaveAttribute('tabindex', '0'),
 			expect(tab1).toHaveAttribute('aria-selected', 'true'),
-			expect(tab2).toHaveAttribute('tabindex', '-1'),
+			expect(tab2).toHaveAttribute('tabindex', supportFocusgrouop ? '0' : '-1'),
 			expect(tab2).toHaveAttribute('aria-selected', 'false'),
-			expect(tab3).toHaveAttribute('tabindex', '-1'),
+			expect(tab3).toHaveAttribute('tabindex', supportFocusgrouop ? '0' : '-1'),
 			expect(tab3).toHaveAttribute('aria-selected', 'false'),
 
 			expect(tabpanel1).toHaveAttribute('class', ''),
@@ -148,9 +152,9 @@ test.describe('tab event', () => {
 		await page.keyboard.press('End');
 
 		await Promise.all([
-			expect(tab1).toHaveAttribute('tabindex', '-1'),
+			expect(tab1).toHaveAttribute('tabindex', supportFocusgrouop ? '0' : '-1'),
 			expect(tab1).toHaveAttribute('aria-selected', 'false'),
-			expect(tab2).toHaveAttribute('tabindex', '-1'),
+			expect(tab2).toHaveAttribute('tabindex', supportFocusgrouop ? '0' : '-1'),
 			expect(tab2).toHaveAttribute('aria-selected', 'false'),
 			expect(tab3).toHaveAttribute('tabindex', '0'),
 			expect(tab3).toHaveAttribute('aria-selected', 'true'),
@@ -165,9 +169,9 @@ test.describe('tab event', () => {
 		await Promise.all([
 			expect(tab1).toHaveAttribute('tabindex', '0'),
 			expect(tab1).toHaveAttribute('aria-selected', 'true'),
-			expect(tab2).toHaveAttribute('tabindex', '-1'),
+			expect(tab2).toHaveAttribute('tabindex', supportFocusgrouop ? '0' : '-1'),
 			expect(tab2).toHaveAttribute('aria-selected', 'false'),
-			expect(tab3).toHaveAttribute('tabindex', '-1'),
+			expect(tab3).toHaveAttribute('tabindex', supportFocusgrouop ? '0' : '-1'),
 			expect(tab3).toHaveAttribute('aria-selected', 'false'),
 
 			expect(tabpanel1).toHaveAttribute('class', ''),
@@ -230,11 +234,11 @@ test.describe('storage', () => {
 		await page.reload();
 
 		await Promise.all([
-			expect(tab1).toHaveAttribute('tabindex', '-1'),
+			expect(tab1).toHaveAttribute('tabindex', supportFocusgrouop ? '0' : '-1'),
 			expect(tab1).toHaveAttribute('aria-selected', 'false'),
 			expect(tab2).toHaveAttribute('tabindex', '0'),
 			expect(tab2).toHaveAttribute('aria-selected', 'true'),
-			expect(tab3).toHaveAttribute('tabindex', '-1'),
+			expect(tab3).toHaveAttribute('tabindex', supportFocusgrouop ? '0' : '-1'),
 			expect(tab3).toHaveAttribute('aria-selected', 'false'),
 
 			expect(tabpanel1).toHaveAttribute('class', 'is-hidden'),
@@ -280,9 +284,9 @@ test.describe('storage', () => {
 		await Promise.all([
 			expect(tab1).toHaveAttribute('tabindex', '0'),
 			expect(tab1).toHaveAttribute('aria-selected', 'true'),
-			expect(tab2).toHaveAttribute('tabindex', '-1'),
+			expect(tab2).toHaveAttribute('tabindex', supportFocusgrouop ? '0' : '-1'),
 			expect(tab2).toHaveAttribute('aria-selected', 'false'),
-			expect(tab3).toHaveAttribute('tabindex', '-1'),
+			expect(tab3).toHaveAttribute('tabindex', supportFocusgrouop ? '0' : '-1'),
 			expect(tab3).toHaveAttribute('aria-selected', 'false'),
 
 			expect(tabpanel1).not.toHaveAttribute('class'),

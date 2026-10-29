@@ -15,6 +15,7 @@ export default class Tab extends HTMLElement {
 
 	/* etc */
 	readonly #storage: Storage | undefined;
+	readonly #supportFocusgrouop: boolean; // ブラウザが `focusgroup` に対応しているか
 	#selectedTabNo = 0; // 何番目のタブが選択されているか
 
 	static get observedAttributes(): string[] {
@@ -30,8 +31,10 @@ export default class Tab extends HTMLElement {
 			console.info('[@w0s/tab] Storage access blocked.');
 		}
 
+		this.#supportFocusgrouop = 'focusGroup' in HTMLElement.prototype;
+
 		const htmlString = `
-			<div part="tablist" role="tablist">
+			<div focusgroup="tablist" part="tablist" role="tablist">
 				<slot name="tab"></slot>
 			</div>
 			<div part="tabpanels">
@@ -100,14 +103,19 @@ export default class Tab extends HTMLElement {
 			}
 
 			$tab.removeAttribute('href');
+			if (this.#supportFocusgrouop) {
+				$tab.tabIndex = 0;
+			}
 			$tab.role = 'tab';
 			$tab.ariaControlsElements = [$tabpanel];
 
 			$tabpanel.role = 'tabpanel';
 			$tabpanel.ariaLabelledByElements = [$tab];
 
-			$tab.addEventListener('click', this.#tabClickEvent, { passive: true });
-			$tab.addEventListener('keydown', this.#tabKeydownEvent);
+			$tab.addEventListener('focus', this.#tabFocusEvent, { passive: true });
+			if (!this.#supportFocusgrouop) {
+				$tab.addEventListener('keydown', this.#tabKeydownEvent);
+			}
 		});
 
 		this.#$$tabpanel.forEach(($tabpanel) => {
@@ -117,12 +125,16 @@ export default class Tab extends HTMLElement {
 		if (this.#storageKey === undefined) /* 属性設定時は先に attributeChangedCallback() で処理されている */ {
 			this.#selectTab(0);
 		}
+
+		this.#$$tab.find(($tab) => $tab.ariaSelected === 'true')?.setAttribute('focusgroupstart', '');
 	}
 
 	disconnectedCallback(): void {
 		this.#$$tab.forEach(($tab) => {
-			$tab.removeEventListener('click', this.#tabClickEvent);
-			$tab.removeEventListener('keydown', this.#tabKeydownEvent);
+			$tab.removeEventListener('focus', this.#tabFocusEvent);
+			if (!this.#supportFocusgrouop) {
+				$tab.removeEventListener('keydown', this.#tabKeydownEvent);
+			}
 		});
 
 		this.#$$tabpanel.forEach(($tabpanel) => {
@@ -186,12 +198,22 @@ export default class Tab extends HTMLElement {
 	}
 
 	/**
-	 * Tab: `click` event
+	 * Tab: `focus` event
 	 *
 	 * @param event - Event
 	 */
-	readonly #tabClickEvent = (event: PointerEvent): void => {
-		this.#changeTab(this.#$$tab.indexOf(event.currentTarget as HTMLAnchorElement));
+	readonly #tabFocusEvent = (event: FocusEvent): void => {
+		const tabNo = this.#$$tab.indexOf(event.target as HTMLAnchorElement);
+
+		this.#selectTab(tabNo);
+
+		/* 現在選択中のタブ情報をストレージに保管する */
+		if (this.#storageKey !== undefined) {
+			const $tabpanel = this.#$$tabpanel.at(tabNo);
+			if ($tabpanel !== undefined) {
+				this.#storage?.setItem(this.#storageKey, $tabpanel.id);
+			}
+		}
 	};
 
 	/**
@@ -200,38 +222,31 @@ export default class Tab extends HTMLElement {
 	 * @param event - Event
 	 */
 	readonly #tabKeydownEvent = (event: KeyboardEvent): void => {
+		let focusTabNo: number | undefined;
+
 		switch (event.key) {
-			case 'ArrowLeft':
-			case 'ArrowUp': {
-				event.preventDefault();
-
-				this.#changeTab(this.#selectedTabNo < 1 ? this.#$$tab.length - 1 : this.#selectedTabNo - 1);
-
+			case 'ArrowLeft': {
+				focusTabNo = this.#selectedTabNo < 1 ? this.#$$tab.length - 1 : this.#selectedTabNo - 1;
 				break;
 			}
-			case 'ArrowRight':
-			case 'ArrowDown': {
-				event.preventDefault();
-
-				this.#changeTab(this.#selectedTabNo >= this.#$$tab.length - 1 ? 0 : this.#selectedTabNo + 1);
-
+			case 'ArrowRight': {
+				focusTabNo = this.#selectedTabNo >= this.#$$tab.length - 1 ? 0 : this.#selectedTabNo + 1;
 				break;
 			}
 			case 'End': {
-				event.preventDefault();
-
-				this.#changeTab(this.#$$tab.length - 1);
-
+				focusTabNo = this.#$$tab.length - 1;
 				break;
 			}
 			case 'Home': {
-				event.preventDefault();
-
-				this.#changeTab(0);
-
+				focusTabNo = 0;
 				break;
 			}
 			default:
+		}
+
+		if (focusTabNo !== undefined) {
+			event.preventDefault();
+			this.#$$tab.at(focusTabNo)?.focus();
 		}
 	};
 
@@ -266,7 +281,9 @@ export default class Tab extends HTMLElement {
 		this.#$$tab.forEach(($tab, index) => {
 			const select = index === tabNo; // 選択されたタブかどうか
 
-			$tab.tabIndex = select ? 0 : -1;
+			if (!this.#supportFocusgrouop) {
+				$tab.tabIndex = select ? 0 : -1;
+			}
 			$tab.ariaSelected = String(select);
 
 			const tabpanelClasslist = this.#$$tabpanel.at(index)?.classList;
@@ -278,24 +295,5 @@ export default class Tab extends HTMLElement {
 		});
 
 		this.#selectedTabNo = tabNo;
-	}
-
-	/**
-	 * ユーザー操作によりタブを切り替える
-	 *
-	 * @param tabNo - 切り替えるタブ番号
-	 */
-	#changeTab(tabNo: number): void {
-		this.#selectTab(tabNo);
-
-		this.#$$tab.at(tabNo)?.focus();
-
-		/* 現在選択中のタブ情報をストレージに保管する */
-		if (this.#storageKey !== undefined) {
-			const $tabpanel = this.#$$tabpanel.at(tabNo);
-			if ($tabpanel !== undefined) {
-				this.#storage?.setItem(this.#storageKey, $tabpanel.id);
-			}
-		}
 	}
 }

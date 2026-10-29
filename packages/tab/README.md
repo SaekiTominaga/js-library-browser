@@ -3,6 +3,12 @@
 [![npm version](https://badge.fury.io/js/%40w0s%2Ftab.svg)](https://www.npmjs.com/package/@w0s/tab)
 [![CI status](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/ci.yml/badge.svg)](https://github.com/SaekiTominaga/js-library-browser/actions/workflows/ci.yml)
 
+## Features
+
+- Focusgroup is used for navigation within the tablist using the arrow keys.
+  - Continue tto provide support for browsers that do not support focusgroup.
+- Vertical tabs are not supported.
+
 ## Browser support
 
 Using the `ariaControlsElements` property. ([Can I use...](https://caniuse.com/mdn-api_element_ariacontrolselements))
