@@ -5,6 +5,11 @@
 
 ## Features
 
+- Keyboard navigation complies with the [Tabs Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/) in the <cite>ARIA Authoring Practices Guide (APG)</cite>.
+  - Pressing the <kbd>Left Arrow</kbd> / <kbd>Right Arrow</kbd> key Automatically activates the newly focused tab.
+  - It also supports the <kbd>Home</kbd> and <kbd>End</kbd> keys.
+  - Since popup menu within tabs is not supported, the <kbd>Shift</kbd> + <kbd>F10</kbd> key is not recognized.
+  - Since deletion tabs is not supported, the <kbd>Delete</kbd> key is not recognized.
 - Focusgroup is used for navigation within the tablist using the arrow keys.
   - Continue tto provide support for browsers that do not support focusgroup.
 - Vertical tabs are not supported.
@@ -76,20 +81,6 @@ The tab markup looks like this.
 </my-tab>
 ```
 
-Therefore, you can customize the style using [`::part`](https://developer.mozilla.org/en-US/docs/Web/CSS/::part) CSS pseudo-element.
-
-```css
-.my-tab {
-  &::part(tab) {
-    ...
-  }
-
-  &::part(tabpanels) {
-    ...
-  }
-}
-```
-
 ### `slot="tab"`, `slot="tabpanel"`
 
 Elements using the `slot` attribute will have the following attributes added by applying the custom element.
@@ -114,20 +105,4 @@ Elements using the `slot` attribute will have the following attributes added by 
   <div slot="tabpanel" id="tabpanel1" role="tabpanel" aria-labelledby="...">Contents of tabpanel 1</div>
   <div slot="tabpanel" id="tabpanel2" role="tabpanel" aria-labelledby="..." class="is-hidden">Contents of tabpanel 2</div>
 </my-tab>
-```
-
-Therefore, you can customize the style using `role` attribute.
-
-```css
-my-tab {
-  & > [role='tab'] {
-    ...
-    /* This style does not applicable in environments where JavaScript is disabled */
-  }
-
-  & > [role='tabpanel'] {
-    ...
-    /* This style does not applicable in environments where JavaScript is disabled */
-  }
-}
 ```
