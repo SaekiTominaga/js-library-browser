@@ -3,18 +3,18 @@ import type { SpiedFunction } from 'jest-mock';
 import index from './index.ts';
 
 describe('browser support CSS anchor positioning', () => {
-	let consoleInfoSpy: SpiedFunction;
+	let consoleWarnSpy: SpiedFunction;
 
 	beforeAll(() => {
 		CSS.supports = () => false;
 	});
 
 	beforeEach(() => {
-		consoleInfoSpy = jest.spyOn(console, 'info');
+		consoleWarnSpy = jest.spyOn(console, 'warn');
 	});
 
 	afterEach(() => {
-		consoleInfoSpy.mockRestore();
+		consoleWarnSpy.mockRestore();
 	});
 
 	afterAll(() => {
@@ -24,6 +24,6 @@ describe('browser support CSS anchor positioning', () => {
 	test('not support', () => {
 		index('');
 
-		expect(consoleInfoSpy).toHaveBeenCalledWith('This browser does not support CSS anchor positioning.');
+		expect(consoleWarnSpy).toHaveBeenCalledWith('[@w0s/footnote-reference-popover] This browser does not support CSS anchor positioning.');
 	});
 });

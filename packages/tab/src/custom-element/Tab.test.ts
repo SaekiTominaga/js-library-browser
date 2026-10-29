@@ -23,7 +23,7 @@ describe('Storage', () => {
 
 		document.body.innerHTML = `<my-tab storage-key="x"></my-tab>`;
 
-		expect(consoleInfoSpy).toHaveBeenCalledWith('[tab] Element `#foo` not found.');
+		expect(consoleInfoSpy).toHaveBeenCalledWith('[@w0s/tab] Element `#foo` not found.');
 	});
 });
 

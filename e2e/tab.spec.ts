@@ -261,7 +261,7 @@ test.describe('storage', () => {
 
 		await page.goto('/tab/demo/');
 
-		expect(consoleMessages).toContain('Storage access blocked.');
+		expect(consoleMessages).toContain('[@w0s/tab] Storage access blocked.');
 
 		const section = page.locator('section').filter({ hasText: 'storage-key attribute' });
 		const tabs = section.locator('[slot="tab"]');

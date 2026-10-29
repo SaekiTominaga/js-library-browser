@@ -17,7 +17,7 @@ export default class InputSwitch extends HTMLElement {
 
 		if (typeof ElementInternals === 'undefined' || !('states' in ElementInternals.prototype)) {
 			/* Firefox 125-, Safari 17.3-, Chrome 89-, Edge 89- <https://caniuse.com/mdn-api_customstateset> */
-			console.info('This browser does not support `CustomStateSet`.');
+			console.warn('[@w0s/input-switch] This browser does not support `CustomStateSet`.');
 			return;
 		}
 
@@ -26,7 +26,7 @@ export default class InputSwitch extends HTMLElement {
 		try {
 			this.#myLocalStorage = localStorage;
 		} catch {
-			console.info('Storage access blocked.');
+			console.info('[@w0s/input-switch] Storage access blocked.');
 		}
 
 		const htmlString = `
