@@ -3,8 +3,8 @@
  */
 export default class Tab extends HTMLElement {
 	/* Light DOM elements */
-	readonly #$$tab: readonly HTMLAnchorElement[] = [];
-	readonly #$$tabpanel: readonly HTMLElement[] = [];
+	readonly #$$tab: readonly HTMLAnchorElement[];
+	readonly #$$tabpanel: readonly HTMLElement[];
 
 	/* Shadow DOM elements */
 	readonly #$tablist: HTMLElement;
@@ -14,8 +14,7 @@ export default class Tab extends HTMLElement {
 	#storageKey: string | undefined;
 
 	/* etc */
-	readonly #TABPANEL_HIDDEN_CLASS_NAME = 'is-hidden'; // タブパネルを非表示にするクラス名
-	readonly #mySessionStorage: Storage | undefined;
+	readonly #storage: Storage | undefined;
 	#selectedTabNo = 0; // 何番目のタブが選択されているか
 
 	static get observedAttributes(): string[] {
@@ -26,7 +25,7 @@ export default class Tab extends HTMLElement {
 		super();
 
 		try {
-			this.#mySessionStorage = sessionStorage;
+			this.#storage = sessionStorage;
 		} catch {
 			console.info('Storage access blocked.');
 		}
@@ -58,7 +57,6 @@ export default class Tab extends HTMLElement {
 			::slotted([role="tabpanel" i].is-hidden) {
 				display: none;
 			}
-
 		`;
 
 		const shadow = this.attachShadow({ mode: 'open' });
@@ -110,6 +108,9 @@ export default class Tab extends HTMLElement {
 
 			$tab.addEventListener('click', this.#tabClickEvent, { passive: true });
 			$tab.addEventListener('keydown', this.#tabKeydownEvent);
+		});
+
+		this.#$$tabpanel.forEach(($tabpanel) => {
 			$tabpanel.addEventListener('keydown', this.#tabpanelKeydownEvent);
 		});
 
@@ -119,13 +120,13 @@ export default class Tab extends HTMLElement {
 	}
 
 	disconnectedCallback(): void {
-		this.#$$tab.forEach((tabElement) => {
-			tabElement.removeEventListener('click', this.#tabClickEvent);
-			tabElement.removeEventListener('keydown', this.#tabKeydownEvent);
+		this.#$$tab.forEach(($tab) => {
+			$tab.removeEventListener('click', this.#tabClickEvent);
+			$tab.removeEventListener('keydown', this.#tabKeydownEvent);
 		});
 
-		this.#$$tabpanel.forEach((tabpanelElement) => {
-			tabpanelElement.removeEventListener('keydown', this.#tabpanelKeydownEvent);
+		this.#$$tabpanel.forEach(($tabpanel) => {
+			$tabpanel.removeEventListener('keydown', this.#tabpanelKeydownEvent);
 		});
 	}
 
@@ -165,7 +166,7 @@ export default class Tab extends HTMLElement {
 				return undefined;
 			}
 
-			const tabpanelId = this.#mySessionStorage?.getItem(storageKey); // 前回選択したタブパネル ID
+			const tabpanelId = this.#storage?.getItem(storageKey); // 前回選択したタブパネル ID
 			if (tabpanelId === null || tabpanelId === undefined) {
 				return undefined;
 			}
@@ -262,17 +263,17 @@ export default class Tab extends HTMLElement {
 	 * @param tabNo - 選択するタブ番号
 	 */
 	#selectTab(tabNo: number): void {
-		this.#$$tab.forEach((tabElement, index) => {
+		this.#$$tab.forEach(($tab, index) => {
 			const select = index === tabNo; // 選択されたタブかどうか
 
-			tabElement.tabIndex = select ? 0 : -1;
-			tabElement.ariaSelected = String(select);
+			$tab.tabIndex = select ? 0 : -1;
+			$tab.ariaSelected = String(select);
 
 			const tabpanelClasslist = this.#$$tabpanel.at(index)?.classList;
 			if (select) {
-				tabpanelClasslist?.remove(this.#TABPANEL_HIDDEN_CLASS_NAME);
+				tabpanelClasslist?.remove('is-hidden');
 			} else {
-				tabpanelClasslist?.add(this.#TABPANEL_HIDDEN_CLASS_NAME);
+				tabpanelClasslist?.add('is-hidden');
 			}
 		});
 
@@ -291,9 +292,9 @@ export default class Tab extends HTMLElement {
 
 		/* 現在選択中のタブ情報をストレージに保管する */
 		if (this.#storageKey !== undefined) {
-			const tabpanelElement = this.#$$tabpanel.at(tabNo);
-			if (tabpanelElement !== undefined) {
-				this.#mySessionStorage?.setItem(this.#storageKey, tabpanelElement.id);
+			const $tabpanel = this.#$$tabpanel.at(tabNo);
+			if ($tabpanel !== undefined) {
+				this.#storage?.setItem(this.#storageKey, $tabpanel.id);
 			}
 		}
 	}
