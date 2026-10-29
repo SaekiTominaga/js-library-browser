@@ -106,7 +106,7 @@ export default class Tab extends HTMLElement {
 			$tabpanel.role = 'tabpanel';
 			$tabpanel.ariaLabelledByElements = [$tab];
 
-			$tab.addEventListener('click', this.#tabClickEvent, { passive: true });
+			$tab.addEventListener('focus', this.#tabFocusEvent, { passive: true });
 			$tab.addEventListener('keydown', this.#tabKeydownEvent);
 		});
 
@@ -121,7 +121,7 @@ export default class Tab extends HTMLElement {
 
 	disconnectedCallback(): void {
 		this.#$$tab.forEach(($tab) => {
-			$tab.removeEventListener('click', this.#tabClickEvent);
+			$tab.removeEventListener('focus', this.#tabFocusEvent);
 			$tab.removeEventListener('keydown', this.#tabKeydownEvent);
 		});
 
@@ -186,12 +186,22 @@ export default class Tab extends HTMLElement {
 	}
 
 	/**
-	 * Tab: `click` event
+	 * Tab: `focus` event
 	 *
 	 * @param event - Event
 	 */
-	readonly #tabClickEvent = (event: PointerEvent): void => {
-		this.#changeTab(this.#$$tab.indexOf(event.currentTarget as HTMLAnchorElement));
+	readonly #tabFocusEvent = (event: FocusEvent): void => {
+		const tabNo = this.#$$tab.indexOf(event.target as HTMLAnchorElement);
+
+		this.#selectTab(tabNo);
+
+		/* 現在選択中のタブ情報をストレージに保管する */
+		if (this.#storageKey !== undefined) {
+			const $tabpanel = this.#$$tabpanel.at(tabNo);
+			if ($tabpanel !== undefined) {
+				this.#storage?.setItem(this.#storageKey, $tabpanel.id);
+			}
+		}
 	};
 
 	/**
@@ -200,38 +210,33 @@ export default class Tab extends HTMLElement {
 	 * @param event - Event
 	 */
 	readonly #tabKeydownEvent = (event: KeyboardEvent): void => {
+		let focusTabNo: number | undefined;
+
 		switch (event.key) {
 			case 'ArrowLeft':
 			case 'ArrowUp': {
-				event.preventDefault();
-
-				this.#changeTab(this.#selectedTabNo < 1 ? this.#$$tab.length - 1 : this.#selectedTabNo - 1);
-
+				focusTabNo = this.#selectedTabNo < 1 ? this.#$$tab.length - 1 : this.#selectedTabNo - 1;
 				break;
 			}
 			case 'ArrowRight':
 			case 'ArrowDown': {
-				event.preventDefault();
-
-				this.#changeTab(this.#selectedTabNo >= this.#$$tab.length - 1 ? 0 : this.#selectedTabNo + 1);
-
+				focusTabNo = this.#selectedTabNo >= this.#$$tab.length - 1 ? 0 : this.#selectedTabNo + 1;
 				break;
 			}
 			case 'End': {
-				event.preventDefault();
-
-				this.#changeTab(this.#$$tab.length - 1);
-
+				focusTabNo = this.#$$tab.length - 1;
 				break;
 			}
 			case 'Home': {
-				event.preventDefault();
-
-				this.#changeTab(0);
-
+				focusTabNo = 0;
 				break;
 			}
 			default:
+		}
+
+		if (focusTabNo !== undefined) {
+			event.preventDefault();
+			this.#$$tab.at(focusTabNo)?.focus();
 		}
 	};
 
@@ -278,24 +283,5 @@ export default class Tab extends HTMLElement {
 		});
 
 		this.#selectedTabNo = tabNo;
-	}
-
-	/**
-	 * ユーザー操作によりタブを切り替える
-	 *
-	 * @param tabNo - 切り替えるタブ番号
-	 */
-	#changeTab(tabNo: number): void {
-		this.#selectTab(tabNo);
-
-		this.#$$tab.at(tabNo)?.focus();
-
-		/* 現在選択中のタブ情報をストレージに保管する */
-		if (this.#storageKey !== undefined) {
-			const $tabpanel = this.#$$tabpanel.at(tabNo);
-			if ($tabpanel !== undefined) {
-				this.#storage?.setItem(this.#storageKey, $tabpanel.id);
-			}
-		}
 	}
 }
