@@ -15,6 +15,7 @@ export default class Tab extends HTMLElement {
 
 	/* etc */
 	readonly #storage: Storage | undefined;
+	readonly #supportFocusgrouop: boolean; // ブラウザが `focusgroup` に対応しているか
 	#selectedTabNo = 0; // 何番目のタブが選択されているか
 
 	static get observedAttributes(): string[] {
@@ -30,8 +31,10 @@ export default class Tab extends HTMLElement {
 			console.info('Storage access blocked.');
 		}
 
+		this.#supportFocusgrouop = 'focusGroup' in HTMLElement.prototype;
+
 		const htmlString = `
-			<div part="tablist" role="tablist">
+			<div focusgroup="tablist" part="tablist" role="tablist">
 				<slot name="tab"></slot>
 			</div>
 			<div part="tabpanels">
@@ -100,6 +103,9 @@ export default class Tab extends HTMLElement {
 			}
 
 			$tab.removeAttribute('href');
+			if (this.#supportFocusgrouop) {
+				$tab.tabIndex = 0;
+			}
 			$tab.role = 'tab';
 			$tab.ariaControlsElements = [$tabpanel];
 
@@ -107,7 +113,9 @@ export default class Tab extends HTMLElement {
 			$tabpanel.ariaLabelledByElements = [$tab];
 
 			$tab.addEventListener('focus', this.#tabFocusEvent, { passive: true });
-			$tab.addEventListener('keydown', this.#tabKeydownEvent);
+			if (!this.#supportFocusgrouop) {
+				$tab.addEventListener('keydown', this.#tabKeydownEvent);
+			}
 		});
 
 		this.#$$tabpanel.forEach(($tabpanel) => {
@@ -117,12 +125,16 @@ export default class Tab extends HTMLElement {
 		if (this.#storageKey === undefined) /* 属性設定時は先に attributeChangedCallback() で処理されている */ {
 			this.#selectTab(0);
 		}
+
+		this.#$$tab.find(($tab) => $tab.ariaSelected === 'true')?.setAttribute('focusgroupstart', '');
 	}
 
 	disconnectedCallback(): void {
 		this.#$$tab.forEach(($tab) => {
 			$tab.removeEventListener('focus', this.#tabFocusEvent);
-			$tab.removeEventListener('keydown', this.#tabKeydownEvent);
+			if (!this.#supportFocusgrouop) {
+				$tab.removeEventListener('keydown', this.#tabKeydownEvent);
+			}
 		});
 
 		this.#$$tabpanel.forEach(($tabpanel) => {
@@ -213,13 +225,11 @@ export default class Tab extends HTMLElement {
 		let focusTabNo: number | undefined;
 
 		switch (event.key) {
-			case 'ArrowLeft':
-			case 'ArrowUp': {
+			case 'ArrowLeft': {
 				focusTabNo = this.#selectedTabNo < 1 ? this.#$$tab.length - 1 : this.#selectedTabNo - 1;
 				break;
 			}
-			case 'ArrowRight':
-			case 'ArrowDown': {
+			case 'ArrowRight': {
 				focusTabNo = this.#selectedTabNo >= this.#$$tab.length - 1 ? 0 : this.#selectedTabNo + 1;
 				break;
 			}
@@ -271,7 +281,9 @@ export default class Tab extends HTMLElement {
 		this.#$$tab.forEach(($tab, index) => {
 			const select = index === tabNo; // 選択されたタブかどうか
 
-			$tab.tabIndex = select ? 0 : -1;
+			if (!this.#supportFocusgrouop) {
+				$tab.tabIndex = select ? 0 : -1;
+			}
 			$tab.ariaSelected = String(select);
 
 			const tabpanelClasslist = this.#$$tabpanel.at(index)?.classList;
