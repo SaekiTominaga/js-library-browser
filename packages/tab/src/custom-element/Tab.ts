@@ -47,16 +47,18 @@ export default class Tab extends HTMLElement {
 
 			[part~="tablist"] {
 				display: block flex;
+				flex-wrap: nowrap;
 				align-items: flex-end;
 			}
 
-			::slotted([role=tab]) {
+			::slotted([role="tab" i]) {
 				cursor: default;
 			}
 
-			::slotted([role=tabpanel].is-hidden) {
+			::slotted([role="tabpanel" i].is-hidden) {
 				display: none;
 			}
+
 		`;
 
 		const shadow = this.attachShadow({ mode: 'open' });
