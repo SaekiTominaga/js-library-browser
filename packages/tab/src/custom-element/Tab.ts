@@ -68,38 +68,47 @@ export default class Tab extends HTMLElement {
 		shadow.adoptedStyleSheets.push(css);
 
 		this.#$tablist = shadow.querySelector<HTMLElement>('[part~="tablist"]')!;
-		this.#$$tab = shadow.querySelector<HTMLSlotElement>('slot[name="tab"]')!.assignedNodes({ flatten: true }) as HTMLAnchorElement[];
-		this.#$$tabpanel = shadow.querySelector<HTMLSlotElement>('slot[name="tabpanel"]')!.assignedNodes({ flatten: true }) as HTMLElement[];
+
+		this.#$$tab = shadow
+			.querySelector<HTMLSlotElement>('slot[name="tab"]')!
+			.assignedNodes()
+			.map(($tab) => {
+				if (!($tab instanceof HTMLAnchorElement)) {
+					throw new TypeError('Element `[slot=tab]` must be a `<a>` element');
+				}
+				return $tab;
+			});
+
+		this.#$$tabpanel = shadow
+			.querySelector<HTMLSlotElement>('slot[name="tabpanel"]')!
+			.assignedNodes()
+			.filter(($tabpanel) => $tabpanel instanceof HTMLElement);
 	}
 
 	connectedCallback(): void {
-		this.#$$tab.forEach((tabElement): void => {
-			const { href } = tabElement;
-			if (href === '') {
-				throw new Error('The `href` attribute is not set');
+		this.#$$tab.forEach(($tab): void => {
+			const tabpanelId = decodeURIComponent($tab.hash.slice(1));
+			if (tabpanelId === '') {
+				throw new Error(`The \`href\` attribute of element \`a[slot=tab]\` does not contain a hash`);
+			}
+			const $tabpanel = this.querySelector<HTMLElement>(`#${CSS.escape(tabpanelId)}`);
+			if ($tabpanel === null) {
+				throw new Error(`Element \`#${tabpanelId}\` not found`);
+			}
+			if (!this.#$$tabpanel.includes($tabpanel)) {
+				throw new Error(`Element \`#${tabpanelId}\` does not have the appropriate \`slot\` attribute set`);
 			}
 
-			const { hash } = new URL(href);
-			if (hash === '') {
-				throw new Error('The `href` attribute does not contain hash');
-			}
+			$tab.removeAttribute('href');
+			$tab.role = 'tab';
+			$tab.ariaControlsElements = [$tabpanel];
 
-			const tabpanelElementId = decodeURIComponent(hash.slice(1));
-			const tabpanelElement = document.querySelector<HTMLElement>(`#${tabpanelElementId}`);
-			if (tabpanelElement === null) {
-				throw new Error(`Element \`#${tabpanelElementId}\` not found`);
-			}
+			$tabpanel.role = 'tabpanel';
+			$tabpanel.ariaLabelledByElements = [$tab];
 
-			tabElement.removeAttribute('href');
-			tabElement.role = 'tab';
-			tabElement.ariaControlsElements = [tabpanelElement];
-
-			tabpanelElement.role = 'tabpanel';
-			tabpanelElement.ariaLabelledByElements = [tabElement];
-
-			tabElement.addEventListener('click', this.#tabClickEvent, { passive: true });
-			tabElement.addEventListener('keydown', this.#tabKeydownEvent);
-			tabpanelElement.addEventListener('keydown', this.#tabpanelKeydownEvent);
+			$tab.addEventListener('click', this.#tabClickEvent, { passive: true });
+			$tab.addEventListener('keydown', this.#tabKeydownEvent);
+			$tabpanel.addEventListener('keydown', this.#tabpanelKeydownEvent);
 		});
 
 		if (this.#storageKey === undefined) /* 属性設定時は先に attributeChangedCallback() で処理されている */ {
@@ -174,24 +183,24 @@ export default class Tab extends HTMLElement {
 	}
 
 	/**
-	 * タブをクリックしたときの処理
+	 * Tab: `click` event
 	 *
-	 * @param ev - Event
+	 * @param event - Event
 	 */
-	readonly #tabClickEvent = (ev: MouseEvent): void => {
-		this.#changeTab(this.#$$tab.indexOf(ev.currentTarget as HTMLAnchorElement));
+	readonly #tabClickEvent = (event: PointerEvent): void => {
+		this.#changeTab(this.#$$tab.indexOf(event.currentTarget as HTMLAnchorElement));
 	};
 
 	/**
-	 * タブをキーボード操作したときの処理
+	 * Tab: `keydown` event
 	 *
-	 * @param ev - Event
+	 * @param event - Event
 	 */
-	readonly #tabKeydownEvent = (ev: KeyboardEvent): void => {
-		switch (ev.key) {
+	readonly #tabKeydownEvent = (event: KeyboardEvent): void => {
+		switch (event.key) {
 			case 'ArrowLeft':
 			case 'ArrowUp': {
-				ev.preventDefault();
+				event.preventDefault();
 
 				this.#changeTab(this.#selectedTabNo < 1 ? this.#$$tab.length - 1 : this.#selectedTabNo - 1);
 
@@ -199,21 +208,21 @@ export default class Tab extends HTMLElement {
 			}
 			case 'ArrowRight':
 			case 'ArrowDown': {
-				ev.preventDefault();
+				event.preventDefault();
 
 				this.#changeTab(this.#selectedTabNo >= this.#$$tab.length - 1 ? 0 : this.#selectedTabNo + 1);
 
 				break;
 			}
 			case 'End': {
-				ev.preventDefault();
+				event.preventDefault();
 
 				this.#changeTab(this.#$$tab.length - 1);
 
 				break;
 			}
 			case 'Home': {
-				ev.preventDefault();
+				event.preventDefault();
 
 				this.#changeTab(0);
 
@@ -224,19 +233,19 @@ export default class Tab extends HTMLElement {
 	};
 
 	/**
-	 * タブパネルをキーボード操作したときの処理
+	 * Tabpanel: `keydown` event
 	 *
-	 * @param ev - Event
+	 * @param event - Event
 	 */
-	readonly #tabpanelKeydownEvent = (ev: KeyboardEvent): void => {
-		switch (ev.key) {
+	readonly #tabpanelKeydownEvent = (event: KeyboardEvent): void => {
+		switch (event.key) {
 			case 'ArrowLeft':
 			case 'ArrowUp': {
-				if (ev.ctrlKey) {
+				if (event.ctrlKey) {
 					/* Ctrl キーが同時に押下された場合は、選択中の [role="tab"] な要素にフォーカスを移動する */
-					ev.preventDefault();
+					event.preventDefault();
 
-					this.#$$tab[this.#selectedTabNo]?.focus();
+					this.#$$tab.at(this.#selectedTabNo)?.focus();
 				}
 
 				break;
@@ -257,7 +266,7 @@ export default class Tab extends HTMLElement {
 			tabElement.tabIndex = select ? 0 : -1;
 			tabElement.ariaSelected = String(select);
 
-			const tabpanelClasslist = this.#$$tabpanel[index]?.classList;
+			const tabpanelClasslist = this.#$$tabpanel.at(index)?.classList;
 			if (select) {
 				tabpanelClasslist?.remove(this.#TABPANEL_HIDDEN_CLASS_NAME);
 			} else {
