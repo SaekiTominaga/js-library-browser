@@ -122,6 +122,7 @@ export default defineConfig({
 			],
 			rules: {
 				'typescript/no-non-null-assertion': 'off',
+				'unicorn/no-null': 'off',
 			},
 		},
 		{

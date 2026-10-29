@@ -2,17 +2,21 @@
  * Tabs UI component
  */
 export default class Tab extends HTMLElement {
-	readonly #mySessionStorage: Storage | undefined;
+	/* Light DOM elements */
+	readonly #$$tab: readonly HTMLAnchorElement[] = [];
+	readonly #$$tabpanel: readonly HTMLElement[] = [];
 
-	readonly #tablistElement: HTMLElement;
+	/* Shadow DOM elements */
+	readonly #$tablist: HTMLElement;
 
-	readonly #tabElements: readonly HTMLAnchorElement[] = [];
+	/* Attributes */
+	#tablistLabel: string | undefined;
+	#storageKey: string | undefined;
 
-	readonly #tabpanelElements: readonly HTMLElement[] = [];
-
-	#selectedTabNo = 0; // 何番目のタブが選択されているか
-
+	/* etc */
 	readonly #TABPANEL_HIDDEN_CLASS_NAME = 'is-hidden'; // タブパネルを非表示にするクラス名
+	readonly #mySessionStorage: Storage | undefined;
+	#selectedTabNo = 0; // 何番目のタブが選択されているか
 
 	static get observedAttributes(): string[] {
 		return ['tablist-label', 'storage-key'];
@@ -63,16 +67,13 @@ export default class Tab extends HTMLElement {
 		css.replaceSync(cssString);
 		shadow.adoptedStyleSheets.push(css);
 
-		this.#tablistElement = shadow.querySelector<HTMLElement>('[part~="tablist"]')!;
-		this.#tabElements = shadow.querySelector<HTMLSlotElement>('slot[name="tab"]')!.assignedNodes({ flatten: true }) as HTMLAnchorElement[];
-		this.#tabpanelElements = shadow.querySelector<HTMLSlotElement>('slot[name="tabpanel"]')!.assignedNodes({ flatten: true }) as HTMLElement[];
+		this.#$tablist = shadow.querySelector<HTMLElement>('[part~="tablist"]')!;
+		this.#$$tab = shadow.querySelector<HTMLSlotElement>('slot[name="tab"]')!.assignedNodes({ flatten: true }) as HTMLAnchorElement[];
+		this.#$$tabpanel = shadow.querySelector<HTMLSlotElement>('slot[name="tabpanel"]')!.assignedNodes({ flatten: true }) as HTMLElement[];
 	}
 
 	connectedCallback(): void {
-		const { tablistLabel } = this;
-		this.#tablistElement.ariaLabel = tablistLabel;
-
-		this.#tabElements.forEach((tabElement): void => {
+		this.#$$tab.forEach((tabElement): void => {
 			const { href } = tabElement;
 			if (href === '') {
 				throw new Error('The `href` attribute is not set');
@@ -101,29 +102,18 @@ export default class Tab extends HTMLElement {
 			tabpanelElement.addEventListener('keydown', this.#tabpanelKeydownEvent);
 		});
 
-		const { storageKey } = this;
-		if (storageKey !== null) {
-			const initialSelectTabpanelId = this.#mySessionStorage?.getItem(storageKey); // 前回選択したタブ ID
-			if (initialSelectTabpanelId !== null && initialSelectTabpanelId !== undefined) {
-				const initialSelectTabpanelElement = document.querySelector<HTMLElement>(`#${initialSelectTabpanelId}`);
-				if (initialSelectTabpanelElement === null) {
-					console.info(`Element \`#${initialSelectTabpanelId}\` not found.`);
-				} else {
-					this.#selectedTabNo = this.#tabpanelElements.indexOf(initialSelectTabpanelElement);
-				}
-			}
+		if (this.#storageKey === undefined) /* 属性設定時は先に attributeChangedCallback() で処理されている */ {
+			this.#selectTab(0);
 		}
-
-		this.#selectTab(this.#selectedTabNo);
 	}
 
 	disconnectedCallback(): void {
-		this.#tabElements.forEach((tabElement) => {
+		this.#$$tab.forEach((tabElement) => {
 			tabElement.removeEventListener('click', this.#tabClickEvent);
 			tabElement.removeEventListener('keydown', this.#tabKeydownEvent);
 		});
 
-		this.#tabpanelElements.forEach((tabpanelElement) => {
+		this.#$$tabpanel.forEach((tabpanelElement) => {
 			tabpanelElement.removeEventListener('keydown', this.#tabpanelKeydownEvent);
 		});
 	}
@@ -131,40 +121,56 @@ export default class Tab extends HTMLElement {
 	attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null): void {
 		switch (name) {
 			case 'tablist-label': {
-				this.#tablistElement.ariaLabel = newValue;
+				this.tablistLabel = newValue ?? undefined;
 				break;
 			}
 			case 'storage-key': {
+				this.storageKey = newValue ?? undefined;
 				break;
 			}
 			default:
 		}
 	}
 
-	get tablistLabel(): string | null {
-		return this.getAttribute('tablist-label');
+	get tablistLabel(): string | undefined {
+		return this.#tablistLabel;
 	}
 
-	set tablistLabel(value: string | null) {
-		if (value === null) {
-			this.removeAttribute('tablist-label');
-			return;
-		}
+	set tablistLabel(value: string | undefined) {
+		this.#tablistLabel = value;
 
-		this.setAttribute('tablist-label', value);
+		this.#$tablist.ariaLabel = value ?? null;
 	}
 
-	get storageKey(): string | null {
-		return this.getAttribute('storage-key');
+	get storageKey(): string | undefined {
+		return this.#storageKey;
 	}
 
-	set storageKey(value: string | null) {
-		if (value === null) {
-			this.removeAttribute('storage-key');
-			return;
-		}
+	set storageKey(value: string | undefined) {
+		this.#storageKey = value;
 
-		this.setAttribute('storage-key', value);
+		const getSelectedTabNo = (storageKey: string | undefined): number | undefined => {
+			if (storageKey === undefined) {
+				return undefined;
+			}
+
+			const tabpanelId = this.#mySessionStorage?.getItem(storageKey); // 前回選択したタブパネル ID
+			if (tabpanelId === null || tabpanelId === undefined) {
+				return undefined;
+			}
+
+			const $rabpanel = this.querySelector<HTMLElement>(`#${CSS.escape(tabpanelId)}`);
+			if ($rabpanel === null) {
+				console.info(`[tab] Element \`#${tabpanelId}\` not found.`);
+				return undefined;
+			}
+
+			return this.#$$tabpanel.indexOf($rabpanel);
+		};
+
+		this.#selectedTabNo = getSelectedTabNo(value) ?? 0;
+
+		this.#selectTab(this.#selectedTabNo);
 	}
 
 	/**
@@ -173,7 +179,7 @@ export default class Tab extends HTMLElement {
 	 * @param ev - Event
 	 */
 	readonly #tabClickEvent = (ev: MouseEvent): void => {
-		this.#changeTab(this.#tabElements.indexOf(ev.currentTarget as HTMLAnchorElement));
+		this.#changeTab(this.#$$tab.indexOf(ev.currentTarget as HTMLAnchorElement));
 	};
 
 	/**
@@ -187,7 +193,7 @@ export default class Tab extends HTMLElement {
 			case 'ArrowUp': {
 				ev.preventDefault();
 
-				this.#changeTab(this.#selectedTabNo < 1 ? this.#tabElements.length - 1 : this.#selectedTabNo - 1);
+				this.#changeTab(this.#selectedTabNo < 1 ? this.#$$tab.length - 1 : this.#selectedTabNo - 1);
 
 				break;
 			}
@@ -195,14 +201,14 @@ export default class Tab extends HTMLElement {
 			case 'ArrowDown': {
 				ev.preventDefault();
 
-				this.#changeTab(this.#selectedTabNo >= this.#tabElements.length - 1 ? 0 : this.#selectedTabNo + 1);
+				this.#changeTab(this.#selectedTabNo >= this.#$$tab.length - 1 ? 0 : this.#selectedTabNo + 1);
 
 				break;
 			}
 			case 'End': {
 				ev.preventDefault();
 
-				this.#changeTab(this.#tabElements.length - 1);
+				this.#changeTab(this.#$$tab.length - 1);
 
 				break;
 			}
@@ -230,7 +236,7 @@ export default class Tab extends HTMLElement {
 					/* Ctrl キーが同時に押下された場合は、選択中の [role="tab"] な要素にフォーカスを移動する */
 					ev.preventDefault();
 
-					this.#tabElements[this.#selectedTabNo]?.focus();
+					this.#$$tab[this.#selectedTabNo]?.focus();
 				}
 
 				break;
@@ -245,13 +251,13 @@ export default class Tab extends HTMLElement {
 	 * @param tabNo - 選択するタブ番号
 	 */
 	#selectTab(tabNo: number): void {
-		this.#tabElements.forEach((tabElement, index) => {
+		this.#$$tab.forEach((tabElement, index) => {
 			const select = index === tabNo; // 選択されたタブかどうか
 
 			tabElement.tabIndex = select ? 0 : -1;
 			tabElement.ariaSelected = String(select);
 
-			const tabpanelClasslist = this.#tabpanelElements[index]?.classList;
+			const tabpanelClasslist = this.#$$tabpanel[index]?.classList;
 			if (select) {
 				tabpanelClasslist?.remove(this.#TABPANEL_HIDDEN_CLASS_NAME);
 			} else {
@@ -270,13 +276,13 @@ export default class Tab extends HTMLElement {
 	#changeTab(tabNo: number): void {
 		this.#selectTab(tabNo);
 
-		this.#tabElements[tabNo]?.focus();
+		this.#$$tab.at(tabNo)?.focus();
 
 		/* 現在選択中のタブ情報をストレージに保管する */
-		if (this.storageKey !== null) {
-			const tabpanelElement = this.#tabpanelElements[tabNo];
+		if (this.#storageKey !== undefined) {
+			const tabpanelElement = this.#$$tabpanel.at(tabNo);
 			if (tabpanelElement !== undefined) {
-				this.#mySessionStorage?.setItem(this.storageKey, tabpanelElement.id);
+				this.#mySessionStorage?.setItem(this.#storageKey, tabpanelElement.id);
 			}
 		}
 	}
