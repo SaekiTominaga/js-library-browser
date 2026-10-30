@@ -11,6 +11,7 @@ export default class Tab extends HTMLElement {
 
 	/* Attributes */
 	#tablistLabel: string | undefined;
+	#tabpanelFocus: boolean | undefined;
 	#storageKey: string | undefined;
 
 	/* etc */
@@ -19,7 +20,7 @@ export default class Tab extends HTMLElement {
 	#selectedTabNo = 0; // 何番目のタブが選択されているか
 
 	static get observedAttributes(): string[] {
-		return ['tablist-label', 'storage-key'];
+		return ['tablist-label', 'tabpanel-focus', 'storage-key'];
 	}
 
 	constructor() {
@@ -34,7 +35,7 @@ export default class Tab extends HTMLElement {
 		this.#supportFocusgrouop = 'focusGroup' in HTMLElement.prototype;
 
 		const htmlString = `
-			<div focusgroup="tablist" part="tablist" role="tablist">
+			<div focusgroup="tablist" role="tablist" part="tablist">
 				<slot name="tab"></slot>
 			</div>
 			<div part="tabpanels">
@@ -89,7 +90,7 @@ export default class Tab extends HTMLElement {
 	}
 
 	connectedCallback(): void {
-		this.#$$tab.forEach(($tab): void => {
+		this.#$$tab.forEach(($tab) => {
 			const tabpanelId = decodeURIComponent($tab.hash.slice(1));
 			if (tabpanelId === '') {
 				throw new Error(`The \`href\` attribute of element \`a[slot=tab]\` does not contain a hash`);
@@ -119,6 +120,10 @@ export default class Tab extends HTMLElement {
 		});
 
 		this.#$$tabpanel.forEach(($tabpanel) => {
+			if (!$tabpanel.hasAttribute('tabindex')) {
+				$tabpanel.tabIndex = 0;
+			}
+
 			$tabpanel.addEventListener('keydown', this.#tabpanelKeydownEvent);
 		});
 
@@ -148,6 +153,10 @@ export default class Tab extends HTMLElement {
 				this.tablistLabel = newValue ?? undefined;
 				break;
 			}
+			case 'tabpanel-focus': {
+				this.tabpanelFocus = newValue === 'true';
+				break;
+			}
 			case 'storage-key': {
 				this.storageKey = newValue ?? undefined;
 				break;
@@ -164,6 +173,18 @@ export default class Tab extends HTMLElement {
 		this.#tablistLabel = value;
 
 		this.#$tablist.ariaLabel = value ?? null;
+	}
+
+	get tabpanelFocus(): boolean | undefined {
+		return this.#tabpanelFocus;
+	}
+
+	set tabpanelFocus(value: boolean | undefined) {
+		this.#tabpanelFocus = value;
+
+		this.#$$tabpanel.forEach(($tabpanel) => {
+			$tabpanel.tabIndex = value ? 0 : -1;
+		});
 	}
 
 	get storageKey(): string | undefined {

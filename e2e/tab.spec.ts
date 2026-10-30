@@ -179,6 +179,34 @@ test.describe('tab event', () => {
 			expect(tabpanel3).toHaveAttribute('class', 'is-hidden'),
 		]);
 	});
+
+	test('Tab (tabpanel-focus=true)', async ({ page }) => {
+		const section = page.locator('section').filter({ hasText: 'no attribute' });
+		const tabs = section.locator('[slot="tab"]');
+		const tabpanels = section.locator('[slot="tabpanel"]');
+
+		const tab1 = tabs.nth(0);
+		const tabpanel1 = tabpanels.nth(0);
+
+		await tab1.focus();
+		await page.keyboard.press('Tab');
+
+		await expect(tabpanel1).toBeFocused();
+	});
+
+	test('Tab (tabpanel-focus=false)', async ({ page }) => {
+		const section = page.locator('section').filter({ hasText: 'tabpanel-focus attribute' });
+		const tabs = section.locator('[slot="tab"]');
+		const tabpanels = section.locator('[slot="tabpanel"]');
+
+		const tab1 = tabs.nth(0);
+		const tabpanel1 = tabpanels.nth(0);
+
+		await tab1.focus();
+		await page.keyboard.press('Tab');
+
+		await Promise.all([expect(tabpanel1).not.toBeFocused(), expect(tabpanel1.locator('button')).toBeFocused()]);
+	});
 });
 
 test.describe('tabpanel event', () => {
@@ -190,7 +218,7 @@ test.describe('tabpanel event', () => {
 		const tab1 = tabs.nth(0);
 		const tabpanel1 = tabpanels.nth(0);
 
-		await tabpanel1.locator('button').focus();
+		await tabpanel1.focus();
 		await tabpanel1.press('Control+ArrowLeft');
 
 		await expect(tab1).toBeFocused();
@@ -205,7 +233,7 @@ test.describe('tabpanel event', () => {
 		const tabpanel2 = tabpanels.nth(1);
 
 		await tab2.click();
-		await tabpanel2.locator('button').focus();
+		await tabpanel2.focus();
 		await tabpanel2.press('Control+ArrowUp');
 
 		await expect(tab2).toBeFocused();
@@ -225,11 +253,11 @@ test.describe('storage', () => {
 		const tabpanel2 = tabpanels.nth(1);
 		const tabpanel3 = tabpanels.nth(2);
 
-		expect(await page.evaluate(() => sessionStorage.getItem('tab3'))).toBeNull();
+		expect(await page.evaluate(() => sessionStorage.getItem('tab-storage'))).toBeNull();
 
 		await tab2.click();
 
-		expect(await page.evaluate(() => sessionStorage.getItem('tab3'))).toBe('tabpanel3-2');
+		expect(await page.evaluate(() => sessionStorage.getItem('tab-storage'))).toBe('tabpanel4-2');
 
 		await page.reload();
 

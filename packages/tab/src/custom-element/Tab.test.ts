@@ -206,6 +206,34 @@ describe('attributes', () => {
 		expect($tablist?.ariaLabel).toBe('foo2');
 	});
 
+	test('tabpanel-focus', () => {
+		const $tab = document.querySelector<Tab>('my-tab')!;
+		const $tabpanel = $tab.querySelector<HTMLElement>('[role="tabpanel" i]');
+
+		expect($tab.tabpanelFocus).toBeUndefined();
+		expect($tabpanel?.tabIndex).toBe(0);
+
+		$tab.tabpanelFocus = false;
+		expect($tab.tabpanelFocus).toBeFalsy();
+		expect($tabpanel?.tabIndex).toBe(-1);
+
+		$tab.tabpanelFocus = true;
+		expect($tab.tabpanelFocus).toBeTruthy();
+		expect($tabpanel?.tabIndex).toBe(0);
+
+		$tab.tabpanelFocus = undefined;
+		expect($tab.tabpanelFocus).toBeFalsy();
+		expect($tabpanel?.tabIndex).toBe(-1);
+
+		$tab.setAttribute('tabpanel-focus', 'true');
+		expect($tab.tabpanelFocus).toBeTruthy();
+		expect($tabpanel?.tabIndex).toBe(0);
+
+		$tab.setAttribute('tabpanel-focus', 'false');
+		expect($tab.tabpanelFocus).toBeFalsy();
+		expect($tabpanel?.tabIndex).toBe(-1);
+	});
+
 	test('storage-key', () => {
 		const $tab = document.querySelector<Tab>('my-tab')!;
 		const $tabs = $tab.querySelectorAll('[slot="tab"]');

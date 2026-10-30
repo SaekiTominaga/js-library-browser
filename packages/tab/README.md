@@ -5,6 +5,11 @@
 
 ## Features
 
+- Keyboard navigation complies with the [Tabs Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/) in the <cite>ARIA Authoring Practices Guide (APG)</cite>.
+  - Pressing the <kbd>Left Arrow</kbd> / <kbd>Right Arrow</kbd> key Automatically activates the newly focused tab.
+  - It also supports the <kbd>Home</kbd> and <kbd>End</kbd> keys.
+  - Since popup menu within tabs is not supported, the <kbd>Shift</kbd> + <kbd>F10</kbd> key is not recognized.
+  - Since deletion tabs is not supported, the <kbd>Delete</kbd> key is not recognized.
 - Focusgroup is used for navigation within the tablist using the arrow keys.
   - Continue tto provide support for browsers that do not support focusgroup.
 - Vertical tabs are not supported.
@@ -40,6 +45,7 @@ Using the `ariaControlsElements` property. ([Can I use...](https://caniuse.com/m
 
 <my-tab
   tablist-label="Tab label"
+  tabpanel-focus="true"
   storage-key="tab1"
 >
   <a href="#tabpanel1" slot="tab">Tab 1</a>
@@ -52,22 +58,28 @@ Using the `ariaControlsElements` property. ([Can I use...](https://caniuse.com/m
 ## HTML attributes
 
 <dl>
-<dt><code>tablist-label</code> [optional]</dt>
-<dd>Label string to set in <code>[role=tablist]</code>. (set as the <code>aria-label</code> attribute value)</dd>
-<dt><code>storage-key</code> [optional]</dt>
-<dd>When a tab is selected, its value is saved as the <code>sessionStorage</code>. The selected tab is maintained when you navigate or reload the page. <strong>This value should be unique within your site because it is used as the key for <code>sessionStorage</code>.</strong> (Setting this attribute is optional, but it is recommended to set it from the viewpoint of usability.)</dd>
+  <div>
+    <dt><code>tablist-label</code> [optional]</dt>
+    <dd>Label string to set in <code>[role=tablist]</code>. (set as the <code>aria-label</code> attribute value)</dd>
+  </div>
+  <div>
+    <dt><code>tabpanel-focus</code> [optional]</dt>
+    <dd>If the first element containing meaningful content inside the tabpanel is focusable, setting this attribute to <code>false</code> prevents the tabpanel itself from receiving focus. You can test the behavior on the demo page by pressing the <kbd>Tab</kbd> key while the focus is on a tab element.</dd>
+  </div>
+  <div>
+    <dt><code>storage-key</code> [optional]</dt>
+    <dd>When a tab is selected, its value is saved as the <code>sessionStorage</code>. The selected tab is maintained when you navigate or reload the page. <strong>This value should be unique within your site because it is used as the key for <code>sessionStorage</code>.</strong> (Setting this attribute is optional, but it is recommended to set it from the viewpoint of usability.)</dd>
+  </div>
 </dl>
 
 ## Style customization
-
-### Shadow DOM
 
 The tab markup looks like this.
 
 ```html
 <my-tab>
   #shadow-root (open)
-  <div part="tablist" role="tablist">
+  <div focusgroup="tablist" part="tablist">
     <slot name="tab"></slot>
   </div>
   <div part="tabpanels">
@@ -79,55 +91,13 @@ The tab markup looks like this.
 Therefore, you can customize the style using [`::part`](https://developer.mozilla.org/en-US/docs/Web/CSS/::part) CSS pseudo-element.
 
 ```css
-.my-tab {
-  &::part(tab) {
+my-tab {
+  &::part(tablist) {
     ...
   }
 
   &::part(tabpanels) {
     ...
-  }
-}
-```
-
-### `slot="tab"`, `slot="tabpanel"`
-
-Elements using the `slot` attribute will have the following attributes added by applying the custom element.
-
-```html
-<my-tab>
-  <a href="#tabpanel1" slot="tab">Tab 1</a>
-  <a href="#tabpanel2" slot="tab">Tab 2</a>
-
-  <div slot="tabpanel" id="tabpanel1">Contents of tabpanel 1</div>
-  <div slot="tabpanel" id="tabpanel2">Contents of tabpanel 2</div>
-</my-tab>
-```
-
-↓
-
-```html
-<my-tab>
-  <a slot="tab" id="..." role="tab" aria-controls="tabpanel1" tabindex="0" aria-selected="true">Tab 1</a>
-  <a slot="tab" id="..." role="tab" aria-controls="tabpanel2" tabindex="-1" aria-selected="false">Tab 2</a>
-
-  <div slot="tabpanel" id="tabpanel1" role="tabpanel" aria-labelledby="...">Contents of tabpanel 1</div>
-  <div slot="tabpanel" id="tabpanel2" role="tabpanel" aria-labelledby="..." class="is-hidden">Contents of tabpanel 2</div>
-</my-tab>
-```
-
-Therefore, you can customize the style using `role` attribute.
-
-```css
-my-tab {
-  & > [role='tab'] {
-    ...
-    /* This style does not applicable in environments where JavaScript is disabled */
-  }
-
-  & > [role='tabpanel'] {
-    ...
-    /* This style does not applicable in environments where JavaScript is disabled */
   }
 }
 ```
