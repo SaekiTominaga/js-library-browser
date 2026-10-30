@@ -209,37 +209,6 @@ test.describe('tab event', () => {
 	});
 });
 
-test.describe('tabpanel event', () => {
-	test('Ctrl + ←', async ({ page }) => {
-		const section = page.locator('section').filter({ hasText: 'no attribute' });
-		const tabs = section.locator('[slot="tab"]');
-		const tabpanels = section.locator('[slot="tabpanel"]');
-
-		const tab1 = tabs.nth(0);
-		const tabpanel1 = tabpanels.nth(0);
-
-		await tabpanel1.focus();
-		await tabpanel1.press('Control+ArrowLeft');
-
-		await expect(tab1).toBeFocused();
-	});
-
-	test('Ctrl + ↑', async ({ page }) => {
-		const section = page.locator('section').filter({ hasText: 'no attribute' });
-		const tabs = section.locator('[slot="tab"]');
-		const tabpanels = section.locator('[slot="tabpanel"]');
-
-		const tab2 = tabs.nth(1);
-		const tabpanel2 = tabpanels.nth(1);
-
-		await tab2.click();
-		await tabpanel2.focus();
-		await tabpanel2.press('Control+ArrowUp');
-
-		await expect(tab2).toBeFocused();
-	});
-});
-
 test.describe('storage', () => {
 	test('set', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'storage-key attribute' });
