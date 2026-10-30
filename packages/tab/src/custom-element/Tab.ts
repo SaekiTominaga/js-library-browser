@@ -123,8 +123,6 @@ export default class Tab extends HTMLElement {
 			if (!$tabpanel.hasAttribute('tabindex')) {
 				$tabpanel.tabIndex = 0;
 			}
-
-			$tabpanel.addEventListener('keydown', this.#tabpanelKeydownEvent);
 		});
 
 		if (this.#storageKey === undefined) /* 属性設定時は先に attributeChangedCallback() で処理されている */ {
@@ -140,10 +138,6 @@ export default class Tab extends HTMLElement {
 			if (!this.#supportFocusgrouop) {
 				$tab.removeEventListener('keydown', this.#tabKeydownEvent);
 			}
-		});
-
-		this.#$$tabpanel.forEach(($tabpanel) => {
-			$tabpanel.removeEventListener('keydown', this.#tabpanelKeydownEvent);
 		});
 	}
 
@@ -268,28 +262,6 @@ export default class Tab extends HTMLElement {
 		if (focusTabNo !== undefined) {
 			event.preventDefault();
 			this.#$$tab.at(focusTabNo)?.focus();
-		}
-	};
-
-	/**
-	 * Tabpanel: `keydown` event
-	 *
-	 * @param event - Event
-	 */
-	readonly #tabpanelKeydownEvent = (event: KeyboardEvent): void => {
-		switch (event.key) {
-			case 'ArrowLeft':
-			case 'ArrowUp': {
-				if (event.ctrlKey) {
-					/* Ctrl キーが同時に押下された場合は、選択中の [role="tab"] な要素にフォーカスを移動する */
-					event.preventDefault();
-
-					this.#$$tab.at(this.#selectedTabNo)?.focus();
-				}
-
-				break;
-			}
-			default:
 		}
 	};
 
