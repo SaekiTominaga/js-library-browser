@@ -5,12 +5,12 @@ const popoverDelayMouseenterDefault = '100ms';
 const popoverDelayMouseleaveDefault = '500ms';
 
 export default class extends HTMLElement {
-	/* Elements */
-	readonly #$anchorSlot: HTMLSlotElement;
+	/* Light DOM elements */
+	readonly #$anchor: HTMLAnchorElement;
+	readonly #$popoverContentSlotted: HTMLElement;
+
+	/* Shadow DOM elements */
 	readonly #$popover: HTMLElement;
-	readonly #$popoverHideButton: HTMLButtonElement;
-	readonly #$popoverHideButtonSlot: HTMLSlotElement;
-	#$anchor: HTMLAnchorElement | undefined;
 
 	/* Attributes */
 	#ignoreSelectors: string | undefined;
@@ -80,73 +80,61 @@ export default class extends HTMLElement {
 		css.replaceSync(cssString);
 		shadow.adoptedStyleSheets.push(css);
 
-		this.#$anchorSlot = shadow.querySelector<HTMLSlotElement>('slot[name="anchor"]')!;
 		this.#$popover = shadow.querySelector<HTMLElement>('#popover')!;
-		this.#$popoverHideButton = shadow.querySelector<HTMLButtonElement>('[part~="popover__hide"]')!;
-		this.#$popoverHideButtonSlot = shadow.querySelector<HTMLSlotElement>('slot[name="popover__hide"]')!;
-	}
 
-	connectedCallback(): void {
-		const $anchor = this.#$anchorSlot.assignedNodes().at(0);
+		/* Light DOM 側のアンカー要素 */
+		const $anchor = shadow.querySelector<HTMLSlotElement>('slot[name="anchor"]')!.assignedNodes().at(0);
 		if ($anchor === undefined) {
 			throw new Error('Element `[slot=anchor]` not found');
 		}
 		if (!($anchor instanceof HTMLAnchorElement)) {
 			throw new TypeError('Element `[slot=anchor]` must be a `<a>` element');
 		}
+		$anchor.role = 'button';
+		$anchor.ariaExpanded = 'false'; // popovertarget's mapping <https://www.w3.org/TR/html-aam-1.0/#att-popovertarget>
+		this.#$anchor = $anchor;
 
-		{
-			$anchor.role = 'button';
-			$anchor.ariaExpanded = 'false'; // popovertarget's mapping <https://www.w3.org/TR/html-aam-1.0/#att-popovertarget>
-			this.#$anchor = $anchor;
+		/* 脚注をクローンするための器を用意する */
+		const $popoverContentSlotted = document.createElement('div');
+		$popoverContentSlotted.slot = 'popover__content';
+		this.append($popoverContentSlotted);
+		this.#$popoverContentSlotted = $popoverContentSlotted;
 
-			this.#$anchor.addEventListener('click', this.#anchorClickEvent);
-			this.#$anchor.addEventListener('pointerenter', this.#anchorPointerenterEvent, { passive: true });
-			this.#$anchor.addEventListener('pointerleave', this.#anchorPointerleaveEvent, { passive: true });
-		}
-
-		{
-			if (this.#popoverLabel !== undefined) {
-				this.#$popover.ariaLabel = this.#popoverLabel;
+		/* 閉じるボタンのカスタマイズ；Light DOM 側は <template> 要素なので Shadow DOM への埋め込みは <slot> に頼らず自前処理で行う */
+		const $popoverHideButtonTemplate = shadow.querySelector<HTMLSlotElement>('slot[name="popover__hide"]')!.assignedNodes().at(0);
+		if ($popoverHideButtonTemplate !== undefined) {
+			if (!($popoverHideButtonTemplate instanceof HTMLTemplateElement)) {
+				throw new TypeError('Element `[slot=popover__hide]` must be a `<template>` element');
 			}
 
-			const { width, height } = this.#$anchor.getBoundingClientRect();
-			this.#$popover.dataset['anchorWidth'] = String(Number(width.toFixed(3)));
-			this.#$popover.dataset['anchorHeight'] = String(Number(height.toFixed(3)));
-
-			this.#$popover.addEventListener('toggle', this.#popoverToggleEvent, { passive: true });
-			this.#$popover.addEventListener('click', this.#popoverClickEvent, { passive: true });
-			this.#$popover.addEventListener('pointerenter', this.#popoverPointerenterEvent, { passive: true });
-			this.#$popover.addEventListener('pointerleave', this.#popoverPointerleaveEvent, { passive: true });
-		}
-
-		{
-			const $footnoteClone = getFootnote($anchor, {
-				ignoreSelectors: this.#ignoreSelectors,
-			});
-
-			const $popoverContentSlotted = document.createElement('div');
-			$popoverContentSlotted.slot = 'popover__content';
-			$popoverContentSlotted.append(...$footnoteClone.childNodes);
-			this.append($popoverContentSlotted);
-		}
-
-		{
-			const $popoverHideButton = this.#$popoverHideButtonSlot.assignedNodes().at(0);
-			if ($popoverHideButton !== undefined) {
-				if (!($popoverHideButton instanceof HTMLTemplateElement)) {
-					throw new TypeError('Element `[slot=popover__hide]` must be a `<template>` element');
-				}
-
-				this.#$popoverHideButton.append($popoverHideButton.content);
-			}
+			shadow.querySelector<HTMLButtonElement>('[part~="popover__hide"]')!.append($popoverHideButtonTemplate.content);
 		}
 	}
 
+	connectedCallback(): void {
+		const { width, height } = this.#$anchor.getBoundingClientRect();
+		this.#$popover.dataset['anchorWidth'] = String(Number(width.toFixed(3)));
+		this.#$popover.dataset['anchorHeight'] = String(Number(height.toFixed(3)));
+
+		if (this.#ignoreSelectors === undefined) /* 除外セレクター設定時は先に attributeChangedCallback() で処理されている */ {
+			const $footnoteClone = getFootnote(this.#$anchor);
+			this.#$popoverContentSlotted.replaceChildren(...$footnoteClone.childNodes);
+		}
+
+		this.#$anchor.addEventListener('click', this.#anchorClickEvent);
+		this.#$anchor.addEventListener('pointerenter', this.#anchorPointerenterEvent, { passive: true });
+		this.#$anchor.addEventListener('pointerleave', this.#anchorPointerleaveEvent, { passive: true });
+
+		this.#$popover.addEventListener('toggle', this.#popoverToggleEvent, { passive: true });
+		this.#$popover.addEventListener('click', this.#popoverClickEvent, { passive: true });
+		this.#$popover.addEventListener('pointerenter', this.#popoverPointerenterEvent, { passive: true });
+		this.#$popover.addEventListener('pointerleave', this.#popoverPointerleaveEvent, { passive: true });
+	}
+
 	disconnectedCallback(): void {
-		this.#$anchor?.removeEventListener('click', this.#anchorClickEvent);
-		this.#$anchor?.removeEventListener('pointerenter', this.#anchorPointerenterEvent);
-		this.#$anchor?.removeEventListener('pointerleave', this.#anchorPointerleaveEvent);
+		this.#$anchor.removeEventListener('click', this.#anchorClickEvent);
+		this.#$anchor.removeEventListener('pointerenter', this.#anchorPointerenterEvent);
+		this.#$anchor.removeEventListener('pointerleave', this.#anchorPointerleaveEvent);
 
 		this.#$popover.removeEventListener('toggle', this.#popoverToggleEvent);
 		this.#$popover.removeEventListener('click', this.#popoverClickEvent);
@@ -157,19 +145,19 @@ export default class extends HTMLElement {
 	attributeChangedCallback(name: string, _oldValue: string | null, newValue: string | null): void {
 		switch (name) {
 			case 'ignore': {
-				this.#ignoreSelectors = newValue ?? undefined;
+				this.ignore = newValue ?? undefined;
 				break;
 			}
 			case 'popover-label': {
-				this.#popoverLabel = newValue ?? undefined;
+				this.popoverLabel = newValue ?? undefined;
 				break;
 			}
 			case 'popover-delay-mouseenter': {
-				this.#popoverDelayMouseenter = newValue ?? undefined;
+				this.popoverDelayMouseenter = newValue ?? undefined;
 				break;
 			}
 			case 'popover-delay-mouseleave': {
-				this.#popoverDelayMouseleave = newValue ?? undefined;
+				this.popoverDelayMouseleave = newValue ?? undefined;
 				break;
 			}
 			default:
@@ -182,6 +170,11 @@ export default class extends HTMLElement {
 
 	set ignore(value: string | undefined) {
 		this.#ignoreSelectors = value;
+
+		const $footnoteClone = getFootnote(this.#$anchor, {
+			ignoreSelectors: value,
+		});
+		this.#$popoverContentSlotted.replaceChildren(...$footnoteClone.childNodes);
 	}
 
 	get popoverLabel(): string | undefined {
@@ -190,6 +183,8 @@ export default class extends HTMLElement {
 
 	set popoverLabel(value: string | undefined) {
 		this.#popoverLabel = value;
+
+		this.#$popover.ariaLabel = value ?? null;
 	}
 
 	get popoverDelayMouseenter(): string | undefined {
@@ -285,9 +280,7 @@ export default class extends HTMLElement {
 	 * @param event - Event
 	 */
 	readonly #popoverToggleEvent = (event: ToggleEvent): void => {
-		if (this.#$anchor !== undefined) {
-			this.#$anchor.ariaExpanded = event.newState === 'open' ? 'true' : 'false';
-		}
+		this.#$anchor.ariaExpanded = event.newState === 'open' ? 'true' : 'false';
 	};
 
 	/**

@@ -161,3 +161,83 @@ describe('popover hide button', () => {
 		);
 	});
 });
+
+describe('attributes', () => {
+	beforeAll(() => {
+		document.body.innerHTML = `
+			<fn-ref>
+				<a href="#foo" slot="anchor"></a>
+			</fn-ref>
+			<p id="foo">text<em>em</em><strong>strong</strong></p>
+`;
+	});
+
+	test('ignore', () => {
+		const $fnRef = document.querySelector<FootnoteReferencePopover>('fn-ref')!;
+		const $popoverContent = $fnRef.querySelector<HTMLElement>(':scope > [slot="popover__content"]')!;
+
+		expect($fnRef.ignore).toBeUndefined();
+		expect($popoverContent.innerHTML).toBe('text<em>em</em><strong>strong</strong>');
+
+		$fnRef.ignore = 'em';
+		expect($fnRef.ignore).toBe('em');
+		expect($popoverContent.innerHTML).toBe('text<strong>strong</strong>');
+
+		$fnRef.ignore = undefined;
+		expect($fnRef.ignore).toBeUndefined();
+		expect($popoverContent.innerHTML).toBe('text<em>em</em><strong>strong</strong>');
+
+		$fnRef.setAttribute('ignore', 'strong');
+		expect($popoverContent.innerHTML).toBe('text<em>em</em>');
+	});
+
+	test('popover-label', () => {
+		const $fnRef = document.querySelector<FootnoteReferencePopover>('fn-ref')!;
+		const $popover = $fnRef.shadowRoot?.querySelector<HTMLElement>('#popover');
+
+		expect($fnRef.popoverLabel).toBeUndefined();
+		expect($popover?.ariaLabel).toBeNull();
+
+		$fnRef.popoverLabel = 'foo1';
+		expect($fnRef.popoverLabel).toBe('foo1');
+		expect($popover?.ariaLabel).toBe('foo1');
+
+		$fnRef.popoverLabel = undefined;
+		expect($fnRef.popoverLabel).toBeUndefined();
+		expect($popover?.ariaLabel).toBeNull();
+
+		$fnRef.setAttribute('popover-label', 'foo2');
+		expect($fnRef.popoverLabel).toBe('foo2');
+		expect($popover?.ariaLabel).toBe('foo2');
+	});
+
+	test('popover-delay-mouseenter', () => {
+		const $fnRef = document.querySelector<FootnoteReferencePopover>('fn-ref')!;
+
+		expect($fnRef.popoverDelayMouseenter).toBeUndefined();
+
+		$fnRef.popoverDelayMouseenter = 'foo1';
+		expect($fnRef.popoverDelayMouseenter).toBe('foo1');
+
+		$fnRef.popoverDelayMouseenter = undefined;
+		expect($fnRef.popoverDelayMouseenter).toBeUndefined();
+
+		$fnRef.setAttribute('popover-delay-mouseenter', 'foo2');
+		expect($fnRef.popoverDelayMouseenter).toBe('foo2');
+	});
+
+	test('popover-delay-mouseleave', () => {
+		const $fnRef = document.querySelector<FootnoteReferencePopover>('fn-ref')!;
+
+		expect($fnRef.popoverDelayMouseleave).toBeUndefined();
+
+		$fnRef.popoverDelayMouseleave = 'foo1';
+		expect($fnRef.popoverDelayMouseleave).toBe('foo1');
+
+		$fnRef.popoverDelayMouseleave = undefined;
+		expect($fnRef.popoverDelayMouseleave).toBeUndefined();
+
+		$fnRef.setAttribute('popover-delay-mouseleave', 'foo2');
+		expect($fnRef.popoverDelayMouseleave).toBe('foo2');
+	});
+});
