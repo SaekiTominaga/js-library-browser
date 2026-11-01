@@ -1,50 +1,17 @@
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, jest, test } from '@jest/globals';
-import type { SpiedFunction } from 'jest-mock';
+import { beforeAll, describe, expect, test } from '@jest/globals';
 import InputSwitch from './InputSwitch.ts';
 
-const INPUT_SWITCH_ELEMENT_NAME = 'x-input-switch';
-
 beforeAll(() => {
-	customElements.define(INPUT_SWITCH_ELEMENT_NAME, InputSwitch);
-});
-
-describe('browser support CustomStateSet', () => {
-	let tempCustomStateSet: CustomStateSet;
-	let consoleWarnSpy: SpiedFunction;
-
-	beforeAll(() => {
-		tempCustomStateSet = ElementInternals.prototype.states;
-		// @ts-expect-error: ts(2790)
-		delete ElementInternals.prototype.states;
-	});
-
-	beforeEach(() => {
-		consoleWarnSpy = jest.spyOn(console, 'warn');
-	});
-
-	afterEach(() => {
-		consoleWarnSpy.mockRestore();
-	});
-
-	afterAll(() => {
-		// @ts-expect-error: ts(2540)
-		ElementInternals.prototype.states = tempCustomStateSet;
-	});
-
-	test('not support', () => {
-		document.createElement(INPUT_SWITCH_ELEMENT_NAME);
-
-		expect(consoleWarnSpy).toHaveBeenCalledWith('[@w0s/input-switch] This browser does not support `CustomStateSet`.');
-	});
+	customElements.define('input-switch', InputSwitch);
 });
 
 describe('attributeChangedCallback', () => {
 	beforeAll(() => {
-		document.body.innerHTML = `<x-input-switch></x-input-switch>`;
+		document.body.innerHTML = `<input-switch></input-switch>`;
 	});
 
 	test('value', () => {
-		const $switch = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
+		const $switch = document.querySelector<InputSwitch>('input-switch')!;
 
 		expect($switch.value).toBe('on');
 
@@ -56,7 +23,7 @@ describe('attributeChangedCallback', () => {
 	});
 
 	test('checked', () => {
-		const $switch = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
+		const $switch = document.querySelector<InputSwitch>('input-switch')!;
 
 		expect($switch.checked).toBeFalsy();
 		expect($switch.getAttribute('aria-checked')).toBe('false');
@@ -71,7 +38,7 @@ describe('attributeChangedCallback', () => {
 	});
 
 	test('disabled', () => {
-		const $switch = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
+		const $switch = document.querySelector<InputSwitch>('input-switch')!;
 
 		expect($switch.disabled).toBeFalsy();
 		expect($switch.getAttribute('aria-disabled')).toBe('false');
@@ -86,7 +53,7 @@ describe('attributeChangedCallback', () => {
 	});
 
 	test('storage-key', () => {
-		const $switch = document.querySelector<InputSwitch>(INPUT_SWITCH_ELEMENT_NAME)!;
+		const $switch = document.querySelector<InputSwitch>('input-switch')!;
 
 		expect($switch.storageKey).toBeNull();
 

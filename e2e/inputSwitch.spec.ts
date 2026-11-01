@@ -10,7 +10,7 @@ test.afterEach(async ({ page }) => {
 
 test('init', async ({ page }) => {
 	const section = page.locator('section').filter({ hasText: 'Explicit label' });
-	const switchCtrl = section.locator('x-input-switch');
+	const switchCtrl = section.locator('input-switch');
 
 	await Promise.all([
 		expect(switchCtrl).toHaveAttribute('tabindex', '0'),
@@ -24,7 +24,7 @@ test('init', async ({ page }) => {
 test.describe('pattern', () => {
 	test('checked attribute', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'checked attribute' }).nth(0);
-		const switchCtrl = section.locator('x-input-switch');
+		const switchCtrl = section.locator('input-switch');
 
 		await Promise.all([expect(switchCtrl).toHaveAttribute('aria-checked', 'true'), expect(switchCtrl).toHaveAttribute('checked', '')]);
 
@@ -35,7 +35,7 @@ test.describe('pattern', () => {
 
 	test('disabled attribute', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'disabled attribute' });
-		const switchCtrl = section.locator('x-input-switch');
+		const switchCtrl = section.locator('input-switch');
 
 		await Promise.all([expect(switchCtrl).toHaveAttribute('aria-checked', 'false'), expect(switchCtrl).not.toHaveAttribute('checked')]);
 
@@ -47,7 +47,7 @@ test.describe('pattern', () => {
 
 	test('disabled and checked attribute', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'disabled and checked attribute' });
-		const switchCtrl = section.locator('x-input-switch');
+		const switchCtrl = section.locator('input-switch');
 
 		await Promise.all([expect(switchCtrl).toHaveAttribute('aria-checked', 'true'), expect(switchCtrl).toHaveAttribute('checked', '')]);
 
@@ -61,7 +61,7 @@ test.describe('pattern', () => {
 test.describe('event', () => {
 	test('control click', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'Explicit label' });
-		const switchCtrl = section.locator('x-input-switch');
+		const switchCtrl = section.locator('input-switch');
 
 		await switchCtrl.click();
 
@@ -74,7 +74,7 @@ test.describe('event', () => {
 
 	test('Explicit label click', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'Explicit label' });
-		const switchCtrl = section.locator('x-input-switch');
+		const switchCtrl = section.locator('input-switch');
 		const label = section.locator('label');
 
 		await label.click();
@@ -88,7 +88,7 @@ test.describe('event', () => {
 
 	test('Implicit label click', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'Implicit label' });
-		const switchCtrl = section.locator('x-input-switch');
+		const switchCtrl = section.locator('input-switch');
 		const label = section.locator('label');
 
 		await label.click();
@@ -102,7 +102,7 @@ test.describe('event', () => {
 
 	test('Space', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'Explicit label' });
-		const switchCtrl = section.locator('x-input-switch');
+		const switchCtrl = section.locator('input-switch');
 
 		await switchCtrl.press('Space');
 
@@ -116,7 +116,7 @@ test.describe('event', () => {
 	test('Enter', async ({ page }) => {
 		/* Enter キーでは変化しないことを確認する */
 		const section = page.locator('section').filter({ hasText: 'Explicit label' });
-		const switchCtrl = section.locator('x-input-switch');
+		const switchCtrl = section.locator('input-switch');
 
 		await switchCtrl.press('Enter');
 
@@ -140,7 +140,7 @@ test.describe('Form submission', () => {
 
 	test('reset', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'Form submission' });
-		const switchCtrl = section.locator('x-input-switch');
+		const switchCtrl = section.locator('input-switch');
 		const resetButton = section.getByRole('button', { name: 'Reset' });
 
 		const switchCtrl1 = switchCtrl.nth(0);
@@ -158,7 +158,7 @@ test.describe('Form submission', () => {
 test.describe('storage', () => {
 	test('set', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'storage-key attribute' });
-		const switchCtrl = section.locator('x-input-switch');
+		const switchCtrl = section.locator('input-switch');
 
 		expect(await page.evaluate(() => localStorage.getItem('switch6'))).toBeNull();
 
@@ -169,7 +169,7 @@ test.describe('storage', () => {
 		await page.reload();
 
 		const section2 = page.locator('section').filter({ hasText: 'storage-key attribute' });
-		const switchCtrl2 = section2.locator('x-input-switch');
+		const switchCtrl2 = section2.locator('input-switch');
 
 		await Promise.all([expect(switchCtrl2).toHaveAttribute('aria-checked', 'true'), expect(switchCtrl2).toHaveAttribute('checked', '')]);
 
@@ -199,7 +199,7 @@ test.describe('storage', () => {
 		expect(consoleMessages).toContain('[@w0s/input-switch] Storage access blocked.');
 
 		const section = page.locator('section').filter({ hasText: 'storage-key attribute' });
-		const switchCtrl = section.locator('x-input-switch').nth(0);
+		const switchCtrl = section.locator('input-switch').nth(0);
 
 		await switchCtrl.click();
 		await page.reload();

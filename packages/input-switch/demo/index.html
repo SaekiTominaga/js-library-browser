@@ -43,9 +43,9 @@
 			}
 		</script>
 		<script type="module">
-			import InputSwitch from '@w0s/input-switch';
+			import inputSwitch from '@w0s/input-switch';
 
-			customElements.define('x-input-switch', InputSwitch);
+			inputSwitch('input-switch');
 		</script>
 	</head>
 	<body>
@@ -54,60 +54,60 @@
 		<section>
 			<h2>Explicit label</h2>
 
-			<pre><code>&lt;x-input-switch id="input-switch-1"&gt;&lt;/x-input-switch&gt; &lt;label for="input-switch-1"&gt;switch&lt;/label&gt;</code></pre>
+			<pre><code>&lt;input-switch id="input-switch-1"&gt;&lt;/input-switch&gt; &lt;label for="input-switch-1"&gt;switch&lt;/label&gt;</code></pre>
 
 			<p>
-				<span class="switch-wrap"><x-input-switch id="input-switch-1"></x-input-switch> <label for="input-switch-1">switch</label></span>
+				<span class="switch-wrap"><input-switch id="input-switch-1"></input-switch> <label for="input-switch-1">switch</label></span>
 			</p>
 		</section>
 
 		<section>
 			<h2>Implicit label</h2>
 
-			<pre><code>&lt;label&gt;&lt;x-input-switch&gt;&lt;/x-input-switch&gt; switch&lt;/label&gt;</code></pre>
+			<pre><code>&lt;label&gt;&lt;input-switch&gt;&lt;/input-switch&gt; switch&lt;/label&gt;</code></pre>
 
 			<p>
-				<label class="switch-wrap"><x-input-switch></x-input-switch> switch</label>
+				<label class="switch-wrap"><input-switch></input-switch> switch</label>
 			</p>
 		</section>
 
 		<section>
 			<h2><code>checked</code> attribute</h2>
 
-			<pre><code>&lt;label&gt;&lt;x-input-switch checked=""&gt;&lt;/x-input-switch&gt; switch&lt;/label&gt;</code></pre>
+			<pre><code>&lt;label&gt;&lt;input-switch checked=""&gt;&lt;/input-switch&gt; switch&lt;/label&gt;</code></pre>
 
 			<p>
-				<label class="switch-wrap"><x-input-switch checked=""></x-input-switch> switch</label>
+				<label class="switch-wrap"><input-switch checked=""></input-switch> switch</label>
 			</p>
 		</section>
 
 		<section>
 			<h2><code>disabled</code> attribute</h2>
 
-			<pre><code>&lt;label&gt;&lt;x-input-switch disabled=""&gt;&lt;/x-input-switch&gt; switch&lt;/label&gt;</code></pre>
+			<pre><code>&lt;label&gt;&lt;input-switch disabled=""&gt;&lt;/input-switch&gt; switch&lt;/label&gt;</code></pre>
 
 			<p>
-				<label class="switch-wrap"><x-input-switch disabled=""></x-input-switch> switch</label>
+				<label class="switch-wrap"><input-switch disabled=""></input-switch> switch</label>
 			</p>
 		</section>
 
 		<section>
 			<h2><code>disabled</code> and <code>checked</code> attribute</h2>
 
-			<pre><code>&lt;label&gt;&lt;x-input-switch disabled="" checked=""&gt;&lt;/x-input-switch&gt; switch&lt;/label&gt;</code></pre>
+			<pre><code>&lt;label&gt;&lt;input-switch disabled="" checked=""&gt;&lt;/input-switch&gt; switch&lt;/label&gt;</code></pre>
 
 			<p>
-				<label class="switch-wrap"><x-input-switch disabled="" checked=""></x-input-switch> switch</label>
+				<label class="switch-wrap"><input-switch disabled="" checked=""></input-switch> switch</label>
 			</p>
 		</section>
 
 		<section>
 			<h2><code>storage-key</code> attribute</h2>
 
-			<pre><code>&lt;label&gt;&lt;x-input-switch storage-key="switch6"&gt;&lt;/x-input-switch&gt; switch&lt;/label&gt;</code></pre>
+			<pre><code>&lt;label&gt;&lt;input-switch storage-key="switch6"&gt;&lt;/input-switch&gt; switch&lt;/label&gt;</code></pre>
 
 			<p>
-				<label class="switch-wrap"><x-input-switch storage-key="switch6"></x-input-switch> switch</label>
+				<label class="switch-wrap"><input-switch storage-key="switch6"></input-switch> switch</label>
 			</p>
 		</section>
 
@@ -115,8 +115,8 @@
 			<h2>Form submission</h2>
 
 			<pre><code>&lt;form&gt;
-  &lt;p&gt;&lt;label&gt;&lt;x-input-switch name="switch1" value="1"&gt;&lt;/x-input-switch&gt; switch&lt;/label&gt;&lt;/p&gt;
-  &lt;p&gt;&lt;label&gt;&lt;x-input-switch name="switch2" value="1" checked=""&gt;&lt;/x-input-switch&gt; switch&lt;/label&gt;&lt;/p&gt;
+  &lt;p&gt;&lt;label&gt;&lt;input-switch name="switch1" value="1"&gt;&lt;/input-switch&gt; switch&lt;/label&gt;&lt;/p&gt;
+  &lt;p&gt;&lt;label&gt;&lt;input-switch name="switch2" value="1" checked=""&gt;&lt;/input-switch&gt; switch&lt;/label&gt;&lt;/p&gt;
   &lt;p&gt;&lt;button&gt;Submit&lt;/button&gt; &lt;button type="reset"&gt;Reset&lt;/button&gt;&lt;/p&gt;
 &lt;/form&gt;
 
@@ -124,10 +124,10 @@
 
 			<form>
 				<p>
-					<label class="switch-wrap"><x-input-switch name="switch1" value="1"></x-input-switch> switch</label>
+					<label class="switch-wrap"><input-switch name="switch1" value="1"></input-switch> switch</label>
 				</p>
 				<p>
-					<label class="switch-wrap"><x-input-switch name="switch2" value="1" checked=""></x-input-switch> switch</label>
+					<label class="switch-wrap"><input-switch name="switch2" value="1" checked=""></input-switch> switch</label>
 				</p>
 				<p><button>Submit</button> <button type="reset">Reset</button></p>
 			</form>
@@ -145,7 +145,7 @@
 			<h2>Style customization</h2>
 
 			<p>
-				<label class="switch-wrap"><x-input-switch class="switch -custom"></x-input-switch> switch</label>
+				<label class="switch-wrap"><input-switch class="switch -custom"></input-switch> switch</label>
 			</p>
 		</section>
 	</body>

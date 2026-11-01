@@ -6,25 +6,19 @@ export default class InputSwitch extends HTMLElement {
 
 	static readonly observedAttributes = ['value', 'checked', 'disabled', 'storage-key'];
 
-	readonly #internals: ElementInternals | undefined;
+	readonly #internals: ElementInternals;
 
-	readonly #myLocalStorage: Storage | undefined;
+	readonly #storage: Storage | undefined;
 
 	#initilalChecked = false;
 
 	constructor() {
 		super();
 
-		if (typeof ElementInternals === 'undefined' || !('states' in ElementInternals.prototype)) {
-			/* Firefox 125-, Safari 17.3-, Chrome 89-, Edge 89- <https://caniuse.com/mdn-api_customstateset> */
-			console.warn('[@w0s/input-switch] This browser does not support `CustomStateSet`.');
-			return;
-		}
-
 		this.#internals = this.attachInternals();
 
 		try {
-			this.#myLocalStorage = localStorage;
+			this.#storage = localStorage;
 		} catch {
 			console.info('[@w0s/input-switch] Storage access blocked.');
 		}
@@ -114,7 +108,7 @@ export default class InputSwitch extends HTMLElement {
 
 		if (storageKey !== null && storageKey !== '') {
 			/* ストレージから前回アクセス時のチェック情報を取得する */
-			const storageValue = this.#myLocalStorage?.getItem(storageKey);
+			const storageValue = this.#storage?.getItem(storageKey);
 			switch (storageValue) {
 				case 'true': {
 					if (!checked) {
@@ -133,7 +127,7 @@ export default class InputSwitch extends HTMLElement {
 		}
 
 		// oxlint-disable-next-line unicorn/no-null
-		this.#internals?.setFormValue(this.checked ? this.value : null);
+		this.#internals.setFormValue(this.checked ? this.value : null);
 		this.#initilalChecked = checked;
 		this.tabIndex = disabled ? -1 : 0;
 		this.setAttribute('role', 'switch');
@@ -164,9 +158,9 @@ export default class InputSwitch extends HTMLElement {
 				this.setAttribute('aria-checked', String(checked));
 
 				if (checked) {
-					this.#internals?.states.add('checked');
+					this.#internals.states.add('checked');
 				} else {
-					this.#internals?.states.delete('checked');
+					this.#internals.states.delete('checked');
 				}
 
 				break;
@@ -179,7 +173,7 @@ export default class InputSwitch extends HTMLElement {
 				if (disabled) {
 					this.tabIndex = -1;
 
-					this.#internals?.states.add('disabled');
+					this.#internals.states.add('disabled');
 
 					this.removeEventListener('change', this.#changeEvent);
 					this.removeEventListener('click', this.#clickEvent);
@@ -189,7 +183,7 @@ export default class InputSwitch extends HTMLElement {
 				} else {
 					this.tabIndex = 0;
 
-					this.#internals?.states.delete('disabled');
+					this.#internals.states.delete('disabled');
 
 					this.addEventListener('change', this.#changeEvent, { passive: true });
 					this.addEventListener('click', this.#clickEvent);
@@ -270,11 +264,11 @@ export default class InputSwitch extends HTMLElement {
 		this.checked = !checked;
 
 		// oxlint-disable-next-line unicorn/no-null
-		this.#internals?.setFormValue(this.checked ? this.value : null);
+		this.#internals.setFormValue(this.checked ? this.value : null);
 
 		if (storageKey !== null && storageKey !== '') {
 			/* スイッチのチェック情報をストレージに保管する */
-			this.#myLocalStorage?.setItem(storageKey, String(this.checked));
+			this.#storage?.setItem(storageKey, String(this.checked));
 		}
 	};
 

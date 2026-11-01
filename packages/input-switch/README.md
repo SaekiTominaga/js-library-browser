@@ -27,18 +27,18 @@ Using the `CustomStateSet`. ([Can I use...](https://caniuse.com/mdn-api_customst
   }
 </script>
 <script type="module">
-  import InputSwitch from '@w0s/input-switch';
+  import inputSwitch from '@w0s/input-switch';
 
-  customElements.define('x-input-switch', InputSwitch);
+  inputSwitch('input-switch'); // Specify the name of a custom element
 </script>
 
-<label><x-input-switch
+<label><input-switch
   name="foo"
   value="1"
   checked=""
   disabled=""
   storage-key="foo"
-></x-input-switch> switch</label>
+></input-switch> switch</label>
 ```
 
 \* **`@w0s/shadow-append-css` is no longer required since version 6.0**
@@ -78,11 +78,11 @@ The following CSS custom properties can be used to customize the style.
 The shadow DOM of the switch looks like this.
 
 ```html
-<x-input-switch class="my-switch">
+<input-switch class="my-switch">
   #shadow-root (open)
   <div part="track"></div>
   <div part="thumb"></div>
-</x-input-switch>
+</input-switch>
 ```
 
 Therefore, the [`::part`](https://developer.mozilla.org/en-US/docs/Web/CSS/::part) CSS pseudo-element may be used to customize the style as desired.
