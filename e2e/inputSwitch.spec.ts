@@ -35,7 +35,7 @@ test.describe('pattern', () => {
 
 	test('disabled attribute', async ({ page }) => {
 		const section = page.locator('section').filter({ hasText: 'disabled attribute' });
-		const switchCtrl = section.locator('input-switch');
+		const switchCtrl = section.locator('input-switch:not([checked])');
 
 		await Promise.all([expect(switchCtrl).toHaveAttribute('aria-checked', 'false'), expect(switchCtrl).not.toHaveAttribute('checked')]);
 
@@ -46,8 +46,8 @@ test.describe('pattern', () => {
 	});
 
 	test('disabled and checked attribute', async ({ page }) => {
-		const section = page.locator('section').filter({ hasText: 'disabled and checked attribute' });
-		const switchCtrl = section.locator('input-switch');
+		const section = page.locator('section').filter({ hasText: 'disabled attribute' });
+		const switchCtrl = section.locator('input-switch[checked]');
 
 		await Promise.all([expect(switchCtrl).toHaveAttribute('aria-checked', 'true'), expect(switchCtrl).toHaveAttribute('checked', '')]);
 

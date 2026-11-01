@@ -24,73 +24,60 @@ export default class InputSwitch extends HTMLElement {
 		}
 
 		const htmlString = `
-			<div part="track"></div>
-			<div part="thumb"></div>
+			<div part="track"><span part="thumb"></span></div>
 		`;
 
 		const cssString = `
 			:host {
-				--outline-offset: 1px;
-				--block-size: 1em;
-				--inline-size: 2em;
-				--animation-duration: 0.5s;
+				--block-size: 1.9em;
+				--inline-size: calc(var(--block-size) * 2.3);
+				--animation-duration: 0.25s;
+				--disabled-opacity: 50%;
+				--track-color-on: oklch(73.03% 0.1944 147.44deg);
+				--track-color-off: oklch(82.09% 0.0028 286.34deg);
+				--thumb-block-size: calc(var(--block-size) - 4px);
+				--thumb-inline-size: calc(var(--thumb-block-size) * 1.5);
+				--thumb-color: oklch(100% 0 0deg);
 
-				--track-color-on: #29f;
-				--track-color-off: #ccc;
-				--track-color-disabled-on: #666;
-				--track-color-disabled-off: #666;
-
-				--thumb-radius: calc(0.5em - 1px);
-				--thumb-color: #fff;
-
-				--_padding: max(var(--thumb-radius) - var(--block-size) / 2, 0px);
+				--_track-color: var(--track-color-off);
+				--_thumb-border-width: max((var(--block-size) - var(--thumb-block-size)) / 2, 0px);
+				--_thumb-translate-x: 0px;
 
 				display: inline flow-root;
-				outline-offset: var(--outline-offset);
-				padding: var(--_padding);
 				block-size: var(--block-size);
 				inline-size: var(--inline-size);
-				vertical-align: middle;
+			}
+
+			:host(:state(checked)) {
+				--_track-color: var(--track-color-on);
+				--_thumb-translate-x: calc(var(--inline-size) - var(--thumb-inline-size) - var(--_thumb-border-width) * 2);
+			}
+
+			:host(:state(disabled)) {
+				opacity: var(--disabled-opacity);
+			}
+
+			[part~="track"] {
+				display: inline flex;
+				align-items: center;
+				transition-duration: var(--animation-duration);
+				transition-property: background-color;
+				border-radius: var(--block-size);
+				background-color: var(--_track-color);
+				block-size: 100%;
+				inline-size: 100%;
 				contain: layout;
 			}
 
-			:host::part(track) {
-				--_color: var(--track-color-off);
-
-				transition: background-color var(--animation-duration);
-				border-radius: var(--block-size);
-				background-color: var(--_color);
-				block-size: 100%;
-				inline-size: 100%;
-			}
-
-			:host(:state(checked))::part(track) {
-				--_color: var(--track-color-on);
-			}
-
-			:host(:state(disabled))::part(track) {
-				--_color: var(--track-color-disabled-off);
-			}
-
-			:host(:state(disabled):state(checked))::part(track) {
-				--_color: var(--track-color-disabled-on);
-			}
-
-			:host::part(thumb) {
-				--_translate-x: 0px;
-
-				position: absolute;
-				inset: calc(var(--block-size) / 2 - var(--thumb-radius) + var(--_padding));
-				translate: var(--_translate-x);
-				transition: translate var(--animation-duration);
-				border-radius: 50%;
+			[part~="thumb"] {
+				translate: var(--_thumb-translate-x);
+				transition-duration: var(--animation-duration);
+				transition-property: translate border-color;
+				border: var(--_thumb-border-width) solid var(--_track-color);
+				border-radius: var(--thumb-block-size);
 				background-color: var(--thumb-color);
-				block-size: calc(var(--thumb-radius) * 2);
-				inline-size: calc(var(--thumb-radius) * 2);
-			}
-
-			:host(:state(checked))::part(thumb) {
-				--_translate-x: calc(var(--inline-size) - var(--block-size));
+				block-size: calc(var(--thumb-block-size));
+				inline-size: calc(var(--thumb-inline-size));
 			}
 		`;
 
