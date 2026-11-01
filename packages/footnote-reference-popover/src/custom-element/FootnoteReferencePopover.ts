@@ -57,11 +57,11 @@ export default class extends HTMLElement {
 				position-area: block-end span-inline-end;
 				position-try: flip-inline;
 				container-type: anchored;
-				border: solid;
-				background-color: Canvas;
-				padding: 0.25em;
-				overflow: auto;
-				color: CanvasText;
+				border: revert;
+				background-color: revert;
+				padding: revert;
+				overflow: revert;
+				color: revert;
 
 				@supports not (container-type: anchored) {
 					position-try-order: most-inline-size;
