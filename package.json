@@ -35,7 +35,7 @@
 		"jsdom-testing-mocks": "1.16.0",
 		"markuplint": "5.0.0",
 		"oxfmt": "0.72.0",
-		"oxlint": "1.80.0",
+		"oxlint": "1.89.0",
 		"oxlint-plugin-safely-storage": "1.0.0",
 		"oxlint-tsgolint": "7.0.2002",
 		"postcss-html": "2.0.0",
