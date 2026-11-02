@@ -30,7 +30,7 @@
 		"cross-fetch": "4.1.0",
 		"eslint-plugin-playwright": "2.11.0",
 		"http-server": "14.1.1",
-		"jest": "30.5.1",
+		"jest": "30.5.2",
 		"jest-environment-jsdom": "30.5.2",
 		"jsdom-testing-mocks": "1.16.0",
 		"markuplint": "5.0.0",
