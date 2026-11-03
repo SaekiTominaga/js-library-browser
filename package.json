@@ -18,7 +18,7 @@
 		"test:playwright": "playwright test"
 	},
 	"devDependencies": {
-		"@playwright/test": "1.62.1",
+		"@playwright/test": "1.64.1",
 		"@types/node": "26.1.2",
 		"@w0s/markuplint-config": "4.0.3",
 		"@w0s/oxlint-config": "1.0.9",
