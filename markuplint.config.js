@@ -5,6 +5,16 @@ export default {
 	extends: ['@w0s/markuplint-config'],
 	rules: {
 		'no-empty-palpable-content': false,
+		'no-experimental-features': {
+			options: {
+				ignoreFeatures: ['input[switch]'],
+			},
+		},
+		'no-nonstandard-features': {
+			options: {
+				ignoreFeatures: ['input[switch]'],
+			},
+		},
 	},
 	overrideMode: 'merge',
 	overrides: {
