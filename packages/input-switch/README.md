@@ -41,8 +41,6 @@ Using the `CustomStateSet`. ([Can I use...](https://caniuse.com/mdn-api_customst
 ></input-switch> switch</label>
 ```
 
-\* **`@w0s/shadow-append-css` is no longer required since version 6.0**
-
 ## HTML attributes
 
 <dl>
@@ -60,37 +58,35 @@ Using the `CustomStateSet`. ([Can I use...](https://caniuse.com/mdn-api_customst
 
 ## Style customization
 
-The following CSS custom properties can be used to customize the style.
+The following CSS custom properties can be used to customize the style. The default values for each are similar to the user agent style for `<input type=checkbox switch>` in Safari.
 
-| name                         | deault              | Description                                                                                                                          |
-| ---------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `--outline-offset`           | `1px`               | [`outline-offset`](https://developer.mozilla.org/en-US/docs/Web/CSS/outline-offset) property value of switch control                 |
-| `--block-size`               | `1em`               | Block size of switch control                                                                                                         |
-| `--inline-size`              | `2em`               | Inline size of switch control                                                                                                        |
-| `--animation-duration`       | `0.5s`              | Time a transition animation ([`transition-duration`](https://developer.mozilla.org/en-US/docs/Web/CSS/transition-duration) property) |
-| `--track-color-on`           | `#2299ff`           | Track color when switch is on                                                                                                        |
-| `--track-color-off`          | `#cccccc`           | Track color when switch is off                                                                                                       |
-| `--track-color-disabled-on`  | `#666666`           | Track color when switch is on `disabled`                                                                                             |
-| `--track-color-disabled-off` | `#666666`           | Track color when switch is off and `disabled`                                                                                        |
-| `--thumb-radius`             | `calc(0.5em - 1px)` | Radius of slider ball                                                                                                                |
-| `--thumb-color`              | `#ffffff`           | Color of slider ball                                                                                                                 |
+| name                   | Default value                         | Description                                                                                                                                |
+| ---------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `--block-size`         | `1.9em`                               | Block size of switch control                                                                                                               |
+| `--inline-size`        | `calc(var(--block-size) * 2.3)`       | Inline size of switch control                                                                                                              |
+| `--animation-duration` | `0.25s`                               | Time a transition animation ([`transition-duration`](https://developer.mozilla.org/en-US/docs/Web/CSS/transition-duration) property value) |
+| `--disabled-opacity`   | `0.5`                                 | Opacity when switch is disabled ([`opacity`](https://developer.mozilla.org/en-US/docs/Web/CSS/                                             | `--disabled-opacity` | `0.5` | Opacity when switch is disabled ([`opacity`](https://developer.mozilla.org/en-US/docs/Web/CSS/opacity) property value) |
+| `--track-color-on`     | `oklch(73.03% 0.1944 147.44deg)`      | Track color when switch is on                                                                                                              |
+| `--track-color-off`    | `oklch(82.09% 0.0028 286.34deg)`      | Track color when switch is off                                                                                                             |
+| `--thumb-block-size`   | `calc(var(--block-size) - 4px)`       | Block size of thumb ball                                                                                                                   |
+| `--thumb-inline-size`  | `calc(var(--thumb-block-size) * 1.5)` | Inline size of thumb ball                                                                                                                  |
+| `--thumb-color`        | `oklch(100% 0 0deg)`                  | Color of thumb ball                                                                                                                        |
 
 The shadow DOM of the switch looks like this.
 
 ```html
-<input-switch class="my-switch">
+<input-switch>
   #shadow-root (open)
-  <div part="track"></div>
-  <div part="thumb"></div>
+  <div part="track"><span part="thumb"></span></div>
 </input-switch>
 ```
 
-Therefore, the [`::part`](https://developer.mozilla.org/en-US/docs/Web/CSS/::part) CSS pseudo-element may be used to customize the style as desired.
+Therefore, the [`::part`](https://developer.mozilla.org/en-US/docs/Web/CSS/::part) CSS pseudo-element may be used to more granular customize.
 
 ```css
-.my-switch {
-  --outline-offset: ...;
+input-switch {
   --block-size: ...;
+  --inline-size: ...;
   ...
 
   &::part(track) {

@@ -6,28 +6,59 @@
 		<title>`input-switch` Demo</title>
 
 		<style>
-			.switch-wrap {
-				display: inline flex;
-				flex-wrap: nowrap;
-				gap: 10px;
+			.control-group {
+				display: block flex;
+				flex-wrap: wrap;
+				gap: 2em;
 				align-items: center;
 			}
 
-			.switch {
-				&.-custom {
-					--outline-offset: 0px;
-					--block-size: 3em;
-					--inline-size: 10em;
-					--animation-duration: 1s;
-					--track-color-on: #90ee90;
-					--track-color-off: #808080;
-					--thumb-radius: 2em;
-					--thumb-color: #800080;
+			.switch-wrap {
+				display: inline flex;
+				flex-wrap: nowrap;
+				gap: 0.5em;
+				align-items: center;
+			}
 
-					&::part(track) {
+			input-switch {
+				&.custom {
+					--block-size: 3em;
+					--inline-size: 6em;
+					--animation-duration: 1s;
+					--track-color-on: oklch(67.22% 0.1801 250.47deg);
+					--track-color-off: oklch(59.99% 0 0deg);
+					--thumb-block-size: 2em;
+					--thumb-inline-size: 2em;
+					--thumb-color: oklch(100% 0 0deg);
+
+					&::part(track)::before {
+						position: absolute;
+						inset-inline-start: 1em;
+						transition-duration: var(--animation-duration);
+						transition-property: opacity;
+						opacity: 0;
+						color: oklch(100% 0 0deg);
+						font-family: sans-serif;
+						content: 'ON';
 					}
 
-					&::part(thumb) {
+					&:state(checked)::part(track)::before {
+						opacity: 1;
+					}
+
+					&::part(track)::after {
+						position: absolute;
+						inset-inline-end: 1em;
+						transition-duration: var(--animation-duration);
+						transition-property: opacity;
+						opacity: 0;
+						color: oklch(100% 0 0deg);
+						font-family: sans-serif;
+						content: 'OFF';
+					}
+
+					&:not(:state(checked))::part(track)::after {
+						opacity: 1;
 					}
 				}
 			}
@@ -54,60 +85,52 @@
 		<section>
 			<h2>Explicit label</h2>
 
-			<pre><code>&lt;input-switch id="input-switch-1"&gt;&lt;/input-switch&gt; &lt;label for="input-switch-1"&gt;switch&lt;/label&gt;</code></pre>
+			<pre><code>&lt;input-switch id="input-switch-1"&gt;&lt;/input-switch&gt; &lt;label for="input-switch-1"&gt;Label&lt;/label&gt;</code></pre>
 
-			<p>
-				<span class="switch-wrap"><input-switch id="input-switch-1"></input-switch> <label for="input-switch-1">switch</label></span>
+			<p class="control-group">
+				<span class="switch-wrap"><input-switch id="input-switch-1"></input-switch> <label for="input-switch-1">Label</label></span>
 			</p>
 		</section>
 
 		<section>
 			<h2>Implicit label</h2>
 
-			<pre><code>&lt;label&gt;&lt;input-switch&gt;&lt;/input-switch&gt; switch&lt;/label&gt;</code></pre>
+			<pre><code>&lt;label&gt;&lt;input-switch&gt;&lt;/input-switch&gt; Label&lt;/label&gt;</code></pre>
 
-			<p>
-				<label class="switch-wrap"><input-switch></input-switch> switch</label>
+			<p class="control-group">
+				<label class="switch-wrap"><input-switch></input-switch> Label</label>
 			</p>
 		</section>
 
 		<section>
 			<h2><code>checked</code> attribute</h2>
 
-			<pre><code>&lt;label&gt;&lt;input-switch checked=""&gt;&lt;/input-switch&gt; switch&lt;/label&gt;</code></pre>
+			<pre><code>&lt;label&gt;&lt;input-switch checked=""&gt;&lt;/input-switch&gt; Label&lt;/label&gt;</code></pre>
 
-			<p>
-				<label class="switch-wrap"><input-switch checked=""></input-switch> switch</label>
+			<p class="control-group">
+				<label class="switch-wrap"><input-switch checked=""></input-switch> Label</label>
 			</p>
 		</section>
 
 		<section>
 			<h2><code>disabled</code> attribute</h2>
 
-			<pre><code>&lt;label&gt;&lt;input-switch disabled=""&gt;&lt;/input-switch&gt; switch&lt;/label&gt;</code></pre>
+			<pre><code>&lt;label&gt;&lt;input-switch disabled=""&gt;&lt;/input-switch&gt; Label&lt;/label&gt;
+&lt;label&gt;&lt;input-switch disabled="" checked=""&gt;&lt;/input-switch&gt; Label&lt;/label&gt;</code></pre>
 
-			<p>
-				<label class="switch-wrap"><input-switch disabled=""></input-switch> switch</label>
-			</p>
-		</section>
-
-		<section>
-			<h2><code>disabled</code> and <code>checked</code> attribute</h2>
-
-			<pre><code>&lt;label&gt;&lt;input-switch disabled="" checked=""&gt;&lt;/input-switch&gt; switch&lt;/label&gt;</code></pre>
-
-			<p>
-				<label class="switch-wrap"><input-switch disabled="" checked=""></input-switch> switch</label>
+			<p class="control-group">
+				<label class="switch-wrap"><input-switch disabled=""></input-switch> Label</label>
+				<label class="switch-wrap"><input-switch disabled="" checked=""></input-switch> Label</label>
 			</p>
 		</section>
 
 		<section>
 			<h2><code>storage-key</code> attribute</h2>
 
-			<pre><code>&lt;label&gt;&lt;input-switch storage-key="switch6"&gt;&lt;/input-switch&gt; switch&lt;/label&gt;</code></pre>
+			<pre><code>&lt;label&gt;&lt;input-switch storage-key="switch6"&gt;&lt;/input-switch&gt; Label&lt;/label&gt;</code></pre>
 
-			<p>
-				<label class="switch-wrap"><input-switch storage-key="switch6"></input-switch> switch</label>
+			<p class="control-group">
+				<label class="switch-wrap"><input-switch storage-key="switch6"></input-switch> Label</label>
 			</p>
 		</section>
 
@@ -115,37 +138,35 @@
 			<h2>Form submission</h2>
 
 			<pre><code>&lt;form&gt;
-  &lt;p&gt;&lt;label&gt;&lt;input-switch name="switch1" value="1"&gt;&lt;/input-switch&gt; switch&lt;/label&gt;&lt;/p&gt;
-  &lt;p&gt;&lt;label&gt;&lt;input-switch name="switch2" value="1" checked=""&gt;&lt;/input-switch&gt; switch&lt;/label&gt;&lt;/p&gt;
-  &lt;p&gt;&lt;button&gt;Submit&lt;/button&gt; &lt;button type="reset"&gt;Reset&lt;/button&gt;&lt;/p&gt;
+  &lt;p&gt;
+	&lt;label&gt;&lt;input-switch name="switch1" value="1"&gt;&lt;/input-switch&gt; Label&lt;/label&gt;&lt;/p&gt;
+	&lt;label&gt;&lt;input-switch name="switch2" value="1" checked=""&gt;&lt;/input-switch&gt; Label&lt;/label&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+	&lt;button&gt;Submit&lt;/button&gt;
+	&lt;button type="reset"&gt;Reset&lt;/button&gt;
+  &lt;/p&gt;
 &lt;/form&gt;
 
 </code></pre>
 
 			<form>
-				<p>
-					<label class="switch-wrap"><input-switch name="switch1" value="1"></input-switch> switch</label>
+				<p class="control-group">
+					<label class="switch-wrap"><input-switch name="switch1" value="1"></input-switch> Label</label>
+					<label class="switch-wrap"><input-switch name="switch2" value="1" checked=""></input-switch> Label</label>
 				</p>
 				<p>
-					<label class="switch-wrap"><input-switch name="switch2" value="1" checked=""></input-switch> switch</label>
+					<button>Submit</button>
+					<button type="reset">Reset</button>
 				</p>
-				<p><button>Submit</button> <button type="reset">Reset</button></p>
 			</form>
-
-			<p>
-				<small
-					>* Values are not sent in browsers that do not support
-					<a href="https://html.spec.whatwg.org/multipage/custom-elements.html#element-internals"><code>ElementInternals</code></a
-					>. As of February 2024, Firefox 93+, Safari 16.4+ and Chrome 77+ is supported.</small
-				>
-			</p>
 		</section>
 
 		<section>
 			<h2>Style customization</h2>
 
-			<p>
-				<label class="switch-wrap"><input-switch class="switch -custom"></input-switch> switch</label>
+			<p class="control-group">
+				<label class="switch-wrap"><input-switch class="custom"></input-switch> Label</label>
 			</p>
 		</section>
 	</body>
