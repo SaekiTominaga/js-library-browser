@@ -41,12 +41,12 @@
 		"postcss-html": "2.0.0",
 		"publint": "0.3.25",
 		"rimraf": "6.1.3",
-		"stylelint": "17.16.0",
-		"stylelint-attribute-case-sensitivity": "3.1.2",
+		"stylelint": "18.0.0",
+		"stylelint-attribute-case-sensitivity": "3.1.3",
 		"stylelint-config-concentric-order": "5.5.0",
-		"stylelint-config-standard": "40.0.0",
-		"stylelint-no-default-viewport": "2.0.3",
-		"stylelint-root-colors": "3.0.3",
+		"stylelint-config-standard": "41.0.0",
+		"stylelint-no-default-viewport": "2.0.4",
+		"stylelint-root-colors": "3.0.4",
 		"typescript": "7.0.2"
 	}
 }
