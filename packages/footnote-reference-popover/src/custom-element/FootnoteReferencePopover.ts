@@ -1,4 +1,5 @@
 import { parseDuration } from '../util/cssUnits.ts';
+import { formatNumber } from '../util/htmlAttr.ts';
 import { getFootnote } from '../util/utility.ts';
 
 const popoverDelayMouseenterDefault = '100ms';
@@ -109,10 +110,6 @@ export default class extends HTMLElement {
 	}
 
 	connectedCallback(): void {
-		const { width, height } = this.#$anchor.getBoundingClientRect();
-		this.#$popover.dataset['anchorWidth'] = String(Number(width.toFixed(3)));
-		this.#$popover.dataset['anchorHeight'] = String(Number(height.toFixed(3)));
-
 		if (this.#ignoreSelectors === undefined) /* 除外セレクター設定時は先に attributeChangedCallback() で処理されている */ {
 			const $footnoteClone = getFootnote(this.#$anchor);
 			this.#$popoverContentSlotted.replaceChildren(...$footnoteClone.childNodes);
@@ -206,6 +203,12 @@ export default class extends HTMLElement {
 	 * @param _eventType - イベントの識別名
 	 */
 	readonly #showPopover = (_eventType: string): void => {
+		const { x, y, width, height } = this.#$anchor.getBoundingClientRect();
+		this.#$popover.dataset['anchorX'] = formatNumber(x);
+		this.#$popover.dataset['anchorY'] = formatNumber(y);
+		this.#$popover.dataset['anchorWidth'] = formatNumber(width);
+		this.#$popover.dataset['anchorHeight'] = formatNumber(height);
+
 		this.#$popover.showPopover();
 	};
 

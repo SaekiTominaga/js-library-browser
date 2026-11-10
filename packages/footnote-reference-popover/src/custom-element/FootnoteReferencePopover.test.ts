@@ -71,8 +71,6 @@ describe('popover', () => {
 		const $popover = document.querySelector('fn-ref')!.shadowRoot?.querySelector<HTMLElement>('#popover');
 
 		expect($popover?.ariaLabel).toBeNull();
-		expect($popover?.dataset['anchorWidth']).toBeDefined();
-		expect($popover?.dataset['anchorHeight']).toBeDefined();
 	});
 
 	test('label', () => {
@@ -128,11 +126,11 @@ describe('popover hide button', () => {
 
 		try {
 			document.body.innerHTML = `
-			<fn-ref>
-				<a href="#foo" slot="anchor"></a>
-				<p slot="popover__hide"></p>
-			</fn-ref>
-			<p id="foo"></p>
+				<fn-ref>
+					<a href="#foo" slot="anchor"></a>
+					<p slot="popover__hide"></p>
+				</fn-ref>
+				<p id="foo"></p>
 `;
 		} finally {
 			globalThis.removeEventListener('error', onError);
