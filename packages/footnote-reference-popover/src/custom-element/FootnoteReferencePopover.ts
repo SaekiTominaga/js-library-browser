@@ -56,16 +56,13 @@ export default class extends HTMLElement {
 				position-anchor: --footnote-reference;
 				position-area: block-end span-inline-end;
 				position-try: flip-inline;
+				position-try-order: most-inline-size;
 				container-type: anchored;
 				border: revert;
 				background-color: revert;
 				padding: revert;
 				overflow: revert;
 				color: revert;
-
-				@supports not (container-type: anchored) {
-					position-try-order: most-inline-size;
-				}
 
 				&:not(:popover-open) {
 					display: none;
