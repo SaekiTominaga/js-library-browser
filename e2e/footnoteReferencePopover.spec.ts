@@ -34,13 +34,46 @@ test.describe('init', () => {
 
 		await expect(popover).toHaveAttribute('aria-label', 'Footnote content');
 	});
+});
 
-	test('popover element data-*', async ({ page }) => {
+test.describe('popover element data-*', () => {
+	test('init', async ({ page }) => {
 		const popover = page.locator('fn-ref [popover]').nth(0);
 
 		await Promise.all([
+			expect(popover).not.toHaveAttribute('data-anchor-x'),
+			expect(popover).not.toHaveAttribute('data-anchor-y'),
+			expect(popover).not.toHaveAttribute('data-anchor-width'),
+			expect(popover).not.toHaveAttribute('data-anchor-height'),
+			expect(popover).not.toHaveAttribute('data-x'),
+			expect(popover).not.toHaveAttribute('data-y'),
+		]);
+	});
+
+	test('show → hide', async ({ page }) => {
+		const anchor = page.getByRole('button', { name: '[1]' });
+		const popover = page.locator('fn-ref [popover]').nth(0);
+
+		await anchor.click();
+
+		await Promise.all([
+			expect(popover).toHaveAttribute('data-anchor-x', /[0-9]+(\.[0-9]{1,3})?/u),
+			expect(popover).toHaveAttribute('data-anchor-y', /[0-9]+(\.[0-9]{1,3})?/u),
 			expect(popover).toHaveAttribute('data-anchor-width', /[0-9]+(\.[0-9]{1,3})?/u),
 			expect(popover).toHaveAttribute('data-anchor-height', /[0-9]+(\.[0-9]{1,3})?/u),
+			expect(popover).toHaveAttribute('data-x', /[0-9]+(\.[0-9]{1,3})?/u),
+			expect(popover).toHaveAttribute('data-y', /[0-9]+(\.[0-9]{1,3})?/u),
+		]);
+
+		await page.keyboard.press('Escape');
+
+		await Promise.all([
+			expect(popover).not.toHaveAttribute('data-anchor-x'),
+			expect(popover).not.toHaveAttribute('data-anchor-y'),
+			expect(popover).not.toHaveAttribute('data-anchor-width'),
+			expect(popover).not.toHaveAttribute('data-anchor-height'),
+			expect(popover).not.toHaveAttribute('data-x'),
+			expect(popover).not.toHaveAttribute('data-y'),
 		]);
 	});
 });

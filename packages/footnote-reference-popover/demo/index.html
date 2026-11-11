@@ -40,43 +40,46 @@
 					--tail-block-size: 9px;
 					--tail-inline-size: 16px;
 					--tail-inline-start: 0.5em;
-					--content-inset: 0.5em;
 
-					margin: unset;
+					margin-inline: calc(0px - var(--tail-inline-start)) 1em;
 					border: unset;
 					background-color: unset;
 					padding: unset;
-					max-inline-size: min(20em, 100%);
+					max-inline-size: min(20em, 100dvi);
 					overflow: unset;
 					color: unset;
 
-					@supports (container-type: anchored) {
-						--content-inset: calc(var(--tail-block-size) - 1px);
-
-						inset-inline-start: calc(0px - var(--tail-inline-start));
+					@media (width <= 30em) {
+						position-area: block-end span-all;
+						margin-inline: min(10dvi, 1em);
 					}
 				}
 
 				&::part(popover)::before {
-					@supports (container-type: anchored) {
-						position: absolute;
-						block-size: var(--tail-block-size);
-						inline-size: var(--tail-inline-size);
-						line-height: 0;
-						content: url('tail.svg');
+					display: block flow;
+					margin-inline: calc(attr(data-anchor-x px) - attr(data-x px) + (attr(data-anchor-width px) - var(--tail-inline-size)) / 2) auto;
+					block-size: var(--tail-block-size);
+					inline-size: var(--tail-inline-size);
+					line-height: 0;
+					content: url('tail.svg');
 
+					@supports not (x: attr(x px)) {
+						content: '';
+					}
+
+					@media (width > 30em) {
 						@container anchored(fallback: none) {
-							inset-inline-start: calc(var(--tail-inline-start) - var(--tail-inline-size) / 2 + attr(data-anchor-width px) / 2);
+							margin-inline: calc(var(--tail-inline-start) + (attr(data-anchor-width px) - var(--tail-inline-size)) / 2) auto;
 						}
 
 						@container anchored(fallback: flip-inline) {
-							inset-inline-end: calc(var(--tail-inline-start) - var(--tail-inline-size) / 2 + attr(data-anchor-width px) / 2);
+							margin-inline: auto calc(var(--tail-inline-start) + (attr(data-anchor-width px) - var(--tail-inline-size)) / 2);
 						}
 					}
 				}
 
 				&::part(popover__content) {
-					margin-block-start: var(--content-inset);
+					margin-block-start: -1px;
 					border: 1px solid oklch(calc(100% - 100% / 2) 0 0deg);
 					border-radius: 0.25em;
 					box-shadow: 0 0 5px oklch(calc(100% - 100% / 8) 0 0deg);
@@ -88,10 +91,10 @@
 				&::part(popover__hide) {
 					display: inline flex;
 					position: absolute;
-					inset-block-start: 1px;
+					inset-block-start: 0;
 					inset-inline-end: 1px;
 					flex-wrap: wrap;
-					margin-block-start: var(--content-inset);
+					margin-block-start: var(--tail-block-size);
 					border: none;
 					border-radius: 0.25em;
 					background-color: transparent;

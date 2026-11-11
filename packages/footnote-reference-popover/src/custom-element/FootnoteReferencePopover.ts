@@ -1,4 +1,5 @@
 import { parseDuration } from '../util/cssUnits.ts';
+import { formatNumber } from '../util/htmlAttr.ts';
 import { getFootnote } from '../util/utility.ts';
 
 const popoverDelayMouseenterDefault = '100ms';
@@ -109,10 +110,6 @@ export default class extends HTMLElement {
 	}
 
 	connectedCallback(): void {
-		const { width, height } = this.#$anchor.getBoundingClientRect();
-		this.#$popover.dataset['anchorWidth'] = String(Number(width.toFixed(3)));
-		this.#$popover.dataset['anchorHeight'] = String(Number(height.toFixed(3)));
-
 		if (this.#ignoreSelectors === undefined) /* 除外セレクター設定時は先に attributeChangedCallback() で処理されている */ {
 			const $footnoteClone = getFootnote(this.#$anchor);
 			this.#$popoverContentSlotted.replaceChildren(...$footnoteClone.childNodes);
@@ -277,7 +274,31 @@ export default class extends HTMLElement {
 	 * @param event - Event
 	 */
 	readonly #popoverToggleEvent = (event: ToggleEvent): void => {
-		this.#$anchor.ariaExpanded = event.newState === 'open' ? 'true' : 'false';
+		if (event.newState === 'open') {
+			this.#$anchor.ariaExpanded = 'true';
+
+			{
+				const { x, y } = this.#$popover.getBoundingClientRect();
+				this.#$popover.dataset['x'] = formatNumber(x);
+				this.#$popover.dataset['y'] = formatNumber(y);
+			}
+			{
+				const { x, y, width, height } = this.#$anchor.getBoundingClientRect();
+				this.#$popover.dataset['anchorX'] = formatNumber(x);
+				this.#$popover.dataset['anchorY'] = formatNumber(y);
+				this.#$popover.dataset['anchorWidth'] = formatNumber(width);
+				this.#$popover.dataset['anchorHeight'] = formatNumber(height);
+			}
+		} else {
+			this.#$anchor.ariaExpanded = 'false';
+
+			delete this.#$popover.dataset['x'];
+			delete this.#$popover.dataset['y'];
+			delete this.#$popover.dataset['anchorX'];
+			delete this.#$popover.dataset['anchorY'];
+			delete this.#$popover.dataset['anchorWidth'];
+			delete this.#$popover.dataset['anchorHeight'];
+		}
 	};
 
 	/**
