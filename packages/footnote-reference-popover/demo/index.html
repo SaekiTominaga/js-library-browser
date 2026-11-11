@@ -63,6 +63,10 @@
 					line-height: 0;
 					content: url('tail.svg');
 
+					@supports not (x: attr(x px)) {
+						content: '';
+					}
+
 					@media (width > 30em) {
 						@container anchored(fallback: none) {
 							margin-inline: calc(var(--tail-inline-start) + (attr(data-anchor-width px) - var(--tail-inline-size)) / 2) auto;
