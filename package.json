@@ -22,7 +22,7 @@
 		"@types/node": "26.1.2",
 		"@w0s/markuplint-config": "4.0.3",
 		"@w0s/oxlint-config": "1.0.9",
-		"@w0s/stylelint-config": "4.27.0",
+		"@w0s/stylelint-config": "5.0.1",
 		"@w0s/tsconfig": "3.2.2",
 		"concurrently": "10.0.6",
 		"coveralls": "3.1.1",
@@ -42,11 +42,6 @@
 		"publint": "0.3.25",
 		"rimraf": "6.1.3",
 		"stylelint": "18.0.0",
-		"stylelint-attribute-case-sensitivity": "3.1.3",
-		"stylelint-config-concentric-order": "5.5.0",
-		"stylelint-config-standard": "41.0.0",
-		"stylelint-no-default-viewport": "2.0.4",
-		"stylelint-root-colors": "3.0.4",
 		"typescript": "7.0.2"
 	}
 }
