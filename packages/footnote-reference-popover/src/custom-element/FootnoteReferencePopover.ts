@@ -203,12 +203,6 @@ export default class extends HTMLElement {
 	 * @param _eventType - イベントの識別名
 	 */
 	readonly #showPopover = (_eventType: string): void => {
-		const { x, y, width, height } = this.#$anchor.getBoundingClientRect();
-		this.#$popover.dataset['anchorX'] = formatNumber(x);
-		this.#$popover.dataset['anchorY'] = formatNumber(y);
-		this.#$popover.dataset['anchorWidth'] = formatNumber(width);
-		this.#$popover.dataset['anchorHeight'] = formatNumber(height);
-
 		this.#$popover.showPopover();
 	};
 
@@ -280,7 +274,31 @@ export default class extends HTMLElement {
 	 * @param event - Event
 	 */
 	readonly #popoverToggleEvent = (event: ToggleEvent): void => {
-		this.#$anchor.ariaExpanded = event.newState === 'open' ? 'true' : 'false';
+		if (event.newState === 'open') {
+			this.#$anchor.ariaExpanded = 'true';
+
+			{
+				const { x, y } = this.#$popover.getBoundingClientRect();
+				this.#$popover.dataset['x'] = formatNumber(x);
+				this.#$popover.dataset['y'] = formatNumber(y);
+			}
+			{
+				const { x, y, width, height } = this.#$anchor.getBoundingClientRect();
+				this.#$popover.dataset['anchorX'] = formatNumber(x);
+				this.#$popover.dataset['anchorY'] = formatNumber(y);
+				this.#$popover.dataset['anchorWidth'] = formatNumber(width);
+				this.#$popover.dataset['anchorHeight'] = formatNumber(height);
+			}
+		} else {
+			this.#$anchor.ariaExpanded = 'false';
+
+			delete this.#$popover.dataset['x'];
+			delete this.#$popover.dataset['y'];
+			delete this.#$popover.dataset['anchorX'];
+			delete this.#$popover.dataset['anchorY'];
+			delete this.#$popover.dataset['anchorWidth'];
+			delete this.#$popover.dataset['anchorHeight'];
+		}
 	};
 
 	/**
