@@ -135,7 +135,7 @@ test.describe('Form submission', () => {
 
 		await submitButton.click();
 
-		await expect(page).toHaveURL('http://localhost:8080/input-switch/demo/?switch2=1');
+		await expect(page).toHaveURL('http://localhost:4173/input-switch/demo/?switch2=1');
 	});
 
 	test('reset', async ({ page }) => {

@@ -24,11 +24,11 @@ export default defineConfig({
 	reporter: 'list', // https://playwright.dev/docs/test-reporters
 	testDir: './e2e',
 	use: {
-		baseURL: 'http://localhost:8080',
+		baseURL: 'http://localhost:4173',
 	},
 	webServer: {
-		command: 'npx http-server packages -p 8080',
-		url: 'http://localhost:8080',
+		command: 'npx vite preview --outDir packages',
+		port: 4173,
 		reuseExistingServer: !process.env.CI,
 	},
 
